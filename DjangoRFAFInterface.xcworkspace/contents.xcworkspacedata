@@ -2,6 +2,28 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "xcode-project-setup">
+      <FileRef
+         location = "group:Gemfile">
+      </FileRef>
+      <FileRef
+         location = "group:run_synx_and_xUnique">
+      </FileRef>
+      <FileRef
+         location = "group:setup">
+      </FileRef>
+      <FileRef
+         location = "group:scripts">
+      </FileRef>
+   </Group>
+   <FileRef
       location = "group:DjangoRFAFInterface.xcodeproj">
    </FileRef>
    <FileRef
