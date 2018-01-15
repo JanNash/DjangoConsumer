@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C617A3C39CCB557C254DA355 /* Pods_DjangoRFAFInterfaceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 518EF61D1C6ACDAB89772A19 /* Pods_DjangoRFAFInterfaceTests.framework */; };
 		EDDE9517200D56A000078055 /* DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDDE950D200D56A000078055 /* DjangoRFAFInterface.framework */; };
 		EDDE951C200D56A000078055 /* DjangoRFAFInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDE951B200D56A000078055 /* DjangoRFAFInterfaceTests.swift */; };
 		EDDE951E200D56A000078055 /* DjangoRFAFInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = EDDE9510200D56A000078055 /* DjangoRFAFInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F264C23B46D7AF0AF9927849 /* Pods_DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 567B54EA8269C0F248E10ECA /* Pods_DjangoRFAFInterface.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +25,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01EB227272A59CD676D1E1CF /* Pods-DjangoRFAFInterface.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterface.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterface/Pods-DjangoRFAFInterface.debug.xcconfig"; sourceTree = "<group>"; };
+		4D3148F05953E21A03939076 /* Pods-DjangoRFAFInterface.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterface.release.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterface/Pods-DjangoRFAFInterface.release.xcconfig"; sourceTree = "<group>"; };
+		518EF61D1C6ACDAB89772A19 /* Pods_DjangoRFAFInterfaceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoRFAFInterfaceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		567B54EA8269C0F248E10ECA /* Pods_DjangoRFAFInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoRFAFInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		60C8368D10F800F0AA72B916 /* Pods-DjangoRFAFInterfaceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterfaceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests.release.xcconfig"; sourceTree = "<group>"; };
+		D4EFC2881A79093F4C439914 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EDDE950D200D56A000078055 /* DjangoRFAFInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjangoRFAFInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDDE9510200D56A000078055 /* DjangoRFAFInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjangoRFAFInterface.h; sourceTree = "<group>"; };
 		EDDE9511200D56A000078055 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -36,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F264C23B46D7AF0AF9927849 /* Pods_DjangoRFAFInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,18 +53,41 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDDE9517200D56A000078055 /* DjangoRFAFInterface.framework in Frameworks */,
+				C617A3C39CCB557C254DA355 /* Pods_DjangoRFAFInterfaceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10B7D018FDA1AE262FE53F46 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				567B54EA8269C0F248E10ECA /* Pods_DjangoRFAFInterface.framework */,
+				518EF61D1C6ACDAB89772A19 /* Pods_DjangoRFAFInterfaceTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4159D18E370C4F85594EB18F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				01EB227272A59CD676D1E1CF /* Pods-DjangoRFAFInterface.debug.xcconfig */,
+				4D3148F05953E21A03939076 /* Pods-DjangoRFAFInterface.release.xcconfig */,
+				D4EFC2881A79093F4C439914 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */,
+				60C8368D10F800F0AA72B916 /* Pods-DjangoRFAFInterfaceTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		EDDE9503200D56A000078055 = {
 			isa = PBXGroup;
 			children = (
 				EDDE950F200D56A000078055 /* DjangoRFAFInterface */,
 				EDDE951A200D56A000078055 /* DjangoRFAFInterfaceTests */,
 				EDDE950E200D56A000078055 /* Products */,
+				4159D18E370C4F85594EB18F /* Pods */,
+				10B7D018FDA1AE262FE53F46 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,10 +136,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EDDE9521200D56A000078055 /* Build configuration list for PBXNativeTarget "DjangoRFAFInterface" */;
 			buildPhases = (
+				4CF35DE3A0EB96A8639D7F3B /* [CP] Check Pods Manifest.lock */,
 				EDDE9508200D56A000078055 /* Sources */,
 				EDDE9509200D56A000078055 /* Frameworks */,
 				EDDE950A200D56A000078055 /* Headers */,
 				EDDE950B200D56A000078055 /* Resources */,
+				EC4C33A9ADF84B7116C80BC1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -122,9 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EDDE9524200D56A000078055 /* Build configuration list for PBXNativeTarget "DjangoRFAFInterfaceTests" */;
 			buildPhases = (
+				77741BAEC7C0DF0C97194723 /* [CP] Check Pods Manifest.lock */,
 				EDDE9512200D56A000078055 /* Sources */,
 				EDDE9513200D56A000078055 /* Frameworks */,
 				EDDE9514200D56A000078055 /* Resources */,
+				8888EBDFEF41C98122C12E7A /* [CP] Embed Pods Frameworks */,
+				BC1FC363605A33FB2112F060 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -190,6 +227,90 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4CF35DE3A0EB96A8639D7F3B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DjangoRFAFInterface-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77741BAEC7C0DF0C97194723 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DjangoRFAFInterfaceTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8888EBDFEF41C98122C12E7A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC1FC363605A33FB2112F060 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC4C33A9ADF84B7116C80BC1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoRFAFInterface/Pods-DjangoRFAFInterface-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EDDE9508200D56A000078055 /* Sources */ = {
@@ -333,6 +454,7 @@
 		};
 		EDDE9522200D56A000078055 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01EB227272A59CD676D1E1CF /* Pods-DjangoRFAFInterface.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -354,6 +476,7 @@
 		};
 		EDDE9523200D56A000078055 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D3148F05953E21A03939076 /* Pods-DjangoRFAFInterface.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -375,6 +498,7 @@
 		};
 		EDDE9525200D56A000078055 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4EFC2881A79093F4C439914 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AK5BMJ7QR5;
@@ -389,6 +513,7 @@
 		};
 		EDDE9526200D56A000078055 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 60C8368D10F800F0AA72B916 /* Pods-DjangoRFAFInterfaceTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AK5BMJ7QR5;
