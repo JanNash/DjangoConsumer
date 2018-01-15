@@ -137,6 +137,7 @@
 			buildConfigurationList = EDDE9521200D56A000078055 /* Build configuration list for PBXNativeTarget "DjangoRFAFInterface" */;
 			buildPhases = (
 				4CF35DE3A0EB96A8639D7F3B /* [CP] Check Pods Manifest.lock */,
+				EDDE9527200D58CA00078055 /* [Custom] Generate Warnings from TODOs/FIXMEs/etc */,
 				EDDE9508200D56A000078055 /* Sources */,
 				EDDE9509200D56A000078055 /* Frameworks */,
 				EDDE950A200D56A000078055 /* Headers */,
@@ -309,6 +310,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoRFAFInterface/Pods-DjangoRFAFInterface-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		EDDE9527200D58CA00078055 /* [Custom] Generate Warnings from TODOs/FIXMEs/etc */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[Custom] Generate Warnings from TODOs/FIXMEs/etc";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "KEYWORDS=\"\\/\\/ ERROR:|\\/\\/ WARNING:|\\/\\/ TODO:|\\/\\/ FIXME:|\\/\\/ \\?\\?\\?:|\\/\\/ \\!\\!\\!:\"\nfind \"${SRCROOT}/DjangoRFAFInterface/\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
