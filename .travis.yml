@@ -2,7 +2,7 @@ language: swift
 
 xcode_workspace: DjangoRFAFInterface.xcworkspace
 xcode_scheme: DjangoRFAFInterface
-osx_image: xcode9
+osx_image: xcode9.2
 xcode_sdk: iphonesimulator11.2
 
 cache:
@@ -14,4 +14,4 @@ install:
   - pod install
 
 script:
-  - set -o pipefail && xcodebuild clean build test -workspace DjangoRFAFInterface.xcworkspace -scheme DjangoRFAFInterface -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=latest' | xcpretty
+  - set -o pipefail && xcodebuild clean build test -workspace DjangoRFAFInterface.xcworkspace -scheme DjangoRFAFInterface -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
