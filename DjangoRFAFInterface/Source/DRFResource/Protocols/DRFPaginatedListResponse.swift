@@ -12,16 +12,20 @@ import SwiftyJSON
 
 // MARK: // Public
 // MARK: - DRFPaginatedListResponse
-public protocol DRFPaginatedListResponse: DRFListResponse {
+public protocol DRFPaginatedListResponse {
+    associatedtype ResultType: DRFListGettable
     associatedtype PaginationType: DRFPagination
+    init(json: JSON)
+    var results: [ResultType] { get }
     var pagination: PaginationType { get }
 }
 
 
 // MARK: - DRFDefaultPaginatedListResponse
-// MARK: Keys
-public struct DRFPaginatedListResponseKeys {
+// MARK: Keys (static stored properties are not supported in generic types...)
+public struct DRFListResponseKeys {
     public static let meta: String = "meta"
+    public static let results: String = "results"
 }
 
 
@@ -33,7 +37,7 @@ public struct DRFDefaultPaginatedListResponse<T: DRFListGettable> {
     
     // Init
     public init(json: JSON) {
-        self.pagination = PaginationType(json: json[DRFPaginatedListResponseKeys.meta])
+        self.pagination = PaginationType(json: json[DRFListResponseKeys.meta])
         self.results = json[DRFListResponseKeys.results].map({ ResultType(json: $0.1) })
     }
     

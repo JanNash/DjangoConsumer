@@ -16,6 +16,7 @@ import Alamofire_SwiftyJSON
 // MARK: Protocol Declaration
 public protocol DRFListGettable: DRFMetaResource {
     init(json: JSON)
+    static func get(from node: DRFNode, offset: UInt, limit: UInt)
 }
 
 
@@ -25,7 +26,7 @@ public extension DRFListGettable {
 }
 
 
-// MARK: Interface
+// MARK: Default Implementations
 public extension DRFListGettable {
     static func get(from node: DRFNode = Self.defaultNode, offset: UInt, limit: UInt) {
         self._get(from: node, offset: offset, limit: limit)
