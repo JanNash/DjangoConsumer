@@ -15,12 +15,11 @@ import Alamofire_SwiftyJSON
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol DRFListGettable: DRFMetaResource {
-    associatedtype ListResponseType: DRFListResponse
     init(json: JSON)
 }
 
 
-// MARK: Default Implementation
+// MARK: Default Implementations
 public extension DRFListGettable {
     typealias ListRepsonseType = DRFDefaultListResponse
 }

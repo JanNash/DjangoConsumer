@@ -33,11 +33,9 @@ public struct DRFDefaultListResponse<T: DRFListGettable>: DRFListResponse {
     
     // Init
     public init(json: JSON) {
-        //        self.pagination = DRFPagination_(json: json[DRFListResponseKeys.meta])
         self.results = json[DRFListResponseKeys.results].map({ ResultType(json: $0.1) })
     }
     
     // Variables
-    //    var pagination: DRFPagination
     public var results: [T]
 }

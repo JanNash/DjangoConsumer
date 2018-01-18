@@ -11,4 +11,5 @@ import Foundation
 
 // MARK: // Public
 public protocol DRFNode {
+    func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL
 }
