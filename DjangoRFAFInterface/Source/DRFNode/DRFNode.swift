@@ -20,8 +20,9 @@ public protocol DRFNode {
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [DRFFilter]) -> Parameters
     
+    func paginationType<T: DRFListGettable>(for resourceType: T.Type) -> DRFPagination.Type
     func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL
-    func extractListResponse<T: DRFListGettable>(from json: JSON) -> (DRFPagination, [T])
+    func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T])
 }
 
 
@@ -51,8 +52,8 @@ public extension DRFNode {
 
 // MARK: ListResponse Extraction
 public extension DRFNode {
-    func extractListResponse<T: DRFListGettable, P: DRFPagination>(from json: JSON) -> (P, [T]) {
-        return self._extractListResponse(from: json)
+    func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T]) {
+        return self._extractListResponse(for: resourceType, from: json)
     }
 }
 
@@ -79,8 +80,9 @@ private extension DRFNode {
 
 // MARK: ListResponse Extraction
 private extension DRFNode {
-    func _extractListResponse<T: DRFListGettable, P: DRFPagination>(from json: JSON) -> (P, [T]) {
-        let pagination: P = P(json: json[DRFListResponseKeys.meta])
+    func _extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T]) {
+        let paginationType: DRFPagination.Type = self.paginationType(for: resourceType)
+        let pagination: DRFPagination = paginationType.init(json: json[DRFListResponseKeys.meta])
         let objects: [T] = json[DRFListResponseKeys.results].array!.map(T.init)
         return (pagination, objects)
     }
