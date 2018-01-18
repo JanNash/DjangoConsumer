@@ -37,11 +37,7 @@ public extension DRFListGettable {
 private extension DRFListGettable {
     static func _get(from node: DRFNode, offset: UInt, limit: UInt) {
         let endpoint: URL = node.listEndpoint(for: self)
-        let parameters: [String : Any] = [:
-//            DRFPagination_.Keys.offset: offset,
-//            DRFPagination_.Keys.limit: limit
-        ]
-        
+        let parameters: [String : Any] = node.parametersFrom(offset: offset, limit: limit)
         Alamofire.request(endpoint, parameters: parameters)
             .validate()
             .responseSwiftyJSON {
@@ -50,7 +46,6 @@ private extension DRFListGettable {
                     print(error)
                 case let .success(result):
                     let listResponse: ListRepsonseType<Self> = ListRepsonseType(json: result)
-//                    let pagination: DRFPagination_ = listResponse.pagination
                     let objects: [Self] = listResponse.results
                     print(objects)
                 }
