@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:DjangoRFAFInterface.podspec"
+      assignedFileDataType = "public.ruby-script">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "xcode-project-setup">
+      <FileRef
+         location = "group:Gemfile">
+      </FileRef>
+      <FileRef
+         location = "group:run_synx_and_xUnique">
+      </FileRef>
+      <FileRef
+         location = "group:setup">
+      </FileRef>
+      <FileRef
+         location = "group:scripts">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:DjangoRFAFInterface.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>
