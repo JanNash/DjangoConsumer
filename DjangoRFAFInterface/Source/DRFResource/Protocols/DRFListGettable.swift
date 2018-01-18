@@ -21,7 +21,7 @@ public protocol DRFListGettable: DRFMetaResource {
 
 // MARK: Default Implementations
 public extension DRFListGettable {
-    typealias ListRepsonseType = DRFDefaultListResponse
+    typealias ListRepsonseType = DRFDefaultPaginatedListResponse
 }
 
 
@@ -46,7 +46,9 @@ private extension DRFListGettable {
                     print(error)
                 case let .success(result):
                     let listResponse: ListRepsonseType<Self> = ListRepsonseType(json: result)
+                    let pagination: ListRepsonseType.PaginationType = listResponse.pagination
                     let objects: [Self] = listResponse.results
+                    print(pagination)
                     print(objects)
                 }
         }

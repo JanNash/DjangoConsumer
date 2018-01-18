@@ -24,6 +24,7 @@ public struct DRFPaginatedListResponseKeys {
     public static let meta: String = "meta"
 }
 
+
 // MARK: Struct Implementation
 public struct DRFDefaultPaginatedListResponse<T: DRFListGettable> {
     // Typealiases
