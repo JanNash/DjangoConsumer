@@ -11,6 +11,6 @@ import Foundation
 
 // MARK: // Public
 public protocol DRFListGettableClient: class {
-    func failedGettingObjects<T: DRFListGettable>(of type: T.Type, from node: DRFNode, error: Error, offset: UInt, limit: UInt, filters: [DRFFilter])
-    func got(objects: DRFListGettable, from node: DRFNode, with pagination: DRFPagination)
+    func failedGettingObjects<T: DRFListGettable>(ofType type: T.Type, from node: DRFNode, error: Error, offset: UInt, limit: UInt, filters: [DRFFilter])
+    func got<T: DRFListGettable>(objects: [T], from node: DRFNode, pagination: DRFPagination, filters: [DRFFilter])
 }

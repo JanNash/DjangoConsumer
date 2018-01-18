@@ -16,6 +16,7 @@ import Alamofire_SwiftyJSON
 // MARK: Protocol Declaration
 public protocol DRFListGettable: DRFMetaResource {
     init(json: JSON)
+    static var clients: [DRFListGettableClient] { get set }
     static var defaultLimit: UInt { get }
     static func get(from node: DRFNode, offset: UInt, limit: UInt)
 }
@@ -43,11 +44,23 @@ private extension DRFListGettable {
         let endpoint: URL = node.listEndpoint(for: self)
         let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
         ValidatedJSONRequest(url: endpoint, parameters: parameters).fire(
-            onFailure: { print($0) },
+            onFailure: { error in
+                self.clients.forEach({
+                    $0.failedGettingObjects(
+                        ofType: Self.self,
+                        from: node,
+                        error: error,
+                        offset: offset,
+                        limit: limit,
+                        filters: filters
+                    )
+                })
+            },
             onSuccess: {
                 let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(from: $0)
-                print(pagination)
-                print(objects)
+                self.clients.forEach({
+                    $0.got(objects: objects, from: node, pagination: pagination, filters: filters)
+                })
             }
         )
     }
