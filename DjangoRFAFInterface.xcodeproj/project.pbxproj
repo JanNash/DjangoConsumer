@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D1BC8D5B1F37DE31D57B0AF856CD9B0 /* DjangoRFAFInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoRFAFInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		57BCBFA5E44DA56A4331AA13FE774C3B /* DRFMetaResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5082134FBD75DB4A3CF9A6CE046A8 /* DRFMetaResource.swift */; };
 		98B15BD7F62B62DD9A3081E096D74929 /* DjangoRFAFInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81EC37EF1280A860779389C958BCA8F /* DjangoRFAFInterfaceTests.swift */; };
 		BE6092FDFEA91EF23BAD1C0288CEA548 /* Pods_DjangoRFAFInterfaceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */; };
 		CAE6E0E58D615CF3F80D230423E763AD /* DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84107B26D52B76B5BE19348C2DEA86B2 /* DjangoRFAFInterface.framework */; };
@@ -32,6 +33,7 @@
 		9906D61B0517B7A4ED20F87ACE5CEF26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5C6598F353A3605961D933957E1E026 /* DjangoRFAFInterfaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoRFAFInterfaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3F6AA148BE13C6B0ECFE5F0A0734999 /* Pods-DjangoRFAFInterfaceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterfaceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests.release.xcconfig"; sourceTree = "<group>"; };
+		D7E5082134FBD75DB4A3CF9A6CE046A8 /* DRFMetaResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFMetaResource.swift; sourceTree = "<group>"; };
 		E3C0F8A3A5CA9764F3DC7AEB345E79B6 /* Pods-DjangoRFAFInterface.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterface.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterface/Pods-DjangoRFAFInterface.debug.xcconfig"; sourceTree = "<group>"; };
 		E81EC37EF1280A860779389C958BCA8F /* DjangoRFAFInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DjangoRFAFInterfaceTests.swift; sourceTree = "<group>"; };
 		EB613640E19B18F0FFA429E2B123CFDE /* Pods_DjangoRFAFInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoRFAFInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +62,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		034FF93978CA53B55FD37FFB51EF69DD /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				D7E5082134FBD75DB4A3CF9A6CE046A8 /* DRFMetaResource.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		16263AD2823ADF481570CE06ED2B5F92 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +77,14 @@
 				C5C6598F353A3605961D933957E1E026 /* DjangoRFAFInterfaceTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		33A2D761D9D1044A4FAE4DA84B00AEB0 /* DRFResource */ = {
+			isa = PBXGroup;
+			children = (
+				034FF93978CA53B55FD37FFB51EF69DD /* Protocols */,
+			);
+			path = DRFResource;
 			sourceTree = "<group>";
 		};
 		4D2E6557EDB22E2EED69FBA975C9B420 /* DjangoRFAFInterfaceTests */ = {
@@ -81,6 +99,7 @@
 		4F1A37B06F3F6A3BB912B78B60D9339D /* DjangoRFAFInterface */ = {
 			isa = PBXGroup;
 			children = (
+				F8A71C113B931CEC4881C844FECF7728 /* Source */,
 				4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoRFAFInterface.h */,
 				F23253EA903E1E855AEC0253A1B8EB54 /* Info.plist */,
 			);
@@ -116,6 +135,14 @@
 				9A0035BC78DD8C91808F615589889770 /* Pods */,
 				16263AD2823ADF481570CE06ED2B5F92 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		F8A71C113B931CEC4881C844FECF7728 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				33A2D761D9D1044A4FAE4DA84B00AEB0 /* DRFResource */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +217,7 @@
 					};
 					DAECD351E15E83DB7C3EEA5448D81C1E = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -347,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57BCBFA5E44DA56A4331AA13FE774C3B /* DRFMetaResource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +394,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E3C0F8A3A5CA9764F3DC7AEB345E79B6 /* Pods-DjangoRFAFInterface.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -376,6 +406,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kitenow.DjangoRFAFInterface;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -385,6 +416,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F155A243467ECF9479CC3D8F40155A52 /* Pods-DjangoRFAFInterface.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -467,6 +499,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3F6AA148BE13C6B0ECFE5F0A0734999 /* Pods-DjangoRFAFInterfaceTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AK5BMJ7QR5;
 				INFOPLIST_FILE = DjangoRFAFInterfaceTests/Info.plist;
@@ -537,6 +570,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5945BE5084DBD8F2FC31CB6C59045680 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AK5BMJ7QR5;
 				INFOPLIST_FILE = DjangoRFAFInterfaceTests/Info.plist;
