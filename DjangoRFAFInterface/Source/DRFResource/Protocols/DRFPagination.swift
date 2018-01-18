@@ -13,6 +13,8 @@ import SwiftyJSON
 // MARK: // Public
 // MARK: - DRFPagination
 public protocol DRFPagination {
+    init(json: JSON)
+    
     var limit: UInt { get }
     var next: URL? { get }
     var offset: UInt { get }

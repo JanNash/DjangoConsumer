@@ -13,7 +13,6 @@
 		39A89A4E5BDBC3111A00E7D1D4AA009E /* DRFListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824C542FA2255E8C196B2CA23C65A90C /* DRFListGettable.swift */; };
 		3D3CDDB5A4699715D612B22E37C18653 /* DRFPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE0891E67D58E13F587C5FEBCF945FA /* DRFPagination.swift */; };
 		57BCBFA5E44DA56A4331AA13FE774C3B /* DRFMetaResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E5082134FBD75DB4A3CF9A6CE046A8 /* DRFMetaResource.swift */; };
-		5E4680E60FEF7B561F5BCA49D07D99EA /* DRFPaginatedListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C4026FD3BAC4D25780CBE218E75592 /* DRFPaginatedListResponse.swift */; };
 		98B15BD7F62B62DD9A3081E096D74929 /* DjangoRFAFInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81EC37EF1280A860779389C958BCA8F /* DjangoRFAFInterfaceTests.swift */; };
 		BE5A2EB67681E2CB436F4534D5AD1F03 /* DRFFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B3ECF6E649198DCA9CE5749CAB7A5 /* DRFFilteredListGettable.swift */; };
 		BE6092FDFEA91EF23BAD1C0288CEA548 /* Pods_DjangoRFAFInterfaceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */; };
@@ -35,7 +34,6 @@
 /* Begin PBXFileReference section */
 		330451A730AC30CC733168EC217A9D1E /* DRFNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNode.swift; sourceTree = "<group>"; };
 		4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoRFAFInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjangoRFAFInterface.h; sourceTree = "<group>"; };
-		50C4026FD3BAC4D25780CBE218E75592 /* DRFPaginatedListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFPaginatedListResponse.swift; sourceTree = "<group>"; };
 		5945BE5084DBD8F2FC31CB6C59045680 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		72838B5B2009A97A2F695A25FF839D74 /* DRFFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFFilter.swift; sourceTree = "<group>"; };
 		768CC54BA9EE1F71372E8F592E7DF5AC /* ValidatedJSONRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatedJSONRequest.swift; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 				DB3B3ECF6E649198DCA9CE5749CAB7A5 /* DRFFilteredListGettable.swift */,
 				824C542FA2255E8C196B2CA23C65A90C /* DRFListGettable.swift */,
 				D7E5082134FBD75DB4A3CF9A6CE046A8 /* DRFMetaResource.swift */,
-				50C4026FD3BAC4D25780CBE218E75592 /* DRFPaginatedListResponse.swift */,
 				DCE0891E67D58E13F587C5FEBCF945FA /* DRFPagination.swift */,
 			);
 			path = Protocols;
@@ -134,6 +131,14 @@
 			path = DjangoRFAFInterface;
 			sourceTree = "<group>";
 		};
+		8AFBE60B421F219DAA7B4F61142A72DD /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				768CC54BA9EE1F71372E8F592E7DF5AC /* ValidatedJSONRequest.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		8EB51C4A198AEDFC7C5E4CB0E91ED9E6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,14 +168,6 @@
 				9A0035BC78DD8C91808F615589889770 /* Pods */,
 				16263AD2823ADF481570CE06ED2B5F92 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		8AFBE60B421F219DAA7B4F61142A72DD /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				768CC54BA9EE1F71372E8F592E7DF5AC /* ValidatedJSONRequest.swift */,
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 		F8A71C113B931CEC4881C844FECF7728 /* Source */ = {
@@ -417,7 +414,6 @@
 				39A89A4E5BDBC3111A00E7D1D4AA009E /* DRFListGettable.swift in Sources */,
 				57BCBFA5E44DA56A4331AA13FE774C3B /* DRFMetaResource.swift in Sources */,
 				F543179FC786333506D576EFB3E4A600 /* DRFNode.swift in Sources */,
-				5E4680E60FEF7B561F5BCA49D07D99EA /* DRFPaginatedListResponse.swift in Sources */,
 				3D3CDDB5A4699715D612B22E37C18653 /* DRFPagination.swift in Sources */,
 				2F984E4F41685F00676C868F9B320E1B /* ValidatedJSONRequest.swift in Sources */,
 			);

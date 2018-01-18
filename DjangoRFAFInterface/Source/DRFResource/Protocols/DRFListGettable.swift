@@ -45,7 +45,7 @@ private extension DRFListGettable {
         ValidatedJSONRequest(url: endpoint, parameters: parameters).fire(
             onFailure: { print($0) },
             onSuccess: {
-                let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(json: $0)
+                let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(from: $0)
                 print(pagination)
                 print(objects)
             }

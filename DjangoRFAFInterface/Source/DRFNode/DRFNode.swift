@@ -21,7 +21,14 @@ public protocol DRFNode {
     func parametersFrom(filters: [DRFFilter]) -> Parameters
     
     func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL
-    func extractListResponse<T: DRFListGettable>(json: JSON) -> (DRFPagination, [T])
+    func extractListResponse<T: DRFListGettable>(from json: JSON) -> (DRFPagination, [T])
+}
+
+
+// MARK: DRFListResponseKeys
+public struct DRFListResponseKeys {
+    public static let meta: String = "meta"
+    public static let results: String = "results"
 }
 
 
@@ -44,9 +51,9 @@ public extension DRFNode {
 
 // MARK: ListResponse Extraction
 public extension DRFNode {
-//    func extractListResponse<T: DRFListGettable>(json: JSON) -> (DRFPagination, [T]) {
-//
-//    }
+    func extractListResponse<T: DRFListGettable, P: DRFPagination>(from json: JSON) -> (P, [T]) {
+        return self._extractListResponse(from: json)
+    }
 }
 
 
@@ -66,6 +73,16 @@ private extension DRFNode {
             DRFDefaultPagination.Keys.offset: offset,
             DRFDefaultPagination.Keys.limit: limit
         ]
+    }
+}
+
+
+// MARK: ListResponse Extraction
+private extension DRFNode {
+    func _extractListResponse<T: DRFListGettable, P: DRFPagination>(from json: JSON) -> (P, [T]) {
+        let pagination: P = P(json: json[DRFListResponseKeys.meta])
+        let objects: [T] = json[DRFListResponseKeys.results].array!.map(T.init)
+        return (pagination, objects)
     }
 }
 
