@@ -23,12 +23,6 @@ public protocol DRFListGettable: DRFMetaResource {
 
 // MARK: Default Implementations
 public extension DRFListGettable {
-    typealias ListRepsonseType = DRFDefaultPaginatedListResponse
-}
-
-
-// MARK: Default Implementations
-public extension DRFListGettable {
     static func get(from node: DRFNode = Self.defaultNode, offset: UInt = 0, limit: UInt = Self.defaultLimit) {
         self._get(from: node, offset: offset, limit: limit, filters: [])
     }
@@ -51,9 +45,7 @@ private extension DRFListGettable {
         ValidatedJSONRequest(url: endpoint, parameters: parameters).fire(
             onFailure: { print($0) },
             onSuccess: {
-                let listResponse: ListRepsonseType<Self> = ListRepsonseType(json: $0)
-                let pagination: ListRepsonseType.PaginationType = listResponse.pagination
-                let objects: [Self] = listResponse.results
+                let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(json: $0)
                 print(pagination)
                 print(objects)
             }
