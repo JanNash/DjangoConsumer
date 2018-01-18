@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 
 // MARK: // Public
@@ -15,12 +16,6 @@ public protocol DRFNode {
     var baseURL: URL { get }
     func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL
     func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter]) -> Parameters
-}
-
-
-// MARK: Typealias
-public extension DRFNode {
-    typealias Parameters = [String : Any]
 }
 
 
