@@ -1,5 +1,5 @@
 //
-//  DRFListGettable.swift
+//  DRFFilteredListGettable.swift
 //  DjangoRFAFInterface
 //
 //  Created by Jan Nash (privat) on 18.01.18.
@@ -14,32 +14,26 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DRFListGettable: DRFMetaResource {
+public protocol DRFFilteredListGettable: DRFListGettable {
+    associatedtype FilterType: DRFFilter
     init(json: JSON)
-    static var defaultLimit: UInt { get }
-    static func get(from node: DRFNode, offset: UInt, limit: UInt)
+    static func get(from node: DRFNode, offset: UInt, limit: UInt, filters: [FilterType])
 }
 
 
 // MARK: Default Implementations
-public extension DRFListGettable {
-    typealias ListRepsonseType = DRFDefaultPaginatedListResponse
-}
-
-
-// MARK: Default Implementations
-public extension DRFListGettable {
-    static func get(from node: DRFNode = Self.defaultNode, offset: UInt = 0, limit: UInt = Self.defaultLimit) {
-        self._get(from: node, offset: offset, limit: limit)
+public extension DRFFilteredListGettable {
+    static func get(from node: DRFNode = Self.defaultNode, offset: UInt = 0, limit: UInt = Self.defaultLimit, filters: [FilterType] = []) {
+        self._get(from: node, offset: offset, limit: limit, filters: filters)
     }
 }
 
 
 // MARK: // Private
-private extension DRFListGettable {
-    static func _get(from node: DRFNode, offset: UInt, limit: UInt) {
+private extension DRFFilteredListGettable {
+    static func _get(from node: DRFNode, offset: UInt, limit: UInt, filters: [FilterType]) {
         let endpoint: URL = node.listEndpoint(for: self)
-        let parameters: [String : Any] = node.parametersFrom(offset: offset, limit: limit)
+        let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
         Alamofire.request(endpoint, parameters: parameters)
             .validate()
             .responseSwiftyJSON {

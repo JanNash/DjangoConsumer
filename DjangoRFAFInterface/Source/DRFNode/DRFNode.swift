@@ -14,16 +14,24 @@ import Foundation
 public protocol DRFNode {
     var baseURL: URL { get }
     func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL
-    func parametersFrom(offset: UInt, limit: UInt) -> [String : Any]
+    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter]) -> Parameters
+}
+
+
+// MARK: Typealias
+public extension DRFNode {
+    typealias Parameters = [String : Any]
 }
 
 
 // MARK: Default Implementations
 public extension DRFNode {
-    func parametersFrom(offset: UInt, limit: UInt) -> [String : Any] {
-        return [
+    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter] = []) -> Parameters {
+        var parameters: Parameters = [
             DRFDefaultPagination.Keys.offset: offset,
             DRFDefaultPagination.Keys.limit: limit
         ]
+        filters.forEach({ parameters[$0.key] = $0.value })
+        return parameters
     }
 }
