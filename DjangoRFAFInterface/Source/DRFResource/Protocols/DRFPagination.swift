@@ -14,9 +14,9 @@ import SwiftyJSON
 // MARK: - DRFPagination
 public protocol DRFPagination {
     var limit: UInt { get }
-    var next: URL { get }
+    var next: URL? { get }
     var offset: UInt { get }
-    var previous: URL { get }
+    var previous: URL? { get }
     var totalCount: UInt { get }
 }
 
@@ -36,16 +36,16 @@ public struct DRFDefaultPagination {
     public init(json: JSON) {
         // ???: Better way than to force unwrap? How can we fail gracefully here? Throw?
         self.limit = json[Keys.limit].uInt!
-        self.next = json[Keys.next].url!
+        self.next = json[Keys.next].url
         self.offset = json[Keys.offset].uInt!
-        self.previous = json[Keys.previous].url!
+        self.previous = json[Keys.previous].url
         self.totalCount = json[Keys.totalCount].uInt!
     }
     
     // Public Variables
     public var limit: UInt
-    public var next: URL
+    public var next: URL?
     public var offset: UInt
-    public var previous: URL
+    public var previous: URL?
     public var totalCount: UInt
 }
