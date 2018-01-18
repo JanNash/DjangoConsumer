@@ -553,7 +553,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3F6AA148BE13C6B0ECFE5F0A0734999 /* Pods-DjangoRFAFInterfaceTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AK5BMJ7QR5;
 				INFOPLIST_FILE = DjangoRFAFInterfaceTests/Info.plist;
@@ -624,7 +623,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5945BE5084DBD8F2FC31CB6C59045680 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AK5BMJ7QR5;
 				INFOPLIST_FILE = DjangoRFAFInterfaceTests/Info.plist;
