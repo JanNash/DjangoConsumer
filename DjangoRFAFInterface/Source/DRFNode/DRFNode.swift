@@ -52,6 +52,10 @@ public extension DRFNode {
 
 // MARK: ListResponse Extraction
 public extension DRFNode {
+    func paginationType<T>(for resourceType: T.Type) -> DRFPagination.Type where T : DRFListGettable {
+        return DRFDefaultPagination.self
+    }
+    
     func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T]) {
         return self._extractListResponse(for: resourceType, from: json)
     }

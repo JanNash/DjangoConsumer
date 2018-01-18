@@ -24,7 +24,7 @@ public protocol DRFPagination {
 
 
 // MARK: - DRFDefaultPagination
-public struct DRFDefaultPagination {
+public struct DRFDefaultPagination: DRFPagination {
     // Keys
     public struct Keys {
         public static let limit: String = "limit"
