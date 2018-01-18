@@ -22,8 +22,7 @@ public protocol DRFListResponse {
 // MARK: - DRFDefaultListResponse
 // MARK: Keys (static stored properties are not supported in generic types...)
 public struct DRFListResponseKeys {
-    static let meta: String = "meta"
-    static let results: String = "results"
+    public static let results: String = "results"
 }
 
 
