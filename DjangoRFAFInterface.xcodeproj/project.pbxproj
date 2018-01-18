@@ -13,6 +13,7 @@
 		BE6092FDFEA91EF23BAD1C0288CEA548 /* Pods_DjangoRFAFInterfaceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */; };
 		CAE6E0E58D615CF3F80D230423E763AD /* DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84107B26D52B76B5BE19348C2DEA86B2 /* DjangoRFAFInterface.framework */; };
 		E827B5F5FCE7B66B5F52F7370916B24D /* Pods_DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB613640E19B18F0FFA429E2B123CFDE /* Pods_DjangoRFAFInterface.framework */; };
+		F543179FC786333506D576EFB3E4A600 /* DRFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330451A730AC30CC733168EC217A9D1E /* DRFNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		330451A730AC30CC733168EC217A9D1E /* DRFNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNode.swift; sourceTree = "<group>"; };
 		4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoRFAFInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjangoRFAFInterface.h; sourceTree = "<group>"; };
 		5945BE5084DBD8F2FC31CB6C59045680 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoRFAFInterfaceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +89,14 @@
 			path = DRFResource;
 			sourceTree = "<group>";
 		};
+		47C0BFEA3ABA69848188F7BEB57EE798 /* DRFNode */ = {
+			isa = PBXGroup;
+			children = (
+				330451A730AC30CC733168EC217A9D1E /* DRFNode.swift */,
+			);
+			path = DRFNode;
+			sourceTree = "<group>";
+		};
 		4D2E6557EDB22E2EED69FBA975C9B420 /* DjangoRFAFInterfaceTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +150,7 @@
 		F8A71C113B931CEC4881C844FECF7728 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				47C0BFEA3ABA69848188F7BEB57EE798 /* DRFNode */,
 				33A2D761D9D1044A4FAE4DA84B00AEB0 /* DRFResource */,
 			);
 			path = Source;
@@ -376,6 +387,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57BCBFA5E44DA56A4331AA13FE774C3B /* DRFMetaResource.swift in Sources */,
+				F543179FC786333506D576EFB3E4A600 /* DRFNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
