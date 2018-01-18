@@ -57,8 +57,8 @@ private extension DRFListGettable {
                     )
                 })
             },
-            onSuccess: {
-                let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(from: $0)
+            onSuccess: { result in
+                let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(from: result)
                 self.clients.forEach({
                     $0.got(objects: objects, from: node, pagination: pagination, filters: filters)
                 })
