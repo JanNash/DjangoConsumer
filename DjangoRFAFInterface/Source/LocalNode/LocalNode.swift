@@ -55,6 +55,9 @@ extension LocalNode {
 
 // MARK: Class Declaration
 open class LocalNode {
+    // Init
+    public init() {}
+    
     // DRFNode Conformance
     public let baseURL: URL = URL(string: "http://localhost:8080")!
     
