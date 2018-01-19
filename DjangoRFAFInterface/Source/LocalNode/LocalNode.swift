@@ -102,7 +102,7 @@ private extension LocalNode {
 private extension LocalNode {
     // Typealiases
     typealias _Route = (subpath: String, response: WebApp)
-    typealias _ListResponseKeys = DRFListResponseKeys
+    typealias _ListResponseKeys = DRFDefaultListResponseKeys
     typealias _PaginationKeys = DRFDefaultPagination.Keys
     
     // All Routes

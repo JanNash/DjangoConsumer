@@ -26,8 +26,8 @@ public protocol DRFNode {
 }
 
 
-// MARK: DRFListResponseKeys
-public struct DRFListResponseKeys {
+// MARK: DRFDefaultListResponseKeys
+public struct DRFDefaultListResponseKeys {
     public static let meta: String = "meta"
     public static let results: String = "results"
 }
@@ -82,12 +82,12 @@ private extension DRFNode {
 }
 
 
-// MARK: ListResponse Extraction
+// MARK: ListResponse Extraction Implementation
 private extension DRFNode {
     func _extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T]) {
         let paginationType: DRFPagination.Type = self.paginationType(for: resourceType)
-        let pagination: DRFPagination = paginationType.init(json: json[DRFListResponseKeys.meta])
-        let objects: [T] = json[DRFListResponseKeys.results].array!.map(T.init)
+        let pagination: DRFPagination = paginationType.init(json: json[DRFDefaultListResponseKeys.meta])
+        let objects: [T] = json[DRFDefaultListResponseKeys.results].array!.map(T.init)
         return (pagination, objects)
     }
 }
