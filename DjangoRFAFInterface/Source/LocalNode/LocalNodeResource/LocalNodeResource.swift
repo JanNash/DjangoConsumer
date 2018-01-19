@@ -10,6 +10,4 @@ import Foundation
 
 
 // MARK: // Public
-public protocol LocalNodeResource {
-    
-}
+public protocol LocalNodeResource {}

@@ -128,7 +128,7 @@ private extension LocalNode {
     }
     
     // Create List Route
-    func _list_route<T: DRFListGettable>(for objectType: T.Type) -> Route {
+    func _list_route<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
         let response: WebApp = JSONResponse() {
             environ -> Any in
             
