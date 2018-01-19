@@ -63,10 +63,10 @@ open class LocalNode {
     
     // Private Constants
     private let _loop: SelectorEventLoop = try! SelectorEventLoop(selector: try! KqueueSelector())
+    private let _router: Router = Router()
     
     // Private Lazy Variables
     private lazy var _backgroundQueue: DispatchQueue = self._createBackgroundQueue()
-    private lazy var _router: Router = self._createRouter()
     private lazy var _server: HTTPServer = self._createServer()
 }
 
@@ -87,12 +87,6 @@ private extension LocalNode {
             label: "LocalNode-BackgroundQueue",
             qos: .background
         )
-    }
-    
-    func _createRouter() -> Router {
-        let router: Router = Router()
-        self._addRoutes(to: router)
-        return router
     }
     
     func _createServer() -> DefaultHTTPServer {
@@ -131,31 +125,6 @@ private extension LocalNode {
     // Typealiases
     typealias _ListResponseKeys = DRFDefaultListResponseKeys
     typealias _PaginationKeys = DRFDefaultPagination.Keys
-    
-    // All Routes
-    func _addRoutes(to router: Router) {
-        self._routes().forEach({
-            router[$0.relativeEndpoint.absoluteString] = $0.response
-        })
-    }
-    
-    func _routes() -> [Route] {
-        return self._list_routes() + self._detail_routes()
-    }
-    
-    // List Routes
-    func _list_routes() -> [Route] {
-        return [
-            
-        ]
-    }
-    
-    // Detail Routes
-    func _detail_routes() -> [Route] {
-        return []
-    }
-    
-    // Create List Route
 }
 
 
