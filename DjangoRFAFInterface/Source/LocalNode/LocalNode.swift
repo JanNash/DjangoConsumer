@@ -38,6 +38,10 @@ extension LocalNode {
         self._stop()
     }
     
+    public func restart() {
+        self._restart()
+    }
+    
     // Adding/Removing Routes
     public func addRoute(_ route: Route) {
         self._router[route.relativeEndpoint.absoluteString] = route.response
@@ -101,7 +105,7 @@ private extension LocalNode {
 }
 
 
-// MARK: Start Server
+// MARK: Start / Stopp / Restart Server
 private extension LocalNode {
     func _start() {
         try! self._server.start()
@@ -113,6 +117,11 @@ private extension LocalNode {
     func _stop() {
         self._server.stop()
         self._loop.stop()
+    }
+    
+    func _restart() {
+        self.stop()
+        self.start()
     }
 }
 
