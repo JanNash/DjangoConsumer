@@ -13,23 +13,27 @@ import Embassy
 import EnvoyAmbassador
 
 
-// MARK: // Internal
+// MARK: // Open
 // MARK: Interface
 extension LocalNode {
-    func start() {
+    // Typealiases
+    typealias Route = (relativeEndpoint: URL, response: WebApp)
+    
+    // Functions
+    open func start() {
         self._start()
     }
     
-    func stop() {
+    open func stop() {
         self._stop()
     }
 }
 
 
 // MARK: Class Declaration
-class LocalNode {
+open class LocalNode {
     // DRFNode Conformance
-    let baseURL: URL = URL(string: "http://localhost:8080")!
+    public let baseURL: URL = URL(string: "http://localhost:8080")!
     
     // Private Static Constants
     private static let _queryStringKey: String = "QUERY_STRING"
@@ -46,7 +50,7 @@ class LocalNode {
 
 // MARK: Protocol Conformances
 extension LocalNode: DRFNode {
-    func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+    open func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL {
         return self.baseURL
     }
 }
