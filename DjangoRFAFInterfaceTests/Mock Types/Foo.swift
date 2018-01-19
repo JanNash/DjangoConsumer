@@ -40,7 +40,7 @@ struct Foo: DRFListGettable {
         self.bar = json[Keys.bar].string!
     }
     static let defaultLimit: UInt = 20
-    static var clients: WeakRefArray<DRFListGettableClient> = WeakRefArray<DRFListGettableClient>([])
+    static var clients: [DRFListGettableClient] = []
     
     // LocalNodeListGettable
     static let localNodeMaximumLimit: UInt = 200

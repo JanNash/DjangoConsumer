@@ -17,7 +17,7 @@ import WeakRefCollections
 // MARK: Protocol Declaration
 public protocol DRFListGettable: DRFMetaResource {
     init(json: JSON)
-    static var clients: WeakRefArray<DRFListGettableClient> { get set }
+    static var clients: [DRFListGettableClient] { get set }
     static var defaultLimit: UInt { get }
     static func get(from node: DRFNode, offset: UInt, limit: UInt)
 }
