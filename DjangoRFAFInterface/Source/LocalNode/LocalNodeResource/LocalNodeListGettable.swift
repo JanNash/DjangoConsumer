@@ -11,5 +11,6 @@ import Foundation
 
 // MARK: // Public
 public protocol LocalNodeListGettable: DRFListGettable {
-    
+    static var localNodeMaximumLimit: UInt { get }
+    func toJSONDict() -> [String : Any]
 }

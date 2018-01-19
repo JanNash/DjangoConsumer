@@ -27,6 +27,11 @@ extension LocalNode {
     open func stop() {
         self._stop()
     }
+    
+    // Route Creation
+    open func createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
+        return self._createListRoute(for: objectType)
+    }
 }
 
 
@@ -128,24 +133,35 @@ private extension LocalNode {
     }
     
     // Create List Route
-    func _list_route<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
+}
+
+
+// MARK: Create List Route
+private extension LocalNode {
+    func _createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
         let response: WebApp = JSONResponse() {
-            environ -> Any in
+            let urlParameters: [String : String] = self._extractURLParameters(fromEnviron: $0)
             
             let defaultLimit: Int = Int(objectType.defaultLimit)
-            //            let maximumLimit: Int = objectType.maximumLimit
-            
-            let paramsString: String = environ[LocalNode._queryStringKey] as! String
-            let params: [(String, String)] = URLParametersReader.parseURLParameters(paramsString)
-            let paramDict: [String : String] = Dictionary(uniqueKeysWithValues: params)
+            let maximumLimit: Int = Int(objectType.localNodeMaximumLimit)
             
             var limit: Int = defaultLimit
-            if let _limit: String = paramDict[_PaginationKeys.limit] {
-                limit = max(0, min(Int(_limit) ?? defaultLimit, 200)) // FIXME:
+            if let _limit: String = urlParameters[_PaginationKeys.limit] {
+                limit = min(Int(_limit) ?? defaultLimit, maximumLimit)
+            }
+            
+            // Using '<=' instead of '<' is not strictly necessary here,
+            // since LocalNodeListGettable.defaultLimit and .localNodeMaximumLimit
+            // are both UInt. Still, this might prevent confusion if that type
+            // requirement ever changes (although I can't think of any use case for
+            // that which makes sense to me... :)
+            if limit <= 0 {
+                // ???: Actual DRF API behaviour?
+                limit = defaultLimit
             }
             
             var offset: Int = 0
-            if let _offset: String = paramDict[_PaginationKeys.offset] {
+            if let _offset: String = urlParameters[_PaginationKeys.offset] {
                 offset = max(0, Int(_offset) ?? 0)
             }
             
@@ -161,7 +177,7 @@ private extension LocalNode {
             
             let endIndexOffset: Int = limit - 1
             let endIndex = min(offset + endIndexOffset, totalEndIndex)
-            //            objectDicts = allObjects[offset...endIndex].map(JSON(T))
+            objectDicts = allObjects[offset...endIndex].map({ $0.toJSONDict() })
             
             return [
                 _ListResponseKeys.meta: [
@@ -177,5 +193,12 @@ private extension LocalNode {
         
         let endpoint: URL = self.listEndpoint(for: objectType)
         return (endpoint, response)
+    }
+    
+    // Helpers
+    func _extractURLParameters(fromEnviron environ: Parameters) -> [String : String] {
+        let paramsString: String = environ[LocalNode._queryStringKey] as! String
+        let params: [(String, String)] = URLParametersReader.parseURLParameters(paramsString)
+        return Dictionary(uniqueKeysWithValues: params)
     }
 }
