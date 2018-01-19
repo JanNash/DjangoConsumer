@@ -157,19 +157,18 @@ private extension LocalNode {
                 offset = max(0, Int(_offset) ?? 0)
             }
             
-            //            let allObjects: [T] = T.allFixtureObjects
-            let allObjects: [T] = []
+            let allObjects: [T] = T.allFixtureObjects
             let totalCount: Int = allObjects.count
             let totalEndIndex: Int = totalCount - 1
             
             var objectDicts: [[String : Any]] = []
             if offset > totalEndIndex {
                 objectDicts = []
+            } else {   
+                let endIndexOffset: Int = limit - 1
+                let endIndex = min(offset + endIndexOffset, totalEndIndex)
+                objectDicts = allObjects[offset...endIndex].map({ $0.toJSONDict() })
             }
-            
-            let endIndexOffset: Int = limit - 1
-            let endIndex = min(offset + endIndexOffset, totalEndIndex)
-            objectDicts = allObjects[offset...endIndex].map({ $0.toJSONDict() })
             
             return [
                 _ListResponseKeys.meta: [
