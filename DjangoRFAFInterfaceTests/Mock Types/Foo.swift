@@ -15,6 +15,12 @@ import DjangoRFAFInterface
 // MARK: // Internal
 // MARK: Struct Declaration
 struct Foo: DRFListGettable {
+    // Init
+    init(id: String, bar: String) {
+        self.id = id
+        self.bar = bar
+    }
+    
     // Keys
     struct Keys {
         static let id: String = "id"
@@ -23,7 +29,7 @@ struct Foo: DRFListGettable {
     
     // Variables
     var id: String = "1"
-    var bar: Int = 5
+    var bar: String = "A"
     
     // DRFMetaResource
     static var defaultNode: DRFNode = LocalNode()
@@ -31,14 +37,21 @@ struct Foo: DRFListGettable {
     // DRFListGettable
     init(json: JSON) {
         self.id = json[Keys.id].string!
-        self.bar = json[Keys.bar].int!
+        self.bar = json[Keys.bar].string!
     }
     static let defaultLimit: UInt = 20
     static var clients: WeakRefArray<DRFListGettableClient> = WeakRefArray<DRFListGettableClient>([])
     
     // LocalNodeListGettable
     static let localNodeMaximumLimit: UInt = 200
-    static var allFixtureObjects: [Foo] = []
+    static var allFixtureObjects: [Foo] = [
+        Foo(id: "1", bar: "A"),
+        Foo(id: "2", bar: "B"),
+        Foo(id: "3", bar: "C"),
+        Foo(id: "4", bar: "D"),
+        Foo(id: "5", bar: "E"),
+        Foo(id: "6", bar: "F"),
+    ]
 }
 
 
