@@ -110,6 +110,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		27751D14342BBE54441F484AF2DC35FC /* Mock Types */ = {
+			isa = PBXGroup;
+			children = (
+				6B58B988AAC6335A6C635EBF8C6F561C /* Foo.swift */,
+			);
+			path = "Mock Types";
+			sourceTree = "<group>";
+		};
 		4D2E6557EDB22E2EED69FBA975C9B420 /* DjangoRFAFInterfaceTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,14 +215,6 @@
 				A6A7B7093CC6AA2FB415CFAC5FF7D2A2 /* DRFListGettableClient.swift */,
 			);
 			path = DRFClient;
-			sourceTree = "<group>";
-		};
-		27751D14342BBE54441F484AF2DC35FC /* Mock Types */ = {
-			isa = PBXGroup;
-			children = (
-				6B58B988AAC6335A6C635EBF8C6F561C /* Foo.swift */,
-			);
-			path = "Mock Types";
 			sourceTree = "<group>";
 		};
 		F8A71C113B931CEC4881C844FECF7728 /* Source */ = {
