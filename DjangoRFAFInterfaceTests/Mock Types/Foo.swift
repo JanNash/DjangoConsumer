@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import WeakRefCollections
 import SwiftyJSON
 import DjangoRFAFInterface
 

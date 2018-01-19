@@ -10,7 +10,6 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
-import WeakRefCollections
 
 
 // MARK: // Public

@@ -7,13 +7,11 @@ PODS:
   - EnvoyAmbassador (4.0.1):
     - Embassy (~> 4.0)
   - SwiftyJSON (4.0.0)
-  - WeakRefCollections (0.2.1)
 
 DEPENDENCIES:
   - Alamofire-SwiftyJSON (~> 3.0.0)
   - Embassy (~> 4.0.0)
   - EnvoyAmbassador (~> 4.0.1)
-  - WeakRefCollections (~> 0.2.1)
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
@@ -21,8 +19,7 @@ SPEC CHECKSUMS:
   Embassy: a01efce4e30c1c6a3c19e6aa27e1b75ca0e1efd3
   EnvoyAmbassador: fec4f4a9cf5f1ab13e082474a0375f77ff467030
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
-  WeakRefCollections: 3ba28dc6f441e939c9b331b44b3c25c423ea8f78
 
-PODFILE CHECKSUM: d16aa3725fe52463531a2fd7c2a191eb82f5d5bb
+PODFILE CHECKSUM: 8e024771dec99de536ff977f1defe049c8933fbe
 
 COCOAPODS: 1.3.1
