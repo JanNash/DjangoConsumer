@@ -13,24 +13,38 @@ import Embassy
 import EnvoyAmbassador
 
 
-// MARK: // Open
-// MARK: Interface
+// MARK: // Public
+// MARK: Overridable Interface
+extension LocalNode {
+    // Route Creation
+    open func createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
+        return self._createListRoute(for: objectType)
+    }
+}
+
+
+// MARK: Public Interface
 extension LocalNode {
     // Typealiases
     public typealias Route = (relativeEndpoint: URL, response: WebApp)
     
     // Functions
-    open func start() {
+    // Start / Stop
+    public func start() {
         self._start()
     }
     
-    open func stop() {
+    public func stop() {
         self._stop()
     }
     
-    // Route Creation
-    open func createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
-        return self._createListRoute(for: objectType)
+    // Adding/Removing Routes
+    public func addRoute(_ route: Route) {
+        self._router[route.relativeEndpoint.absoluteString] = route.response
+    }
+    
+    public func removeRoute(_ route: Route) {
+        self._router[route.relativeEndpoint.absoluteString] = nil
     }
 }
 
