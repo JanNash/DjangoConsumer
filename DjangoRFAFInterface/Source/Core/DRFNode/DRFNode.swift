@@ -21,7 +21,7 @@ public protocol DRFNode {
     func parametersFrom(filters: [DRFFilter]) -> Parameters
     
     func paginationType<T: DRFListGettable>(for resourceType: T.Type) -> DRFPagination.Type
-    func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL
+    func absoluteListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL
     func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T])
 }
 

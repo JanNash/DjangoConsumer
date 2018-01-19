@@ -164,7 +164,7 @@ private extension LocalNode {
             var objectDicts: [[String : Any]] = []
             if offset > totalEndIndex {
                 objectDicts = []
-            } else {   
+            } else {
                 let endIndexOffset: Int = limit - 1
                 let endIndex = min(offset + endIndexOffset, totalEndIndex)
                 objectDicts = allObjects[offset...endIndex].map({ $0.toJSONDict() })

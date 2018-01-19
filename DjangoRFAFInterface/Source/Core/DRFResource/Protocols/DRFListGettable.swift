@@ -42,9 +42,9 @@ extension DRFListGettable {
 // MARK: // Private
 private extension DRFListGettable {
     static func _get(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilter]) {
-        let endpoint: URL = node.listEndpoint(for: self)
+        let url: URL = node.absoluteListURL(for: self)
         let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
-        ValidatedJSONRequest(url: endpoint, parameters: parameters).fire(
+        ValidatedJSONRequest(url: url, parameters: parameters).fire(
             onFailure: { error in
                 self.clients.forEach({
                     $0.failedGettingObjects(
