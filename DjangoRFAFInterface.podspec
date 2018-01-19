@@ -30,6 +30,16 @@ Pod::Spec.new do |s|
     :git => "https://github.com/resmio/DjangoRFAFInterface.git",
     :tag => "v#{s.version}"
   }
-  s.source_files = "DjangoRFAFInterface/Source/**/*.swift"
   s.dependency 'Alamofire-SwiftyJSON', '~> 3.0.0'
+  s.default_subspec = 'Core'
+  
+  s.subspec 'Core' do |core|
+    core.source_files = "DjangoRFAFInterface/Source/Core/**/*.swift"
+  end
+  
+  s.subspec 'LocalNode' do |ln|
+    ln.source_files = "DjangoRFAFInterface/Source/LocalNode/**/*.swift"
+    ln.dependency 'Embassy', '~> 4.0.0'
+    ln.dependency 'EnvoyAmbassador', '~> 4.0.1'
+  end
 end
