@@ -23,6 +23,7 @@ class DjangoRFAFInterfaceTests: XCTestCase {
         let node: LocalNode = Foo.defaultNode as! LocalNode
         node.stop()
         Foo.defaultNode = LocalNode()
+        Foo.clients.removeAll()
         
         super.tearDown()
     }
