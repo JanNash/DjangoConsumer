@@ -31,5 +31,5 @@ Pod::Spec.new do |s|
     :tag => "v#{s.version}"
   }
   s.source_files = "DjangoRFAFInterface/Source/**/*.swift"
-  s.public_header_files = []
+  s.dependency 'Alamofire-SwiftyJSON', '~> 3.0.0'
 end
