@@ -16,11 +16,14 @@ import SwiftyJSON
 public protocol DRFNode {
     var baseURL: URL { get }
     
+    // Parameter Generation
     func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter]) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [DRFFilter]) -> Parameters
     
+    // List Request and Response Helpers
     func paginationType<T: DRFListGettable>(for resourceType: T.Type) -> DRFPagination.Type
+    func relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL
     func absoluteListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL
     func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T])
 }
@@ -50,10 +53,14 @@ public extension DRFNode {
 }
 
 
-// MARK: ListResponse Extraction
+// MARK: List Request and Response Helpers
 public extension DRFNode {
     func paginationType<T>(for resourceType: T.Type) -> DRFPagination.Type where T : DRFListGettable {
         return DRFDefaultPagination.self
+    }
+    
+    func absoluteListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+        return self._absoluteListURL(for: resourceType)
     }
     
     func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T]) {
@@ -82,8 +89,13 @@ private extension DRFNode {
 }
 
 
-// MARK: ListResponse Extraction Implementation
+// MARK: List Request and Response Helper Implementations
 private extension DRFNode {
+    func _absoluteListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+        let relativeURL: URL = self.relativeListURL(for: resourceType)
+        return self.baseURL.appendingPathComponent(relativeURL.absoluteString)
+    }
+    
     func _extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T]) {
         let paginationType: DRFPagination.Type = self.paginationType(for: resourceType)
         let pagination: DRFPagination = paginationType.init(json: json[DRFDefaultListResponseKeys.meta])

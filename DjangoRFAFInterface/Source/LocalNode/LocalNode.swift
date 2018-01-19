@@ -73,7 +73,7 @@ open class LocalNode {
 
 // MARK: Protocol Conformances
 extension LocalNode: DRFNode {
-    open func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+    open func relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
         return self.baseURL
     }
 }
@@ -182,7 +182,7 @@ private extension LocalNode {
             ]
         }
         
-        let endpoint: URL = self.listEndpoint(for: objectType)
+        let endpoint: URL = self.relativeListURL(for: objectType)
         return (endpoint, response)
     }
     
