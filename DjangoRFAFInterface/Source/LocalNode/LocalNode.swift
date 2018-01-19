@@ -101,35 +101,34 @@ private extension LocalNode {
 // Routes
 private extension LocalNode {
     // Typealiases
-    typealias _Route = (subpath: String, response: WebApp)
     typealias _ListResponseKeys = DRFDefaultListResponseKeys
     typealias _PaginationKeys = DRFDefaultPagination.Keys
     
     // All Routes
     func _addRoutes(to router: Router) {
         self._routes().forEach({
-            router[$0.subpath] = $0.response
+            router[$0.relativeEndpoint.absoluteString] = $0.response
         })
     }
     
-    func _routes() -> [_Route] {
+    func _routes() -> [Route] {
         return self._list_routes() + self._detail_routes()
     }
     
     // List Routes
-    func _list_routes() -> [_Route] {
+    func _list_routes() -> [Route] {
         return [
             
         ]
     }
     
     // Detail Routes
-    func _detail_routes() -> [_Route] {
+    func _detail_routes() -> [Route] {
         return []
     }
     
     // Create List Route
-    func _list_route<T: DRFListGettable>(for objectType: T.Type) -> _Route {
+    func _list_route<T: DRFListGettable>(for objectType: T.Type) -> Route {
         let response: WebApp = JSONResponse() {
             environ -> Any in
             
@@ -176,7 +175,7 @@ private extension LocalNode {
             ]
         }
         
-        let endpoint: String = self.listEndpoint(for: objectType).absoluteString
+        let endpoint: URL = self.listEndpoint(for: objectType)
         return (endpoint, response)
     }
 }
