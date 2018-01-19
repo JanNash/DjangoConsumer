@@ -17,7 +17,7 @@ import EnvoyAmbassador
 // MARK: Interface
 extension LocalNode {
     // Typealiases
-    typealias Route = (relativeEndpoint: URL, response: WebApp)
+    public typealias Route = (relativeEndpoint: URL, response: WebApp)
     
     // Functions
     open func start() {
