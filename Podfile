@@ -6,6 +6,8 @@ target 'DjangoRFAFInterface' do
 
   pod 'Alamofire-SwiftyJSON', '~> 3.0.0'
   pod 'WeakRefCollections', '~> 0.2.1'
+  pod 'Embassy', '~> 4.0.0'
+  pod 'EnvoyAmbassador', '~> 4.0.1'
 
   target 'DjangoRFAFInterfaceTests' do
     inherit! :search_paths
