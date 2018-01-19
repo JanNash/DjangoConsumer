@@ -28,6 +28,36 @@ class DjangoRFAFInterfaceTests: XCTestCase {
     }
     
     func testExample() {
+        let expectation: XCTestExpectation = XCTestExpectation(description: "bla")
         
+        class FooListGetClient: DRFListGettableClient {
+            var gotObjects: () -> Void = {}
+            var failedGettingObjects: () -> Void = {}
+            
+            func failedGettingObjects<T: DRFListGettable>(ofType type: T.Type, from node: DRFNode, error: Error, offset: UInt, limit: UInt, filters: [DRFFilter]) {
+                self.failedGettingObjects()
+            }
+            
+            func got<T: DRFListGettable>(objects: [T], from node: DRFNode, pagination: DRFPagination, filters: [DRFFilter]) {
+                self.gotObjects()
+            }
+        }
+        
+        let client: FooListGetClient = FooListGetClient()
+        
+        client.gotObjects = {
+            expectation.fulfill()
+        }
+        
+        client.failedGettingObjects = {
+            print("DERP")
+            XCTFail()
+        }
+        
+        Foo.clients.append(client)
+        
+        Foo.get(offset: 0, limit: 100)
+        
+        self.wait(for: [expectation], timeout: 10)
     }
 }
