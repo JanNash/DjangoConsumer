@@ -57,6 +57,14 @@ open class MockBackend {
         return { _ in true }
     }
     
+    // Fixture creation
+    open func fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
+        // Fixtures can either be created dynamically inside this function,
+        // or, to improve performance, they can be saved to variables which
+        // are then returned from this function.
+        return []
+    }
+    
     // Converting objects to JSON dictionaries
     open func createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
         // ???: Should an override be forced by a fatal error here?
@@ -76,14 +84,6 @@ open class MockBackend {
     open var defaultMaximumPaginationLimit: UInt = 200
     open func maximumPaginationLimit(for objectType: DRFListGettable.Type) -> UInt {
         return self.defaultMaximumPaginationLimit
-    }
-    
-    // Fixture creation
-    open func fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
-        // Fixtures can either be created dynamically inside this function,
-        // or, to improve performance, they can be saved to variables which
-        // are then returned from this function.
-        return []
     }
     
     
