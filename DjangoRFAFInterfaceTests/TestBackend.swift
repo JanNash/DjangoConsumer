@@ -31,6 +31,17 @@ class TestBackend: MockBackend {
     override func createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
         return self._createJSONDict(from: object)
     }
+    
+    
+    // Private Variables
+    private var _fooFixtures: [Foo] = [
+        Foo(id: "1", bar: "A"),
+        Foo(id: "2", bar: "B"),
+        Foo(id: "3", bar: "C"),
+        Foo(id: "4", bar: "D"),
+        Foo(id: "5", bar: "E"),
+        Foo(id: "6", bar: "F"),
+    ]
 }
 
 
@@ -42,6 +53,9 @@ private extension TestBackend {
     }
     
     func _fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
+        if objectType == Foo.self {
+            return self._fooFixtures as! [T]
+        }
         return []
     }
     
