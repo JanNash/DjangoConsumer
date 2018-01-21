@@ -10,30 +10,17 @@ import XCTest
 @testable import DjangoRFAFInterface
 
 class DjangoRFAFInterfaceTests: XCTestCase {
+    var backend: TestBackend = TestBackend()
+    var node: TestNode = TestNode()
+    
     override func setUp() {
         super.setUp()
         
-//        Foo.allFixtureObjects = [
-//            Foo(id: "1", bar: "A"),
-//            Foo(id: "2", bar: "B"),
-//            Foo(id: "3", bar: "C"),
-//            Foo(id: "4", bar: "D"),
-//            Foo(id: "5", bar: "E"),
-//            Foo(id: "6", bar: "F"),
-//        ]
-//
-//        let node: LocalTestNode = Foo.defaultNode as! LocalTestNode
-//        let listRoute: LocalTestNode.Route = node.createListRoute(for: Foo.self)
-//        node.addRoute(listRoute)
-//        node.start()
+        self.backend.start()
     }
     
     override func tearDown() {
-//        let node: LocalNode = Foo.defaultNode as! LocalTestNode
-//        node.stop()
-//        Foo.defaultNode = LocalTestNode()
-//        Foo.clients = []
-//        Foo.allFixtureObjects = []
+        self.backend.stop()
         
         super.tearDown()
     }
