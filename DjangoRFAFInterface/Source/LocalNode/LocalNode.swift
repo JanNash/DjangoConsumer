@@ -14,15 +14,6 @@ import EnvoyAmbassador
 
 
 // MARK: // Public
-// MARK: Overridable Interface
-extension LocalNode {
-    // Route Creation
-    open func createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
-        return self._createListRoute(for: objectType)
-    }
-}
-
-
 // MARK: Public Interface
 extension LocalNode {
     // Typealiases
@@ -58,6 +49,11 @@ open class LocalNode {
     // Init
     public init() {}
     
+    // Overridable Interface
+    // Route Creation
+    open func createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
+        return self._createListRoute(for: objectType)
+    }
     
     // Private Static Constants
     private static let _queryStringKey: String = "QUERY_STRING"
