@@ -123,11 +123,29 @@ private extension LocalNode {
 }
 
 
-// Routes
+// MARK: Routes
+// MARK: Helper Types
 private extension LocalNode {
-    // Typealiases
     typealias _ListResponseKeys = DRFDefaultListResponseKeys
     typealias _PaginationKeys = DRFDefaultPagination.Keys
+    typealias _URLParameters = (pagination: _Pagination, filters: [String : String])
+    
+    struct _Pagination {
+        var limit: Int?
+        var offset: Int?
+        
+        func processedFor<T: LocalNodeListGettable>(objectType: T.Type) -> (limit: Int, offset: Int) {
+            let defaultLimit: Int = Int(objectType.defaultLimit)
+            let maximumLimit: Int = Int(objectType.localNodeMaximumLimit)
+            var limit: Int = min(maximumLimit, self.limit ?? defaultLimit)
+            if limit <= 0 {
+                // ???: Actual DRF API behaviour?
+                limit = defaultLimit
+            }
+            let offset: Int = max(0, self.offset ?? 0)
+            return (limit: limit, offset: offset)
+        }
+    }
 }
 
 
@@ -135,42 +153,20 @@ private extension LocalNode {
 private extension LocalNode {
     func _createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
         let response: WebApp = JSONResponse() {
-            let urlParameters: [String : String] = self._extractURLParameters(fromEnviron: $0)
+            let urlParameters: _URLParameters = self._readURLParameters(fromEnviron: $0)
+            let (limit, offset): (Int, Int) = urlParameters.pagination.processedFor(objectType: objectType)
+            let filterClosure: (T) -> Bool = T.filterClosure(for: urlParameters.filters)
             
-            let defaultLimit: Int = Int(objectType.defaultLimit)
-            let maximumLimit: Int = Int(objectType.localNodeMaximumLimit)
-            
-            var limit: Int = defaultLimit
-            if let _limit: String = urlParameters[_PaginationKeys.limit] {
-                limit = min(Int(_limit) ?? defaultLimit, maximumLimit)
-            }
-            
-            // Using '<=' instead of '<' is not strictly necessary here,
-            // since LocalNodeListGettable.defaultLimit and .localNodeMaximumLimit
-            // are both UInt. Still, this might prevent confusion if that type
-            // requirement ever changes (although I can't think of any use case for
-            // that which makes sense to me... :)
-            if limit <= 0 {
-                // ???: Actual DRF API behaviour?
-                limit = defaultLimit
-            }
-            
-            var offset: Int = 0
-            if let _offset: String = urlParameters[_PaginationKeys.offset] {
-                offset = max(0, Int(_offset) ?? 0)
-            }
-            
-            let allObjects: [T] = T.allFixtureObjects
-            let totalCount: Int = allObjects.count
+            let filteredObjects: [T] = T.allFixtureObjects.filter(filterClosure)
+            // ???: How does DRF calculate the totalCount, for all objects or only for the filtered list?
+            let totalCount: Int = filteredObjects.count
             let totalEndIndex: Int = totalCount - 1
             
             var objectDicts: [[String : Any]] = []
-            if offset > totalEndIndex {
-                objectDicts = []
-            } else {
+            if offset < totalEndIndex {
                 let endIndexOffset: Int = limit - 1
                 let endIndex = min(offset + endIndexOffset, totalEndIndex)
-                objectDicts = allObjects[offset...endIndex].map({ $0.toJSONDict() })
+                objectDicts = filteredObjects[offset...endIndex].map({ $0.toJSONDict() })
             }
             
             return [
@@ -190,9 +186,20 @@ private extension LocalNode {
     }
     
     // Helpers
-    func _extractURLParameters(fromEnviron environ: Parameters) -> [String : String] {
+    func _readURLParameters(fromEnviron environ: Parameters) -> _URLParameters {
         let paramsString: String = environ[LocalNode._queryStringKey] as! String
         let params: [(String, String)] = URLParametersReader.parseURLParameters(paramsString)
-        return Dictionary(uniqueKeysWithValues: params)
+        var paramDict: [String : String] = Dictionary(uniqueKeysWithValues: params)
+        // This call actually extracts the pagination key value pairs from the paramDict,
+        // so the remainder should only be filters. Might this be subject for change?
+        let pagination: _Pagination = self._extractPagination(fromParamDict: &paramDict)
+        return (pagination, paramDict)
+    }
+    
+    func _extractPagination(fromParamDict paramDict: inout [String : String]) -> _Pagination {
+        return _Pagination(
+            limit: Int(paramDict.removeValue(forKey: _PaginationKeys.limit) ?? "not a UInt"),
+            offset: Int(paramDict.removeValue(forKey: _PaginationKeys.offset) ?? "not a UInt")
+        )
     }
 }

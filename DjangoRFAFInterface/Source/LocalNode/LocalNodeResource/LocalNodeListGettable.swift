@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import Alamofire
 
 
 // MARK: // Public
 public protocol LocalNodeListGettable: DRFListGettable {
     static var localNodeMaximumLimit: UInt { get }
     static var allFixtureObjects: [Self] { get }
+    static func filterClosure(for queryParameters: Parameters) -> ((Self) -> Bool)
     func toJSONDict() -> [String : Any]
 }
