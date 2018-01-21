@@ -58,7 +58,7 @@ open class MockBackend {
     }
     
     // Converting objects to JSON dictionaries
-    func createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
+    open func createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
         // ???: Should an override be forced by a fatal error here?
         return [:]
     }
@@ -79,7 +79,7 @@ open class MockBackend {
     }
     
     // Fixture creation
-    func fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
+    open func fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
         // Fixtures can either be created dynamically inside this function,
         // or, to improve performance, they can be saved to variables which
         // are then returned from this function.
