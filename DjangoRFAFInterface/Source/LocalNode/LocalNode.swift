@@ -58,8 +58,6 @@ open class LocalNode {
     // Init
     public init() {}
     
-    // DRFNode Conformance
-    public let baseURL: URL = URL(string: "http://localhost:8080")!
     
     // Private Static Constants
     private static let _queryStringKey: String = "QUERY_STRING"
@@ -71,14 +69,6 @@ open class LocalNode {
     // Private Lazy Variables
     private lazy var _backgroundQueue: DispatchQueue = self._createBackgroundQueue()
     private lazy var _server: HTTPServer = self._createServer()
-}
-
-
-// MARK: Protocol Conformances
-extension LocalNode: DRFNode {
-    open func relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
-        return self.baseURL
-    }
 }
 
 
@@ -181,8 +171,7 @@ private extension LocalNode {
             ]
         }
         
-        let endpoint: URL = self.relativeListURL(for: objectType)
-        return (endpoint, response)
+        return (objectType.localNodeRelativeListEndpoint, response)
     }
     
     // Helpers

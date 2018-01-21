@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 import SwiftyJSON
 import DjangoRFAFInterface
 
@@ -43,6 +44,7 @@ struct Foo: DRFListGettable {
     
     // LocalNodeListGettable
     static let localNodeMaximumLimit: UInt = 200
+    static var localNodeRelativeListEndpoint: URL = URL(string: "foos")!
     static var allFixtureObjects: [Foo] = []
 }
 
@@ -50,6 +52,10 @@ struct Foo: DRFListGettable {
 // MARK: Protocol Conformances
 // MARK: LocalNodeListGettable
 extension Foo: LocalNodeListGettable {
+    static func filterClosure(for queryParameters: Parameters) -> ((Foo) -> Bool) {
+        return { _ in return true }
+    }
+    
     func toJSONDict() -> [String : Any] {
         return [
             Keys.id: self.id,
