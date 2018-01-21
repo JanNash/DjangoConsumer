@@ -49,21 +49,6 @@ open class MockBackend {
     // Init
     public init() {}
     
-    // Open Variables
-    open var port: Int = 8080
-    
-    // Private Static Constants
-    private static let _queryStringKey: String = "QUERY_STRING"
-    
-    // Private Constants
-    private let _loop: SelectorEventLoop = try! SelectorEventLoop(selector: try! KqueueSelector())
-    private let _router: Router = Router()
-    
-    // Private Lazy Variables
-    private lazy var _backgroundQueue: DispatchQueue = self._createBackgroundQueue()
-    private lazy var _server: HTTPServer = self._createServer()
-    
-    
     // Overridables //
     // Quite necessary
     // Filtering for GET list endpoints
@@ -79,6 +64,9 @@ open class MockBackend {
     }
     
     // Optional
+    // Port
+    open var port: Int = 8080
+    
     // Route Creation
     open func createPaginatedListResponse<T: DRFListGettable>(for objectType: T.Type) -> WebApp {
         return self._createPaginatedListResponse(for: objectType)
@@ -97,6 +85,19 @@ open class MockBackend {
         // are then returned from this function.
         return []
     }
+    
+    
+    // Implementation //
+    // Private Static Constants
+    private static let _queryStringKey: String = "QUERY_STRING"
+    
+    // Private Constants
+    private let _loop: SelectorEventLoop = try! SelectorEventLoop(selector: try! KqueueSelector())
+    private let _router: Router = Router()
+    
+    // Private Lazy Variables
+    private lazy var _backgroundQueue: DispatchQueue = self._createBackgroundQueue()
+    private lazy var _server: HTTPServer = self._createServer()
 }
 
 
