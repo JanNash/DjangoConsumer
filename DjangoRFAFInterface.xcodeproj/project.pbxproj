@@ -10,7 +10,7 @@
 		08598B9FF5C3E29B3298F4D082B223A7 /* DRFListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A7B7093CC6AA2FB415CFAC5FF7D2A2 /* DRFListGettableClient.swift */; };
 		0D1BC8D5B1F37DE31D57B0AF856CD9B0 /* DjangoRFAFInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoRFAFInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1DF3BAD28A2C51AD176D28BD3FA5D33D /* LocalNodeResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FA528E6D54F88E372FE30E724A709A /* LocalNodeResource.swift */; };
-		32F1426C36CBCED74DB2C9BF6440E84D /* Foo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B58B988AAC6335A6C635EBF8C6F561C /* Foo.swift */; };
+		35625C2CD9D4563C3BB6E76C478E65EA /* LocalTestNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CFF69FF8B4D0EC33346CA77F3CF3EB /* LocalTestNode.swift */; };
 		3B0F330021E26B3585CE4245C039EA1A /* DRFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1DB779CF6520A2C5C03AACEB92B103 /* DRFNode.swift */; };
 		40AD1FA867147AD2071EE8B47D2FE965 /* DRFFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB2169885E2CD59E8507DDDA14A7709 /* DRFFilter.swift */; };
 		681ECC771824B1FA744E77164F84A396 /* DRFFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE8A22DD56F3E141C2883F675FFF97B /* DRFFilteredListGettable.swift */; };
@@ -21,6 +21,7 @@
 		98B15BD7F62B62DD9A3081E096D74929 /* DjangoRFAFInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81EC37EF1280A860779389C958BCA8F /* DjangoRFAFInterfaceTests.swift */; };
 		BE6092FDFEA91EF23BAD1C0288CEA548 /* Pods_DjangoRFAFInterfaceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */; };
 		CAE6E0E58D615CF3F80D230423E763AD /* DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84107B26D52B76B5BE19348C2DEA86B2 /* DjangoRFAFInterface.framework */; };
+		D1A06836E6B59AB68358F6D856B4B9B4 /* Foo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96467AF689DDE01170E5D56C083839CF /* Foo.swift */; };
 		DCA5CC60A32C885B0429A82DFA557C2E /* LocalNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4034F83E696BDF2F60DEE978E03D76 /* LocalNode.swift */; };
 		E827B5F5FCE7B66B5F52F7370916B24D /* Pods_DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB613640E19B18F0FFA429E2B123CFDE /* Pods_DjangoRFAFInterface.framework */; };
 		FA6E6DEF5726FA486D0393959FB54ED7 /* ValidatedJSONRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B0CBD78F5C1564FE88D2FE3AEC3AE3 /* ValidatedJSONRequest.swift */; };
@@ -41,13 +42,14 @@
 		27B0CBD78F5C1564FE88D2FE3AEC3AE3 /* ValidatedJSONRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatedJSONRequest.swift; sourceTree = "<group>"; };
 		2B1DB779CF6520A2C5C03AACEB92B103 /* DRFNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNode.swift; sourceTree = "<group>"; };
 		350C83151F82F2CFC3CEBE78383AA997 /* DRFPagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFPagination.swift; sourceTree = "<group>"; };
+		41CFF69FF8B4D0EC33346CA77F3CF3EB /* LocalTestNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTestNode.swift; sourceTree = "<group>"; };
 		4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoRFAFInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjangoRFAFInterface.h; sourceTree = "<group>"; };
 		553954E68DE363C5372EB94483B9E788 /* LocalNodeListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNodeListGettable.swift; sourceTree = "<group>"; };
 		5945BE5084DBD8F2FC31CB6C59045680 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6B58B988AAC6335A6C635EBF8C6F561C /* Foo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foo.swift; sourceTree = "<group>"; };
 		7DE8A22DD56F3E141C2883F675FFF97B /* DRFFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFFilteredListGettable.swift; sourceTree = "<group>"; };
 		840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoRFAFInterfaceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84107B26D52B76B5BE19348C2DEA86B2 /* DjangoRFAFInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjangoRFAFInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		96467AF689DDE01170E5D56C083839CF /* Foo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foo.swift; sourceTree = "<group>"; };
 		9906D61B0517B7A4ED20F87ACE5CEF26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6A7B7093CC6AA2FB415CFAC5FF7D2A2 /* DRFListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFListGettableClient.swift; sourceTree = "<group>"; };
 		C5C6598F353A3605961D933957E1E026 /* DjangoRFAFInterfaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoRFAFInterfaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,18 +112,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		27751D14342BBE54441F484AF2DC35FC /* Mock Types */ = {
+		DDAC08343141F18E5984AD652DC4D42A /* Mocking */ = {
 			isa = PBXGroup;
 			children = (
-				6B58B988AAC6335A6C635EBF8C6F561C /* Foo.swift */,
+				DBEBA27781CE7B2BF424B49EDFC8C235 /* Models */,
+				41CFF69FF8B4D0EC33346CA77F3CF3EB /* LocalTestNode.swift */,
 			);
-			path = "Mock Types";
+			path = Mocking;
 			sourceTree = "<group>";
 		};
 		4D2E6557EDB22E2EED69FBA975C9B420 /* DjangoRFAFInterfaceTests */ = {
 			isa = PBXGroup;
 			children = (
-				27751D14342BBE54441F484AF2DC35FC /* Mock Types */,
+				DDAC08343141F18E5984AD652DC4D42A /* Mocking */,
 				E81EC37EF1280A860779389C958BCA8F /* DjangoRFAFInterfaceTests.swift */,
 				9906D61B0517B7A4ED20F87ACE5CEF26 /* Info.plist */,
 			);
@@ -215,6 +218,14 @@
 				A6A7B7093CC6AA2FB415CFAC5FF7D2A2 /* DRFListGettableClient.swift */,
 			);
 			path = DRFClient;
+			sourceTree = "<group>";
+		};
+		DBEBA27781CE7B2BF424B49EDFC8C235 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				96467AF689DDE01170E5D56C083839CF /* Foo.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		F8A71C113B931CEC4881C844FECF7728 /* Source */ = {
@@ -461,7 +472,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				98B15BD7F62B62DD9A3081E096D74929 /* DjangoRFAFInterfaceTests.swift in Sources */,
-				32F1426C36CBCED74DB2C9BF6440E84D /* Foo.swift in Sources */,
+				D1A06836E6B59AB68358F6D856B4B9B4 /* Foo.swift in Sources */,
+				35625C2CD9D4563C3BB6E76C478E65EA /* LocalTestNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

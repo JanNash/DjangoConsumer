@@ -13,27 +13,27 @@ class DjangoRFAFInterfaceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        Foo.allFixtureObjects = [
-            Foo(id: "1", bar: "A"),
-            Foo(id: "2", bar: "B"),
-            Foo(id: "3", bar: "C"),
-            Foo(id: "4", bar: "D"),
-            Foo(id: "5", bar: "E"),
-            Foo(id: "6", bar: "F"),
-        ]
-        
-        let node: LocalNode = Foo.defaultNode as! LocalNode
-        let listRoute: LocalNode.Route = node.createListRoute(for: Foo.self)
-        node.addRoute(listRoute)
-        node.start()
+//        Foo.allFixtureObjects = [
+//            Foo(id: "1", bar: "A"),
+//            Foo(id: "2", bar: "B"),
+//            Foo(id: "3", bar: "C"),
+//            Foo(id: "4", bar: "D"),
+//            Foo(id: "5", bar: "E"),
+//            Foo(id: "6", bar: "F"),
+//        ]
+//
+//        let node: LocalTestNode = Foo.defaultNode as! LocalTestNode
+//        let listRoute: LocalTestNode.Route = node.createListRoute(for: Foo.self)
+//        node.addRoute(listRoute)
+//        node.start()
     }
     
     override func tearDown() {
-        let node: LocalNode = Foo.defaultNode as! LocalNode
-        node.stop()
-        Foo.defaultNode = LocalNode()
-        Foo.clients = []
-        Foo.allFixtureObjects = []
+//        let node: LocalNode = Foo.defaultNode as! LocalTestNode
+//        node.stop()
+//        Foo.defaultNode = LocalTestNode()
+//        Foo.clients = []
+//        Foo.allFixtureObjects = []
         
         super.tearDown()
     }

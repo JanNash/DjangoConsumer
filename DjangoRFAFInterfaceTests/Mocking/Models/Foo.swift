@@ -32,7 +32,7 @@ struct Foo: DRFListGettable {
     var bar: String = "A"
     
     // DRFMetaResource
-    static var defaultNode: DRFNode = LocalNode()
+    static var defaultNode: DRFNode = LocalTestNode()
     
     // DRFListGettable
     init(json: JSON) {
