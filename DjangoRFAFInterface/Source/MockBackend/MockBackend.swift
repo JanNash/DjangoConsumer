@@ -49,11 +49,23 @@ open class MockBackend {
     // Init
     public init() {}
     
-    // Overridable Interface
+    // Overridables //
+    // Obligatory
+    
+    // Optional
+    open var defaultMaximumPaginationLimit: UInt = 200
+    
     // Route Creation
     open func createListRoute<T: MockBackendListGettable>(for objectType: T.Type) -> Route {
         return self._createListRoute(for: objectType)
     }
+    
+    // Pagination for list endpoints
+    open func maximumPaginationLimit(for objectType: DRFListGettable.Type) -> UInt {
+        return self.defaultMaximumPaginationLimit
+    }
+    
+    //
     
     // Private Static Constants
     private static let _queryStringKey: String = "QUERY_STRING"
@@ -119,18 +131,6 @@ private extension MockBackend {
     struct _Pagination {
         var limit: Int?
         var offset: Int?
-        
-        func processedFor<T: MockBackendListGettable>(objectType: T.Type) -> (limit: Int, offset: Int) {
-            let defaultLimit: Int = Int(objectType.defaultLimit)
-            let maximumLimit: Int = Int(objectType.mockBackendMaximumLimit)
-            var limit: Int = min(maximumLimit, self.limit ?? defaultLimit)
-            if limit <= 0 {
-                // ???: Actual DRF API behaviour?
-                limit = defaultLimit
-            }
-            let offset: Int = max(0, self.offset ?? 0)
-            return (limit: limit, offset: offset)
-        }
     }
 }
 
@@ -140,7 +140,7 @@ private extension MockBackend {
     func _createListRoute<T: MockBackendListGettable>(for objectType: T.Type) -> Route {
         let response: WebApp = JSONResponse() {
             let urlParameters: _URLParameters = self._readURLParameters(fromEnviron: $0)
-            let (limit, offset): (Int, Int) = urlParameters.pagination.processedFor(objectType: objectType)
+            let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: objectType)
             let filterClosure: (T) -> Bool = T.mockBackendFilterClosure(for: urlParameters.filters)
             
             let filteredObjects: [T] = T.mockBackendAllFixtureObjects.filter(filterClosure)
@@ -186,5 +186,17 @@ private extension MockBackend {
             limit: Int(paramDict.removeValue(forKey: _PaginationKeys.limit) ?? "not a UInt"),
             offset: Int(paramDict.removeValue(forKey: _PaginationKeys.offset) ?? "not a UInt")
         )
+    }
+    
+    func _processPagination<T: DRFListGettable>(_ pagination: _Pagination, for objectType: T.Type) -> (limit: Int, offset: Int) {
+        let defaultLimit: Int = Int(objectType.defaultLimit)
+        let maximumLimit: Int = Int(self.maximumPaginationLimit(for: objectType))
+        var limit: Int = min(maximumLimit, pagination.limit ?? defaultLimit)
+        if limit <= 0 {
+            // ???: Actual DRF API behaviour?
+            limit = defaultLimit
+        }
+        let offset: Int = max(0, pagination.offset ?? 0)
+        return (limit: limit, offset: offset)
     }
 }
