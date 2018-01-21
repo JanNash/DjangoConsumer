@@ -49,6 +49,9 @@ open class MockBackend {
     // Init
     public init() {}
     
+    // Open Variables
+    open var port: Int = 8080
+    
     // Private Static Constants
     private static let _queryStringKey: String = "QUERY_STRING"
     
@@ -110,7 +113,7 @@ private extension MockBackend {
     func _createServer() -> DefaultHTTPServer {
         return DefaultHTTPServer(
             eventLoop: self._loop,
-            port: 8080,
+            port: self.port,
             app: self._router.app
         )
     }
