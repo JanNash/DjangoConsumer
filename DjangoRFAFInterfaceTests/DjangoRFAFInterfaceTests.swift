@@ -13,6 +13,15 @@ class DjangoRFAFInterfaceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
+        Foo.allFixtureObjects = [
+            Foo(id: "1", bar: "A"),
+            Foo(id: "2", bar: "B"),
+            Foo(id: "3", bar: "C"),
+            Foo(id: "4", bar: "D"),
+            Foo(id: "5", bar: "E"),
+            Foo(id: "6", bar: "F"),
+        ]
+        
         let node: LocalNode = Foo.defaultNode as! LocalNode
         let listRoute: LocalNode.Route = node.createListRoute(for: Foo.self)
         node.addRoute(listRoute)
@@ -23,7 +32,8 @@ class DjangoRFAFInterfaceTests: XCTestCase {
         let node: LocalNode = Foo.defaultNode as! LocalNode
         node.stop()
         Foo.defaultNode = LocalNode()
-        Foo.clients.removeAll()
+        Foo.clients = []
+        Foo.allFixtureObjects = []
         
         super.tearDown()
     }

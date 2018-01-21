@@ -43,14 +43,7 @@ struct Foo: DRFListGettable {
     
     // LocalNodeListGettable
     static let localNodeMaximumLimit: UInt = 200
-    static var allFixtureObjects: [Foo] = [
-        Foo(id: "1", bar: "A"),
-        Foo(id: "2", bar: "B"),
-        Foo(id: "3", bar: "C"),
-        Foo(id: "4", bar: "D"),
-        Foo(id: "5", bar: "E"),
-        Foo(id: "6", bar: "F"),
-    ]
+    static var allFixtureObjects: [Foo] = []
 }
 
 
