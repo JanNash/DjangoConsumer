@@ -20,10 +20,12 @@ class TestBackend: MockBackend {
     }
     
     // Overrides
+    // List GET
     override func filterClosure<T: DRFListGettable>(for queryParameters: Parameters, with objectType: T.Type) -> ((T) -> Bool) {
         return self._filterClosure(for: queryParameters, with: objectType)
     }
     
+    // General
     override func fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
         return self._fixtures(for: objectType)
     }
@@ -34,6 +36,7 @@ class TestBackend: MockBackend {
     
     
     // Private Variables
+    // Fixtures
     private var _fooFixtures: [Foo] = [
         Foo(id: "1", bar: "A"),
         Foo(id: "2", bar: "B"),
@@ -48,6 +51,7 @@ class TestBackend: MockBackend {
 // MARK: // Private
 // MARK: Override Implementations
 private extension TestBackend {
+    // List GET
     func _filterClosure<T: DRFListGettable>(for queryParameters: Parameters, with objectType: T.Type) -> ((T) -> Bool) {
         return { _ in true }
     }
@@ -59,6 +63,7 @@ private extension TestBackend {
         return []
     }
     
+    // General
     func _createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
         if let foo: Foo = object as? Foo {
             return [
