@@ -13,6 +13,13 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 class TestBackend: MockBackend {
+    // Init
+    override init() {
+        super.init()
+        self._addRoutes()
+    }
+    
+    // Overrides
     override func filterClosure<T: DRFListGettable>(for queryParameters: Parameters, with objectType: T.Type) -> ((T) -> Bool) {
         return self._filterClosure(for: queryParameters, with: objectType)
     }
@@ -40,5 +47,13 @@ private extension TestBackend {
     
     func _createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
         return [:]
+    }
+}
+
+
+// MARK: Add Routes
+private extension TestBackend {
+    func _addRoutes() {
+        self.addRoute((URL(string: "foos")!, self.createPaginatedListResponse(for: Foo.self)))
     }
 }
