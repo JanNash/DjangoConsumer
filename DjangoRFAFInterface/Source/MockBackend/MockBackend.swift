@@ -49,9 +49,19 @@ open class MockBackend {
     // Init
     public init() {}
     
-    // Overridables //
-    // Obligatory
+    // Private Static Constants
+    private static let _queryStringKey: String = "QUERY_STRING"
     
+    // Private Constants
+    private let _loop: SelectorEventLoop = try! SelectorEventLoop(selector: try! KqueueSelector())
+    private let _router: Router = Router()
+    
+    // Private Lazy Variables
+    private lazy var _backgroundQueue: DispatchQueue = self._createBackgroundQueue()
+    private lazy var _server: HTTPServer = self._createServer()
+    
+    
+    // Overridables //
     // Quite necessary
     // Filtering for GET list endpoints
     open func filterClosure<T: DRFListGettable>(for queryParameters: Parameters, with objectType: T.Type) -> ((T) -> Bool) {
@@ -84,17 +94,6 @@ open class MockBackend {
         // are then returned from this function.
         return []
     }
-    
-    // Private Static Constants
-    private static let _queryStringKey: String = "QUERY_STRING"
-    
-    // Private Constants
-    private let _loop: SelectorEventLoop = try! SelectorEventLoop(selector: try! KqueueSelector())
-    private let _router: Router = Router()
-    
-    // Private Lazy Variables
-    private lazy var _backgroundQueue: DispatchQueue = self._createBackgroundQueue()
-    private lazy var _server: HTTPServer = self._createServer()
 }
 
 
