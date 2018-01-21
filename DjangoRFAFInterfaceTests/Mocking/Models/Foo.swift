@@ -32,7 +32,11 @@ struct Foo: DRFListGettable {
     var bar: String = "A"
     
     // DRFMetaResource
-    static var defaultNode: DRFNode = LocalTestNode()
+    // !!!: Normally, models aren't declared inside the test target,
+    // so they would have an actual backend as default node. Thus,
+    // the node would be changed to a test node inside the setup
+    // method of the test case to achieve this behaviour.
+    static var defaultNode: DRFNode = TestNode()
     
     // DRFListGettable
     init(json: JSON) {
