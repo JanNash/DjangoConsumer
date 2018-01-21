@@ -57,11 +57,11 @@ open class MockBackend {
     
     // Optional
     // Route Creation
-    open func createListRoute<T: MockBackendListGettable>(for objectType: T.Type) -> Route {
-        return self._createListRoute(for: objectType)
+    open func createPaginatedListResponse<T: MockBackendListGettable>(for objectType: T.Type) -> WebApp {
+        return self._createPaginatedListResponse(for: objectType)
     }
     
-    // Pagination for list endpoints
+    // Pagination for GET list endpoints
     open var defaultMaximumPaginationLimit: UInt = 200
     open func maximumPaginationLimit(for objectType: DRFListGettable.Type) -> UInt {
         return self.defaultMaximumPaginationLimit
@@ -145,8 +145,8 @@ private extension MockBackend {
 
 // MARK: Create List Route
 private extension MockBackend {
-    func _createListRoute<T: MockBackendListGettable>(for objectType: T.Type) -> Route {
-        let response: WebApp = JSONResponse() {
+    func _createPaginatedListResponse<T: MockBackendListGettable>(for objectType: T.Type) -> WebApp {
+        return JSONResponse() {
             let urlParameters: _URLParameters = self._readURLParameters(fromEnviron: $0)
             let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: objectType)
             let filterClosure: (T) -> Bool = T.mockBackendFilterClosure(for: urlParameters.filters)
@@ -175,8 +175,6 @@ private extension MockBackend {
                 _ListResponseKeys.results: objectDicts
             ]
         }
-        
-        return (objectType.mockBackendRelativeListEndpoint, response)
     }
     
     // Helpers

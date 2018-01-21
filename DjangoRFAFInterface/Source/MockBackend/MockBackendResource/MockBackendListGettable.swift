@@ -12,7 +12,6 @@ import Alamofire
 
 // MARK: // Public
 public protocol MockBackendListGettable: DRFListGettable {
-    static var mockBackendRelativeListEndpoint: URL { get }
     static func mockBackendFilterClosure(for queryParameters: Parameters) -> ((Self) -> Bool)
     func mockBackendToJSONDict() -> [String : Any]
 }
