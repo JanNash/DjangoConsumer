@@ -55,12 +55,19 @@ open class MockBackend {
     // Quite necessary
     // Filtering for GET list endpoints
     open func filterClosure<T: DRFListGettable>(for queryParameters: Parameters, with objectType: T.Type) -> ((T) -> Bool) {
+        // ???: Should an override be forced by a fatal error here?
         return { _ in true }
+    }
+    
+    // Converting objects to JSON dictionaries
+    func createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
+        // ???: Should an override be forced by a fatal error here?
+        return [:]
     }
     
     // Optional
     // Route Creation
-    open func createPaginatedListResponse<T: MockBackendListGettable>(for objectType: T.Type) -> WebApp {
+    open func createPaginatedListResponse<T: DRFListGettable>(for objectType: T.Type) -> WebApp {
         return self._createPaginatedListResponse(for: objectType)
     }
     
@@ -148,7 +155,7 @@ private extension MockBackend {
 
 // MARK: Create List Route
 private extension MockBackend {
-    func _createPaginatedListResponse<T: MockBackendListGettable>(for objectType: T.Type) -> WebApp {
+    func _createPaginatedListResponse<T: DRFListGettable>(for objectType: T.Type) -> WebApp {
         return JSONResponse() {
             let urlParameters: _URLParameters = self._readURLParameters(fromEnviron: $0)
             let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: objectType)
@@ -164,7 +171,7 @@ private extension MockBackend {
             if offset < totalEndIndex {
                 let endIndexOffset: Int = limit - 1
                 let endIndex = min(offset + endIndexOffset, totalEndIndex)
-                objectDicts = filteredObjects[offset...endIndex].map({ $0.mockBackendToJSONDict() })
+                objectDicts = filteredObjects[offset...endIndex].map(self.createJSONDict)
             }
             
             return [
