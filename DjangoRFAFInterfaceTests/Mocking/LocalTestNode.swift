@@ -11,7 +11,7 @@ import DjangoRFAFInterface
 
 
 // MARK: // Internal
-class LocalTestNode: LocalNode {
+class LocalTestNode {
     // DRFNode Conformance
     var baseURL: URL = URL(string: "http://localhost:8080")!
 }

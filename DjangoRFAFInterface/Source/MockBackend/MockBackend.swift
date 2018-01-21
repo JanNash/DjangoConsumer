@@ -1,5 +1,5 @@
 //
-//  LocalNode.swift
+//  MockBackend.swift
 //  DjangoRFAFInterface
 //
 //  Created by Jan Nash (privat) on 19.01.18.
@@ -15,7 +15,7 @@ import EnvoyAmbassador
 
 // MARK: // Public
 // MARK: Public Interface
-extension LocalNode {
+extension MockBackend {
     // Typealiases
     public typealias Route = (relativeEndpoint: URL, response: WebApp)
     
@@ -45,13 +45,13 @@ extension LocalNode {
 
 
 // MARK: Class Declaration
-open class LocalNode {
+open class MockBackend {
     // Init
     public init() {}
     
     // Overridable Interface
     // Route Creation
-    open func createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
+    open func createListRoute<T: MockBackendListGettable>(for objectType: T.Type) -> Route {
         return self._createListRoute(for: objectType)
     }
     
@@ -70,7 +70,7 @@ open class LocalNode {
 
 // MARK: // Private
 // MARK: Lazy Variable Creation
-private extension LocalNode {
+private extension MockBackend {
     func _createBackgroundQueue() -> DispatchQueue {
         return DispatchQueue(
             label: "LocalNode-BackgroundQueue",
@@ -89,7 +89,7 @@ private extension LocalNode {
 
 
 // MARK: Start / Stopp / Restart Server
-private extension LocalNode {
+private extension MockBackend {
     func _start() {
         try! self._server.start()
         self._backgroundQueue.async {
@@ -111,7 +111,7 @@ private extension LocalNode {
 
 // MARK: Routes
 // MARK: Helper Types
-private extension LocalNode {
+private extension MockBackend {
     typealias _ListResponseKeys = DRFDefaultListResponseKeys
     typealias _PaginationKeys = DRFDefaultPagination.Keys
     typealias _URLParameters = (pagination: _Pagination, filters: [String : String])
@@ -120,9 +120,9 @@ private extension LocalNode {
         var limit: Int?
         var offset: Int?
         
-        func processedFor<T: LocalNodeListGettable>(objectType: T.Type) -> (limit: Int, offset: Int) {
+        func processedFor<T: MockBackendListGettable>(objectType: T.Type) -> (limit: Int, offset: Int) {
             let defaultLimit: Int = Int(objectType.defaultLimit)
-            let maximumLimit: Int = Int(objectType.localNodeMaximumLimit)
+            let maximumLimit: Int = Int(objectType.mockBackendMaximumLimit)
             var limit: Int = min(maximumLimit, self.limit ?? defaultLimit)
             if limit <= 0 {
                 // ???: Actual DRF API behaviour?
@@ -136,14 +136,14 @@ private extension LocalNode {
 
 
 // MARK: Create List Route
-private extension LocalNode {
-    func _createListRoute<T: LocalNodeListGettable>(for objectType: T.Type) -> Route {
+private extension MockBackend {
+    func _createListRoute<T: MockBackendListGettable>(for objectType: T.Type) -> Route {
         let response: WebApp = JSONResponse() {
             let urlParameters: _URLParameters = self._readURLParameters(fromEnviron: $0)
             let (limit, offset): (Int, Int) = urlParameters.pagination.processedFor(objectType: objectType)
-            let filterClosure: (T) -> Bool = T.filterClosure(for: urlParameters.filters)
+            let filterClosure: (T) -> Bool = T.mockBackendFilterClosure(for: urlParameters.filters)
             
-            let filteredObjects: [T] = T.allFixtureObjects.filter(filterClosure)
+            let filteredObjects: [T] = T.mockBackendAllFixtureObjects.filter(filterClosure)
             // ???: How does DRF calculate the totalCount, for all objects or only for the filtered list?
             let totalCount: Int = filteredObjects.count
             let totalEndIndex: Int = totalCount - 1
@@ -152,7 +152,7 @@ private extension LocalNode {
             if offset < totalEndIndex {
                 let endIndexOffset: Int = limit - 1
                 let endIndex = min(offset + endIndexOffset, totalEndIndex)
-                objectDicts = filteredObjects[offset...endIndex].map({ $0.toJSONDict() })
+                objectDicts = filteredObjects[offset...endIndex].map({ $0.mockBackendToJSONDict() })
             }
             
             return [
@@ -167,12 +167,12 @@ private extension LocalNode {
             ]
         }
         
-        return (objectType.localNodeRelativeListEndpoint, response)
+        return (objectType.mockBackendRelativeListEndpoint, response)
     }
     
     // Helpers
     func _readURLParameters(fromEnviron environ: Parameters) -> _URLParameters {
-        let paramsString: String = environ[LocalNode._queryStringKey] as! String
+        let paramsString: String = environ[MockBackend._queryStringKey] as! String
         let params: [(String, String)] = URLParametersReader.parseURLParameters(paramsString)
         var paramDict: [String : String] = Dictionary(uniqueKeysWithValues: params)
         // This call actually extracts the pagination key value pairs from the paramDict,

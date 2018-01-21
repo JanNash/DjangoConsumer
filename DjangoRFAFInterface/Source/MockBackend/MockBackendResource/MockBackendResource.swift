@@ -1,5 +1,5 @@
 //
-//  LocalNodeResource.swift
+//  MockBackendResource.swift
 //  DjangoRFAFInterface
 //
 //  Created by Jan Nash (privat) on 19.01.18.
@@ -10,4 +10,4 @@ import Foundation
 
 
 // MARK: // Public
-public protocol LocalNodeResource {}
+public protocol MockBackendResource {}
