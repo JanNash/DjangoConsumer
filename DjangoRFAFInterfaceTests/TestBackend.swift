@@ -60,6 +60,12 @@ private extension TestBackend {
     }
     
     func _createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
+        if let foo: Foo = object as? Foo {
+            return [
+                Foo.Keys.id : foo.id,
+                Foo.Keys.bar : foo.bar
+            ]
+        }
         return [:]
     }
 }
