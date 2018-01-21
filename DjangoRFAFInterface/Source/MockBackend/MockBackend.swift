@@ -53,7 +53,10 @@ open class MockBackend {
     // Obligatory
     
     // Quite necessary
-    
+    // Filtering for GET list endpoints
+    open func filterClosure<T: DRFListGettable>(for queryParameters: Parameters, with objectType: T.Type) -> ((T) -> Bool) {
+        return { _ in true }
+    }
     
     // Optional
     // Route Creation
@@ -149,7 +152,7 @@ private extension MockBackend {
         return JSONResponse() {
             let urlParameters: _URLParameters = self._readURLParameters(fromEnviron: $0)
             let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: objectType)
-            let filterClosure: (T) -> Bool = T.mockBackendFilterClosure(for: urlParameters.filters)
+            let filterClosure: (T) -> Bool = self.filterClosure(for: urlParameters.filters, with: objectType)
             
             let allObjects: [T] = self.fixtures(for: objectType)
             let filteredObjects: [T] = allObjects.filter(filterClosure)
