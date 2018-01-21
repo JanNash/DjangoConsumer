@@ -52,20 +52,28 @@ open class MockBackend {
     // Overridables //
     // Obligatory
     
-    // Optional
-    open var defaultMaximumPaginationLimit: UInt = 200
+    // Quite necessary
     
+    
+    // Optional
     // Route Creation
     open func createListRoute<T: MockBackendListGettable>(for objectType: T.Type) -> Route {
         return self._createListRoute(for: objectType)
     }
     
     // Pagination for list endpoints
+    open var defaultMaximumPaginationLimit: UInt = 200
     open func maximumPaginationLimit(for objectType: DRFListGettable.Type) -> UInt {
         return self.defaultMaximumPaginationLimit
     }
     
-    //
+    // Fixture creation
+    func fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
+        // Fixtures can either be created dynamically inside this function,
+        // or, to improve performance, they can be saved to variables which
+        // are then returned from this function.
+        return []
+    }
     
     // Private Static Constants
     private static let _queryStringKey: String = "QUERY_STRING"
@@ -143,7 +151,8 @@ private extension MockBackend {
             let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: objectType)
             let filterClosure: (T) -> Bool = T.mockBackendFilterClosure(for: urlParameters.filters)
             
-            let filteredObjects: [T] = T.mockBackendAllFixtureObjects.filter(filterClosure)
+            let allObjects: [T] = self.fixtures(for: objectType)
+            let filteredObjects: [T] = allObjects.filter(filterClosure)
             // ???: How does DRF calculate the totalCount, for all objects or only for the filtered list?
             let totalCount: Int = filteredObjects.count
             let totalEndIndex: Int = totalCount - 1
