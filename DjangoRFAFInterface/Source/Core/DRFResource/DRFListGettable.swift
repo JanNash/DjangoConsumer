@@ -17,14 +17,13 @@ import Alamofire_SwiftyJSON
 public protocol DRFListGettable: DRFMetaResource {
     init(json: JSON)
     static var clients: [DRFListGettableClient] { get set }
-    static var defaultLimit: UInt { get }
     static func get(from node: DRFNode?, offset: UInt, limit: UInt)
 }
 
 
 // MARK: Default Implementations
 public extension DRFListGettable {
-    static func get<T: DRFNode>(from node: T? = nil, offset: UInt = 0, limit: UInt = 0) {
+    static func get(from node: DRFNode? = nil, offset: UInt = 0, limit: UInt = 0) {
         self._get(from: node, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
     }
 }
@@ -32,7 +31,7 @@ public extension DRFListGettable {
 
 // MARK: // Internal
 extension DRFListGettable {
-    static func get_<T: DRFNode>(from node: T?, offset: UInt, limit: UInt, filters: [DRFFilter], addDefaultFilters: Bool) {
+    static func get_(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilter], addDefaultFilters: Bool) {
         self._get(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }

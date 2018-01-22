@@ -81,6 +81,11 @@ open class MockBackend {
     }
     
     // Pagination for GET list endpoints
+    open var defaultDefaultPaginationLimit: UInt = 100
+    open func defaultPaginationLimit(for objectType: DRFListGettable.Type) -> UInt {
+        return self.defaultDefaultPaginationLimit
+    }
+    
     open var defaultMaximumPaginationLimit: UInt = 200
     open func maximumPaginationLimit(for objectType: DRFListGettable.Type) -> UInt {
         return self.defaultMaximumPaginationLimit
@@ -209,7 +214,7 @@ private extension MockBackend {
     }
     
     func _processPagination<T: DRFListGettable>(_ pagination: _Pagination, for objectType: T.Type) -> (limit: Int, offset: Int) {
-        let defaultLimit: Int = Int(objectType.defaultLimit)
+        let defaultLimit: Int = Int(self.defaultPaginationLimit(for: objectType))
         let maximumLimit: Int = Int(self.maximumPaginationLimit(for: objectType))
         var limit: Int = min(maximumLimit, pagination.limit ?? defaultLimit)
         if limit <= 0 {

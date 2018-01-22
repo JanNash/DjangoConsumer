@@ -14,15 +14,11 @@ import DjangoRFAFInterface
 // MARK: Class Declaration
 final class TestNode: DRFNode {
     // Singleton
-    static let mainNode: TestNode = TestNode()
+    static let main: TestNode = TestNode()
     
     // DRFNode Conformance
     // Basic Setup
     var baseURL: URL = URL(string: "http://localhost:8080")!
-    
-    // Filtering
-    typealias FilterKeyType = TestFilterKeys
-    typealias FilterComparatorType = TestFilterComparators
     
     // Pagination
     func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : DRFListGettable {
