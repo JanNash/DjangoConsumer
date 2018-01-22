@@ -12,13 +12,24 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Class Declaration
-class TestNode: DRFNode {
+final class TestNode: DRFNode {
+    // Singleton
+    static let mainNode: TestNode = TestNode()
+    
+    // DRFNode Conformance
+    // Basic Setup
+    var baseURL: URL = URL(string: "http://localhost:8080")!
+    
+    // Filtering
     typealias FilterKeyType = TestFilterKeys
     typealias FilterComparatorType = TestFilterComparators
     
-    // DRFNode Conformance
-    var baseURL: URL = URL(string: "http://localhost:8080")!
+    // Pagination
+    func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : DRFListGettable {
+        return 1000
+    }
     
+    // List GET endpoints
     func relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
         return self._relativeListURL(for: resourceType)
     }

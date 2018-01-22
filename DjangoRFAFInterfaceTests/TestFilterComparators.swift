@@ -23,7 +23,7 @@ enum TestFilterComparators: String {
 
 
 // MARK: Protocol Conformances
-extension TestFilterComparators: DRFFilterKey {
+extension TestFilterComparators: DRFFilterComparator {
     var string: String {
         return self.rawValue
     }

@@ -18,13 +18,13 @@ public protocol DRFListGettable: DRFMetaResource {
     init(json: JSON)
     static var clients: [DRFListGettableClient] { get set }
     static var defaultLimit: UInt { get }
-    static func get<T: DRFNode>(from node: T?, offset: UInt, limit: UInt?)
+    static func get(from node: DRFNode?, offset: UInt, limit: UInt)
 }
 
 
 // MARK: Default Implementations
 public extension DRFListGettable {
-    static func get<T: DRFNode>(from node: T? = nil, offset: UInt = 0, limit: UInt? = nil) {
+    static func get<T: DRFNode>(from node: T? = nil, offset: UInt = 0, limit: UInt = 0) {
         self._get(from: node, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
     }
 }
@@ -32,7 +32,7 @@ public extension DRFListGettable {
 
 // MARK: // Internal
 extension DRFListGettable {
-    static func get_<T: DRFNode>(from node: T?, offset: UInt, limit: UInt?, filters: [T.FilterType], addDefaultFilters: Bool) {
+    static func get_<T: DRFNode>(from node: T?, offset: UInt, limit: UInt, filters: [DRFFilter], addDefaultFilters: Bool) {
         self._get(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
@@ -40,12 +40,12 @@ extension DRFListGettable {
 
 // MARK: // Private
 private extension DRFListGettable {
-    static func _get<T: DRFNode>(from node: T?, offset: UInt, limit: UInt?, filters: [T.FilterType], addDefaultFilters: Bool) {
-        let node: T = node ?? T.defaultNode(for: self)
+    static func _get(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilter], addDefaultFilters: Bool) {
+        let node: DRFNode = node ?? self.defaultNode
         let url: URL = node.absoluteListURL(for: self)
-        let limit: UInt = limit ?? node.defaultLimit(for: self)
+        let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: self)
         
-        var allFilters: [T.FilterType] = filters
+        var allFilters: [DRFFilter] = filters
         if addDefaultFilters {
             if let filteredListGettable = self as? DRFFilteredListGettable.Type {
                 allFilters += node.defaultFilters(for: filteredListGettable)
