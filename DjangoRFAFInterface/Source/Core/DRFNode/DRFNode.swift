@@ -48,7 +48,7 @@ public extension DRFNode {
     }
     
     func parametersFrom(filters: [DRFFilter]) -> Parameters {
-        return filters.reduce(into: [:], { $0[$1.key] = $1.value })
+        return filters.reduce(into: [:], { $0[$1.0.string + $1.1.string] = $1.2 })
     }
 }
 

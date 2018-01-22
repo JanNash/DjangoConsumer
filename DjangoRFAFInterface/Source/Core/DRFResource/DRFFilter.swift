@@ -10,7 +10,29 @@ import Foundation
 
 
 // MARK: // Public
-public protocol DRFFilter {
-    var key: String { get }
-    var value: Any? { get }
+// MARK: - DRFFilter
+public typealias DRFFilter = (DRFFilterKey, DRFFilterComparator, Any?)
+
+
+// MARK: - DRFFilterKey
+public struct DRFFilterKey {
+    // Init
+    public init(_ string: String) {
+        self.string = string
+    }
+    
+    // Internal Variables
+    var string: String = ""
+}
+
+
+// MARK: - DRFFilterComparator
+public struct DRFFilterComparator {
+    // Init
+    public init(_ string: String) {
+        self.string = string
+    }
+    
+    // Internal Variables
+    var string: String = ""
 }
