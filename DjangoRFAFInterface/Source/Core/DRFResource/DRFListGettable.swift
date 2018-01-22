@@ -18,31 +18,41 @@ public protocol DRFListGettable: DRFMetaResource {
     init(json: JSON)
     static var clients: [DRFListGettableClient] { get set }
     static var defaultLimit: UInt { get }
-    static func get(from node: DRFNode, offset: UInt, limit: UInt)
+    static func get<T: DRFNode>(from node: T, offset: UInt, limit: UInt)
 }
 
 
 // MARK: Default Implementations
 public extension DRFListGettable {
-    static func get(from node: DRFNode = Self.defaultNode, offset: UInt = 0, limit: UInt = Self.defaultLimit) {
-        self._get(from: node, offset: offset, limit: limit, filters: [])
+    static func get<T: DRFNode>(from node: T? = nil, offset: UInt = 0, limit: UInt? = nil) {
+        self._get(from: node, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
     }
 }
 
 
 // MARK: // Internal
 extension DRFListGettable {
-    static func get_(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilter]) {
-        self._get(from: node, offset: offset, limit: limit, filters: filters)
+    static func get_<T: DRFNode>(from node: T?, offset: UInt, limit: UInt?, filters: [T.FilterType], addDefaultFilters: Bool) {
+        self._get(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
 
 
 // MARK: // Private
 private extension DRFListGettable {
-    static func _get(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilter]) {
+    static func _get<T: DRFNode>(from node: T?, offset: UInt, limit: UInt?, filters: [T.FilterType], addDefaultFilters: Bool) {
+        let node: T = node ?? T.defaultNode(for: self)
         let url: URL = node.absoluteListURL(for: self)
-        let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
+        let limit: UInt = limit ?? node.defaultLimit(for: self)
+        
+        var allFilters: [T.FilterType] = filters
+        if addDefaultFilters {
+            if let filteredListGettable = self as? DRFFilteredListGettable.Type {
+                allFilters += node.defaultFilters(for: filteredListGettable)
+            }
+        }
+
+        let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: allFilters)
         ValidatedJSONRequest(url: url, parameters: parameters).fire(
             onFailure: { error in
                 self.clients.forEach({

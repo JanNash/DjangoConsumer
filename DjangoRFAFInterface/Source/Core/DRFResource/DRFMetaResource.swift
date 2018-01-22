@@ -10,6 +10,4 @@ import Foundation
 
 
 // MARK: // Public
-public protocol DRFMetaResource {
-    static var defaultNode: DRFNode { get }
-}
+public protocol DRFMetaResource {}

@@ -14,18 +14,32 @@ import SwiftyJSON
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol DRFNode {
+    // Basic Setup
     var baseURL: URL { get }
+    static func defaultNode<T: DRFMetaResource>(for resourceType: T.Type) -> Self
+    
+    // Filtering
+    associatedtype FilterKeyType: DRFFilterKey
+    associatedtype FilterComparatorType: DRFFilterComparator
+    func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [FilterType]
     
     // Parameter Generation
-    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter]) -> Parameters
+    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
-    func parametersFrom(filters: [DRFFilter]) -> Parameters
+    func parametersFrom(filters: [FilterType]) -> Parameters
     
     // List Request and Response Helpers
+    func defaultLimit<T: DRFListGettable>(for resourceType: T.Type) -> UInt
     func paginationType<T: DRFListGettable>(for resourceType: T.Type) -> DRFPagination.Type
     func relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL
     func absoluteListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL
     func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T])
+}
+
+
+// MARK: Typealiases
+public extension DRFNode {
+    public typealias FilterType = (FilterKeyType, FilterComparatorType, Any?)
 }
 
 
@@ -37,9 +51,16 @@ public struct DRFDefaultListResponseKeys {
 
 
 // MARK: Default Implementations
+// MARK: Filtering
+public extension DRFNode {
+    func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [FilterType] {
+        return []
+    }
+}
+
 // MARK: Parameter Generation
 public extension DRFNode {
-    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter] = []) -> Parameters {
+    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
         return self._parametersFrom(offset: offset, limit: limit, filters: filters)
     }
     
@@ -47,7 +68,7 @@ public extension DRFNode {
         return self._parametersFrom(offset: offset, limit: limit)
     }
     
-    func parametersFrom(filters: [DRFFilter]) -> Parameters {
+    func parametersFrom(filters: [FilterType]) -> Parameters {
         return filters.reduce(into: [:], { $0[$1.0.string + $1.1.string] = $1.2 })
     }
 }
@@ -72,7 +93,7 @@ public extension DRFNode {
 // MARK: // Private
 // MARK: Parameter Generation Implementation
 private extension DRFNode {
-    func _parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter] = []) -> Parameters {
+    func _parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
         var parameters: Parameters = [:]
         let writeToParameters: (String, Any) -> Void = { parameters[$0] = $1 }
         self.parametersFrom(offset: offset, limit: limit).forEach(writeToParameters)
