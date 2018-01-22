@@ -18,7 +18,7 @@ public protocol DRFListGettable: DRFMetaResource {
     init(json: JSON)
     static var clients: [DRFListGettableClient] { get set }
     static var defaultLimit: UInt { get }
-    static func get<T: DRFNode>(from node: T, offset: UInt, limit: UInt)
+    static func get<T: DRFNode>(from node: T?, offset: UInt, limit: UInt?)
 }
 
 

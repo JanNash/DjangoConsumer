@@ -13,6 +13,9 @@ import DjangoRFAFInterface
 // MARK: // Internal
 // MARK: Class Declaration
 class TestNode: DRFNode {
+    typealias FilterKeyType = TestFilterKeys
+    typealias FilterComparatorType = TestFilterComparators
+    
     // DRFNode Conformance
     var baseURL: URL = URL(string: "http://localhost:8080")!
     

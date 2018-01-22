@@ -32,11 +32,11 @@ class DjangoRFAFInterfaceTests: XCTestCase {
             var gotObjects: () -> Void = {}
             var failedGettingObjects: () -> Void = {}
             
-            func failedGettingObjects<T: DRFListGettable>(ofType type: T.Type, from node: DRFNode, error: Error, offset: UInt, limit: UInt, filters: [DRFFilter]) {
+            func failedGettingObjects<T, N>(ofType type: T.Type, from node: N, error: Error, offset: UInt, limit: UInt, filters: [(N.FilterKeyType, N.FilterComparatorType, Any?)]) where T : DRFListGettable, N : DRFNode {
                 self.failedGettingObjects()
             }
             
-            func got<T: DRFListGettable>(objects: [T], from node: DRFNode, pagination: DRFPagination, filters: [DRFFilter]) {
+            func got<T, N>(objects: [T], from node: N, pagination: DRFPagination, filters: [(N.FilterKeyType, N.FilterComparatorType, Any?)]) where T : DRFListGettable, N : DRFNode {
                 self.gotObjects()
             }
         }
