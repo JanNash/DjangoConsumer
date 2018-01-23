@@ -14,16 +14,16 @@ import Foundation
 // ???: Is this typealias a good idea? Does it clutter someones namespace?
 // Technically, it's DjangoRFAFInterface._F, so it should be fine, I hope?
 public typealias _F = DRFFilter
-public struct DRFFilter {
+public struct DRFFilter<V> {
     // Init
-    init(_ key: DRFFilterKey, _ comparator: DRFFilterComparator, _ value: Any?) {
+    init(_ key: DRFFilterKey<V>, _ comparator: DRFFilterComparator, _ value: V) {
         self.key = key
         self.comparator = comparator
         self.value = value
     }
     
     // Internal Readonly Variables
-    private(set) var key: DRFFilterKey
+    private(set) var key: DRFFilterKey<V>
     private(set) var comparator: DRFFilterComparator
     private(set) var value: Any?
 }
@@ -57,9 +57,10 @@ enum DefaultFilterKeys: String {
 }
 
 public extension DRFFilterKey {
-    public static var date: DRFFilterKey    { return self.init(.date) }
-    public static var id: DRFFilterKey      { return self.init(.id) }
-    public static var name: DRFFilterKey    { return self.init(.name) }
+    public static var date: DRFFilterKey<Date>      { return self.init(.date) as! DRFFilterKey<Date> }
+    // FIXME: Int should be replaced by Identifier
+    public static var id: DRFFilterKey<Int>         { return self.init(.id) as! DRFFilterKey<Int> }
+    public static var name: DRFFilterKey<String>    { return self.init(.name) as! DRFFilterKey<String> }
 }
 
 
@@ -85,7 +86,7 @@ public extension DRFFilterComparator {
 
 
 // MARK: - DRFFilterKey Struct Declaration
-public struct DRFFilterKey {
+public struct DRFFilterKey<V> {
     // Public Init
     public init(_ string: String) {
         self.string = string
