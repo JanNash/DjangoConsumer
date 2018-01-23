@@ -59,9 +59,9 @@ class BaseTest: XCTestCase {
             XCTFail()
         }
         
-        Foo.clients.append(client)
+        TestListGettable.clients.append(client)
         
-        Foo.get(offset: 0, limit: 100)
+        TestListGettable.get(offset: 0, limit: 100)
         
         self.wait(for: [expectation], timeout: 10)
     }

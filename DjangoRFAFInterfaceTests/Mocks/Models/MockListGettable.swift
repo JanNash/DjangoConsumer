@@ -16,25 +16,21 @@ import DjangoRFAFInterface
 // MARK: Struct Declaration
 struct TestListGettable: DRFListGettable {
     // Init
-    init(id: String, bar: String) {
+    init(id: String) {
         self.id = id
-        self.bar = bar
     }
     
     // Keys
     struct Keys {
         static let id: String = "id"
-        static let bar: String = "bar"
     }
     
     // Variables
     var id: String = "1"
-    var bar: String = "A"
     
     // DRFListGettable
     init(json: JSON) {
         self.id = json[Keys.id].string!
-        self.bar = json[Keys.bar].string!
     }
     
     static var defaultNode: DRFNode = TestNode.main
