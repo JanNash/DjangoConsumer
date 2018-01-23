@@ -91,7 +91,7 @@ public struct DRFFilter<V> {
     
     // Internal Readonly Variables
     private(set) var key: DRFFilterKey<V>
-    private(set) var comparator: DRFFilterComparator<V>
+    private(set) var comparator: DRFFilterComparator
     private(set) var value: Any?
 }
 
@@ -114,7 +114,7 @@ public struct DRFFilterKey<V> {
 
 
 // MARK: - DRFFilterComparator Struct Declaration
-public struct DRFFilterComparator<V> {
+public struct DRFFilterComparator {
     // Public Init
     public init(_ string: String) {
         self.string = string
