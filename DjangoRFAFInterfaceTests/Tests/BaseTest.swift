@@ -13,44 +13,21 @@ import XCTest
 // MARK: // Internal
 // MARK: Class Declaration
 class BaseTest: XCTestCase {
+    // Static Variables
+    static var backend: TestBackend = TestBackend()
+    
     // Variables
-    var backend: TestBackend = TestBackend()
     var node: TestNode = TestNode()
-//    var listGettableClient: TestListGettableClient = TestListGettableClient()
     
     
     // Setup / Teardown Overrides
-    override func setUp() {
+    override class func setUp() {
         super.setUp()
         self.backend.start()
     }
     
-    override func tearDown() {
+    override class func tearDown() {
         self.backend.stop()
         super.tearDown()
-    }
-    
-    func testExample() {
-        let expectation: XCTestExpectation = XCTestExpectation(description: "bla")
-        
-        let now: Date = Date()
-        let a: _F<Date> = _F(.date, .__lte, now)
-        
-        let client: TestListGettableClient = TestListGettableClient()
-        
-//        client.gotObjects = {
-//            expectation.fulfill()
-//        }
-//        
-//        client.failedGettingObjects = {
-//            print("DERP")
-//            XCTFail()
-//        }
-        
-        TestListGettable.clients.append(client)
-        
-        TestListGettable.get(offset: 0, limit: 100)
-        
-        self.wait(for: [expectation], timeout: 10)
     }
 }
