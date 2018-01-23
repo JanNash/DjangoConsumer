@@ -9,7 +9,11 @@
 import XCTest
 @testable import DjangoRFAFInterface
 
+
+// MARK: // Internal
+// MARK: Class Declaration
 class BaseTest: XCTestCase {
+    // Variables
     var backend: TestBackend = TestBackend()
     var node: TestNode = TestNode()
     
