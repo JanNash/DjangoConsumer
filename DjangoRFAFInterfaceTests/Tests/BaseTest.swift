@@ -16,48 +16,36 @@ class BaseTest: XCTestCase {
     // Variables
     var backend: TestBackend = TestBackend()
     var node: TestNode = TestNode()
+//    var listGettableClient: TestListGettableClient = TestListGettableClient()
     
+    
+    // Setup / Teardown Overrides
     override func setUp() {
         super.setUp()
-        
         self.backend.start()
     }
     
     override func tearDown() {
         self.backend.stop()
-        
         super.tearDown()
     }
     
     func testExample() {
         let expectation: XCTestExpectation = XCTestExpectation(description: "bla")
         
-        class FooListGetClient: DRFListGettableClient {
-            var gotObjects: () -> Void = {}
-            var failedGettingObjects: () -> Void = {}
-            
-            func failedGettingObjects<T>(ofType type: T.Type, from node: DRFNode, error: Error, offset: UInt, limit: UInt, filters: [DRFFilter<Any>]) where T : DRFListGettable {
-                self.failedGettingObjects()
-            }
-            
-            func got<T>(objects: [T], from node: DRFNode, pagination: DRFPagination, filters: [DRFFilter<Any>]) where T : DRFListGettable {
-                self.gotObjects()
-            }
-        }
-        
         let now: Date = Date()
         let a: _F<Date> = _F(.date, .__lte, now)
         
-        let client: FooListGetClient = FooListGetClient()
+        let client: TestListGettableClient = TestListGettableClient()
         
-        client.gotObjects = {
-            expectation.fulfill()
-        }
-        
-        client.failedGettingObjects = {
-            print("DERP")
-            XCTFail()
-        }
+//        client.gotObjects = {
+//            expectation.fulfill()
+//        }
+//        
+//        client.failedGettingObjects = {
+//            print("DERP")
+//            XCTFail()
+//        }
         
         TestListGettable.clients.append(client)
         
