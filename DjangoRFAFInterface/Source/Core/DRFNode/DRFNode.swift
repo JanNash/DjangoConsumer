@@ -11,9 +11,6 @@ import Alamofire
 import SwiftyJSON
 
 
-public typealias DRFFilter = (DRFFilterKey, DRFFilterComparator, Any?)
-
-
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol DRFNode {
@@ -63,7 +60,7 @@ public extension DRFNode {
     }
     
     func parametersFrom(filters: [DRFFilter]) -> Parameters {
-        return filters.reduce(into: [:], { $0[$1.0.string + $1.1.string] = $1.2 })
+        return filters.reduce(into: [:], { $0[$1.key.string + $1.comparator.string] = $1.value })
     }
 }
 

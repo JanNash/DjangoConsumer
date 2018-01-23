@@ -41,6 +41,8 @@ class DjangoRFAFInterfaceTests: XCTestCase {
             }
         }
         
+        let filter: DRFFilter = _F(.date, .init("__someOneTimeCustomThing"), Date())
+        
         let client: FooListGetClient = FooListGetClient()
         
         client.gotObjects = {
