@@ -19,15 +19,11 @@ import Foundation
 // >>> let now: Date = Date()
 // >>> _F(.date, .__gte, now)
 //
-// In order to achieve the same little amount of syntactic sugar, one could
-// also dance with associatedtypes in protocols, juggle functions that return
-// custom subclasses of the filter components or do some other dark magic
-// that would very likely either make the compiler or one's head explode.
-// But why would anyone want to do that?
-// (Please don't check the git history of this file :D)
-//
-// By the way, you can submit addition requests to these Defaults via
-// a pull request against https://github.com/JanNash/DjangoRFAFInterface.git
+// I'm still searching for a way to make the comparator protocol typesafe
+// (within reason) but haven't found a working one yet. If you know how,
+// please feel free to send me an email (jnash<at}jnash[dot)de) or
+// submit a pull request. You can also submit addition requests to these Defaults
+// via a pull request against https://github.com/JanNash/DjangoRFAFInterface.git
 
 
 // // // The pattern starts // // //
@@ -55,16 +51,16 @@ public protocol id_Type {}
 
 // MARK: - DRFFilterComparator defaults
 public extension DRFFilterComparator {
-    public static var __lt: DRFFilterComparator<__lt_Type>                { return _C<__lt_Type>(.__lt) }
-    public static var __lte: DRFFilterComparator<__lte_Type>              { return _C<__lte_Type>(.__lte) }
-    public static var __gte: DRFFilterComparator<__gte_Type>              { return _C<__gte_Type>(.__gte) }
-    public static var __gt: DRFFilterComparator<__gt_Type>                { return _C<__gt_Type>(.__gt) }
-    public static var __in: DRFFilterComparator<__in_Type>                { return _C<__in_Type>(.__in) }
-    public static var __icontains: DRFFilterComparator<__icontains_Type>  { return _C<__icontains_Type>(.__icontains) }
+    public static var __lt: DRFFilterComparator         { return _C(.__lt) }
+    public static var __lte: DRFFilterComparator        { return _C(.__lte) }
+    public static var __gte: DRFFilterComparator        { return _C(.__gte) }
+    public static var __gt: DRFFilterComparator         { return _C(.__gt) }
+    public static var __in: DRFFilterComparator         { return _C(.__in) }
+    public static var __icontains: DRFFilterComparator  { return _C(.__icontains) }
     
     // Helpers
     // The class name is simply too long...
-    private typealias _C<V> = DRFFilterComparator<V>
+    private typealias _C = DRFFilterComparator
     
     enum DefaultFilterComparators: String {
         case __lt           = "__lt"
@@ -75,36 +71,6 @@ public extension DRFFilterComparator {
         case __icontains    = "__icontains"
     }
 }
-
-
-// MARK: - DRFFilterComparator Special Types
-public protocol __lt_Type {}
-extension Date: __lt_Type {}
-extension Int: __lt_Type {}
-extension UInt: __lt_Type {}
-extension Double: __lt_Type {}
-
-public protocol __lte_Type {}
-extension Date: __lte_Type {}
-extension Int: __lte_Type {}
-extension UInt: __lte_Type {}
-extension Double: __lte_Type {}
-
-public protocol __gte_Type {}
-extension Date: __gte_Type {}
-extension Int: __gte_Type {}
-extension UInt: __gte_Type {}
-extension Double: __gte_Type {}
-
-public protocol __gt_Type {}
-extension Date: __gt_Type {}
-extension Int: __gt_Type {}
-extension UInt: __gt_Type {}
-extension Double: __gt_Type {}
-
-public protocol __in_Type {}
-
-public protocol __icontains_Type {}
 
 // // // The pattern ends // // //
 
