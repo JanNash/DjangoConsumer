@@ -18,28 +18,21 @@ class ListGettableTest: BaseTest {
 
 // MARK: TestCases
 extension ListGettableTest {
-    func testGettingWithoutOffsetAndLimit() {
+    func testGettingWithoutAnyParameters() {
         let expectation: XCTestExpectation = XCTestExpectation(description: "bla")
         
-        let now: Date = Date()
-        let a: _F<Date> = _F(.date, .__lte, now)
-        
-        let client: TestListGettableClient = TestListGettableClient()
-        
-        client.gotObjects_ = {
+        self.client.gotObjects_ = {
             objects, success in
             expectation.fulfill()
         }
         
-        client.failedGettingObjects_ = {
+        self.client.failedGettingObjects_ = {
             failure in
-            print("DERP")
             XCTFail()
         }
         
-        TestListGettable.clients.append(client)
-        
-        TestListGettable.get(offset: 0, limit: 100)
+        TestListGettable.clients.append(self.client)
+        TestListGettable.get()
         
         self.wait(for: [expectation], timeout: 10)
     }
