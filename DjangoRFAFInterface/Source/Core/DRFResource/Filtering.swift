@@ -13,8 +13,10 @@ import Foundation
 // MARK: - DRFFilterKey & DRFFilterComparator defaults
 //
 // To define custom keys, DRFFilterKey/DRFFilterComparator should be extended
-// the same way as here. Ideally, the struct should be named 'CustomFilterKeys'.
-// This funny pattern is used, so a filter can be written like this:
+// the same way as here. Ideally, the enum should be named 'CustomFilterKeys'
+// but technically it can be named arbitrarily. An enum is preferred to a struct
+// for these keys because it guarantees uniqueness of its raw values.
+// This funny pattern is used so a filter can be written like this:
 //
 // >>> let now: Date = Date()
 // >>> _F(.date, .__gte, now)
