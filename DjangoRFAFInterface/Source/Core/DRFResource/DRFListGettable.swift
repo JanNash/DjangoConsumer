@@ -55,13 +55,13 @@ private extension DRFListGettable {
         ValidatedJSONRequest(url: url, parameters: parameters).fire(
             onSuccess: { result in
                 let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(for: self, from: result)
-                let success: GETObjectListSuccess<Self> = GETObjectListSuccess(
+                let success: GETObjectListSuccess = GETObjectListSuccess(
                     node: node, responsePagination: pagination, offset: offset, limit: limit, filters: allFilters
                 )
                 self.clients.forEach({ $0.gotObjects(objects: objects, with: success) })
             },
             onFailure: { error in
-                let failure: GETObjectListFailure<Self> = GETObjectListFailure(
+                let failure: GETObjectListFailure = GETObjectListFailure(
                     objectType: self, node: node, error: error, offset: offset, limit: limit, filters: allFilters
                 )
                 self.clients.forEach({ $0.failedGettingObjects(with: failure) })

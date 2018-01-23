@@ -11,7 +11,7 @@ import Foundation
 
 // MARK: // Public
 // MARK: - GETObjectListSuccess
-public struct GETObjectListSuccess<T: DRFListGettable> {
+public struct GETObjectListSuccess {
     var node: DRFNode
     var responsePagination: DRFPagination
     var offset: UInt
@@ -20,8 +20,8 @@ public struct GETObjectListSuccess<T: DRFListGettable> {
 }
 
 // MARK: - GETObjectListFailure
-public struct GETObjectListFailure<T: DRFListGettable> {
-    var objectType: T.Type
+public struct GETObjectListFailure {
+    var objectType: DRFListGettable.Type
     var node: DRFNode
     var error: Error
     var offset: UInt
@@ -33,6 +33,6 @@ public struct GETObjectListFailure<T: DRFListGettable> {
 // MARK: - DRFListGettableClient
 // MARK: Protocol Declaration
 public protocol DRFListGettableClient: class {
-    func gotObjects<T>(objects: [T], with success: GETObjectListSuccess<T>)
-    func failedGettingObjects<T>(with failure: GETObjectListFailure<T>)
+    func gotObjects(objects: [DRFListGettable], with success: GETObjectListSuccess)
+    func failedGettingObjects(with failure: GETObjectListFailure)
 }

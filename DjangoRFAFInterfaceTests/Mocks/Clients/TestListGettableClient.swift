@@ -13,6 +13,14 @@ import DjangoRFAFInterface
 // MARK: // Internal
 // MARK: Class Declaration
 class TestListGettableClient: DRFListGettableClient {
-    func gotObjects<T>(objects: [T], with success: GETObjectListSuccess<T>) {}
-    func failedGettingObjects<T>(with failure: GETObjectListFailure<T>) {}
+    var gotObjects_: ([DRFListGettable], GETObjectListSuccess) -> Void = { _, _ in }
+    var failedGettingObjects_: (GETObjectListFailure) -> Void = { _ in }
+    
+    func gotObjects(objects: [DRFListGettable], with success: GETObjectListSuccess) {
+        self.gotObjects_(objects, success)
+    }
+    
+    func failedGettingObjects(with failure: GETObjectListFailure) {
+        self.failedGettingObjects_(failure)
+    }
 }
