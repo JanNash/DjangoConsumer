@@ -83,7 +83,7 @@ public extension DRFFilterComparator {
 public typealias _F = DRFFilter
 public struct DRFFilter<V> {
     // Init
-    init(_ key: DRFFilterKey<V>, _ comparator: DRFFilterComparator<V>, _ value: V) {
+    public init(_ key: DRFFilterKey<V>, _ comparator: DRFFilterComparator, _ value: V) {
         self.key = key
         self.comparator = comparator
         self.value = value
