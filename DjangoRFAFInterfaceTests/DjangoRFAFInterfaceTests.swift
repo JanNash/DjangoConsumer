@@ -32,16 +32,16 @@ class DjangoRFAFInterfaceTests: XCTestCase {
             var gotObjects: () -> Void = {}
             var failedGettingObjects: () -> Void = {}
             
-            func failedGettingObjects<T>(ofType type: T.Type, from node: DRFNode, error: Error, offset: UInt, limit: UInt, filters: [DRFFilter]) where T : DRFListGettable {
+            func failedGettingObjects<T>(ofType type: T.Type, from node: DRFNode, error: Error, offset: UInt, limit: UInt, filters: [DRFFilter<Any>]) where T : DRFListGettable {
                 self.failedGettingObjects()
             }
             
-            func got<T>(objects: [T], from node: DRFNode, pagination: DRFPagination, filters: [DRFFilter]) where T : DRFListGettable {
+            func got<T>(objects: [T], from node: DRFNode, pagination: DRFPagination, filters: [DRFFilter<Any>]) where T : DRFListGettable {
                 self.gotObjects()
             }
         }
         
-        let filter: DRFFilter = _F(.date, .init("__someOneTimeCustomThing"), Date())
+        let _: DRFFilter = _F(.date, .init("__someOneTimeCustomThing"), Date())
         
         let client: FooListGetClient = FooListGetClient()
         
