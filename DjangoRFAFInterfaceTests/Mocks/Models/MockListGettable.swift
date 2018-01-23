@@ -26,7 +26,7 @@ struct TestListGettable: DRFListGettable {
     }
     
     // Variables
-    var id: String = "1"
+    private(set) var id: String = "0"
     
     // DRFListGettable
     init(json: JSON) {
