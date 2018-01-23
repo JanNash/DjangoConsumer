@@ -16,7 +16,7 @@ import Foundation
 public typealias _F = DRFFilter
 public struct DRFFilter<V> {
     // Init
-    init(_ key: DRFFilterKey<V>, _ comparator: DRFFilterComparator, _ value: V) {
+    init(_ key: DRFFilterKey<V>, _ comparator: DRFFilterComparator<V>, _ value: V) {
         self.key = key
         self.comparator = comparator
         self.value = value
@@ -24,7 +24,7 @@ public struct DRFFilter<V> {
     
     // Internal Readonly Variables
     private(set) var key: DRFFilterKey<V>
-    private(set) var comparator: DRFFilterComparator
+    private(set) var comparator: DRFFilterComparator<V>
     private(set) var value: Any?
 }
 
@@ -76,12 +76,12 @@ enum DefaultFilterComparators: String {
 
 
 public extension DRFFilterComparator {
-    public static var __lt: DRFFilterComparator         { return self.init(.__lt) }
-    public static var __lte: DRFFilterComparator        { return self.init(.__lte) }
-    public static var __gte: DRFFilterComparator        { return self.init(.__gte) }
-    public static var __gt: DRFFilterComparator         { return self.init(.__gt) }
-    public static var __in: DRFFilterComparator         { return self.init(.__in) }
-    public static var __icontains: DRFFilterComparator  { return self.init(.__icontains) }
+    public static var __lt: DRFFilterComparator<Date>           { return self.init(.__lt) as! DRFFilterComparator<Date> }
+    public static var __lte: DRFFilterComparator<Date>          { return self.init(.__lte) as! DRFFilterComparator<Date> }
+    public static var __gte: DRFFilterComparator<Date>          { return self.init(.__gte) as! DRFFilterComparator<Date> }
+    public static var __gt: DRFFilterComparator<Date>           { return self.init(.__gt) as! DRFFilterComparator<Date> }
+    public static var __in: DRFFilterComparator<Int>            { return self.init(.__in) as! DRFFilterComparator<Int> }
+    public static var __icontains: DRFFilterComparator<String>  { return self.init(.__icontains) as! DRFFilterComparator<String> }
 }
 
 
@@ -103,7 +103,7 @@ public struct DRFFilterKey<V> {
 
 
 // MARK: - DRFFilterComparator Struct Declaration
-public struct DRFFilterComparator {
+public struct DRFFilterComparator<V> {
     // Public Init
     public init(_ string: String) {
         self.string = string
