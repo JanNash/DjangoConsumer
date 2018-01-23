@@ -35,9 +35,9 @@ class TestBackend: MockBackend {
     }
     
     
-    // Private Variables
+    // Constants
     // Fixtures
-    private var _testListGettables: [TestListGettable] = [
+    let testListGettables: [TestListGettable] = [
         TestListGettable(id: "1"),
         TestListGettable(id: "2"),
         TestListGettable(id: "3"),
@@ -57,7 +57,7 @@ private extension TestBackend {
     }
     
     func _fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
-        if objectType == TestListGettable.self { return self._testListGettables as! [T] }
+        if objectType == TestListGettable.self { return self.testListGettables as! [T] }
         return []
     }
     
