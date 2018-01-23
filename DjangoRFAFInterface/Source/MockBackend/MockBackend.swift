@@ -182,12 +182,13 @@ private extension MockBackend {
                 objectDicts = filteredObjects[offset...endIndex].map(self.createJSONDict)
             }
             
+            // TODO: Calculate pagination response values for next and previous
             return [
                 _ListResponseKeys.meta: [
                     _PaginationKeys.limit: limit,
-                    _PaginationKeys.next: nil, // TODO:
+                    _PaginationKeys.next: nil,
                     _PaginationKeys.offset: offset,
-                    _PaginationKeys.previous: nil, // TODO:
+                    _PaginationKeys.previous: nil,
                     _PaginationKeys.totalCount: totalCount
                 ],
                 _ListResponseKeys.results: objectDicts
