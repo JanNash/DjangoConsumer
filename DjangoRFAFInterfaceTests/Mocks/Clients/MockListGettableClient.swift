@@ -1,5 +1,5 @@
 //
-//  TestListGettableClient.swift
+//  MockListGettableClient.swift
 //  DjangoRFAFInterfaceTests
 //
 //  Created by Jan Nash (privat) on 23.01.18.
@@ -12,7 +12,7 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Class Declaration
-class TestListGettableClient: DRFListGettableClient {
+class MockListGettableClient: DRFListGettableClient {
     var gotObjects_: ([DRFListGettable], GETObjectListSuccess) -> Void = { _, _ in }
     var failedGettingObjects_: (GETObjectListFailure) -> Void = { _ in }
     

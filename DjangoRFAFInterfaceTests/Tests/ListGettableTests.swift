@@ -12,7 +12,7 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 class ListGettableTest: BaseTest {
-    var client: TestListGettableClient = TestListGettableClient()
+    var client: MockListGettableClient = MockListGettableClient()
 }
 
 
@@ -31,8 +31,8 @@ extension ListGettableTest {
             XCTFail()
         }
         
-        TestListGettable.clients.append(self.client)
-        TestListGettable.get()
+        MockListGettable.clients.append(self.client)
+        MockListGettable.get()
         
         self.wait(for: [expectation], timeout: 10)
     }

@@ -37,7 +37,7 @@ final class TestNode: DRFNode {
 private extension TestNode {
     func _relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
-        if resourceType == TestListGettable.self {
+        if resourceType == MockListGettable.self {
             return URL(string: "listgettables")!
         }
         return URL(string: "")!

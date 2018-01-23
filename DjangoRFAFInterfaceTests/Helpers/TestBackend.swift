@@ -37,13 +37,13 @@ class TestBackend: MockBackend {
     
     // Constants
     // Fixtures
-    let testListGettables: [TestListGettable] = [
-        TestListGettable(id: "1"),
-        TestListGettable(id: "2"),
-        TestListGettable(id: "3"),
-        TestListGettable(id: "4"),
-        TestListGettable(id: "5"),
-        TestListGettable(id: "6"),
+    let mockListGettables: [MockListGettable] = [
+        MockListGettable(id: "1"),
+        MockListGettable(id: "2"),
+        MockListGettable(id: "3"),
+        MockListGettable(id: "4"),
+        MockListGettable(id: "5"),
+        MockListGettable(id: "6"),
     ]
 }
 
@@ -57,15 +57,15 @@ private extension TestBackend {
     }
     
     func _fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
-        if objectType == TestListGettable.self { return self.testListGettables as! [T] }
+        if objectType == MockListGettable.self { return self.mockListGettables as! [T] }
         return []
     }
     
     // General
     func _createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
-        if let testListGettable: TestListGettable = object as? TestListGettable {
+        if let testListGettable: MockListGettable = object as? MockListGettable {
             return [
-                TestListGettable.Keys.id : testListGettable.id,
+                MockListGettable.Keys.id : testListGettable.id,
             ]
         }
         return [:]
@@ -76,6 +76,6 @@ private extension TestBackend {
 // MARK: Add Routes
 private extension TestBackend {
     func _addRoutes() {
-        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: TestListGettable.self)))
+        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: MockListGettable.self)))
     }
 }
