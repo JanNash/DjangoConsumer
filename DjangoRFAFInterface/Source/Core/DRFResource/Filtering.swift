@@ -110,6 +110,12 @@ public struct DRFFilterKey<V> {
     
     // Readonly
     private(set) var string: String
+    
+    // Functions
+    // Key Concatenation
+    func __<T>(_ keyToAppend: DRFFilterKey<T>) -> DRFFilterKey<T> {
+        return DRFFilterKey<T>(self.string + "__" + keyToAppend.string)
+    }
 }
 
 
