@@ -14,16 +14,16 @@ import XCTest
 // MARK: Class Declaration
 class BaseTest: XCTestCase {
     // Static Variables
-    static var backend: TestBackend = TestBackend()
+    var backend: TestBackend = TestBackend()
     
     
     // Setup / Teardown Overrides
-    override class func setUp() {
+    override func setUp() {
         super.setUp()
         self.backend.start()
     }
     
-    override class func tearDown() {
+    override func tearDown() {
         self.backend.stopAndReset()
         super.tearDown()
     }
