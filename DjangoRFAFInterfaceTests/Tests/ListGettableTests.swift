@@ -36,7 +36,32 @@ extension ListGettableTest {
             description: "Expected to successfully get some objects"
         )
         
-        self.client.gotObjects_ = { _, _ in
+        let defaultLimit: UInt = MockListGettable.defaultNode.defaultLimit(for: MockListGettable.self)
+        let backendMaximumLimit: UInt = BaseTest.backend.maximumPaginationLimit(for: MockListGettable.self)
+        let calculatedLimit: UInt = min(defaultLimit, backendMaximumLimit)
+        var objects: [MockListGettable] = BaseTest.backend.fixtures(for: MockListGettable.self)
+        if calculatedLimit < objects.count {
+            objects = Array(objects[0..<Int(calculatedLimit)])
+        }
+        
+        self.client.gotObjects_ = {
+            returnedObjects, success in
+            
+            guard let returnedCastObjects: [MockListGettable] = returnedObjects as? [MockListGettable] else {
+                XCTFail("Wrong object type returned, expected '[MockListGettable]', got '\(type(of: returnedObjects))' instead")
+                return
+            }
+            
+            for (obj1, obj2) in zip(objects, returnedCastObjects) {
+                XCTAssertEqual(obj1.id, obj2.id)
+            }
+            
+            XCTAssertEqual(success.offset, 0)
+            XCTAssertEqual(success.limit, defaultLimit)
+            XCTAssertEqual(success.filters.count, 0)
+            XCTAssertEqual(success.responsePagination.offset, 0)
+            XCTAssertEqual(success.responsePagination.limit, calculatedLimit)
+            
             expectation.fulfill()
         }
         
