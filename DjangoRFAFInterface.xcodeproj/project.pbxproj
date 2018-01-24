@@ -15,6 +15,7 @@
 		41193ED5D845B27CEFC8F2689D193E58 /* MockListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AC8FE4ECE170EC1AEFEFD1DBC63113 /* MockListGettableClient.swift */; };
 		6031212D0075C8E1E299AB16593CF371 /* MockListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60103521F171CAFC77CB43E3C9C163C5 /* MockListGettable.swift */; };
 		6B07E96CE3C98D514161A4338255EF18 /* Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6AA7283D896D6F0DB5C0A260AE4EEB /* Filtering.swift */; };
+		7602DE915213E9316181EB79C121CFA0 /* FilteredListGettableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63154DFFF1C0B8CF666D76666CCA04D7 /* FilteredListGettableTests.swift */; };
 		7E3C361D7063ECF2AADFFF68E2E9EB17 /* DRFMetaResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92FB8FAF45470AF53E6F89835DFD86F4 /* DRFMetaResource.swift */; };
 		96BE4772C2EE59C37AC0ECE093B86A06 /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72D3AC1736454C2EA799CDE73A31991 /* BaseTest.swift */; };
 		999945F5DB36C7ED426B0736D8E1F1E6 /* MockNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB62C712CBFE583826113D08FDEA9B /* MockNode.swift */; };
@@ -48,6 +49,7 @@
 		4DFE60167526E9C2D24C0783A6EAA4CD /* ListGettableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableTests.swift; sourceTree = "<group>"; };
 		5945BE5084DBD8F2FC31CB6C59045680 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		60103521F171CAFC77CB43E3C9C163C5 /* MockListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettable.swift; sourceTree = "<group>"; };
+		63154DFFF1C0B8CF666D76666CCA04D7 /* FilteredListGettableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettableTests.swift; sourceTree = "<group>"; };
 		64D1B41CCA3794F3CE0FE914ACE255AC /* DRFFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFFilteredListGettable.swift; sourceTree = "<group>"; };
 		840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoRFAFInterfaceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84107B26D52B76B5BE19348C2DEA86B2 /* DjangoRFAFInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjangoRFAFInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				B72D3AC1736454C2EA799CDE73A31991 /* BaseTest.swift */,
+				63154DFFF1C0B8CF666D76666CCA04D7 /* FilteredListGettableTests.swift */,
 				4DFE60167526E9C2D24C0783A6EAA4CD /* ListGettableTests.swift */,
 			);
 			path = Tests;
@@ -483,6 +486,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96BE4772C2EE59C37AC0ECE093B86A06 /* BaseTest.swift in Sources */,
+				7602DE915213E9316181EB79C121CFA0 /* FilteredListGettableTests.swift in Sources */,
 				114B2AA36675C5BFAE57C0E133ACDBB0 /* ListGettableTests.swift in Sources */,
 				6031212D0075C8E1E299AB16593CF371 /* MockListGettable.swift in Sources */,
 				41193ED5D845B27CEFC8F2689D193E58 /* MockListGettableClient.swift in Sources */,
