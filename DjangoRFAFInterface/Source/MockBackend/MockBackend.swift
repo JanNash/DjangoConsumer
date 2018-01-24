@@ -30,7 +30,7 @@ extension MockBackend {
     }
     
     public func resetRouter() {
-        self._router = Router()
+        self._resetRouter()
     }
     
     // Adding / Removing Routes
@@ -142,13 +142,19 @@ private extension MockBackend {
     
     func _stopAndReset() {
         // Stop
-        self._server.stopAndWait()
+        self._server.stop()
         self._loop.stop()
         
         // Reset
         self._loop = self._createLoop()
         self._backgroundQueue = self._createBackgroundQueue()
         self._server = self._createServer()
+    }
+    
+    func _resetRouter() {
+        let newRouter: Router = Router()
+        self._router = newRouter
+        self._server.app = newRouter.app
     }
 }
 
