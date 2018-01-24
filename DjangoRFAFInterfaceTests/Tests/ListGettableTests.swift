@@ -36,7 +36,8 @@ extension ListGettableTest {
             description: "Expected to successfully get some objects"
         )
         
-        let defaultLimit: UInt = MockListGettable.defaultNode.defaultLimit(for: MockListGettable.self)
+        let defaultNode: TestNode = MockListGettable.defaultNode as! TestNode
+        let defaultLimit: UInt = defaultNode.defaultLimit(for: MockListGettable.self)
         let backendMaximumLimit: UInt = BaseTest.backend.maximumPaginationLimit(for: MockListGettable.self)
         let calculatedLimit: UInt = min(defaultLimit, backendMaximumLimit)
         var objects: [MockListGettable] = BaseTest.backend.fixtures(for: MockListGettable.self)
@@ -56,6 +57,7 @@ extension ListGettableTest {
                 XCTAssertEqual(obj1.id, obj2.id)
             }
             
+            XCTAssertEqual(ObjectIdentifier(success.node as! TestNode), ObjectIdentifier(defaultNode))
             XCTAssertEqual(success.offset, 0)
             XCTAssertEqual(success.limit, defaultLimit)
             XCTAssertEqual(success.filters.count, 0)
@@ -80,6 +82,7 @@ extension ListGettableTest {
         )
         
         let givenLimit: UInt = 5
+        let defaultNode: TestNode = MockListGettable.defaultNode as! TestNode
         let backendMaximumLimit: UInt = BaseTest.backend.maximumPaginationLimit(for: MockListGettable.self)
         let calculatedLimit: UInt = min(givenLimit, backendMaximumLimit)
         var objects: [MockListGettable] = BaseTest.backend.fixtures(for: MockListGettable.self)
@@ -99,6 +102,7 @@ extension ListGettableTest {
                 XCTAssertEqual(obj1.id, obj2.id)
             }
             
+            XCTAssertEqual(ObjectIdentifier(success.node as! TestNode), ObjectIdentifier(defaultNode))
             XCTAssertEqual(success.offset, 0)
             XCTAssertEqual(success.limit, givenLimit)
             XCTAssertEqual(success.filters.count, 0)
@@ -123,7 +127,8 @@ extension ListGettableTest {
         )
         
         let givenOffset: UInt = 2
-        let defaultLimit: UInt = MockListGettable.defaultNode.defaultLimit(for: MockListGettable.self)
+        let defaultNode: TestNode = MockListGettable.defaultNode as! TestNode
+        let defaultLimit: UInt = defaultNode.defaultLimit(for: MockListGettable.self)
         let backendMaximumLimit: UInt = BaseTest.backend.maximumPaginationLimit(for: MockListGettable.self)
         let calculatedLimit: UInt = min(defaultLimit, backendMaximumLimit)
         var objects: [MockListGettable] = BaseTest.backend.fixtures(for: MockListGettable.self)
@@ -145,6 +150,7 @@ extension ListGettableTest {
                 XCTAssertEqual(obj1.id, obj2.id)
             }
             
+            XCTAssertEqual(ObjectIdentifier(success.node as! TestNode), ObjectIdentifier(defaultNode))
             XCTAssertEqual(success.offset, givenOffset)
             XCTAssertEqual(success.limit, defaultLimit)
             XCTAssertEqual(success.filters.count, 0)
