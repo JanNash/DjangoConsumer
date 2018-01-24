@@ -31,7 +31,7 @@ class ListGettableTest: BaseTest {
 
 // MARK: TestCases
 extension ListGettableTest {
-    func testGettingWithoutAnyParameters() {
+    func testGETWithoutParameters() {
         let expectation: XCTestExpectation = XCTestExpectation(
             description: "Expected to successfully get some objects"
         )
@@ -70,6 +70,95 @@ extension ListGettableTest {
         }
         
         MockListGettable.get()
+        
+        self.wait(for: [expectation], timeout: 1)
+    }
+    
+    func testGETWithGivenLimit() {
+        let expectation: XCTestExpectation = XCTestExpectation(
+            description: "Expected to successfully get some objects"
+        )
+        
+        let givenLimit: UInt = 5
+        let backendMaximumLimit: UInt = BaseTest.backend.maximumPaginationLimit(for: MockListGettable.self)
+        let calculatedLimit: UInt = min(givenLimit, backendMaximumLimit)
+        var objects: [MockListGettable] = BaseTest.backend.fixtures(for: MockListGettable.self)
+        if calculatedLimit < objects.count {
+            objects = Array(objects[0..<Int(calculatedLimit)])
+        }
+        
+        self.client.gotObjects_ = {
+            returnedObjects, success in
+            
+            guard let returnedCastObjects: [MockListGettable] = returnedObjects as? [MockListGettable] else {
+                XCTFail("Wrong object type returned, expected '[MockListGettable]', got '\(type(of: returnedObjects))' instead")
+                return
+            }
+            
+            for (obj1, obj2) in zip(objects, returnedCastObjects) {
+                XCTAssertEqual(obj1.id, obj2.id)
+            }
+            
+            XCTAssertEqual(success.offset, 0)
+            XCTAssertEqual(success.limit, givenLimit)
+            XCTAssertEqual(success.filters.count, 0)
+            XCTAssertEqual(success.responsePagination.offset, 0)
+            XCTAssertEqual(success.responsePagination.limit, calculatedLimit)
+            
+            expectation.fulfill()
+        }
+        
+        self.client.failedGettingObjects_ = {
+            XCTFail("Failed getting objects with failure: \($0)")
+        }
+        
+        MockListGettable.get(limit: givenLimit)
+        
+        self.wait(for: [expectation], timeout: 1)
+    }
+    
+    func testGETWithGivenOffset() {
+        let expectation: XCTestExpectation = XCTestExpectation(
+            description: "Expected to successfully get some objects"
+        )
+        
+        let givenOffset: UInt = 2
+        let defaultLimit: UInt = MockListGettable.defaultNode.defaultLimit(for: MockListGettable.self)
+        let backendMaximumLimit: UInt = BaseTest.backend.maximumPaginationLimit(for: MockListGettable.self)
+        let calculatedLimit: UInt = min(defaultLimit, backendMaximumLimit)
+        var objects: [MockListGettable] = BaseTest.backend.fixtures(for: MockListGettable.self)
+        if calculatedLimit < objects.count {
+            objects = Array(objects[Int(givenOffset)..<Int(givenOffset + calculatedLimit)])
+        } else {
+            objects = Array(objects[Int(givenOffset)..<objects.count])
+        }
+        
+        self.client.gotObjects_ = {
+            returnedObjects, success in
+            
+            guard let returnedCastObjects: [MockListGettable] = returnedObjects as? [MockListGettable] else {
+                XCTFail("Wrong object type returned, expected '[MockListGettable]', got '\(type(of: returnedObjects))' instead")
+                return
+            }
+            
+            for (obj1, obj2) in zip(objects, returnedCastObjects) {
+                XCTAssertEqual(obj1.id, obj2.id)
+            }
+            
+            XCTAssertEqual(success.offset, givenOffset)
+            XCTAssertEqual(success.limit, defaultLimit)
+            XCTAssertEqual(success.filters.count, 0)
+            XCTAssertEqual(success.responsePagination.offset, givenOffset)
+            XCTAssertEqual(success.responsePagination.limit, calculatedLimit)
+            
+            expectation.fulfill()
+        }
+        
+        self.client.failedGettingObjects_ = {
+            XCTFail("Failed getting objects with failure: \($0)")
+        }
+        
+        MockListGettable.get(offset: givenOffset)
         
         self.wait(for: [expectation], timeout: 1)
     }
