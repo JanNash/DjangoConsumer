@@ -1,8 +1,8 @@
 //
-//  Foo.swift
+//  MockFilteredListGettable.swift
 //  DjangoRFAFInterfaceTests
 //
-//  Created by Jan Nash (privat) on 19.01.18.
+//  Created by Jan Nash (privat) on 24.01.18.
 //  Copyright © 2018 Kitenow. All rights reserved.
 //
 
@@ -13,7 +13,7 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockListGettable: DRFListGettable {
+struct MockFilteredListGettable: DRFListGettable {
     // Init
     init(id: String) {
         self.id = id
