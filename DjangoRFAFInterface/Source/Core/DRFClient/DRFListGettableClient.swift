@@ -12,26 +12,26 @@ import Foundation
 // MARK: // Public
 // MARK: - GETObjectListSuccess
 public struct GETObjectListSuccess {
-    var node: DRFNode
-    var responsePagination: DRFPagination
-    var offset: UInt
-    var limit: UInt
-    var filters: [DRFFilter<Any>]
+    public var node: DRFNode
+    public var responsePagination: DRFPagination
+    public var offset: UInt
+    public var limit: UInt
+    public var filters: [DRFFilter<Any>]
 }
+
 
 // MARK: - GETObjectListFailure
 public struct GETObjectListFailure {
-    var objectType: DRFListGettable.Type
-    var node: DRFNode
-    var error: Error
-    var offset: UInt
-    var limit: UInt
-    var filters: [DRFFilter<Any>]
+    public var objectType: DRFListGettable.Type
+    public var node: DRFNode
+    public var error: Error
+    public var offset: UInt
+    public var limit: UInt
+    public var filters: [DRFFilter<Any>]
 }
 
 
 // MARK: - DRFListGettableClient
-// MARK: Protocol Declaration
 public protocol DRFListGettableClient: class {
     func gotObjects(objects: [DRFListGettable], with success: GETObjectListSuccess)
     func failedGettingObjects(with failure: GETObjectListFailure)
