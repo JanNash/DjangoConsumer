@@ -29,10 +29,6 @@ extension MockBackend {
         self._stop()
     }
     
-    public func restart() {
-        self._restart()
-    }
-    
     // Adding / Removing Routes
     public func addRoute(_ route: Route) {
         self._router[route.relativeEndpoint.absoluteString] = route.response
@@ -59,6 +55,7 @@ open class MockBackend {
     
     // Fixture creation
     open func fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
+        // ???: Should an override be forced by a fatal error here?
         // Fixtures can either be created dynamically inside this function,
         // or, to improve performance, they can be saved to variables which
         // are then returned from this function.
@@ -130,7 +127,7 @@ private extension MockBackend {
 private extension MockBackend {
     func _start() {
         try! self._server.start()
-        self._backgroundQueue.async {
+        self._backgroundQueue.async() {
             self._loop.runForever()
         }
     }
@@ -138,11 +135,6 @@ private extension MockBackend {
     func _stop() {
         self._server.stop()
         self._loop.stop()
-    }
-    
-    func _restart() {
-        self.stop()
-        self.start()
     }
 }
 
