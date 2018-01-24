@@ -24,7 +24,7 @@ class BaseTest: XCTestCase {
     }
     
     override class func tearDown() {
-        self.backend.stop()
+        self.backend.stopAndReset()
         super.tearDown()
     }
 }

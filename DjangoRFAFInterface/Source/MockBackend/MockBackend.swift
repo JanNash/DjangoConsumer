@@ -20,13 +20,17 @@ extension MockBackend {
     public typealias Route = (relativeEndpoint: URL, response: WebApp)
     
     // Functions
-    // Start / Stop
+    // Start / Stop & Reset
     public func start() {
         self._start()
     }
     
-    public func stop() {
-        self._stop()
+    public func stopAndReset() {
+        self._stopAndReset()
+    }
+    
+    public func resetRouter() {
+        self._router = Router()
     }
     
     // Adding / Removing Routes
@@ -93,11 +97,11 @@ open class MockBackend {
     // Private Static Constants
     private static let _queryStringKey: String = "QUERY_STRING"
     
-    // Private Constants
-    private let _loop: SelectorEventLoop = try! SelectorEventLoop(selector: try! KqueueSelector())
-    private let _router: Router = Router()
+    // Private Variable
+    private var _router: Router = Router()
     
     // Private Lazy Variables
+    private lazy var _loop: SelectorEventLoop = self._createLoop()
     private lazy var _backgroundQueue: DispatchQueue = self._createBackgroundQueue()
     private lazy var _server: HTTPServer = self._createServer()
 }
@@ -106,6 +110,10 @@ open class MockBackend {
 // MARK: // Private
 // MARK: Lazy Variable Creation
 private extension MockBackend {
+    func _createLoop() -> SelectorEventLoop {
+        return try! SelectorEventLoop(selector: try! KqueueSelector())
+    }
+    
     func _createBackgroundQueue() -> DispatchQueue {
         return DispatchQueue(
             label: "LocalNode-BackgroundQueue",
@@ -132,9 +140,15 @@ private extension MockBackend {
         }
     }
     
-    func _stop() {
-        self._server.stop()
+    func _stopAndReset() {
+        // Stop
+        self._server.stopAndWait()
         self._loop.stop()
+        
+        // Reset
+        self._loop = self._createLoop()
+        self._backgroundQueue = self._createBackgroundQueue()
+        self._server = self._createServer()
     }
 }
 
