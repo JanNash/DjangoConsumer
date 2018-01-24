@@ -16,9 +16,6 @@ class BaseTest: XCTestCase {
     // Static Variables
     static var backend: TestBackend = TestBackend()
     
-    // Variables
-    var node: TestNode = TestNode()
-    
     
     // Setup / Teardown Overrides
     override class func setUp() {
