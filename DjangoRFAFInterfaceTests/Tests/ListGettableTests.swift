@@ -215,6 +215,10 @@ extension ListGettableTest {
     }
     
     func testGETFailure() {
+        // Resetting the router, so the request will not be answered by the backend
+        // and thus, the request will fail, which is what we wanted to test here.
+        self.backend.resetRouter()
+        
         let expectation: XCTestExpectation = XCTestExpectation(
             description: "Expected to fail getting some objects"
         )
