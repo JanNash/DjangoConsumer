@@ -11,28 +11,10 @@ import DjangoRFAFInterface
 
 
 // MARK: // Internal
-class ListGettableTest: BaseTest {
-    // Variables
-    var client: MockListGettableClient = MockListGettableClient()
-    
-    
-    // Setup / Teardown Overrides
-    override func setUp() {
-        super.setUp()
-        MockListGettable.clients.append(self.client)
-    }
-    
-    override func tearDown() {
-        MockListGettable.clients = []
-        super.tearDown()
-    }
-}
-
-
-// MARK: TestCases
-extension ListGettableTest {
+// MARK: Tests for ListGettable
+extension TestCase {
     func testGETWithoutParameters() {
-        let expectation: XCTestExpectation = XCTestExpectation(
+        let expectation: XCTestExpectation = self.expectation(
             description: "Expected to successfully get some objects"
         )
         
@@ -45,7 +27,10 @@ extension ListGettableTest {
             objects = Array(objects[0..<Int(calculatedLimit)])
         }
         
-        self.client.gotObjects_ = {
+        let client: MockListGettableClient = MockListGettableClient()
+        MockListGettable.clients = [client]
+        
+        client.gotObjects_ = {
             returnedObjects, success in
             
             guard let returnedCastObjects: [MockListGettable] = returnedObjects as? [MockListGettable] else {
@@ -67,17 +52,19 @@ extension ListGettableTest {
             expectation.fulfill()
         }
         
-        self.client.failedGettingObjects_ = {
+        client.failedGettingObjects_ = {
             XCTFail("Failed getting objects with failure: \($0)")
         }
         
         MockListGettable.get()
         
-        self.wait(for: [expectation], timeout: 1)
+        self.waitForExpectations(timeout: 1) { _ in
+            MockListGettable.clients = []
+        }
     }
     
     func testGETWithGivenLimit() {
-        let expectation: XCTestExpectation = XCTestExpectation(
+        let expectation: XCTestExpectation = self.expectation(
             description: "Expected to successfully get some objects"
         )
         
@@ -90,7 +77,10 @@ extension ListGettableTest {
             objects = Array(objects[0..<Int(calculatedLimit)])
         }
         
-        self.client.gotObjects_ = {
+        let client: MockListGettableClient = MockListGettableClient()
+        MockListGettable.clients = [client]
+        
+        client.gotObjects_ = {
             returnedObjects, success in
             
             guard let returnedCastObjects: [MockListGettable] = returnedObjects as? [MockListGettable] else {
@@ -112,17 +102,19 @@ extension ListGettableTest {
             expectation.fulfill()
         }
         
-        self.client.failedGettingObjects_ = {
+        client.failedGettingObjects_ = {
             XCTFail("Failed getting objects with failure: \($0)")
         }
         
         MockListGettable.get(limit: givenLimit)
         
-        self.wait(for: [expectation], timeout: 1)
+        self.waitForExpectations(timeout: 1) { _ in
+            MockListGettable.clients = []
+        }
     }
     
     func testGETWithGivenOffset() {
-        let expectation: XCTestExpectation = XCTestExpectation(
+        let expectation: XCTestExpectation = self.expectation(
             description: "Expected to successfully get some objects"
         )
         
@@ -138,7 +130,10 @@ extension ListGettableTest {
             objects = Array(objects[Int(givenOffset)..<objects.count])
         }
         
-        self.client.gotObjects_ = {
+        let client: MockListGettableClient = MockListGettableClient()
+        MockListGettable.clients = [client]
+        
+        client.gotObjects_ = {
             returnedObjects, success in
             
             guard let returnedCastObjects: [MockListGettable] = returnedObjects as? [MockListGettable] else {
@@ -160,17 +155,19 @@ extension ListGettableTest {
             expectation.fulfill()
         }
         
-        self.client.failedGettingObjects_ = {
+        client.failedGettingObjects_ = {
             XCTFail("Failed getting objects with failure: \($0)")
         }
         
         MockListGettable.get(offset: givenOffset)
         
-        self.wait(for: [expectation], timeout: 1)
+        self.waitForExpectations(timeout: 1) { _ in
+            MockListGettable.clients = []
+        }
     }
     
     func testGETWithDifferentNodeWithoutParameters() {
-        let expectation: XCTestExpectation = XCTestExpectation(
+        let expectation: XCTestExpectation = self.expectation(
             description: "Expected to successfully get some objects"
         )
         
@@ -183,7 +180,10 @@ extension ListGettableTest {
             objects = Array(objects[0..<Int(calculatedLimit)])
         }
         
-        self.client.gotObjects_ = {
+        let client: MockListGettableClient = MockListGettableClient()
+        MockListGettable.clients = [client]
+        
+        client.gotObjects_ = {
             returnedObjects, success in
             
             guard let returnedCastObjects: [MockListGettable] = returnedObjects as? [MockListGettable] else {
@@ -205,13 +205,15 @@ extension ListGettableTest {
             expectation.fulfill()
         }
         
-        self.client.failedGettingObjects_ = {
+        client.failedGettingObjects_ = {
             XCTFail("Failed getting objects with failure: \($0)")
         }
         
         MockListGettable.get(from: node)
         
-        self.wait(for: [expectation], timeout: 1)
+        self.waitForExpectations(timeout: 1) { _ in
+            MockListGettable.clients = []
+        }
     }
     
     func testGETFailure() {
@@ -219,20 +221,25 @@ extension ListGettableTest {
         // and thus, the request will fail, which is what we wanted to test here.
         self.backend.resetRouter()
         
-        let expectation: XCTestExpectation = XCTestExpectation(
+        let expectation: XCTestExpectation = self.expectation(
             description: "Expected to fail getting some objects"
         )
         
-        self.client.gotObjects_ = {
+        let client: MockListGettableClient = MockListGettableClient()
+        MockListGettable.clients = [client]
+        
+        client.gotObjects_ = {
             XCTFail("Unexpectedly got objects \($0) with success: \($1)")
         }
         
-        self.client.failedGettingObjects_ = { _ in
+        client.failedGettingObjects_ = { _ in
             expectation.fulfill()
         }
         
         MockListGettable.get()
         
-        self.wait(for: [expectation], timeout: 10)
+        self.waitForExpectations(timeout: 2) { _ in
+            MockListGettable.clients = []
+        }
     }
 }

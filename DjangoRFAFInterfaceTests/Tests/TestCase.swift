@@ -12,7 +12,7 @@ import XCTest
 
 // MARK: // Internal
 // MARK: Class Declaration
-class BaseTest: XCTestCase {
+class TestCase: XCTestCase {
     // Static Variables
     var backend: TestBackend = TestBackend()
     

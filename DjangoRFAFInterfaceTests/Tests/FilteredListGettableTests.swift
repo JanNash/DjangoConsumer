@@ -11,27 +11,23 @@ import DjangoRFAFInterface
 
 
 // MARK: // Internal
-class FilteredListGettableTest: BaseTest {
-    var client: MockListGettableClient = MockListGettableClient()
-}
-
-
-// MARK: TestCases
-extension FilteredListGettableTest {
+// MARK: Tests for FilteredListGettable
+extension TestCase {
     func testGettingWithoutAnyParameters() {
         let expectation: XCTestExpectation = XCTestExpectation(description: "bla")
         
-        self.client.gotObjects_ = {
+        let client: MockListGettableClient = MockListGettableClient()
+        client.gotObjects_ = {
             objects, success in
             expectation.fulfill()
         }
         
-        self.client.failedGettingObjects_ = {
+        client.failedGettingObjects_ = {
             failure in
             XCTFail()
         }
         
-        MockListGettable.clients.append(self.client)
+        MockListGettable.clients.append(client)
         MockListGettable.get()
         
         self.wait(for: [expectation], timeout: 10)
