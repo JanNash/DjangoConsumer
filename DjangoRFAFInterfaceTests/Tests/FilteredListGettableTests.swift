@@ -18,15 +18,18 @@ extension TestCase {
             description: "Expected to successfully get some objects"
         )
         
-        let defaultNode: TestNode = MockFilteredListGettable.defaultNode as! TestNode
+        typealias FixtureClass = MockFilteredListGettable
+        
+        let defaultNode: TestNode = FixtureClass.defaultNode as! TestNode
+        let expectedEndpoint: URL = defaultNode.relativeListURL(for: FixtureClass.self)
         
         // Calculate expected pagination limit
-        let defaultLimit: UInt = defaultNode.defaultLimit(for: MockListGettable.self)
-        let backendMaximumLimit: UInt = self.backend.maximumPaginationLimit(for: MockFilteredListGettable.self)
+        let defaultLimit: UInt = defaultNode.defaultLimit(for: FixtureClass.self)
+        let backendMaximumLimit: UInt = self.backend.maximumPaginationLimit(for: expectedEndpoint)
         let expectedPaginationLimit: UInt = min(defaultLimit, backendMaximumLimit)
         
         // Get all fixtures
-        var objects: [MockFilteredListGettable] = self.backend.fixtures(for: MockFilteredListGettable.self)
+        var objects: [FixtureClass] = self.backend.fixtures(for: expectedEndpoint) as! [FixtureClass]
         
         // Generate filters
         let date: Date = Date()
@@ -35,6 +38,8 @@ extension TestCase {
             _F(.date, .__lte, date),
             _F(.name, .__icontains, name)
         ]
+        
+        // FIXME: Apply filters to object array
         
         if expectedPaginationLimit < objects.count {
             objects = Array(objects[0..<Int(expectedPaginationLimit)])
