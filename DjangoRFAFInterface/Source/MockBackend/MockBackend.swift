@@ -84,14 +84,14 @@ open class MockBackend {
     }
     
     // Pagination for GET list endpoints
-    open var defaultDefaultPaginationLimit: UInt = 100
+    open var instanceDefaultPaginationLimit: UInt = 100
     open func defaultPaginationLimit(for endpoint: URL) -> UInt {
-        return self.defaultDefaultPaginationLimit
+        return self.instanceDefaultPaginationLimit
     }
     
-    open var defaultMaximumPaginationLimit: UInt = 200
+    open var instanceMaximumPaginationLimit: UInt = 200
     open func maximumPaginationLimit(for endpoint: URL) -> UInt {
-        return self.defaultMaximumPaginationLimit
+        return self.instanceMaximumPaginationLimit
     }
     
     
