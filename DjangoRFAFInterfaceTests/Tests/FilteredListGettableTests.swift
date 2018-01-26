@@ -18,18 +18,20 @@ extension TestCase {
             description: "Expected to successfully get some objects"
         )
         
-        typealias FixtureClass = MockFilteredListGettable
+        // Define Fixture type
+        typealias FixtureType = MockFilteredListGettable
         
-        let defaultNode: TestNode = FixtureClass.defaultNode as! TestNode
-        let expectedEndpoint: URL = defaultNode.relativeListURL(for: FixtureClass.self)
+        // Get expected node and endpoint
+        let expectedNode: TestNode = FixtureType.defaultNode as! TestNode
+        let expectedEndpoint: URL = expectedNode.relativeListURL(for: FixtureType.self)
         
         // Calculate expected pagination limit
-        let defaultLimit: UInt = defaultNode.defaultLimit(for: FixtureClass.self)
+        let defaultLimit: UInt = expectedNode.defaultLimit(for: FixtureType.self)
         let backendMaximumLimit: UInt = self.backend.maximumPaginationLimit(for: expectedEndpoint)
         let expectedPaginationLimit: UInt = min(defaultLimit, backendMaximumLimit)
         
         // Get all fixtures
-        var objects: [FixtureClass] = self.backend.fixtures(for: expectedEndpoint) as! [FixtureClass]
+        var objects: [FixtureType] = self.backend.fixtures(for: expectedEndpoint) as! [FixtureType]
         
         // Generate filters
         let date: Date = Date()
@@ -60,7 +62,7 @@ extension TestCase {
                 XCTAssertEqual(obj1.id, obj2.id)
             }
             
-            XCTAssertEqual(ObjectIdentifier(success.node as! TestNode), ObjectIdentifier(defaultNode))
+            XCTAssertEqual(ObjectIdentifier(success.node as! TestNode), ObjectIdentifier(expectedNode))
             XCTAssertEqual(success.offset, 0)
             XCTAssertEqual(success.limit, defaultLimit)
             XCTAssertEqual(success.filters.count, 0)
