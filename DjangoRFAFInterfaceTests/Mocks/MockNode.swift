@@ -43,6 +43,6 @@ private extension TestNode {
             return URL(string: "filteredlistgettables")!
         }
         // FIXME: Throw a real Error here?
-        fatalError("No URL registered for '\(resourceType)'")
+        fatalError("[TestNode] No URL registered for '\(resourceType)'")
     }
 }
