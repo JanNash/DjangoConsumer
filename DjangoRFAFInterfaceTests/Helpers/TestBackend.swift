@@ -22,12 +22,12 @@ class TestBackend: MockBackend {
     // Overrides
     // List GET
     override func filterClosure(for queryParameters: Parameters, with endpoint: URL) -> FilterClosure {
-        return self._filterClosure(for: queryParameters, with: objectType)
+        return self._filterClosure(for: queryParameters, with: endpoint)
     }
     
     // General
     override func fixtures(for endpoint: URL) -> [DRFListGettable] {
-        return self._fixtures(for: objectType)
+        return self._fixtures(for: endpoint)
     }
     
     override func createJSONDict(from object: DRFListGettable) -> [String : Any] {
@@ -68,7 +68,7 @@ private extension TestBackend {
 //        } else if objectType == MockFilteredListGettable.self {
             return { _ in return true }
 //        }
-        fatalError("[TestBackend] No filter closure defined for '\(objectType)'")
+        fatalError("[TestBackend] No filter closure defined for '\(endpoint)'")
     }
     
     func _fixtures(for endpoint: URL) -> [DRFListGettable] {
@@ -78,7 +78,7 @@ private extension TestBackend {
 //            return self.mockListGettables as! [T]
 //        }
         return []
-        fatalError("[TestBackend] No fixtures defined for '\(objectType)'")
+        fatalError("[TestBackend] No fixtures defined for '\(endpoint)'")
     }
     
     // General
@@ -103,7 +103,7 @@ private extension TestBackend {
 // MARK: Add Routes
 private extension TestBackend {
     func _addRoutes() {
-        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: MockListGettable.self)))
-        self.addRoute((URL(string: "filteredlistgettables")!, self.createPaginatedListResponse(for: MockFilteredListGettable.self)))
+//        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: MockListGettable.self)))
+//        self.addRoute((URL(string: "filteredlistgettables")!, self.createPaginatedListResponse(for: MockFilteredListGettable.self)))
     }
 }
