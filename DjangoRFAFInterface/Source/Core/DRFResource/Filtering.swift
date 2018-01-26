@@ -77,16 +77,30 @@ public extension DRFFilterComparator {
 // // // The pattern ends // // //
 
 
+// MARK: - DRFFilterType
+// This is needed, so it's possible to create Arrays
+// containing DRFFilters with different generic types
+public protocol DRFFilterType {
+    var stringKey: String { get }
+    var value: Any? { get }
+}
+
+
 // MARK: - DRFFilter Struct Declaration
 // ???: Is this typealias a good idea? Does it clutter someones namespace?
 // Technically, it's DjangoRFAFInterface._F, so it should be fine, I hope?
-public typealias _F = DRFFilter
-public struct DRFFilter<V> {
+public typealias _F<V> = DRFFilter<V>
+public struct DRFFilter<V>: DRFFilterType {
     // Init
     public init(_ key: DRFFilterKey<V>, _ comparator: DRFFilterComparator, _ value: V) {
         self.key = key
         self.comparator = comparator
         self.value = value
+    }
+    
+    // DRFFilterType Conformance
+    public var stringKey: String {
+        return self.key.string + self.comparator.string
     }
     
     // Public Readonly Variables

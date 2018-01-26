@@ -16,7 +16,7 @@ public struct GETObjectListSuccess {
     public var responsePagination: DRFPagination
     public var offset: UInt
     public var limit: UInt
-    public var filters: [DRFFilter<Any>]
+    public var filters: [DRFFilterType]
 }
 
 
@@ -27,7 +27,7 @@ public struct GETObjectListFailure {
     public var error: Error
     public var offset: UInt
     public var limit: UInt
-    public var filters: [DRFFilter<Any>]
+    public var filters: [DRFFilterType]
 }
 
 

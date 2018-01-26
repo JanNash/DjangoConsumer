@@ -39,7 +39,10 @@ private extension TestNode {
         // ???: Didn't get a switch to work properly, what is the right syntax?
         if resourceType == MockListGettable.self {
             return URL(string: "listgettables")!
+        } else if resourceType == MockFilteredListGettable.self {
+            return URL(string: "filteredlistgettables")!
         }
-        return URL(string: "")!
+        // FIXME: Throw a real Error here?
+        fatalError("No URL registered for '\(resourceType)'")
     }
 }

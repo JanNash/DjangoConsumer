@@ -30,12 +30,11 @@ extension TestCase {
         
         // Generate filters
         let date: Date = Date()
-        let dateFilter: _F<Date> = _F(.date, .__lte, date)
-        
         let name: String = "A"
-        let nameFilter: _F<String> = _F(.name, .__icontains, name)
-        
-//        let filters = [dateFilter, nameFilter]
+        let filters: [DRFFilterType] = [
+            _F(.date, .__lte, date),
+            _F(.name, .__icontains, name)
+        ]
         
         if expectedPaginationLimit < objects.count {
             objects = Array(objects[0..<Int(expectedPaginationLimit)])
@@ -70,7 +69,7 @@ extension TestCase {
             XCTFail("Failed getting objects with failure: \($0)")
         }
         
-//        MockFilteredListGettable.get(filters: )
+        MockFilteredListGettable.get(filters: filters)
         
         self.waitForExpectations(timeout: 1) { _ in
             MockFilteredListGettable.clients = []

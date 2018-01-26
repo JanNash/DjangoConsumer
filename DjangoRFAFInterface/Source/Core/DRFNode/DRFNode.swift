@@ -18,12 +18,12 @@ public protocol DRFNode {
     var baseURL: URL { get }
     
     // Filtering
-    func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [DRFFilter<Any>]
+    func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [DRFFilterType]
     
     // Parameter Generation
-    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter<Any>]) -> Parameters
+    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilterType]) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
-    func parametersFrom(filters: [DRFFilter<Any>]) -> Parameters
+    func parametersFrom(filters: [DRFFilterType]) -> Parameters
     
     // List Request and Response Helpers
     func defaultLimit<T: DRFListGettable>(for resourceType: T.Type) -> UInt
@@ -44,7 +44,7 @@ public struct DRFDefaultListResponseKeys {
 // MARK: Default Implementations
 // MARK: Filtering
 public extension DRFNode {
-    func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [DRFFilter<Any>] {
+    func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [DRFFilterType] {
         return []
     }
 }
@@ -52,7 +52,7 @@ public extension DRFNode {
 
 // MARK: Parameter Generation
 public extension DRFNode {
-    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter<Any>] = []) -> Parameters {
+    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilterType] = []) -> Parameters {
         return self._parametersFrom(offset: offset, limit: limit, filters: filters)
     }
     
@@ -60,8 +60,8 @@ public extension DRFNode {
         return self._parametersFrom(offset: offset, limit: limit)
     }
     
-    func parametersFrom(filters: [DRFFilter<Any>]) -> Parameters {
-        return filters.reduce(into: [:], { $0[$1.key.string + $1.comparator.string] = $1.value })
+    func parametersFrom(filters: [DRFFilterType]) -> Parameters {
+        return filters.reduce(into: [:], { $0[$1.stringKey] = $1.value })
     }
 }
 
@@ -85,7 +85,7 @@ public extension DRFNode {
 // MARK: // Private
 // MARK: Parameter Generation Implementation
 private extension DRFNode {
-    func _parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter<Any>] = []) -> Parameters {
+    func _parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilterType] = []) -> Parameters {
         var parameters: Parameters = [:]
         let writeToParameters: (String, Any) -> Void = { parameters[$0] = $1 }
         self.parametersFrom(offset: offset, limit: limit).forEach(writeToParameters)

@@ -31,7 +31,7 @@ public extension DRFListGettable {
 
 // MARK: // Internal
 extension DRFListGettable {
-    static func get_(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilter<Any>], addDefaultFilters: Bool) {
+    static func get_(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
         self._get(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
@@ -39,12 +39,12 @@ extension DRFListGettable {
 
 // MARK: // Private
 private extension DRFListGettable {
-    static func _get(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilter<Any>], addDefaultFilters: Bool) {
+    static func _get(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
         let node: DRFNode = node ?? self.defaultNode
         let url: URL = node.absoluteListURL(for: self)
         let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: self)
         
-        var allFilters: [DRFFilter] = filters
+        var allFilters: [DRFFilterType] = filters
         if addDefaultFilters {
             if let filteredListGettable = self as? DRFFilteredListGettable.Type {
                 allFilters += node.defaultFilters(for: filteredListGettable)
