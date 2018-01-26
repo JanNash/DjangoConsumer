@@ -17,7 +17,8 @@ import EnvoyAmbassador
 // MARK: Public Interface
 extension MockBackend {
     // Typealiases
-    public typealias Route = (relativeEndpoint: URL, response: WebApp)
+    public typealias Response = (URL) -> WebApp
+    public typealias Route = (relativeEndpoint: URL, responseFor: Response)
     public typealias FilterClosure = (DRFListGettable) -> Bool
     
     // Functions
@@ -36,7 +37,7 @@ extension MockBackend {
     
     // Adding / Removing Routes
     public func addRoute(_ route: Route) {
-        self._router[route.relativeEndpoint.absoluteString] = route.response
+        self._addRoute(route)
     }
     
     public func removeRoute(_ route: Route) {
@@ -78,8 +79,8 @@ open class MockBackend {
     open var port: Int = 8080
     
     // Route Creation
-    open func createPaginatedListResponse(for endpoint: URL) -> WebApp {
-        return self._createPaginatedListResponse(for: endpoint)
+    open func paginatedListResponse(for endpoint: URL) -> WebApp {
+        return self._paginatedListResponse(for: endpoint)
     }
     
     // Pagination for GET list endpoints
@@ -174,15 +175,25 @@ private extension MockBackend {
 }
 
 
+// MARK: Add Route Implementation
+private extension MockBackend {
+    func _addRoute(_ route: Route) {
+        let relativeEndpoint: URL = route.relativeEndpoint
+        let webApp: WebApp = route.responseFor(relativeEndpoint)
+        self._router[relativeEndpoint.absoluteString] = webApp
+    }
+}
+
+
 // MARK: Create List Route
 private extension MockBackend {
-    func _createPaginatedListResponse(for endpoint: URL) -> WebApp {
+    func _paginatedListResponse(for relativeEndpoint: URL) -> WebApp {
         return JSONResponse() {
             let urlParameters: _URLParameters = self._readURLParameters(fromEnviron: $0)
-            let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: endpoint)
-            let filterClosure: FilterClosure = self.filterClosure(for: urlParameters.filters, with: endpoint)
+            let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: relativeEndpoint)
+            let filterClosure: FilterClosure = self.filterClosure(for: urlParameters.filters, with: relativeEndpoint)
             
-            let allObjects: [DRFListGettable] = self.fixtures(for: endpoint)
+            let allObjects: [DRFListGettable] = self.fixtures(for: relativeEndpoint)
             let filteredObjects: [DRFListGettable] = allObjects.filter(filterClosure)
             // ???: How does DRF calculate the totalCount, for all objects or only for the filtered list?
             let totalCount: Int = filteredObjects.count
@@ -192,7 +203,7 @@ private extension MockBackend {
             if offset < totalEndIndex {
                 let endIndexOffset: Int = limit - 1
                 let endIndex = min(offset + endIndexOffset, totalEndIndex)
-                let mapper: (DRFListGettable) -> [String : Any] = { self.createJSONDict(from: $0, for: endpoint) }
+                let mapper: (DRFListGettable) -> [String : Any] = { self.createJSONDict(from: $0, for: relativeEndpoint) }
                 objectDicts = filteredObjects[offset...endIndex].map(mapper)
             }
             
