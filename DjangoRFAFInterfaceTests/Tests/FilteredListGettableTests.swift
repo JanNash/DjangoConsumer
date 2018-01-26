@@ -67,7 +67,7 @@ extension TestCase {
         }()
         
         // Create and connect client
-        let client: MockListGettableClient = MockListGettableClient()
+        let client: ClientType = ClientType()
         FixtureType.clients = [client]
         
         // Set client method implementations
