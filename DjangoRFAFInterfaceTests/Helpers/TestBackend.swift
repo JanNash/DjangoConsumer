@@ -65,7 +65,7 @@ class TestBackend: MockBackend {
 // MARK: Override Implementations
 private extension TestBackend {
     func _addRoutes() {
-        self.addRoute((self.mockListGettableURL, self.paginatedListResponse))
+        self.addRoute((self.mockListGettablesURL, self.paginatedListResponse))
 //        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: MockListGettable.self)))
 //        self.addRoute((URL(string: "filteredlistgettables")!, self.createPaginatedListResponse(for: MockFilteredListGettable.self)))
     }
@@ -73,43 +73,36 @@ private extension TestBackend {
     // List GET
     func _filterClosure(for queryParameters: Parameters, with endpoint: URL) -> FilterClosure {
         switch endpoint {
-        case URL(string: "listgettables")!:
-            return { _ in return true }
-        case URL(string: "filteredlistgettables")!:
-            return { _ in return true }
-        default:
-            fatalError("[TestBackend] No filter closure defined for '\(endpoint)'")
+        case self.mockListGettablesURL:         return { _ in return true }
+        case self.mockFilteredListGettablesURL: return { _ in return true }
+        default: fatalError("[TestBackend] No filter closure defined for '\(endpoint)'")
         }
     }
     
     func _fixtures(for endpoint: URL) -> [DRFListGettable] {
         switch endpoint {
-        case URL(string: "listgettables")!:
-            return self.mockListGettables
-        case URL(string: "filteredlistgettables")!:
-            return self.mockFilteredListGettables
-        default:
-            fatalError("[TestBackend] No fixtures defined for '\(endpoint)'")
+        case self.mockListGettablesURL:         return self.mockListGettables
+        case self.mockFilteredListGettablesURL: return self.mockFilteredListGettables
+        default: fatalError("[TestBackend] No fixtures defined for '\(endpoint)'")
         }
     }
     
     // General
     func _createJSONDict(from object: DRFListGettable, for endpoint: URL) -> [String : Any] {
         switch endpoint {
-        case URL(string: "listgettables")!:
+        case self.mockListGettablesURL:
             let listGettable: MockListGettable = object as! MockListGettable
             return [
                 MockListGettable.Keys.id : listGettable.id,
             ]
-        case URL(string: "filteredlistgettables")!:
+        case self.mockFilteredListGettablesURL:
             let filteredListGettable: MockFilteredListGettable = object as! MockFilteredListGettable
             return [
                 MockFilteredListGettable.Keys.id : filteredListGettable.id,
                 MockFilteredListGettable.Keys.date : filteredListGettable.date,
                 MockFilteredListGettable.Keys.name : filteredListGettable.name,
             ]
-        default:
-            fatalError("[TestBackend] No mapping defined for '\(object)'")
+        default: fatalError("[TestBackend] No mapping defined for '\(object)'")
         }
     }
 }
