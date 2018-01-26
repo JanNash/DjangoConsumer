@@ -89,15 +89,15 @@ public struct DRFFilter<V> {
         self.value = value
     }
     
-    // Internal Readonly Variables
-    private(set) var key: DRFFilterKey<V>
-    private(set) var comparator: DRFFilterComparator
-    private(set) var value: Any?
+    // Public Readonly Variables
+    public private(set) var key: DRFFilterKey<V>
+    public private(set) var comparator: DRFFilterComparator
+    public private(set) var value: Any?
 }
 
 
 // MARK: - DRFFilterKey Struct Declaration
-public struct DRFFilterKey<V> {
+public struct DRFFilterKey<V>: Equatable {
     // Public Init
     public init(_ string: String) {
         self.string = string
@@ -116,11 +116,20 @@ public struct DRFFilterKey<V> {
     func __<T>(_ keyToAppend: DRFFilterKey<T>) -> DRFFilterKey<T> {
         return DRFFilterKey<T>(self.string + "__" + keyToAppend.string)
     }
+    
+    // Equatability
+    public static func ==<T>(_ lhs: DRFFilterKey<T>, _ rhs: DRFFilterKey<T>) -> Bool {
+        return lhs.string == rhs.string
+    }
+    
+    public static func !=<T>(_ lhs: DRFFilterKey<T>, _ rhs: DRFFilterKey<T>) -> Bool {
+        return lhs.string != rhs.string
+    }
 }
 
 
 // MARK: - DRFFilterComparator Struct Declaration
-public struct DRFFilterComparator {
+public struct DRFFilterComparator: Equatable {
     // Public Init
     public init(_ string: String) {
         self.string = string
@@ -133,4 +142,13 @@ public struct DRFFilterComparator {
     
     // Readonly
     private(set) var string: String
+    
+    // Equatability
+    public static func ==(_ lhs: DRFFilterComparator, _ rhs: DRFFilterComparator) -> Bool {
+        return lhs.string == rhs.string
+    }
+    
+    public static func !=(_ lhs: DRFFilterComparator, _ rhs: DRFFilterComparator) -> Bool {
+        return lhs.string != rhs.string
+    }
 }
