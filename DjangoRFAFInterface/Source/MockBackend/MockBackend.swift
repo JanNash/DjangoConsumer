@@ -79,8 +79,8 @@ open class MockBackend {
     open var port: Int = 8080
     
     // Route Creation
-    open func paginatedListResponse(for endpoint: URL) -> WebApp {
-        return self._paginatedListResponse(for: endpoint)
+    open func paginatedListResponse(relativeEndpoint: URL) -> WebApp {
+        return self._paginatedListResponse(for: relativeEndpoint)
     }
     
     // Pagination for GET list endpoints
