@@ -18,6 +18,7 @@ import EnvoyAmbassador
 extension MockBackend {
     // Typealiases
     public typealias Route = (relativeEndpoint: URL, response: WebApp)
+    public typealias FilterClosure = (DRFListGettable) -> Bool
     
     // Functions
     // Start / Stop & Reset
@@ -52,13 +53,13 @@ open class MockBackend {
     // Overridables //
     // Quite necessary
     // Filtering for GET list endpoints
-    open func filterClosure<T: DRFListGettable>(for queryParameters: Parameters, with objectType: T.Type) -> ((T) -> Bool) {
+    open func filterClosure(for queryParameters: Parameters, with endpoint: URL) -> FilterClosure {
         // ???: Should an override be forced by a fatal error here?
         return { _ in true }
     }
     
     // Fixture creation
-    open func fixtures<T: DRFListGettable>(for objectType: T.Type) -> [T] {
+    open func fixtures(for endpoint: URL) -> [DRFListGettable] {
         // ???: Should an override be forced by a fatal error here?
         // Fixtures can either be created dynamically inside this function,
         // or, to improve performance, they can be saved to variables which
@@ -67,7 +68,7 @@ open class MockBackend {
     }
     
     // Converting objects to JSON dictionaries
-    open func createJSONDict<T: DRFListGettable>(from object: T) -> [String : Any] {
+    open func createJSONDict(from object: DRFListGettable) -> [String : Any] {
         // ???: Should an override be forced by a fatal error here?
         return [:]
     }
@@ -77,18 +78,18 @@ open class MockBackend {
     open var port: Int = 8080
     
     // Route Creation
-    open func createPaginatedListResponse<T: DRFListGettable>(for objectType: T.Type) -> WebApp {
-        return self._createPaginatedListResponse(for: objectType)
+    open func createPaginatedListResponse(for endpoint: URL) -> WebApp {
+        return self._createPaginatedListResponse(for: endpoint)
     }
     
     // Pagination for GET list endpoints
     open var defaultDefaultPaginationLimit: UInt = 100
-    open func defaultPaginationLimit(for objectType: DRFListGettable.Type) -> UInt {
+    open func defaultPaginationLimit(for endpoint: URL) -> UInt {
         return self.defaultDefaultPaginationLimit
     }
     
     open var defaultMaximumPaginationLimit: UInt = 200
-    open func maximumPaginationLimit(for objectType: DRFListGettable.Type) -> UInt {
+    open func maximumPaginationLimit(for endpoint: URL) -> UInt {
         return self.defaultMaximumPaginationLimit
     }
     
@@ -175,14 +176,14 @@ private extension MockBackend {
 
 // MARK: Create List Route
 private extension MockBackend {
-    func _createPaginatedListResponse<T: DRFListGettable>(for objectType: T.Type) -> WebApp {
+    func _createPaginatedListResponse(for endpoint: URL) -> WebApp {
         return JSONResponse() {
             let urlParameters: _URLParameters = self._readURLParameters(fromEnviron: $0)
-            let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: objectType)
-            let filterClosure: (T) -> Bool = self.filterClosure(for: urlParameters.filters, with: objectType)
+            let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: endpoint)
+            let filterClosure: FilterClosure = self.filterClosure(for: urlParameters.filters, with: endpoint)
             
-            let allObjects: [T] = self.fixtures(for: objectType)
-            let filteredObjects: [T] = allObjects.filter(filterClosure)
+            let allObjects: [DRFListGettable] = self.fixtures(for: endpoint)
+            let filteredObjects: [DRFListGettable] = allObjects.filter(filterClosure)
             // ???: How does DRF calculate the totalCount, for all objects or only for the filtered list?
             let totalCount: Int = filteredObjects.count
             let totalEndIndex: Int = totalCount - 1
@@ -226,9 +227,9 @@ private extension MockBackend {
         )
     }
     
-    func _processPagination<T: DRFListGettable>(_ pagination: _Pagination, for objectType: T.Type) -> (limit: Int, offset: Int) {
-        let defaultLimit: Int = Int(self.defaultPaginationLimit(for: objectType))
-        let maximumLimit: Int = Int(self.maximumPaginationLimit(for: objectType))
+    func _processPagination(_ pagination: _Pagination, for endpoint: URL) -> (limit: Int, offset: Int) {
+        let defaultLimit: Int = Int(self.defaultPaginationLimit(for: endpoint))
+        let maximumLimit: Int = Int(self.maximumPaginationLimit(for: endpoint))
         var limit: Int = min(maximumLimit, pagination.limit ?? defaultLimit)
         if limit <= 0 {
             // ???: Actual DRF API behaviour?
