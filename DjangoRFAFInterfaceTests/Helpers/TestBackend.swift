@@ -30,8 +30,8 @@ class TestBackend: MockBackend {
         return self._fixtures(for: endpoint)
     }
     
-    override func createJSONDict(from object: DRFListGettable) -> [String : Any] {
-        return self._createJSONDict(from: object)
+    override func createJSONDict(from object: DRFListGettable, for endpoint: URL) -> [String : Any] {
+        return self._createJSONDict(from: object, for: endpoint)
     }
     
     
@@ -63,39 +63,45 @@ class TestBackend: MockBackend {
 private extension TestBackend {
     // List GET
     func _filterClosure(for queryParameters: Parameters, with endpoint: URL) -> FilterClosure {
-//        if objectType == MockListGettable.self {
-//            return { _ in return true }
-//        } else if objectType == MockFilteredListGettable.self {
+        switch endpoint {
+        case URL(string: "listgettables")!:
             return { _ in return true }
-//        }
-        fatalError("[TestBackend] No filter closure defined for '\(endpoint)'")
+        case URL(string: "filteredlistgettables")!:
+            return { _ in return true }
+        default:
+            fatalError("[TestBackend] No filter closure defined for '\(endpoint)'")
+        }
     }
     
     func _fixtures(for endpoint: URL) -> [DRFListGettable] {
-//        if objectType == MockListGettable.self {
-//            return self.mockListGettables as! [T]
-//        } else if objectType == MockFilteredListGettable.self {
-//            return self.mockListGettables as! [T]
-//        }
-        return []
-        fatalError("[TestBackend] No fixtures defined for '\(endpoint)'")
+        switch endpoint {
+        case URL(string: "listgettables")!:
+            return self.mockListGettables
+        case URL(string: "filteredlistgettables")!:
+            return self.mockFilteredListGettables
+        default:
+            fatalError("[TestBackend] No fixtures defined for '\(endpoint)'")
+        }
     }
     
     // General
-    func _createJSONDict(from object: DRFListGettable) -> [String : Any] {
-//        if let listGettable: MockListGettable = object as? MockListGettable {
-//            return [
-//                MockListGettable.Keys.id : listGettable.id,
-//            ]
-//        } else if let filteredListGettable: MockFilteredListGettable = object as? MockFilteredListGettable {
-//            return [
-//                MockFilteredListGettable.Keys.id : filteredListGettable.id,
-//                MockFilteredListGettable.Keys.date : filteredListGettable.date,
-//                MockFilteredListGettable.Keys.name : filteredListGettable.name,
-//            ]
-//        }
-        return [:]
-        fatalError("[TestBackend] No mapping defined for '\(object)'")
+    func _createJSONDict(from object: DRFListGettable, for endpoint: URL) -> [String : Any] {
+        switch endpoint {
+        case URL(string: "listgettables")!:
+            let listGettable: MockListGettable = object as! MockListGettable
+            return [
+                MockListGettable.Keys.id : listGettable.id,
+            ]
+        case URL(string: "filteredlistgettables")!:
+            let filteredListGettable: MockFilteredListGettable = object as! MockFilteredListGettable
+            return [
+                MockFilteredListGettable.Keys.id : filteredListGettable.id,
+                MockFilteredListGettable.Keys.date : filteredListGettable.date,
+                MockFilteredListGettable.Keys.name : filteredListGettable.name,
+            ]
+        default:
+            fatalError("[TestBackend] No mapping defined for '\(object)'")
+        }
     }
 }
 

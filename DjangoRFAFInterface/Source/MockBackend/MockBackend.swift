@@ -68,7 +68,7 @@ open class MockBackend {
     }
     
     // Converting objects to JSON dictionaries
-    open func createJSONDict(from object: DRFListGettable) -> [String : Any] {
+    open func createJSONDict(from object: DRFListGettable, for endpoint: URL) -> [String : Any] {
         // ???: Should an override be forced by a fatal error here?
         return [:]
     }
@@ -192,7 +192,8 @@ private extension MockBackend {
             if offset < totalEndIndex {
                 let endIndexOffset: Int = limit - 1
                 let endIndex = min(offset + endIndexOffset, totalEndIndex)
-                objectDicts = filteredObjects[offset...endIndex].map(self.createJSONDict)
+                let mapper: (DRFListGettable) -> [String : Any] = { self.createJSONDict(from: $0, for: endpoint) }
+                objectDicts = filteredObjects[offset...endIndex].map(mapper)
             }
             
             // TODO: Calculate pagination response values for next and previous

@@ -53,7 +53,7 @@ extension TestCase {
         
         // Get expected fixtures
         let expectedFixtures: [FixtureType] = {
-            var fixtures: [FixtureType] = self.backend.fixtures(for: expectedEndpoint) as! [FixtureType]
+            let fixtures: [FixtureType] = self.backend.fixtures(for: expectedEndpoint) as! [FixtureType]
         
             // FIXME: Apply filters to object array
             let filteredFixtures: [FixtureType] = fixtures
