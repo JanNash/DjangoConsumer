@@ -36,6 +36,9 @@ class TestBackend: MockBackend {
     
     
     // Constants
+    let mockListGettableURL: URL            = URL(string: "listgettables")!
+    let mockFilteredListGettablesURL: URL   = URL(string: "filteredlistgettables")!
+    
     // Fixtures
     let mockListGettables: [MockListGettable] = [
         MockListGettable(id: "1"),
@@ -61,6 +64,12 @@ class TestBackend: MockBackend {
 // MARK: // Private
 // MARK: Override Implementations
 private extension TestBackend {
+    func _addRoutes() {
+        self.addRoute((self.mockListGettableURL, self.paginatedListResponse))
+//        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: MockListGettable.self)))
+//        self.addRoute((URL(string: "filteredlistgettables")!, self.createPaginatedListResponse(for: MockFilteredListGettable.self)))
+    }
+    
     // List GET
     func _filterClosure(for queryParameters: Parameters, with endpoint: URL) -> FilterClosure {
         switch endpoint {
@@ -102,14 +111,5 @@ private extension TestBackend {
         default:
             fatalError("[TestBackend] No mapping defined for '\(object)'")
         }
-    }
-}
-
-
-// MARK: Add Routes
-private extension TestBackend {
-    func _addRoutes() {
-//        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: MockListGettable.self)))
-//        self.addRoute((URL(string: "filteredlistgettables")!, self.createPaginatedListResponse(for: MockFilteredListGettable.self)))
     }
 }
