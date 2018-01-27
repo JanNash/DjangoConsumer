@@ -23,6 +23,11 @@ class TestBackend: MockBackend {
     // Overrides
     // List GET
     override func filterClosure(for queryParameters: Parameters, with routePattern: String) -> FilterClosure {
+        // TODO: Implement the filter closures.
+        // Without having access to the concrete type of the objects that are going to be
+        // filtered, that's not going to be too easy. Maybe it's possible to add a function
+        // that returns a concrete object type for a route pattern and switch these three
+        // functions back to taking in a type instead of a routePattern?
         return self._filterClosure(for: queryParameters, with: RoutePattern(routePattern))
     }
     
