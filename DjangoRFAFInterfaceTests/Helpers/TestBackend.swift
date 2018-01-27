@@ -66,6 +66,7 @@ class TestBackend: MockBackend {
 private extension TestBackend {
     func _addRoutes() {
         self.addRoute((self.mockListGettablesURL, self.paginatedListResponse))
+        self.addRoute((self.mockFilteredListGettablesURL, self.paginatedListResponse))
 //        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: MockListGettable.self)))
 //        self.addRoute((URL(string: "filteredlistgettables")!, self.createPaginatedListResponse(for: MockFilteredListGettable.self)))
     }
