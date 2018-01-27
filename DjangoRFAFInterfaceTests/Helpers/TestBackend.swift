@@ -100,7 +100,7 @@ private extension TestBackend {
             let filteredListGettable: MockFilteredListGettable = object as! MockFilteredListGettable
             return [
                 MockFilteredListGettable.Keys.id : filteredListGettable.id,
-                MockFilteredListGettable.Keys.date : filteredListGettable.date,
+                MockFilteredListGettable.Keys.date : filteredListGettable.date.iso8601(),
                 MockFilteredListGettable.Keys.name : filteredListGettable.name,
             ]
         default: fatalError("[TestBackend] No mapping defined for '\(object)'")
