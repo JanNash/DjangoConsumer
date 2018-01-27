@@ -38,7 +38,8 @@ extension TestCase {
         let expectedOffset: UInt = 0
         let expectedPaginationOffset: UInt = 0
         
-        // Calculate expected pagination limit
+        // Calculate expected limit (since none is passed, default should be used)
+        // and expected pagination limit
         let expectedLimit: UInt = expectedNode.defaultLimit(for: FixtureType.self)
         let backendMaximumLimit: UInt = self.backend.maximumPaginationLimit(for: expectedRoutePatternString)
         let expectedPaginationLimit: UInt = min(expectedLimit, backendMaximumLimit)
