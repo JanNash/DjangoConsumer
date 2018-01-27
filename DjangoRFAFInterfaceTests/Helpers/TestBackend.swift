@@ -36,8 +36,8 @@ class TestBackend: MockBackend {
     
     
     // Constants
-    let mockListGettableURL: URL            = URL(string: "listgettables")!
-    let mockFilteredListGettablesURL: URL   = URL(string: "filteredlistgettables")!
+    let mockListGettablesURL: URL           = URL(string: "listgettables/")!
+    let mockFilteredListGettablesURL: URL   = URL(string: "filteredlistgettables/")!
     
     // Fixtures
     let mockListGettables: [MockListGettable] = [
