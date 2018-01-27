@@ -31,7 +31,8 @@ extension TestCase {
         // // Setup
         // Get expected node and endpoint
         let expectedNode: TestNode = FixtureType.defaultNode as! TestNode
-        let expectedEndpoint: URL = expectedNode.relativeListURL(for: FixtureType.self)
+        let expectedRoutePattern: TestBackend.RoutePattern = .GET_list_mockFilteredListGettables
+        let expectedRoutePatternString: String = expectedRoutePattern.rawValue
         
         // Calculate expected pagination offset
         let expectedOffset: UInt = 0
@@ -39,7 +40,7 @@ extension TestCase {
         
         // Calculate expected pagination limit
         let expectedLimit: UInt = expectedNode.defaultLimit(for: FixtureType.self)
-        let backendMaximumLimit: UInt = self.backend.maximumPaginationLimit(for: expectedEndpoint)
+        let backendMaximumLimit: UInt = self.backend.maximumPaginationLimit(for: expectedRoutePatternString)
         let expectedPaginationLimit: UInt = min(expectedLimit, backendMaximumLimit)
         
         // Generate filters
@@ -53,7 +54,7 @@ extension TestCase {
         
         // Get expected fixtures
         let expectedFixtures: [FixtureType] = {
-            let fixtures: [FixtureType] = self.backend.fixtures(for: expectedEndpoint) as! [FixtureType]
+            let fixtures: [FixtureType] = self.backend.fixtures(for: expectedRoutePatternString) as! [FixtureType]
         
             // FIXME: Apply filters to object array
             let filteredFixtures: [FixtureType] = fixtures

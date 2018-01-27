@@ -16,28 +16,46 @@ class TestBackend: MockBackend {
     // Init
     override init() {
         super.init()
-        self._addRoutes()
+        self.addRoute((.GET_list_mockListGettables, self.filteredPaginatedListResponse))
+        self.addRoute((.GET_list_mockFilteredListGettables, self.filteredPaginatedListResponse))
     }
     
     // Overrides
     // List GET
-    override func filterClosure(for queryParameters: Parameters, with endpoint: URL) -> FilterClosure {
-        return self._filterClosure(for: queryParameters, with: endpoint)
+    override func filterClosure(for queryParameters: Parameters, with routePattern: String) -> FilterClosure {
+        return self._filterClosure(for: queryParameters, with: RoutePattern(routePattern))
     }
     
     // General
-    override func fixtures(for endpoint: URL) -> [DRFListGettable] {
-        return self._fixtures(for: endpoint)
+    override func fixtures(for routePattern: String) -> [DRFListGettable] {
+        return self._fixtures(for: RoutePattern(routePattern))
     }
     
-    override func createJSONDict(from object: DRFListGettable, for endpoint: URL) -> [String : Any] {
-        return self._createJSONDict(from: object, for: endpoint)
+    override func createJSONDict(from object: DRFListGettable, for routePattern: String) -> [String : Any] {
+        return self._createJSONDict(from: object, for: RoutePattern(routePattern))
     }
     
+    // Overloads
+    func addRoute(_ route: (routePattern: RoutePattern, response: Response)) {
+        self.addRoute((route.routePattern.rawValue, route.response))
+    }
     
     // Constants
-    let mockListGettablesURL: URL           = URL(string: "listgettables/")!
-    let mockFilteredListGettablesURL: URL   = URL(string: "filteredlistgettables/")!
+    // Routes
+    // This enum can't be implemented in MockBackend, since it isn't possible
+    // to add cases in extensions, so it wouldn't make any sense.
+    // Still, it is recommendable to use an enum because it guarantees pattern uniqueness.
+    enum RoutePattern: String {
+        case GET_list_mockListGettables          = "^/listgettables/$"
+        case GET_list_mockFilteredListGettables  = "^/filteredlistgettables/$"
+        
+        init(_ string: String) {
+            guard let routePattern: RoutePattern = RoutePattern(rawValue: string) else {
+                fatalError("[TestBackend] No RoutePattern registered for '\(string)'")
+            }
+            self = routePattern
+        }
+    }
     
     // Fixtures
     let mockListGettables: [MockListGettable] = [
@@ -64,46 +82,37 @@ class TestBackend: MockBackend {
 // MARK: // Private
 // MARK: Override Implementations
 private extension TestBackend {
-    func _addRoutes() {
-        self.addRoute((self.mockListGettablesURL, self.paginatedListResponse))
-        self.addRoute((self.mockFilteredListGettablesURL, self.paginatedListResponse))
-//        self.addRoute((URL(string: "listgettables")!, self.createPaginatedListResponse(for: MockListGettable.self)))
-//        self.addRoute((URL(string: "filteredlistgettables")!, self.createPaginatedListResponse(for: MockFilteredListGettable.self)))
-    }
-    
     // List GET
-    func _filterClosure(for queryParameters: Parameters, with endpoint: URL) -> FilterClosure {
-        switch endpoint {
-        case self.mockListGettablesURL:         return { _ in return true }
-        case self.mockFilteredListGettablesURL: return { _ in return true }
-        default: fatalError("[TestBackend] No filter closure defined for '\(endpoint)'")
+    func _filterClosure(for queryParameters: Parameters, with routePattern: RoutePattern) -> FilterClosure {
+        switch routePattern {
+        case .GET_list_mockListGettables: return { _ in return true }
+        case .GET_list_mockFilteredListGettables: return { _ in return true }
         }
     }
     
-    func _fixtures(for endpoint: URL) -> [DRFListGettable] {
-        switch endpoint {
-        case self.mockListGettablesURL:         return self.mockListGettables
-        case self.mockFilteredListGettablesURL: return self.mockFilteredListGettables
-        default: fatalError("[TestBackend] No fixtures defined for '\(endpoint)'")
+    func _fixtures(for routePattern: RoutePattern) -> [DRFListGettable] {
+        switch routePattern {
+        case .GET_list_mockListGettables:         return self.mockListGettables
+        case .GET_list_mockFilteredListGettables: return self.mockFilteredListGettables
         }
     }
     
     // General
-    func _createJSONDict(from object: DRFListGettable, for endpoint: URL) -> [String : Any] {
-        switch endpoint {
-        case self.mockListGettablesURL:
+    func _createJSONDict(from object: DRFListGettable, for routePattern: RoutePattern) -> [String : Any] {
+        // TODO: Once DRFPostable is implemented, this implementation can likely be simplified.
+        switch routePattern {
+        case .GET_list_mockListGettables:
             let listGettable: MockListGettable = object as! MockListGettable
             return [
                 MockListGettable.Keys.id : listGettable.id,
             ]
-        case self.mockFilteredListGettablesURL:
+        case .GET_list_mockFilteredListGettables:
             let filteredListGettable: MockFilteredListGettable = object as! MockFilteredListGettable
             return [
                 MockFilteredListGettable.Keys.id : filteredListGettable.id,
                 MockFilteredListGettable.Keys.date : filteredListGettable.date.iso8601(),
                 MockFilteredListGettable.Keys.name : filteredListGettable.name,
             ]
-        default: fatalError("[TestBackend] No mapping defined for '\(object)'")
         }
     }
 }
