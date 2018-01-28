@@ -14,7 +14,7 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DRFListGettable: DRFNeedsNoAuth {
+public protocol DRFListGettable {
     init(json: JSON)
     static var clients: [DRFListGettableClient] { get set }
     static func get(from node: DRFNode?, offset: UInt, limit: UInt)
@@ -22,7 +22,7 @@ public protocol DRFListGettable: DRFNeedsNoAuth {
 
 
 // MARK: Default Implementations
-public extension DRFListGettable {
+public extension DRFListGettable where Self: DRFNeedsNoAuth {
     static func get(from node: DRFNode? = nil, offset: UInt = 0, limit: UInt = 0) {
         self._get(from: node, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
     }
@@ -30,7 +30,7 @@ public extension DRFListGettable {
 
 
 // MARK: // Internal
-extension DRFListGettable {
+extension DRFListGettable where Self: DRFNeedsNoAuth {
     static func get_(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
         self._get(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
@@ -38,7 +38,7 @@ extension DRFListGettable {
 
 
 // MARK: // Private
-private extension DRFListGettable {
+private extension DRFListGettable where Self: DRFNeedsNoAuth {
     static func _get(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
         let node: DRFNode = node ?? self.defaultNode
         let url: URL = node.absoluteListURL(for: self)

@@ -21,7 +21,7 @@ public protocol DRFFilteredListGettable: DRFListGettable {
 
 
 // MARK: Default Implementations
-public extension DRFFilteredListGettable {
+public extension DRFFilteredListGettable where Self: DRFNeedsNoAuth {
     static func get(from node: DRFNode? = nil, offset: UInt = 0, limit: UInt = 0, filters: [DRFFilterType] = [], addDefaultFilters: Bool = true) {
         self.get_(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
