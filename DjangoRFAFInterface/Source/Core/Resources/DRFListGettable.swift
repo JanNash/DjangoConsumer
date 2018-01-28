@@ -14,7 +14,7 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DRFListGettable: DRFMetaResource {
+public protocol DRFListGettable: DRFNeedsNoAuth {
     init(json: JSON)
     static var clients: [DRFListGettableClient] { get set }
     static func get(from node: DRFNode?, offset: UInt, limit: UInt)
