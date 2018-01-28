@@ -17,7 +17,7 @@ public protocol DRFNode {
     // Basic Setup
     var baseURL: URL { get }
     
-    // Alamofire session manager
+    // Alamofire SessionManager
     var sessionManager: SessionManager { get }
     
     // Filtering

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 import DjangoRFAFInterface
 
 
@@ -19,6 +20,14 @@ final class TestNode: DRFNode {
     // DRFNode Conformance
     // Basic Setup
     var baseURL: URL = URL(string: "http://localhost:8080")!
+    
+    // Alamofire SessionManager
+    // This is copied from the SessionManager implementation
+    let sessionManager: SessionManager = {
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
+        return SessionManager(configuration: configuration)
+    }()
     
     // Pagination
     func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : DRFListGettable {

@@ -14,7 +14,7 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockFilteredListGettable: DRFFilteredListGettable {
+struct MockFilteredListGettable: DRFFilteredListGettable, DRFNeedsNoAuth {
     // Init
     init(id: String, date: Date, name: String) {
         self.id = id
