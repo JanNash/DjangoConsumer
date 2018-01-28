@@ -20,8 +20,8 @@ public extension ValidatedJSONRequest {
     typealias FailureBlock = (Error) -> Void
     
     // Functions
-    func fire(onSuccess: @escaping SuccessBlock, onFailure: @escaping FailureBlock) {
-        self._fire(onSuccess: onSuccess, onFailure: onFailure)
+    func fire(via sessionManager: SessionManager, onSuccess: @escaping SuccessBlock, onFailure: @escaping FailureBlock) {
+        self._fire(via: sessionManager, onSuccess: onSuccess, onFailure: onFailure)
     }
 }
 
@@ -42,8 +42,8 @@ public struct ValidatedJSONRequest {
 // MARK: // Private
 // MARK: Implementation
 private extension ValidatedJSONRequest {
-    func _fire(onSuccess: @escaping SuccessBlock, onFailure: @escaping FailureBlock) {
-        Alamofire.request(self.url, parameters: self.parameters)
+    func _fire(via sessionManager: SessionManager, onSuccess: @escaping SuccessBlock, onFailure: @escaping FailureBlock) {
+        sessionManager.request(self.url, parameters: self.parameters)
             .validate()
             .responseSwiftyJSON {
                 switch $0.result {
