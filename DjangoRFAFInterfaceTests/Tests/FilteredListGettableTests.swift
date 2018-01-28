@@ -101,7 +101,7 @@ extension TestCase {
             
             // FIXME: The value property of DRFFilterType is not required to be Equatable.
             // Should a DRFFilterType still be equatable by just comparing key and comparator
-            // in case the value property isn'y Equatable?
+            // in case the value property isn't Equatable?
             // Could it suffice to just test the count and compare the keys and
             // comparators here and not to care about the values?
             let returnedFilters: [DRFFilterType] = success.filters
@@ -122,7 +122,7 @@ extension TestCase {
         }
         // // END of Setup
         
-        // // Test
+        // // Run Test
         methodToBeTested(filters)
         
         self.waitForExpectations(timeout: 1) { _ in
