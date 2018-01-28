@@ -15,16 +15,14 @@ import Alamofire_SwiftyJSON
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol DRFFilteredListGettable: DRFListGettable {
-    associatedtype FilterType: DRFFilter
     init(json: JSON)
-    static var defaultFilters: [FilterType] { get }
-    static func get(from node: DRFNode, offset: UInt, limit: UInt, filters: [FilterType])
+    static func get(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool)
 }
 
 
 // MARK: Default Implementations
 public extension DRFFilteredListGettable {
-    static func get(from node: DRFNode = Self.defaultNode, offset: UInt = 0, limit: UInt = Self.defaultLimit, filters: [FilterType] = Self.defaultFilters) {
-        self.get_(from: node, offset: offset, limit: limit, filters: filters)
+    static func get(from node: DRFNode? = nil, offset: UInt = 0, limit: UInt = 0, filters: [DRFFilterType] = [], addDefaultFilters: Bool = true) {
+        self.get_(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }

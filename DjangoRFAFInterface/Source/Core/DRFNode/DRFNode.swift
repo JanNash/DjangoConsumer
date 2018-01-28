@@ -14,29 +14,45 @@ import SwiftyJSON
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol DRFNode {
+    // Basic Setup
     var baseURL: URL { get }
     
-    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter]) -> Parameters
-    func parametersFrom(offset: UInt, limit: UInt) -> Parameters
-    func parametersFrom(filters: [DRFFilter]) -> Parameters
+    // Filtering
+    func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [DRFFilterType]
     
+    // Parameter Generation
+    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilterType]) -> Parameters
+    func parametersFrom(offset: UInt, limit: UInt) -> Parameters
+    func parametersFrom(filters: [DRFFilterType]) -> Parameters
+    
+    // List Request and Response Helpers
+    func defaultLimit<T: DRFListGettable>(for resourceType: T.Type) -> UInt
     func paginationType<T: DRFListGettable>(for resourceType: T.Type) -> DRFPagination.Type
-    func listEndpoint<T: DRFListGettable>(for resourceType: T.Type) -> URL
+    func relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL
+    func absoluteListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL
     func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T])
 }
 
 
-// MARK: DRFListResponseKeys
-public struct DRFListResponseKeys {
+// MARK: DRFDefaultListResponseKeys
+public struct DRFDefaultListResponseKeys {
     public static let meta: String = "meta"
     public static let results: String = "results"
 }
 
 
 // MARK: Default Implementations
+// MARK: Filtering
+public extension DRFNode {
+    func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [DRFFilterType] {
+        return []
+    }
+}
+
+
 // MARK: Parameter Generation
 public extension DRFNode {
-    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter] = []) -> Parameters {
+    func parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilterType] = []) -> Parameters {
         return self._parametersFrom(offset: offset, limit: limit, filters: filters)
     }
     
@@ -44,16 +60,20 @@ public extension DRFNode {
         return self._parametersFrom(offset: offset, limit: limit)
     }
     
-    func parametersFrom(filters: [DRFFilter]) -> Parameters {
-        return filters.reduce(into: [:], { $0[$1.key] = $1.value })
+    func parametersFrom(filters: [DRFFilterType]) -> Parameters {
+        return filters.reduce(into: [:], { $0[$1.stringKey] = $1.value })
     }
 }
 
 
-// MARK: ListResponse Extraction
+// MARK: List Request and Response Helpers
 public extension DRFNode {
     func paginationType<T>(for resourceType: T.Type) -> DRFPagination.Type where T : DRFListGettable {
         return DRFDefaultPagination.self
+    }
+    
+    func absoluteListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+        return self._absoluteListURL(for: resourceType)
     }
     
     func extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T]) {
@@ -65,7 +85,7 @@ public extension DRFNode {
 // MARK: // Private
 // MARK: Parameter Generation Implementation
 private extension DRFNode {
-    func _parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilter] = []) -> Parameters {
+    func _parametersFrom(offset: UInt, limit: UInt, filters: [DRFFilterType] = []) -> Parameters {
         var parameters: Parameters = [:]
         let writeToParameters: (String, Any) -> Void = { parameters[$0] = $1 }
         self.parametersFrom(offset: offset, limit: limit).forEach(writeToParameters)
@@ -82,12 +102,17 @@ private extension DRFNode {
 }
 
 
-// MARK: ListResponse Extraction
+// MARK: List Request and Response Helper Implementations
 private extension DRFNode {
+    func _absoluteListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+        let relativeURL: URL = self.relativeListURL(for: resourceType)
+        return self.baseURL.appendingPathComponent(relativeURL.absoluteString)
+    }
+    
     func _extractListResponse<T: DRFListGettable>(for resourceType: T.Type, from json: JSON) -> (DRFPagination, [T]) {
         let paginationType: DRFPagination.Type = self.paginationType(for: resourceType)
-        let pagination: DRFPagination = paginationType.init(json: json[DRFListResponseKeys.meta])
-        let objects: [T] = json[DRFListResponseKeys.results].array!.map(T.init)
+        let pagination: DRFPagination = paginationType.init(json: json[DRFDefaultListResponseKeys.meta])
+        let objects: [T] = json[DRFDefaultListResponseKeys.results].array!.map(T.init)
         return (pagination, objects)
     }
 }

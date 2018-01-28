@@ -16,12 +16,12 @@ import Alamofire_SwiftyJSON
 // MARK: Interface
 public extension ValidatedJSONRequest {
     // Typealiases
-    typealias FailureBlock = (Error) -> Void
     typealias SuccessBlock = (JSON) -> Void
+    typealias FailureBlock = (Error) -> Void
     
     // Functions
-    func fire(onFailure: @escaping FailureBlock, onSuccess: @escaping SuccessBlock) {
-        self._fire(onFailure: onFailure, onSuccess: onSuccess)
+    func fire(onSuccess: @escaping SuccessBlock, onFailure: @escaping FailureBlock) {
+        self._fire(onSuccess: onSuccess, onFailure: onFailure)
     }
 }
 
@@ -42,15 +42,15 @@ public struct ValidatedJSONRequest {
 // MARK: // Private
 // MARK: Implementation
 private extension ValidatedJSONRequest {
-    func _fire(onFailure: @escaping FailureBlock, onSuccess: @escaping SuccessBlock) {
+    func _fire(onSuccess: @escaping SuccessBlock, onFailure: @escaping FailureBlock) {
         Alamofire.request(self.url, parameters: self.parameters)
             .validate()
             .responseSwiftyJSON {
                 switch $0.result {
-                case let .failure(error):
-                    onFailure(error)
                 case let .success(result):
                     onSuccess(result)
+                case let .failure(error):
+                    onFailure(error)
                 }
             }
     }

@@ -3,19 +3,26 @@ PODS:
   - Alamofire-SwiftyJSON (3.0.0):
     - Alamofire (~> 4.5)
     - SwiftyJSON (~> 4.0.0)
+  - Embassy (4.0.0)
+  - EnvoyAmbassador (4.0.1):
+    - Embassy (~> 4.0)
+  - SwiftDate (4.5.1)
   - SwiftyJSON (4.0.0)
-  - WeakRefCollections (0.2.1)
 
 DEPENDENCIES:
   - Alamofire-SwiftyJSON (~> 3.0.0)
-  - WeakRefCollections (~> 0.2.1)
+  - Embassy (~> 4.0.0)
+  - EnvoyAmbassador (~> 4.0.1)
+  - SwiftDate (~> 4.5.1)
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Alamofire-SwiftyJSON: 2b3649d57dc7bb2880fb8b86f8bb969397666916
+  Embassy: a01efce4e30c1c6a3c19e6aa27e1b75ca0e1efd3
+  EnvoyAmbassador: fec4f4a9cf5f1ab13e082474a0375f77ff467030
+  SwiftDate: 7b56d42a221f582047287deb256b23fc5ed49a60
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
-  WeakRefCollections: 3ba28dc6f441e939c9b331b44b3c25c423ea8f78
 
-PODFILE CHECKSUM: 766d0024e358f20b3b9426a476faa1bcf7de0412
+PODFILE CHECKSUM: 21639147f73997f0363d96dcd40b922989fbda27
 
 COCOAPODS: 1.3.1

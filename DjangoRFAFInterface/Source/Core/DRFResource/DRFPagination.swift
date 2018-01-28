@@ -28,7 +28,7 @@ public struct DRFDefaultPagination: DRFPagination {
     // Keys
     public struct Keys {
         public static let limit: String = "limit"
-        public static let next: String = "offset"
+        public static let next: String = "next"
         public static let offset: String = "offset"
         public static let previous: String = "previous"
         public static let totalCount: String = "total_count"
