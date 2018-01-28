@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Alamofire
 import DjangoRFAFInterface
 
 
@@ -18,6 +19,8 @@ extension TestCase {
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected to successfully get some objects"
         )
+        
+        let backend: TestBackend = self.backend
         
         // Define Fixture type and Client type
         typealias FixtureType = MockFilteredListGettable
@@ -41,7 +44,7 @@ extension TestCase {
         // Calculate expected limit (since none is passed, default should be used)
         // and expected pagination limit
         let expectedLimit: UInt = expectedNode.defaultLimit(for: FixtureType.self)
-        let backendMaximumLimit: UInt = self.backend.maximumPaginationLimit(for: expectedRoutePatternString)
+        let backendMaximumLimit: UInt = backend.maximumPaginationLimit(for: expectedRoutePatternString)
         let expectedPaginationLimit: UInt = min(expectedLimit, backendMaximumLimit)
         
         // Generate filters
@@ -52,15 +55,19 @@ extension TestCase {
             _F(.name, .__icontains, name)
         ]
         let expectedFilters: [DRFFilterType] = filters
+        let expectedFilterParameters: Parameters = expectedNode.parametersFrom(filters: expectedFilters)
+        let expectedFilterClosure: (DRFListGettable) -> Bool = backend.filterClosure(
+            for: expectedFilterParameters, with: expectedRoutePattern
+        )
         
         // Get expected fixtures
         let expectedFixtures: [FixtureType] = {
-            let fixtures: [FixtureType] = self.backend.fixtures(for: expectedRoutePatternString) as! [FixtureType]
+            let fixtures: [FixtureType] = backend.fixtures(for: expectedRoutePatternString) as! [FixtureType]
         
-            // FIXME: Apply filters to object array
-            let filteredFixtures: [FixtureType] = fixtures
+            // Apply filters
+            let filteredFixtures: [FixtureType] = fixtures.filter(expectedFilterClosure)
             
-            // Apply limit if it makes sense
+            // Apply limit if necessary
             if expectedPaginationLimit < fixtures.count {
                 return Array(filteredFixtures[0..<Int(expectedPaginationLimit)])
             }
