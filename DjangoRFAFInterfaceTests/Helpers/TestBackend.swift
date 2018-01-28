@@ -20,7 +20,7 @@ class TestBackend: MockBackend {
         self.addRoute((.GET_list_mockFilteredListGettables, self.filteredPaginatedListResponse))
     }
     
-    // Overrides
+    // // MARK: Overrides
     // List GET
     override func filterClosure(for queryParameters: Parameters, with routePattern: String) -> FilterClosure {
         // TODO: Implement the filter closures.
@@ -40,12 +40,27 @@ class TestBackend: MockBackend {
         return self._createJSONDict(from: object, for: RoutePattern(routePattern))
     }
     
-    // Overloads
+    // // MARK: Overloads
+    // Add Route
     func addRoute(_ route: (routePattern: RoutePattern, response: Response)) {
         self.addRoute((route.routePattern.rawValue, route.response))
     }
     
-    // Constants
+    // List GET
+    func filterClosure(for queryParameters: Parameters, with routePattern: RoutePattern) -> FilterClosure {
+        return self._filterClosure(for: queryParameters, with: routePattern)
+    }
+    
+    // General
+    func fixtures(for routePattern: RoutePattern) -> [DRFListGettable] {
+        return self._fixtures(for: routePattern)
+    }
+    
+    func createJSONDict(from object: DRFListGettable, for routePattern: RoutePattern) -> [String : Any] {
+        return self._createJSONDict(from: object, for: routePattern)
+    }
+    
+    // // MARK: Constants
     // Routes
     // This enum can't be implemented in MockBackend, since it isn't possible
     // to add cases in extensions, so it wouldn't make any sense.
@@ -62,7 +77,7 @@ class TestBackend: MockBackend {
         }
     }
     
-    // Fixtures
+    // // MARK: Fixtures
     let mockListGettables: [MockListGettable] = [
         MockListGettable(id: "1"),
         MockListGettable(id: "2"),
@@ -90,8 +105,8 @@ private extension TestBackend {
     // List GET
     func _filterClosure(for queryParameters: Parameters, with routePattern: RoutePattern) -> FilterClosure {
         switch routePattern {
-        case .GET_list_mockListGettables: return { _ in return true }
-        case .GET_list_mockFilteredListGettables: return { _ in return true }
+        case .GET_list_mockListGettables:           return { _ in return true }
+        case .GET_list_mockFilteredListGettables:   return { _ in return true }
         }
     }
     
