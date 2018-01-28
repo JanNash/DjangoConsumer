@@ -26,6 +26,7 @@
 		AEFDA320CF844EFC411F17A844B2616B /* ValidatedJSONRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16342EF1D1EFEDE8729BC1578A72FDA /* ValidatedJSONRequest.swift */; };
 		BBFBED71E7F61308266E79513655D950 /* Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E58573B222FD55FCF099F7BFD49BDE /* Filtering.swift */; };
 		BE6092FDFEA91EF23BAD1C0288CEA548 /* Pods_DjangoRFAFInterfaceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */; };
+		C7AE7E70748D8AE70308EA7EEA93DBFA /* DRFOAuth2Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACE5B4CEE1AB9A454964B02FB89965 /* DRFOAuth2Handler.swift */; };
 		CAE6E0E58D615CF3F80D230423E763AD /* DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84107B26D52B76B5BE19348C2DEA86B2 /* DjangoRFAFInterface.framework */; };
 		E827B5F5FCE7B66B5F52F7370916B24D /* Pods_DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB613640E19B18F0FFA429E2B123CFDE /* Pods_DjangoRFAFInterface.framework */; };
 		EB3BB109743B346DC926F52D815AE660 /* MockBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876A5A185CE6A270249FAE97C1B7066 /* MockBackend.swift */; };
@@ -63,6 +64,7 @@
 		9876A5A185CE6A270249FAE97C1B7066 /* MockBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBackend.swift; sourceTree = "<group>"; };
 		9906D61B0517B7A4ED20F87ACE5CEF26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABE599C5163C9ABD656CC1A9A6BFED38 /* DRFOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Node.swift; sourceTree = "<group>"; };
+		B5ACE5B4CEE1AB9A454964B02FB89965 /* DRFOAuth2Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Handler.swift; sourceTree = "<group>"; };
 		C33CD2E8091ACE0636AB7ACDCA50935D /* DRFListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFListGettable.swift; sourceTree = "<group>"; };
 		C5C6598F353A3605961D933957E1E026 /* DjangoRFAFInterfaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoRFAFInterfaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1893A1A74EEFA3831B72DC2BDF3F920 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 		E4A835A624BDE0089656450183303B0C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B5ACE5B4CEE1AB9A454964B02FB89965 /* DRFOAuth2Handler.swift */,
 				F16342EF1D1EFEDE8729BC1578A72FDA /* ValidatedJSONRequest.swift */,
 			);
 			path = Helpers;
@@ -517,6 +520,7 @@
 				8A49C8D246382A201B8E00193033DF11 /* DRFNeedsNoAuth.swift in Sources */,
 				49535C0F971CF6FC26905C5D31E528DC /* DRFNeedsOAuth2.swift in Sources */,
 				4AC209C9F5BE4BFB2224A6CE8EE0C7A6 /* DRFNode.swift in Sources */,
+				C7AE7E70748D8AE70308EA7EEA93DBFA /* DRFOAuth2Handler.swift in Sources */,
 				14986D32ADABB9C9D9C44A5146D29E87 /* DRFOAuth2Node.swift in Sources */,
 				EE0D27B881DAB2E0400E4B5E57FDC6FF /* DRFPagination.swift in Sources */,
 				BBFBED71E7F61308266E79513655D950 /* Filtering.swift in Sources */,

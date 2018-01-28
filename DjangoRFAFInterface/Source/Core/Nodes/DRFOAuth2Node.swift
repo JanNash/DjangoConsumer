@@ -11,14 +11,14 @@ import Foundation
 
 // MARK: // Public
 public protocol DRFOAuth2Node: DRFNode {
-    // OAuth2 Setup
-    var appSecret: String { get }
-    var tokenRequestEndpoint: URL { get }
-    var tokenRefreshEndpoint: URL { get }
-    var tokenRevokeEndpoint: URL { get }
-    
-    // OAuth2 State
-    var accessToken: String { get }
-    var refreshToken: String { get }
-    var grantType: String { get }
+    var oauth2Handler: DRFOAuth2Handler { get }
+}
+
+
+// MARK: Internal
+// MARK: Alamofire SessionManager
+extension DRFOAuth2Node {
+    func sessionManager() {
+        
+    }
 }
