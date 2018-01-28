@@ -17,6 +17,9 @@ public protocol DRFNode {
     // Basic Setup
     var baseURL: URL { get }
     
+    // Alamofire session manager
+    var sessionManager: SessionManager { get }
+    
     // Filtering
     func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [DRFFilterType]
     
