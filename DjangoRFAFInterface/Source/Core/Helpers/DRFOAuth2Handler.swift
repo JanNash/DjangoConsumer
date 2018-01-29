@@ -33,7 +33,6 @@ public protocol DRFOAuth2CredentialStore {
 // MARK: - DRFOAuth2Handler
 public protocol DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     init()
-    init(settings: DRFOAuth2Settings, credentialStore: DRFOAuth2CredentialStore)
     
     // It is recommended to keep use of this SessionManager instance
     // exclusive to the implementation of the type conforming to this protocol.
