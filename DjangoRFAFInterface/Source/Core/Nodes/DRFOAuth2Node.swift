@@ -13,12 +13,3 @@ import Foundation
 public protocol DRFOAuth2Node: DRFNode {
     var oauth2Handler: DRFOAuth2Handler { get }
 }
-
-
-// MARK: Internal
-// MARK: Alamofire SessionManager
-extension DRFOAuth2Node {
-    func sessionManager() {
-        
-    }
-}

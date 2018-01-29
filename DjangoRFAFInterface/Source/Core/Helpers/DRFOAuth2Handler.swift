@@ -9,8 +9,10 @@
 import Foundation
 import Alamofire
 
+
 // MARK: // Public
 // MARK: - DRFOAuth2Settings
+// MARK: ???: Should this be a protocol, too? Check RFC
 public struct DRFOAuth2Settings {
     var appSecret: String
     var tokenRequestEndpoint: URL
@@ -19,26 +21,44 @@ public struct DRFOAuth2Settings {
 }
 
 
-// MARK: - DRFOAuth2Credentials
-public struct DRFOAuth2Credentials {
-    var accessToken: String
-    var refreshToken: String
-    var grantType: String
+// MARK: - DRFOAuth2CredentialStore
+public protocol DRFOAuth2CredentialStore {
+    var username: String { get set }
+    var password: String { get set }
+    var accessToken: String { get set }
+    var refreshToken: String { get set }
 }
 
 
 // MARK: - DRFOAuth2Handler
 public protocol DRFOAuth2Handler: RequestAdapter, RequestRetrier {
-    // This SessionManger instance should be exclusively
-    // used by this handler and it is not recommended to
-    // reconfigure it externally.
-    var sessionManager: SessionManager { get }
-    var settings: DRFOAuth2Settings { get }
-    var credentials: DRFOAuth2Credentials { get set }
+    init()
+    init(settings: DRFOAuth2Settings, credentialStore: DRFOAuth2CredentialStore)
+    
+    // It is recommended to keep use of this SessionManager instance
+    // exclusive to the implementation of the type conforming to this protocol.
+    var sessionManager: SessionManager { get set }
+    var settings: DRFOAuth2Settings { get set }
+    var credentialStore: DRFOAuth2CredentialStore { get set }
 }
 
 
-// MARK: Default Implementations
+// MARK: Default Init
+extension DRFOAuth2Handler {
+    init(settings: DRFOAuth2Settings, credentialStore: DRFOAuth2CredentialStore) {
+        self.init()
+        self.settings = settings
+        self.credentialStore = credentialStore
+        
+        // Create default sessionManager (this implementation is gratefully copied
+        // from SessionManager.swift in Alamofire)
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
+        self.sessionManager = SessionManager(configuration: configuration)
+    }
+}
+
+
 // MARK: RequestAdapter
 extension DRFOAuth2Handler/*: RequestAdapter*/ {
     func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
