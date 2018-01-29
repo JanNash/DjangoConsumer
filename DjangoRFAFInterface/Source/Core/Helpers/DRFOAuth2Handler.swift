@@ -34,9 +34,14 @@ public protocol DRFOAuth2CredentialStore {
 public protocol DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     init()
     
-    // It is recommended to keep use of this SessionManager instance
-    // exclusive to the implementation of the type conforming to this protocol.
-    var sessionManager: SessionManager { get set }
+    // It is recommended to keep use of these two variables exclusive
+    // to the implementation of the type conforming to this protocol.
+    //
+    // Comment: I did not find a proper way yet to enforce this but in Python,
+    //          prefixing with _ seems to suffice as well, so... :)
+    var _sessionManager: SessionManager { get set }
+    var _lock: NSLock { get }
+    
     var settings: DRFOAuth2Settings { get set }
     var credentialStore: DRFOAuth2CredentialStore { get set }
 }
@@ -53,7 +58,7 @@ extension DRFOAuth2Handler {
         // from SessionManager.swift in Alamofire)
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        self.sessionManager = SessionManager(configuration: configuration)
+        self._sessionManager = SessionManager(configuration: configuration)
     }
 }
 
@@ -77,6 +82,10 @@ extension DRFOAuth2Handler/*: RequestRetrier*/ {
 // MARK: RequestAdapter
 private extension DRFOAuth2Handler/*: RequestAdapter*/ {
     func _adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+        // This implementation is incomplete, it should check for request urls
+        // in order to correctly compute which headers to add, for example:
+        // - "Basic" + self.settings.appSecret
+        // - "Bearer" + self.credentialStore.accessToken
 //        var urlRequest: URLRequest = urlRequest
 //        urlRequest.setValue("Bearer " + self.accessToken, forHTTPHeaderField: "Authorization")
         return urlRequest
