@@ -25,26 +25,24 @@ public protocol DRFListGettable {
 // MARK: where Self: DRFNeedsNoAuth
 public extension DRFListGettable where Self: DRFNeedsNoAuth {
     static func get(from node: DRFNode? = nil, offset: UInt = 0, limit: UInt = 0) {
-        self._get(from: node, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
+        self._get(from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
     }
 }
 
 
 // MARK: // Internal
-// This implementation is needed because DRFFilteredListGettable reuses this function.
-// MARK: where Self: DRFNeedsNoAuth
-extension DRFListGettable where Self: DRFNeedsNoAuth {
-    static func get_(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
+// MARK: Shared GET function
+extension DRFListGettable {
+    static func get_(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
         self._get(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
 
 
 // MARK: // Private
-// MARK: where Self: DRFNeedsNoAuth
-private extension DRFListGettable where Self: DRFNeedsNoAuth {
-    static func _get(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
-        let node: DRFNode = node ?? self.defaultNode
+// MARK: Shared GET function Implementation
+private extension DRFListGettable {
+    static func _get(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
         let url: URL = node.absoluteListURL(for: self)
         let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: self)
         
@@ -74,6 +72,3 @@ private extension DRFListGettable where Self: DRFNeedsNoAuth {
         )
     }
 }
-
-
-

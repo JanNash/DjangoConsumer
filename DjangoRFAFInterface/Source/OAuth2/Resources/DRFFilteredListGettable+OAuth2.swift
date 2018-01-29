@@ -12,7 +12,7 @@ import Foundation
 // MARK: // Public
 // MARK: where Self: DRFNeedsOAuth2
 public extension DRFFilteredListGettable where Self: DRFNeedsOAuth2 {
-    static func get(from node: DRFOAuth2Node? = nil, offset: UInt = 0, limit: UInt = 0, filters: [DRFFilterType] = [], addDefaultFilters: Bool = true) {
-        self.get_(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
+    static func get(from node: DRFOAuth2Node? = nil, offset: UInt = 0, limit: UInt = 0, filters: [DRFFilterType] = [], addDefaultFilters: Bool = false) {
+        self.get_(from: node ?? self.defaultNode, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
