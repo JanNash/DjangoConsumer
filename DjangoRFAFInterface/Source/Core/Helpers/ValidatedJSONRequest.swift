@@ -28,14 +28,20 @@ public extension ValidatedJSONRequest {
 // MARK: Struct Declaration
 public struct ValidatedJSONRequest {
     // Init
-    init(url: URL, parameters: Parameters) {
+    init(url: URLConvertible, method: HTTPMethod = .get, parameters: Parameters, encoding: ParameterEncoding = URLEncoding.default, headers: HTTPHeaders? = nil) {
         self.url = url
+        self.method = method
         self.parameters = parameters
+        self.encoding = encoding
+        self.headers = headers
     }
     
     // Variables
-    var url: URL
+    var url: URLConvertible
+    var method: HTTPMethod
     var parameters: Parameters
+    var encoding: ParameterEncoding
+    var headers: HTTPHeaders?
 }
 
 
@@ -43,7 +49,7 @@ public struct ValidatedJSONRequest {
 // MARK: Implementation
 private extension ValidatedJSONRequest {
     func _fire(via sessionManager: SessionManager, onSuccess: @escaping SuccessBlock, onFailure: @escaping FailureBlock) {
-        sessionManager.request(self.url, parameters: self.parameters)
+        sessionManager.request(self.url, method: self.method, parameters: self.parameters, encoding: self.encoding, headers: self.headers)
             .validate()
             .responseSwiftyJSON {
                 switch $0.result {
