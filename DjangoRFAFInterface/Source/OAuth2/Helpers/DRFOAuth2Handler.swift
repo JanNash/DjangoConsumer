@@ -8,6 +8,8 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
+import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
@@ -27,7 +29,7 @@ public protocol DRFOAuth2CredentialStore {
     var password: String { get set }
     var accessToken: String { get set }
     var refreshToken: String { get set }
-    var refreshDate: Date { get set }
+    var expiryDate: Date { get set }
 }
 
 
@@ -41,7 +43,9 @@ public protocol DRFOAuth2Handler: class, RequestAdapter, RequestRetrier {
     // Comment: I did not find a proper way yet to enforce this but in Python,
     //          prefixing with _ seems to suffice as well, so... :)
     var _sessionManager: SessionManager { get set }
+    var _requestsToRetry: [RequestRetryCompletion] { get set }
     var _lock: NSLock { get }
+    var _isRefreshing: Bool { get set }
     
     var settings: DRFOAuth2Settings { get set }
     var credentialStore: DRFOAuth2CredentialStore { get set }
@@ -81,6 +85,25 @@ extension DRFOAuth2Handler/*: RequestRetrier*/ {
 
 
 // MARK: // Private
+// MARK: - _RefreshResponse
+private struct _RefreshResponse {
+    init?(json: JSON) {
+        // FIXME: Put these literal strings into constants
+        guard let accessToken: String = json["access_token"].string else { return nil }
+        guard let refreshToken: String = json["refresh_token"].string else { return nil }
+        guard let expiresIn: TimeInterval = json["expires_in"].double else { return nil }
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
+        self.expiryDate = Date().addingTimeInterval(expiresIn)
+    }
+    
+    var accessToken: String
+    var refreshToken: String
+    var expiryDate: Date
+}
+
+
+// MARK: - DRFOAuth2Handler
 // MARK: Implementations
 // MARK: RequestAdapter
 private extension DRFOAuth2Handler/*: RequestAdapter*/ {
@@ -100,31 +123,46 @@ private extension DRFOAuth2Handler/*: RequestAdapter*/ {
 private extension DRFOAuth2Handler/*: RequestRetrier*/ {
     // Helper Typealias
     private typealias _RefreshCompletion = (_ succeeded: Bool, _ accessToken: String?, _ refreshToken: String?) -> Void
-
+    
     // Implementation
     func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         self._lock.lock() ; defer { self._lock.unlock() }
 
-//        if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
-//            requestsToRetry.append(completion)
-//
-//            if !isRefreshing {
-//                refreshTokens { [weak self] succeeded, accessToken, refreshToken in
-//                    guard let strongSelf = self else { return }
-//
-//                    strongSelf.lock.lock() ; defer { strongSelf.lock.unlock() }
-//
-//                    if let accessToken = accessToken, let refreshToken = refreshToken {
-//                        strongSelf.accessToken = accessToken
-//                        strongSelf.refreshToken = refreshToken
-//                    }
-//
-//                    strongSelf.requestsToRetry.forEach { $0(succeeded, 0.0) }
-//                    strongSelf.requestsToRetry.removeAll()
-//                }
-//            }
-//        } else {
-//            completion(false, 0.0)
-//        }
+        guard let response: HTTPURLResponse = request.task?.response as? HTTPURLResponse, response.statusCode == 401 else {
+            completion(false, 0.0)
+            return
+        }
+        
+        self._requestsToRetry.append(completion)
+        
+        guard !_isRefreshing else { return }
+        self._isRefreshing = true
+        
+        let url: URL = self.settings.tokenRefreshURL
+        let encoding: ParameterEncoding = JSONEncoding.default
+        
+        let parameters: [String: Any] = [
+            "access_token": self.credentialStore.accessToken,
+            "refresh_token": self.credentialStore.refreshToken,
+            "grant_type": "refresh_token"
+        ]
+        
+        ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding).fire(
+            via: self._sessionManager,
+            onSuccess: { json in
+                self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
+                guard let refreshResponse: _RefreshResponse = _RefreshResponse(json: json) else {
+                    return
+                }
+                
+                self.credentialStore.accessToken = refreshResponse.accessToken
+                self.credentialStore.refreshToken = refreshResponse.refreshToken
+                self.credentialStore.expiryDate = refreshResponse.expiryDate
+            },
+            onFailure: { error in
+                self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
+                
+            }
+        )
     }
 }
