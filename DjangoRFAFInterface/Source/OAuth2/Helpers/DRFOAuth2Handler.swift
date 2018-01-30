@@ -142,13 +142,15 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         let encoding: ParameterEncoding = JSONEncoding.default
         
         // FIXME: Put these literal strings into constants
-        let parameters: [String: Any] = [
+        let parameters: [String : Any] = [
             "access_token": self.credentialStore.accessToken,
             "refresh_token": self.credentialStore.refreshToken,
             "grant_type": "refresh_token"
         ]
         
-        ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding).fire(
+        let headers: [String : String] = ["Authorization": "Basic \(self.settings.appSecret)"]
+        
+        ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
             via: self._sessionManager,
             onSuccess: { json in
                 self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
