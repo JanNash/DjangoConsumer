@@ -141,6 +141,7 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         let url: URL = self.settings.tokenRefreshURL
         let encoding: ParameterEncoding = JSONEncoding.default
         
+        // FIXME: Put these literal strings into constants
         let parameters: [String: Any] = [
             "access_token": self.credentialStore.accessToken,
             "refresh_token": self.credentialStore.refreshToken,
@@ -152,16 +153,18 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
             onSuccess: { json in
                 self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
                 guard let refreshResponse: _RefreshResponse = _RefreshResponse(json: json) else {
+                    // TODO: Call back to a client?
                     return
                 }
                 
                 self.credentialStore.accessToken = refreshResponse.accessToken
                 self.credentialStore.refreshToken = refreshResponse.refreshToken
                 self.credentialStore.expiryDate = refreshResponse.expiryDate
+                // TODO: Call back to a client?
             },
             onFailure: { error in
                 self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
-                
+                // TODO: Call back to a client?
             }
         )
     }
