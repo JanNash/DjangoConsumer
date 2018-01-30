@@ -55,8 +55,8 @@ extension DRFOAuth2Handler {
         self.settings = settings
         self.credentialStore = credentialStore
         
-        // Create default sessionManager (this implementation is gratefully copied
-        // from SessionManager.swift in Alamofire)
+        // Create default sessionManager
+        // (this implementation is gratefully copied from SessionManager.swift in Alamofire)
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
         self._sessionManager = SessionManager(configuration: configuration)
@@ -98,8 +98,10 @@ private extension DRFOAuth2Handler/*: RequestAdapter*/ {
 
 // MARK: RequestRetrier
 private extension DRFOAuth2Handler/*: RequestRetrier*/ {
+    // Helper Typealias
     private typealias _RefreshCompletion = (_ succeeded: Bool, _ accessToken: String?, _ refreshToken: String?) -> Void
 
+    // Implementation
     func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         self._lock.lock() ; defer { self._lock.unlock() }
 
