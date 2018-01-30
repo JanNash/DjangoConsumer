@@ -27,6 +27,7 @@ public protocol DRFOAuth2CredentialStore {
     var password: String { get set }
     var accessToken: String { get set }
     var refreshToken: String { get set }
+    var refreshDate: Date { get set }
 }
 
 
