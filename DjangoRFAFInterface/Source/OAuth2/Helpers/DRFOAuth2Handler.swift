@@ -125,6 +125,7 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
     func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         self._lock.lock() ; defer { self._lock.unlock() }
 
+        // ???: Should there be checks for more error codes like 429, for example?
         guard let response: HTTPURLResponse = request.task?.response as? HTTPURLResponse, response.statusCode == 401 else {
             completion(false, 0.0)
             return
