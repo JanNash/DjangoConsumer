@@ -30,6 +30,7 @@ public protocol DRFOAuth2CredentialStore {
     var accessToken: String { get set }
     var refreshToken: String { get set }
     var expiryDate: Date { get set }
+    mutating func refreshWith(accessToken: String, refreshToken: String, expiryDate: Date)
 }
 
 
@@ -156,9 +157,11 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
                     return
                 }
                 
-                self.credentialStore.accessToken = refreshResponse.accessToken
-                self.credentialStore.refreshToken = refreshResponse.refreshToken
-                self.credentialStore.expiryDate = refreshResponse.expiryDate
+                self.credentialStore.refreshWith(
+                    accessToken: refreshResponse.accessToken,
+                    refreshToken: refreshResponse.refreshToken,
+                    expiryDate: refreshResponse.expiryDate
+                )
                 
                 self._requestsToRetry.forEach({ $0(true, 0.0) })
                 self._requestsToRetry = []
