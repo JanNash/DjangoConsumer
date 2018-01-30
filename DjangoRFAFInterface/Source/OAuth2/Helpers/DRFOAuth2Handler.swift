@@ -15,9 +15,9 @@ import Alamofire
 // MARK: ???: Should this be a protocol, too? Check RFC
 public struct DRFOAuth2Settings {
     var appSecret: String
-    var tokenRequestEndpoint: URL
-    var tokenRefreshEndpoint: URL
-    var tokenRevokeEndpoint: URL
+    var tokenRequestURL: URL
+    var tokenRefreshURL: URL
+    var tokenRevokeURL: URL
 }
 
 
