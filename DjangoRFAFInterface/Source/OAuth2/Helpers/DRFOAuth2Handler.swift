@@ -37,11 +37,12 @@ public protocol DRFOAuth2CredentialStore {
 public protocol DRFOAuth2Handler: class, RequestAdapter, RequestRetrier {
     init()
     
-    // It is recommended to keep use of these two variables exclusive
+    // It is recommended to keep use of these variables exclusive
     // to the implementation of the type conforming to this protocol.
     //
     // Comment: I did not find a proper way yet to enforce this but in Python,
     //          prefixing with _ seems to suffice as well, so... :)
+    //
     var _sessionManager: SessionManager { get set }
     var _requestsToRetry: [RequestRetryCompletion] { get set }
     var _lock: NSLock { get }
