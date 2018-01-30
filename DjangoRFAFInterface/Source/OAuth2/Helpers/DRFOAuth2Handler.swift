@@ -152,18 +152,25 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
             onSuccess: { json in
                 self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
                 guard let refreshResponse: _RefreshResponse = _RefreshResponse(json: json) else {
-                    // TODO: Call back to a client?
                     return
                 }
                 
                 self.credentialStore.accessToken = refreshResponse.accessToken
                 self.credentialStore.refreshToken = refreshResponse.refreshToken
                 self.credentialStore.expiryDate = refreshResponse.expiryDate
-                // TODO: Call back to a client?
+                
+                self._requestsToRetry.forEach({ $0(true, 0.0) })
+                self._requestsToRetry = []
             },
             onFailure: { error in
                 self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
                 // TODO: Call back to a client?
+                // TODO: There should be a way to set a maximum number of refresh retries.
+                // If the last retry failed (or for each retry?), a client could be
+                // notified, so the UI can handle the failure (show password prompt,
+                // show error alert with support number, the likes...)
+                // Also, after the maximum number of retries, one could let the queued
+                // requests fail.
             }
         )
     }
