@@ -32,7 +32,7 @@ public protocol DRFOAuth2CredentialStore {
 
 
 // MARK: - DRFOAuth2Handler
-public protocol DRFOAuth2Handler: RequestAdapter, RequestRetrier {
+public protocol DRFOAuth2Handler: class, RequestAdapter, RequestRetrier {
     init()
     
     // It is recommended to keep use of these two variables exclusive
