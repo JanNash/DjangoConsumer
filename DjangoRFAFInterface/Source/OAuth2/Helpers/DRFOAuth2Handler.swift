@@ -74,7 +74,9 @@ extension DRFOAuth2Handler/*: RequestAdapter*/ {
 
 // MARK: RequestRetrier
 extension DRFOAuth2Handler/*: RequestRetrier*/ {
-    
+    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+        self._should(manager, retry: request, with: error, completion: completion)
+    }
 }
 
 
@@ -96,11 +98,11 @@ private extension DRFOAuth2Handler/*: RequestAdapter*/ {
 
 // MARK: RequestRetrier
 private extension DRFOAuth2Handler/*: RequestRetrier*/ {
-//    private typealias RefreshCompletion = (_ succeeded: Bool, _ accessToken: String?, _ refreshToken: String?) -> Void
-//
-//    func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
-//        lock.lock() ; defer { lock.unlock() }
-//
+    private typealias _RefreshCompletion = (_ succeeded: Bool, _ accessToken: String?, _ refreshToken: String?) -> Void
+
+    func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+        self._lock.lock() ; defer { self._lock.unlock() }
+
 //        if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
 //            requestsToRetry.append(completion)
 //
@@ -122,5 +124,5 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
 //        } else {
 //            completion(false, 0.0)
 //        }
-//    }
+    }
 }
