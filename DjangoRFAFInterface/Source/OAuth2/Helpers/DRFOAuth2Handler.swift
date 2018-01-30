@@ -37,6 +37,9 @@ public protocol DRFOAuth2CredentialStore {
 public protocol DRFOAuth2Handler: class, RequestAdapter, RequestRetrier {
     init()
     
+    var settings: DRFOAuth2Settings { get set }
+    var credentialStore: DRFOAuth2CredentialStore { get set }
+    
     // It is recommended to keep use of these variables exclusive
     // to the implementation of the type conforming to this protocol.
     //
@@ -47,9 +50,6 @@ public protocol DRFOAuth2Handler: class, RequestAdapter, RequestRetrier {
     var _requestsToRetry: [RequestRetryCompletion] { get set }
     var _lock: NSLock { get }
     var _isRefreshing: Bool { get set }
-    
-    var settings: DRFOAuth2Settings { get set }
-    var credentialStore: DRFOAuth2CredentialStore { get set }
 }
 
 
@@ -109,12 +109,8 @@ private struct _RefreshResponse {
 // MARK: RequestAdapter
 private extension DRFOAuth2Handler/*: RequestAdapter*/ {
     func _adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        // This implementation is incomplete, it should check for request urls
-        // in order to correctly compute which headers to add, for example:
-        // - "Basic" + self.settings.appSecret
-        // - "Bearer" + self.credentialStore.accessToken
-//        var urlRequest: URLRequest = urlRequest
-//        urlRequest.setValue("Bearer " + self.accessToken, forHTTPHeaderField: "Authorization")
+        var urlRequest: URLRequest = urlRequest
+        urlRequest.setValue("Bearer " + self.credentialStore.accessToken, forHTTPHeaderField: "Authorization")
         return urlRequest
     }
 }
