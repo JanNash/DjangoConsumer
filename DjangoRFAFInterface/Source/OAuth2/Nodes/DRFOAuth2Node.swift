@@ -10,6 +10,17 @@ import Foundation
 
 
 // MARK: // Public
+// MARK: Protocol Declaration
 public protocol DRFOAuth2Node: DRFNode {
     var oauth2Handler: DRFOAuth2Handler { get }
+}
+
+
+// MARK: Default Init
+public extension DRFOAuth2Node {
+    public init() {
+        self.init()
+        self.sessionManager.adapter = self.oauth2Handler
+        self.sessionManager.retrier = self.oauth2Handler
+    }
 }
