@@ -30,7 +30,7 @@ public protocol DRFOAuth2CredentialStore {
     var accessToken: String { get set }
     var refreshToken: String { get set }
     var expiryDate: Date { get set } // ???: Should this be optional?
-    mutating func refreshWith(accessToken: String, refreshToken: String, expiryDate: Date)
+    mutating func updateWith(accessToken: String, refreshToken: String, expiryDate: Date)
 }
 
 
@@ -208,7 +208,7 @@ private extension DRFOAuth2Handler {
                     return
                 }
                 
-                self._credentialStore.refreshWith(
+                self._credentialStore.updateWith(
                     accessToken: refreshResponse.accessToken,
                     refreshToken: refreshResponse.refreshToken,
                     expiryDate: refreshResponse.expiryDate
