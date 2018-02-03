@@ -35,60 +35,37 @@ public protocol DRFOAuth2CredentialStore {
 
 
 // MARK: - DRFOAuth2Handler
-public protocol DRFOAuth2Handler: class, RequestAdapter, RequestRetrier {
-    init()
-    
-    var settings: DRFOAuth2Settings { get set }
-    var credentialStore: DRFOAuth2CredentialStore { get set }
-    
-    // It is recommended to keep use of these variables exclusive
-    // to the implementation of the type conforming to this protocol.
-    //
-    // Comment: I did not find a proper way yet to enforce this but in Python,
-    //          prefixing with _ seems to suffice as well, so... :)
-    //
-    var _sessionManager: SessionManager { get set }
-    var _requestsToRetry: [RequestRetryCompletion] { get set }
-    var _lock: NSLock { get }
-    var _isRefreshing: Bool { get set }
-}
-
-
-// MARK: Default Init
-extension DRFOAuth2Handler {
+open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
+    // Init
     init(settings: DRFOAuth2Settings, credentialStore: DRFOAuth2CredentialStore) {
-        self.init()
-        self.settings = settings
-        self.credentialStore = credentialStore
-        
-        // Create default sessionManager
-        // (this implementation is gratefully copied from SessionManager.swift in Alamofire)
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        self._sessionManager = SessionManager(configuration: configuration)
+        self._settings = settings
+        self._credentialStore = credentialStore
     }
-}
-
-
-// MARK: Default Implementations
-extension DRFOAuth2Handler {
-    func addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
+    
+    // Private Lazy Variables
+    private lazy var _sessionManager: SessionManager = self._createSessionManager()
+    
+    // Private Variables
+    private var _settings: DRFOAuth2Settings
+    private var _credentialStore: DRFOAuth2CredentialStore
+    private var _requestsToRetry: [RequestRetryCompletion] = []
+    private var _lock: NSLock = NSLock()
+    private var _isRefreshing: Bool = false
+    
+    
+    // Overridables
+    // General
+    open func addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
         return self._addBearerAuthorizationHeader(to: urlRequest)
     }
-}
-
-
-// MARK: RequestAdapter
-extension DRFOAuth2Handler/*: RequestAdapter*/ {
-    func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+    
+    // RequestAdapter
+    open func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
         return self.addBearerAuthorizationHeader(to: urlRequest)
     }
-}
-
-
-// MARK: RequestRetrier
-extension DRFOAuth2Handler/*: RequestRetrier*/ {
-    public func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+    
+    // RequestRetrier
+    open func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         self._should(manager, retry: request, with: error, completion: completion)
     }
 }
@@ -114,12 +91,23 @@ private struct _RefreshResponse {
 
 
 // MARK: - DRFOAuth2Handler
+// MARK: Lazy Variable Creation
+private extension DRFOAuth2Handler {
+    func _createSessionManager() -> SessionManager {
+        // Create default sessionManager
+        // (this implementation is gratefully copied from SessionManager.swift in Alamofire)
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
+        return SessionManager(configuration: configuration)
+    }
+}
+
 // MARK: Default Implemetations
 private extension DRFOAuth2Handler {
     func _addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
         var urlRequest: URLRequest = urlRequest
         urlRequest.setValue(
-            DRFOAuth2Constants.HeaderValues.bearer(self.credentialStore.accessToken),
+            DRFOAuth2Constants.HeaderValues.bearer(self._credentialStore.accessToken),
             forHTTPHeaderField: DRFOAuth2Constants.HeaderFields.authorization
         )
         return urlRequest
@@ -147,18 +135,18 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         guard !_isRefreshing else { return }
         self._isRefreshing = true
         
-        let url: URL = self.settings.tokenRefreshURL
+        let url: URL = self._settings.tokenRefreshURL
         let encoding: ParameterEncoding = JSONEncoding.default
         
         let parameters: [String : Any] = [
-            DRFOAuth2Constants.JSONKeys.accessToken: self.credentialStore.accessToken,
-            DRFOAuth2Constants.JSONKeys.refreshToken: self.credentialStore.refreshToken,
+            DRFOAuth2Constants.JSONKeys.accessToken: self._credentialStore.accessToken,
+            DRFOAuth2Constants.JSONKeys.refreshToken: self._credentialStore.refreshToken,
             DRFOAuth2Constants.JSONKeys.grantType: DRFOAuth2Constants.GrantTypes.refreshToken
         ]
         
         let headers: [String : String] = [
             DRFOAuth2Constants.HeaderFields.authorization:
-            DRFOAuth2Constants.HeaderValues.basic(self.settings.appSecret)
+            DRFOAuth2Constants.HeaderValues.basic(self._settings.appSecret)
         ]
         
         ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
@@ -169,7 +157,7 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
                     return
                 }
                 
-                self.credentialStore.refreshWith(
+                self._credentialStore.refreshWith(
                     accessToken: refreshResponse.accessToken,
                     refreshToken: refreshResponse.refreshToken,
                     expiryDate: refreshResponse.expiryDate
