@@ -95,6 +95,25 @@ class _Weak: RequestRetrier {
 }
 
 
+// MARK: - _TokenResponse
+private struct _TokenResponse {
+    init?(json: JSON) {
+        // TODO: token_type and scope
+        guard let accessToken: String = json[_C.JSONKeys.accessToken].string else { return nil }
+        guard let refreshToken: String = json[_C.JSONKeys.refreshToken].string else { return nil }
+        guard let expiresIn: TimeInterval = json[_C.JSONKeys.expiresIn].double else { return nil }
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
+        // ???: Should a tolerance be subtracted from expiresIn to account for request duration?
+        self.expiryDate = Date().addingTimeInterval(expiresIn)
+    }
+    
+    var accessToken: String
+    var refreshToken: String
+    var expiryDate: Date
+}
+
+
 // MARK: - DRFOAuth2Handler
 // MARK: Lazy Variable Creation
 private extension DRFOAuth2Handler {
@@ -134,23 +153,6 @@ private extension DRFOAuth2Handler {
 
 // MARK: RequestRetrier
 private extension DRFOAuth2Handler/*: RequestRetrier*/ {
-    private struct _RefreshResponse {
-        init?(json: JSON) {
-            guard let accessToken: String = json[_C.JSONKeys.accessToken].string else { return nil }
-            guard let refreshToken: String = json[_C.JSONKeys.refreshToken].string else { return nil }
-            guard let expiresIn: TimeInterval = json[_C.JSONKeys.expiresIn].double else { return nil }
-            self.accessToken = accessToken
-            self.refreshToken = refreshToken
-            // ???: Should a tolerance be subtracted from expiresIn to account for request duration?
-            self.expiryDate = Date().addingTimeInterval(expiresIn)
-        }
-        
-        var accessToken: String
-        var refreshToken: String
-        var expiryDate: Date
-    }
-    
-    // Implementation
     func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         self._lock.lock()
         
@@ -202,7 +204,7 @@ private extension DRFOAuth2Handler {
             via: self._sessionManager,
             onSuccess: { json in
                 self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
-                guard let refreshResponse: _RefreshResponse = _RefreshResponse(json: json) else {
+                guard let refreshResponse: _TokenResponse = _TokenResponse(json: json) else {
                     return
                 }
                 
