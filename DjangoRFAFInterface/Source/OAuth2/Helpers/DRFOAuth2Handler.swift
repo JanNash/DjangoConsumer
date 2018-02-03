@@ -55,6 +55,10 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     
     
     // Overridables
+    open func refreshTokens() {
+        self._refreshTokens()
+    }
+    
     // RequestAdapter
     open func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
         return self._addBearerAuthorizationHeader(to: urlRequest)
