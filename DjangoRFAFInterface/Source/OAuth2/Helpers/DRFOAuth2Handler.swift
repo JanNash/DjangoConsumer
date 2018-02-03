@@ -139,15 +139,10 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         }
         
         switch url {
-        case self._settings.tokenRequestURL:
-            // Call client
-            break
-        case self._settings.tokenRefreshURL:
-            // Call client
-            break
-        case self._settings.tokenRevokeURL:
-            // Call client
-            break
+        // TODO: Implement client callbacks
+        case self._settings.tokenRequestURL: break
+        case self._settings.tokenRefreshURL: break
+        case self._settings.tokenRevokeURL: break
         default:
             break
         }
@@ -157,8 +152,11 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
             completion(false, 0.0)
             return
         }
-            
+        
         self._requestsToRetry.append(completion)
+        
+        // The lock is still locked here, it will be unlocked
+        // in a defer block in self._refreshTokens()
         self._refreshTokens()
     }
 }
