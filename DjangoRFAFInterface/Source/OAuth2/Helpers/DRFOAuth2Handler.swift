@@ -52,9 +52,14 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     private var _requestsToRetry: [RequestRetryCompletion] = []
     private var _lock: NSLock = NSLock()
     private var _isRefreshing: Bool = false
+    private var _isRequesting: Bool = false
     
     
     // Overridables
+    open func requestTokens(username: String, password: String) {
+        self._requestTokens(username: username, password: password)
+    }
+    
     open func refreshTokens() {
         self._refreshTokens()
     }
@@ -179,6 +184,49 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         self._requestsToRetry.append(completion)
         self._refreshTokens()
         self._lock.unlock()
+    }
+}
+
+
+// MARK: Token Request Implementation
+private extension DRFOAuth2Handler {
+    func _requestTokens(username: String, password: String) {
+        guard !self._isRequesting else { return }
+        self._isRequesting = true
+        
+        let url: URL = self._settings.tokenRequestURL
+        let encoding: ParameterEncoding = URLEncoding.default
+        
+        let parameters: [String : Any] = [
+            _C.JSONKeys.grantType : _C.GrantTypes.password,
+            _C.JSONKeys.scope : _C.Scopes.readWrite,
+            _C.JSONKeys.username : username,
+            _C.JSONKeys.password : password
+        ]
+        
+        let basicAuthHeader: _Header = self._basicAuthHeader()
+        let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
+        
+        ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
+            via: self._sessionManager,
+            onSuccess: { json in
+                self._lock.lock() ; defer { self._isRequesting = false ; self._lock.unlock() }
+                guard let refreshResponse: _TokenResponse = _TokenResponse(json: json) else {
+                    return
+                }
+                
+                self._credentialStore.updateWith(
+                    accessToken: refreshResponse.accessToken,
+                    refreshToken: refreshResponse.refreshToken,
+                    expiryDate: refreshResponse.expiryDate
+                )
+            },
+            onFailure: { _ in
+                self._lock.lock()
+                self._isRequesting = false
+                self._lock.unlock()
+            }
+        )
     }
 }
 
