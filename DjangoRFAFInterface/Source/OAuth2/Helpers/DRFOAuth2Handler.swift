@@ -117,9 +117,6 @@ private extension DRFOAuth2Handler {
 
 // MARK: RequestRetrier
 private extension DRFOAuth2Handler/*: RequestRetrier*/ {
-    // Helper Typealias
-    private typealias _RefreshCompletion = (_ succeeded: Bool, _ accessToken: String?, _ refreshToken: String?) -> Void
-    
     // Implementation
     func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         self._lock.lock() ; defer { self._lock.unlock() }
