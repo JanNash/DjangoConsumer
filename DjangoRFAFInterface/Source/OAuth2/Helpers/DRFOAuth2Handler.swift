@@ -217,8 +217,10 @@ private extension DRFOAuth2Handler {
                 self._requestsToRetry.forEach({ $0(true, 0.0) })
                 self._requestsToRetry = []
             },
-            onFailure: { error in
-                self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
+            onFailure: { _ in
+                self._lock.lock()
+                self._isRefreshing = false
+                self._lock.unlock()
             }
         )
     }
