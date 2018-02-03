@@ -29,7 +29,7 @@ public protocol DRFOAuth2CredentialStore {
     var password: String { get set }
     var accessToken: String { get set }
     var refreshToken: String { get set }
-    var expiryDate: Date { get set }
+    var expiryDate: Date { get set } // ???: Should this be optional?
     mutating func refreshWith(accessToken: String, refreshToken: String, expiryDate: Date)
 }
 
@@ -98,12 +98,12 @@ extension DRFOAuth2Handler/*: RequestRetrier*/ {
 // MARK: - _RefreshResponse
 private struct _RefreshResponse {
     init?(json: JSON) {
-        // FIXME: Put these literal strings into constants
-        guard let accessToken: String = json["access_token"].string else { return nil }
-        guard let refreshToken: String = json["refresh_token"].string else { return nil }
-        guard let expiresIn: TimeInterval = json["expires_in"].double else { return nil }
+        guard let accessToken: String = json[DRFOAuth2Constants.JSONKeys.accessToken].string else { return nil }
+        guard let refreshToken: String = json[DRFOAuth2Constants.JSONKeys.refreshToken].string else { return nil }
+        guard let expiresIn: TimeInterval = json[DRFOAuth2Constants.JSONKeys.expiresIn].double else { return nil }
         self.accessToken = accessToken
         self.refreshToken = refreshToken
+        // ???: Should a tolerance be subtracted from expiresIn to account for request duration?
         self.expiryDate = Date().addingTimeInterval(expiresIn)
     }
     
@@ -118,7 +118,10 @@ private struct _RefreshResponse {
 private extension DRFOAuth2Handler {
     func _addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
         var urlRequest: URLRequest = urlRequest
-        urlRequest.setValue("Bearer " + self.credentialStore.accessToken, forHTTPHeaderField: "Authorization")
+        urlRequest.setValue(
+            DRFOAuth2Constants.HeaderValues.bearer(self.credentialStore.accessToken),
+            forHTTPHeaderField: DRFOAuth2Constants.HeaderFields.authorization
+        )
         return urlRequest
     }
 }
@@ -147,14 +150,16 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         let url: URL = self.settings.tokenRefreshURL
         let encoding: ParameterEncoding = JSONEncoding.default
         
-        // FIXME: Put these literal strings into constants
         let parameters: [String : Any] = [
-            "access_token": self.credentialStore.accessToken,
-            "refresh_token": self.credentialStore.refreshToken,
-            "grant_type": "refresh_token"
+            DRFOAuth2Constants.JSONKeys.accessToken: self.credentialStore.accessToken,
+            DRFOAuth2Constants.JSONKeys.refreshToken: self.credentialStore.refreshToken,
+            DRFOAuth2Constants.JSONKeys.grantType: DRFOAuth2Constants.GrantTypes.refreshToken
         ]
         
-        let headers: [String : String] = ["Authorization": "Basic \(self.settings.appSecret)"]
+        let headers: [String : String] = [
+            DRFOAuth2Constants.HeaderFields.authorization:
+            DRFOAuth2Constants.HeaderValues.basic(self.settings.appSecret)
+        ]
         
         ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
             via: self._sessionManager,

@@ -16,6 +16,7 @@
 		1C8D17C05866E6FD41F0AF5A4D197CF6 /* TestBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E4DE041C0DBBD681441D8CD47324F /* TestBackend.swift */; };
 		1EA7D138C2E80104ED8A69B4C3EF71CA /* DRFListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33CD2E8091ACE0636AB7ACDCA50935D /* DRFListGettable.swift */; };
 		41193ED5D845B27CEFC8F2689D193E58 /* MockListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AC8FE4ECE170EC1AEFEFD1DBC63113 /* MockListGettableClient.swift */; };
+		49FCC74456B167B6371514EA588892F4 /* DRFOAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9793634F64E5A96C8050FA685E5779E /* DRFOAuth2Constants.swift */; };
 		4AC209C9F5BE4BFB2224A6CE8EE0C7A6 /* DRFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA5FABE7967FC2DB9F291DFC1B07FF2 /* DRFNode.swift */; };
 		4CEB3F35933297F205CD8645D457231D /* DRFFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB153ADF5BBB1B6592F7C464AF1CDE6 /* DRFFilteredListGettable.swift */; };
 		6031212D0075C8E1E299AB16593CF371 /* MockListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60103521F171CAFC77CB43E3C9C163C5 /* MockListGettable.swift */; };
@@ -68,6 +69,7 @@
 		9876A5A185CE6A270249FAE97C1B7066 /* MockBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBackend.swift; sourceTree = "<group>"; };
 		9906D61B0517B7A4ED20F87ACE5CEF26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B45C24E869D0CEC32E42BF8DA66DBAE9 /* DRFListGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DRFListGettable+OAuth2.swift"; sourceTree = "<group>"; };
+		B9793634F64E5A96C8050FA685E5779E /* DRFOAuth2Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Constants.swift; sourceTree = "<group>"; };
 		C33CD2E8091ACE0636AB7ACDCA50935D /* DRFListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFListGettable.swift; sourceTree = "<group>"; };
 		C5C6598F353A3605961D933957E1E026 /* DjangoRFAFInterfaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoRFAFInterfaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1893A1A74EEFA3831B72DC2BDF3F920 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
@@ -262,9 +264,18 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
+		B25B1B061D18ED91B796391A2763DB5E /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				B9793634F64E5A96C8050FA685E5779E /* DRFOAuth2Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		BB515B2870B88BE2561E2C97ECE82A16 /* OAuth2 */ = {
 			isa = PBXGroup;
 			children = (
+				B25B1B061D18ED91B796391A2763DB5E /* Constants */,
 				036B77F5B3BDE127620E825ABC4C0D35 /* Helpers */,
 				17DB4040F8DA9B3B471EEAF95824728D /* Nodes */,
 				A7D8CB602022B753CAE5834101A61D54 /* Resources */,
@@ -560,6 +571,7 @@
 				8A49C8D246382A201B8E00193033DF11 /* DRFNeedsNoAuth.swift in Sources */,
 				A3E876F19E61AC95C0FA9E25B72B7E15 /* DRFNeedsOAuth2.swift in Sources */,
 				4AC209C9F5BE4BFB2224A6CE8EE0C7A6 /* DRFNode.swift in Sources */,
+				49FCC74456B167B6371514EA588892F4 /* DRFOAuth2Constants.swift in Sources */,
 				F2B646FE6AEBC9CBF7F42914349BD114 /* DRFOAuth2Handler.swift in Sources */,
 				921688E877DEF002F6781DC8B7A398CC /* DRFOAuth2Node.swift in Sources */,
 				EE0D27B881DAB2E0400E4B5E57FDC6FF /* DRFPagination.swift in Sources */,
