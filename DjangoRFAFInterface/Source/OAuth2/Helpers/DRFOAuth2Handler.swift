@@ -195,7 +195,6 @@ private extension DRFOAuth2Handler {
         self._isRequesting = true
         
         let url: URL = self._settings.tokenRequestURL
-        let encoding: ParameterEncoding = URLEncoding.default
         
         let parameters: [String : Any] = [
             _C.JSONKeys.grantType : _C.GrantTypes.password,
@@ -204,27 +203,12 @@ private extension DRFOAuth2Handler {
             _C.JSONKeys.password : password
         ]
         
-        let basicAuthHeader: _Header = self._basicAuthHeader()
-        let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
-        
-        ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
-            via: self._sessionManager,
-            onSuccess: { json in
-                self._lock.lock() ; defer { self._isRequesting = false ; self._lock.unlock() }
-                guard let refreshResponse: _TokenResponse = _TokenResponse(json: json) else {
-                    return
-                }
-                
-                self._credentialStore.updateWith(
-                    accessToken: refreshResponse.accessToken,
-                    refreshToken: refreshResponse.refreshToken,
-                    expiryDate: refreshResponse.expiryDate
-                )
-            },
-            onFailure: { _ in
-                self._lock.lock()
-                self._isRequesting = false
-                self._lock.unlock()
+        self.__requestTokens(
+            url: url,
+            parameters: parameters,
+            updateStatus: { self._isRequesting = false },
+            success: {
+                // TODO: Call Client/s
             }
         )
     }
@@ -238,36 +222,56 @@ private extension DRFOAuth2Handler {
         self._isRefreshing = true
         
         let url: URL = self._settings.tokenRefreshURL
-        let encoding: ParameterEncoding = URLEncoding.default
-        
         let parameters: [String : Any] = [
             _C.JSONKeys.refreshToken: self._credentialStore.refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
         ]
         
+        self.__requestTokens(
+            url: url,
+            parameters: parameters,
+            updateStatus: { self._isRefreshing = false },
+            success: {
+                self._requestsToRetry.forEach({ $0(true, 0.0) })
+                self._requestsToRetry = []
+            }
+        )
+    }
+}
+
+
+// MARK: Common Token Request Functionality
+private extension DRFOAuth2Handler {
+    func __requestTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void) {
+        let method: HTTPMethod = .post
+        let encoding: ParameterEncoding = URLEncoding.default
+        
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
+        ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
             via: self._sessionManager,
             onSuccess: { json in
-                self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
-                guard let refreshResponse: _TokenResponse = _TokenResponse(json: json) else {
+                self._lock.lock()
+                
+                guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
                     return
                 }
                 
                 self._credentialStore.updateWith(
-                    accessToken: refreshResponse.accessToken,
-                    refreshToken: refreshResponse.refreshToken,
-                    expiryDate: refreshResponse.expiryDate
+                    accessToken: tokenResponse.accessToken,
+                    refreshToken: tokenResponse.refreshToken,
+                    expiryDate: tokenResponse.expiryDate
                 )
                 
-                self._requestsToRetry.forEach({ $0(true, 0.0) })
-                self._requestsToRetry = []
+                updateStatus()
+                success()
+                
+                self._lock.unlock()
             },
             onFailure: { _ in
                 self._lock.lock()
-                self._isRefreshing = false
+                updateStatus()
                 self._lock.unlock()
             }
         )
