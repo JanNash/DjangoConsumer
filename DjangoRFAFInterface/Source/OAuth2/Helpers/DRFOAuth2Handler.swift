@@ -44,6 +44,7 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     
     // Private Lazy Variables
     private lazy var _sessionManager: SessionManager = self._createSessionManager()
+    private lazy var _weakSelf: _Weak = { _Weak(self) }()
     
     // Private Variables
     private var _settings: DRFOAuth2Settings
@@ -92,7 +93,7 @@ private extension DRFOAuth2Handler {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
         let sessionManager: SessionManager = SessionManager(configuration: configuration)
-        sessionManager.retrier = _Weak(self)
+        sessionManager.retrier = self._weakSelf
         return sessionManager
     }
 }
