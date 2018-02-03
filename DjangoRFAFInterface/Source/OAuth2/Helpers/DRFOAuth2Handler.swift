@@ -172,10 +172,9 @@ private extension DRFOAuth2Handler {
         self._isRefreshing = true
         
         let url: URL = self._settings.tokenRefreshURL
-        let encoding: ParameterEncoding = JSONEncoding.default
+        let encoding: ParameterEncoding = URLEncoding.default
         
         let parameters: [String : Any] = [
-            DRFOAuth2Constants.JSONKeys.accessToken: self._credentialStore.accessToken,
             DRFOAuth2Constants.JSONKeys.refreshToken: self._credentialStore.refreshToken,
             DRFOAuth2Constants.JSONKeys.grantType: DRFOAuth2Constants.GrantTypes.refreshToken
         ]
