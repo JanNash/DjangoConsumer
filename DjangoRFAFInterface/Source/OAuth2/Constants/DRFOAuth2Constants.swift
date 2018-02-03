@@ -20,6 +20,8 @@ public struct DRFOAuth2Constants {
         public static let expiresIn: String     = "expires_in"
         public static let grantType: String     = "grant_type"
         public static let scope: String         = "scope"
+        public static let username: String      = "username"
+        public static let password: String      = "password"
     }
     
     public struct GrantTypes {
