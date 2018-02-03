@@ -108,15 +108,26 @@ private extension DRFOAuth2Handler {
 }
 
 
-// MARK: Add Authorization Headers
+// MARK: Authorization Headers
 private extension DRFOAuth2Handler {
+    typealias _Header = (key: String, value: String)
+    
     func _addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
         var urlRequest: URLRequest = urlRequest
-        urlRequest.setValue(
-            _C.HeaderValues.bearer(self._credentialStore.accessToken),
-            forHTTPHeaderField: _C.HeaderFields.authorization
-        )
+        let bearerAuthHeader: _Header = self._bearerAuthHeader()
+        urlRequest.setValue(bearerAuthHeader.value, forHTTPHeaderField: bearerAuthHeader.key)
         return urlRequest
+    }
+    
+    // ???: Does it make sense to compute these everytime?
+    // Storing them somewhere as state is less expensive but adds more variables that have
+    // to be synchronized and updated in auth requests in order to avoid possible race conditions.
+    func _basicAuthHeader() -> _Header {
+        return (_C.HeaderFields.authorization, _C.HeaderValues.basic(self._settings.appSecret))
+    }
+    
+    func _bearerAuthHeader() -> _Header {
+        return (_C.HeaderFields.authorization, _C.HeaderValues.bearer(self._credentialStore.accessToken))
     }
 }
 
@@ -184,9 +195,8 @@ private extension DRFOAuth2Handler {
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
         ]
         
-        let headers: [String : String] = [
-            _C.HeaderFields.authorization: _C.HeaderValues.basic(self._settings.appSecret)
-        ]
+        let basicAuthHeader: _Header = self._basicAuthHeader()
+        let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
         ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
             via: self._sessionManager,
