@@ -72,6 +72,10 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
 
 
 // MARK: // Private
+// MARK: - Typealiases
+private typealias _C = DRFOAuth2Constants
+
+
 // MARK: - _WrappedRequestRetrier
 // This wrapper class is needed because a DRFOAuth2Handler assigns itself as the retrier
 // for its own sessionManager. Without the wrapper, this would create a strong reference cycle.
@@ -91,6 +95,7 @@ class _Weak: RequestRetrier {
 }
 
 
+// MARK: - DRFOAuth2Handler
 // MARK: Lazy Variable Creation
 private extension DRFOAuth2Handler {
     func _createSessionManager() -> SessionManager {
@@ -108,8 +113,8 @@ private extension DRFOAuth2Handler {
     func _addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
         var urlRequest: URLRequest = urlRequest
         urlRequest.setValue(
-            DRFOAuth2Constants.HeaderValues.bearer(self._credentialStore.accessToken),
-            forHTTPHeaderField: DRFOAuth2Constants.HeaderFields.authorization
+            _C.HeaderValues.bearer(self._credentialStore.accessToken),
+            forHTTPHeaderField: _C.HeaderFields.authorization
         )
         return urlRequest
     }
@@ -120,9 +125,9 @@ private extension DRFOAuth2Handler {
 private extension DRFOAuth2Handler/*: RequestRetrier*/ {
     private struct _RefreshResponse {
         init?(json: JSON) {
-            guard let accessToken: String = json[DRFOAuth2Constants.JSONKeys.accessToken].string else { return nil }
-            guard let refreshToken: String = json[DRFOAuth2Constants.JSONKeys.refreshToken].string else { return nil }
-            guard let expiresIn: TimeInterval = json[DRFOAuth2Constants.JSONKeys.expiresIn].double else { return nil }
+            guard let accessToken: String = json[_C.JSONKeys.accessToken].string else { return nil }
+            guard let refreshToken: String = json[_C.JSONKeys.refreshToken].string else { return nil }
+            guard let expiresIn: TimeInterval = json[_C.JSONKeys.expiresIn].double else { return nil }
             self.accessToken = accessToken
             self.refreshToken = refreshToken
             // ???: Should a tolerance be subtracted from expiresIn to account for request duration?
@@ -175,12 +180,12 @@ private extension DRFOAuth2Handler {
         let encoding: ParameterEncoding = URLEncoding.default
         
         let parameters: [String : Any] = [
-            DRFOAuth2Constants.JSONKeys.refreshToken: self._credentialStore.refreshToken,
-            DRFOAuth2Constants.JSONKeys.grantType: DRFOAuth2Constants.GrantTypes.refreshToken
+            _C.JSONKeys.refreshToken: self._credentialStore.refreshToken,
+            _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
         ]
         
         let headers: [String : String] = [
-            DRFOAuth2Constants.HeaderFields.authorization: DRFOAuth2Constants.HeaderValues.basic(self._settings.appSecret)
+            _C.HeaderFields.authorization: _C.HeaderValues.basic(self._settings.appSecret)
         ]
         
         ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
