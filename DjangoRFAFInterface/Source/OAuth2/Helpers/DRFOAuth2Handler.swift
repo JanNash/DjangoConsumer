@@ -166,7 +166,6 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
 // MARK: Token Refresh Implementation
 private extension DRFOAuth2Handler {
     func _refreshTokens() {
-        defer { self._lock.unlock() }
         
         guard !_isRefreshing else { return }
         self._isRefreshing = true
