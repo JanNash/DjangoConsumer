@@ -70,10 +70,18 @@ extension DRFOAuth2Handler {
 }
 
 
+// MARK: Default Implementations
+extension DRFOAuth2Handler {
+    func addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
+        return self._addBearerAuthorizationHeader(to: urlRequest)
+    }
+}
+
+
 // MARK: RequestAdapter
 extension DRFOAuth2Handler/*: RequestAdapter*/ {
     func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        return try self._adapt(urlRequest)
+        return self.addBearerAuthorizationHeader(to: urlRequest)
     }
 }
 
@@ -106,10 +114,9 @@ private struct _RefreshResponse {
 
 
 // MARK: - DRFOAuth2Handler
-// MARK: Implementations
-// MARK: RequestAdapter
-private extension DRFOAuth2Handler/*: RequestAdapter*/ {
-    func _adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+// MARK: Default Implemetations
+private extension DRFOAuth2Handler {
+    func _addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
         var urlRequest: URLRequest = urlRequest
         urlRequest.setValue("Bearer " + self.credentialStore.accessToken, forHTTPHeaderField: "Authorization")
         return urlRequest
