@@ -67,14 +67,33 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
 
 
 // MARK: // Private
+// MARK: - _WrappedRequestRetrier
+// This wrapper class is needed because a DRFOAuth2Handler assigns itself as the retrier
+// for its own sessionManager. Without the wrapper, this would create a strong reference cycle.
+class _Weak: RequestRetrier {
+    // Init
+    init(_ handler: DRFOAuth2Handler) {
+        self._handler = handler
+    }
+    
+    // Weak Variables
+    private weak var _handler: DRFOAuth2Handler?
+    
+    // RequestRetrier
+    func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
+        self._handler?.should(manager, retry: request, with: error, completion: completion)
+    }
+}
+
+
 // MARK: Lazy Variable Creation
 private extension DRFOAuth2Handler {
     func _createSessionManager() -> SessionManager {
-        // Create default sessionManager
-        // (this implementation is gratefully copied from SessionManager.swift in Alamofire)
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        return SessionManager(configuration: configuration)
+        let sessionManager: SessionManager = SessionManager(configuration: configuration)
+        sessionManager.retrier = _Weak(self)
+        return sessionManager
     }
 }
 
@@ -158,13 +177,6 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
             },
             onFailure: { error in
                 self._lock.lock() ; defer { self._isRefreshing = false ; self._lock.unlock() }
-                // TODO: Call back to a client?
-                // TODO: There should be a way to set a maximum number of refresh retries.
-                // If the last retry failed (or for each retry?), a client could be
-                // notified, so the UI can handle the failure (show password prompt,
-                // show error alert with support number, the likes...)
-                // Also, after the maximum number of retries, one could let the queued
-                // requests fail.
             }
         )
     }
