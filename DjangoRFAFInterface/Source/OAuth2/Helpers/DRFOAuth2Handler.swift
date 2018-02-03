@@ -131,15 +131,43 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
     
     // Implementation
     func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
-        self._lock.lock() ; defer { self._lock.unlock() }
-
+        self._lock.lock()
+        
+        guard let url: URL = request.request?.url else {
+            completion(false, 0.0)
+            return
+        }
+        
+        switch url {
+        case self._settings.tokenRequestURL:
+            // Call client
+            break
+        case self._settings.tokenRefreshURL:
+            // Call client
+            break
+        case self._settings.tokenRevokeURL:
+            // Call client
+            break
+        default:
+            break
+        }
+        
         // ???: Should there be checks for more error codes like 429, for example?
         guard let response: HTTPURLResponse = request.task?.response as? HTTPURLResponse, response.statusCode == 401 else {
             completion(false, 0.0)
             return
         }
-        
+            
         self._requestsToRetry.append(completion)
+        self._refreshTokens()
+    }
+}
+
+
+// MARK: Token Refresh Implementation
+private extension DRFOAuth2Handler {
+    func _refreshTokens() {
+        defer { self._lock.unlock() }
         
         guard !_isRefreshing else { return }
         self._isRefreshing = true
@@ -154,8 +182,7 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         ]
         
         let headers: [String : String] = [
-            DRFOAuth2Constants.HeaderFields.authorization:
-            DRFOAuth2Constants.HeaderValues.basic(self._settings.appSecret)
+            DRFOAuth2Constants.HeaderFields.authorization: DRFOAuth2Constants.HeaderValues.basic(self._settings.appSecret)
         ]
         
         ValidatedJSONRequest(url: url, method: .post, parameters: parameters, encoding: encoding, headers: headers).fire(
