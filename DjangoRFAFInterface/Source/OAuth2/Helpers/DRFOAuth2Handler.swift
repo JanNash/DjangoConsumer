@@ -168,8 +168,7 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
 // MARK: Token Refresh Implementation
 private extension DRFOAuth2Handler {
     func _refreshTokens() {
-        
-        guard !_isRefreshing else { return }
+        guard !self._isRefreshing else { return }
         self._isRefreshing = true
         
         let url: URL = self._settings.tokenRefreshURL
