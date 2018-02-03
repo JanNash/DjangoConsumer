@@ -159,10 +159,8 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         }
         
         self._requestsToRetry.append(completion)
-        
-        // The lock is still locked here, it will be unlocked
-        // in a defer block in self._refreshTokens()
         self._refreshTokens()
+        self._lock.unlock()
     }
 }
 
