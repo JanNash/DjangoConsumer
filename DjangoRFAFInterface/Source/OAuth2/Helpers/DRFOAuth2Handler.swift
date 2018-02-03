@@ -103,7 +103,7 @@ private extension DRFOAuth2Handler {
 }
 
 
-// MARK: Default Implemetations
+// MARK: Add Authorization Headers
 private extension DRFOAuth2Handler {
     func _addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
         var urlRequest: URLRequest = urlRequest
