@@ -85,7 +85,7 @@ private typealias _C = DRFOAuth2Constants
 // MARK: - _WrappedRequestRetrier
 // This wrapper class is needed because a DRFOAuth2Handler assigns itself as the retrier
 // for its own sessionManager. Without the wrapper, this would create a strong reference cycle.
-class _Weak: RequestRetrier {
+private class _Weak: RequestRetrier {
     // Init
     init(_ handler: DRFOAuth2Handler) {
         self._handler = handler
