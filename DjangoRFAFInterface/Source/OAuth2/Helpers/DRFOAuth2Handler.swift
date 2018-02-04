@@ -65,6 +65,10 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
         self._refreshTokens()
     }
     
+    open func revokeTokens() {
+        self._revokeTokens()
+    }
+    
     // RequestAdapter
     open func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
         return self._addBearerAuthorizationHeader(to: urlRequest)
@@ -276,5 +280,19 @@ private extension DRFOAuth2Handler {
                 self._lock.unlock()
             }
         )
+    }
+}
+
+
+// MARK: Token Revoke Implementation
+private extension DRFOAuth2Handler {
+    func _revokeTokens() {
+        let url: URL = self._settings.tokenRevokeURL
+        let method: HTTPMethod = .post
+        
+        let basicAuthHeader: _Header = self._basicAuthHeader()
+        let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
+        
+        self._sessionManager.request(url, method: method, headers: headers)
     }
 }
