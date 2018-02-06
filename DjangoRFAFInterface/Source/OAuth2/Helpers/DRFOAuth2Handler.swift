@@ -126,11 +126,11 @@ private struct _TokenResponse {
         self.scope = scope
     }
     
-    var accessToken: String
-    var refreshToken: String
-    var expiryDate: Date
-    var tokenType: String
-    var scope: String
+    private(set) var accessToken: String
+    private(set) var refreshToken: String
+    private(set) var expiryDate: Date
+    private(set) var tokenType: String
+    private(set) var scope: String
 }
 
 
