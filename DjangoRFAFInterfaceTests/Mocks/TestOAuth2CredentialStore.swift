@@ -1,5 +1,5 @@
 //
-//  MockOAuth2CredentialStore.swift
+//  TestOAuth2CredentialStore.swift
 //  DjangoRFAFInterfaceTests
 //
 //  Created by Jan Nash (privat) on 06.02.18.
@@ -11,7 +11,7 @@ import DjangoRFAFInterface
 
 
 // MARK: // Internal
-struct MockOAuth2CredentialStore: DRFOAuth2CredentialStore {
+struct TestOAuth2CredentialStore: DRFOAuth2CredentialStore {
     // Variables
     var accessToken: String?
     var refreshToken: String?

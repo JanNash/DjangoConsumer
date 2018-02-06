@@ -1,5 +1,5 @@
 //
-//  MockOAuth2Node.swift
+//  TestOAuth2Node.swift
 //  DjangoRFAFInterfaceTests
 //
 //  Created by Jan Nash (privat) on 06.02.18.
@@ -34,7 +34,7 @@ class TestOAuth2Node: DRFOAuth2Node {
         
         return DRFOAuth2Handler(
             settings: settings,
-            credentialStore: MockOAuth2CredentialStore()
+            credentialStore: TestOAuth2CredentialStore()
         )
     }()
     
