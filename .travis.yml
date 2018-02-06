@@ -9,7 +9,7 @@ cache:
   bundler: true
   cocoapods: true
   directories:
-    - $HOME/.cocoapods/repos/master
+    - ~/.cocoapods
     - /home/travis/.rvm/
 
 before_install:
