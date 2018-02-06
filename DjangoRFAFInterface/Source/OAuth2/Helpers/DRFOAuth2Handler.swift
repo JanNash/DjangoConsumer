@@ -240,7 +240,8 @@ private extension DRFOAuth2Handler {
             updateStatus: { self._isRequesting = false },
             success: {
                 // FIXME: Call Client/s
-            }
+            },
+            failure: { _ in }
         )
     }
 }
@@ -268,7 +269,8 @@ private extension DRFOAuth2Handler {
             url: url,
             parameters: parameters,
             updateStatus: { self._isRefreshing = false },
-            success: { self._processRequestsToRetry(shouldRetry: true, clear: true) }
+            success: { self._processRequestsToRetry(shouldRetry: true, clear: true) },
+            failure: { _ in }
         )
     }
     
@@ -283,7 +285,7 @@ private extension DRFOAuth2Handler {
 
 // MARK: Common Token Request Functionality
 private extension DRFOAuth2Handler {
-    func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void) {
+    func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let method: HTTPMethod = .post
         let encoding: ParameterEncoding = URLEncoding.default
         
@@ -313,10 +315,11 @@ private extension DRFOAuth2Handler {
                 
                 self._lock.unlock()
             },
-            onFailure: { _ in
+            onFailure: { error in
                 // ???: Depending on the reason for the failure, the credentialStore should maybe be cleared here?
                 self._lock.lock()
                 updateStatus()
+                failure(error)
                 self._lock.unlock()
             }
         )
