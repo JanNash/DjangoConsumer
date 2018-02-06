@@ -125,7 +125,7 @@ extension TestCase {
         // // Run Test
         methodToBeTested(filters)
         
-        self.waitForExpectations(timeout: 1) { _ in
+        self.waitForExpectations(timeout: 10) { _ in
             FixtureType.clients = []
         }
     }
