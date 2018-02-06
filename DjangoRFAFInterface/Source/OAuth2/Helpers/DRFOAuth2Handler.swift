@@ -217,7 +217,6 @@ private extension DRFOAuth2Handler {
         self._isRequesting = true
         
         let url: URL = self._settings.tokenRequestURL
-        
         let parameters: [String : Any] = [
             _C.JSONKeys.grantType : _C.GrantTypes.password,
             _C.JSONKeys.scope : _C.Scopes.readWrite,
@@ -287,6 +286,7 @@ private extension DRFOAuth2Handler {
                 self._lock.lock()
                 
                 guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
+                    // FIXME: Handle this somehow (call client, log, ?)
                     return
                 }
                 
@@ -302,6 +302,7 @@ private extension DRFOAuth2Handler {
                 self._lock.unlock()
             },
             onFailure: { _ in
+                // ???: Depending on the reason for the failure, the credentialStore should maybe be cleared here?
                 self._lock.lock()
                 updateStatus()
                 self._lock.unlock()
