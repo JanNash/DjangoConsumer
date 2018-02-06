@@ -13,11 +13,11 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Class Declaration
-class MockNode: DRFNode {
+class MockNode: Node {
     // Singleton
     static let main: MockNode = MockNode()
     
-    // DRFNode Conformance
+    // Node Conformance
     // Basic Setup
     var baseURL: URL = URL(string: "http://localhost:8080")!
     
@@ -30,21 +30,21 @@ class MockNode: DRFNode {
     }()
     
     // Pagination
-    func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : DRFListGettable {
+    func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : ListGettable {
         return 1000
     }
     
     // List GET endpoints
-    func relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+    func relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
         return self._relativeListURL(for: resourceType)
     }
 }
 
 
 // MARK: // Private
-// MARK: DRFNode Implementations
+// MARK: Node Implementations
 private extension MockNode {
-    func _relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+    func _relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
         if resourceType == MockListGettable.self {
             return URL(string: "listgettables/")!

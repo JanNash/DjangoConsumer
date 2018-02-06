@@ -27,7 +27,7 @@ extension TestCase {
         typealias ClientType = MockListGettableClient
         
         // // This is the method to be tested
-        let methodToBeTested: ([DRFFilterType]) -> Void = {
+        let methodToBeTested: ([FilterType]) -> Void = {
             FixtureType.get(filters: $0)
         }
         
@@ -50,13 +50,13 @@ extension TestCase {
         // Generate filters
         let date: Date = Date()
         let name: String = "A"
-        let filters: [DRFFilterType] = [
+        let filters: [FilterType] = [
             _F(.date, .__lte, date),
             _F(.name, .__icontains, name)
         ]
-        let expectedFilters: [DRFFilterType] = filters
+        let expectedFilters: [FilterType] = filters
         let expectedFilterParameters: Parameters = expectedNode.parametersFrom(filters: expectedFilters)
-        let expectedFilterClosure: (DRFListGettable) -> Bool = backend.filterClosure(
+        let expectedFilterClosure: (ListGettable) -> Bool = backend.filterClosure(
             for: expectedFilterParameters, with: expectedRoutePattern
         )
         
@@ -99,14 +99,14 @@ extension TestCase {
             XCTAssertEqual(success.responsePagination.offset, expectedPaginationOffset)
             XCTAssertEqual(success.responsePagination.limit, expectedPaginationLimit)
             
-            // FIXME: The value property of DRFFilterType is not required to be Equatable.
-            // Should a DRFFilterType still be equatable by just comparing key and comparator
+            // FIXME: The value property of FilterType is not required to be Equatable.
+            // Should a FilterType still be equatable by just comparing key and comparator
             // in case the value property isn't Equatable?
             // Could it suffice to just test the count and compare the keys and
             // comparators here and not to care about the values?
-            let returnedFilters: [DRFFilterType] = success.filters
+            let returnedFilters: [FilterType] = success.filters
             XCTAssertEqual(returnedFilters.count, expectedFilters.count)
-            let unequalFilters: [(DRFFilterType, DRFFilterType)] =
+            let unequalFilters: [(FilterType, FilterType)] =
                 zip(returnedFilters, expectedFilters).filter({ $0.stringKey != $1.stringKey })
             XCTAssert(
                 unequalFilters.isEmpty,

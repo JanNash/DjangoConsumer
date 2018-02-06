@@ -10,9 +10,9 @@ import Foundation
 
 
 // MARK: // Public
-// MARK: - DRFFilterKey & DRFFilterComparator defaults
+// MARK: - FilterKey & FilterComparator defaults
 //
-// To define custom keys, DRFFilterKey/DRFFilterComparator should be extended
+// To define custom keys, FilterKey/FilterComparator should be extended
 // the same way as here. Ideally, the enum should be named 'CustomFilterKeys'
 // but technically it can be named arbitrarily. An enum is preferred to a struct
 // for these keys because it guarantees uniqueness of its raw values.
@@ -30,14 +30,14 @@ import Foundation
 
 // // // The pattern starts // // //
 
-// MARK: - DRFFilterKey defaults
-public extension DRFFilterKey {
-    public static var date: DRFFilterKey<Date>      { return _K<Date>(.date) }
-    public static var id: DRFFilterKey<id_Type>     { return _K<id_Type>(.id) }
-    public static var name: DRFFilterKey<String>    { return _K<String>(.name) }
+// MARK: - FilterKey defaults
+public extension FilterKey {
+    public static var date: FilterKey<Date>      { return _K<Date>(.date) }
+    public static var id: FilterKey<id_Type>     { return _K<id_Type>(.id) }
+    public static var name: FilterKey<String>    { return _K<String>(.name) }
     
     // Helpers
-    private typealias _K<V> = DRFFilterKey<V>
+    private typealias _K<V> = FilterKey<V>
     
     enum DefaultFilterKeys: String {
         case date   = "date"
@@ -47,22 +47,22 @@ public extension DRFFilterKey {
 }
 
 
-// MARK: - DRFFilterKey Special Types
+// MARK: - FilterKey Special Types
 public protocol id_Type {}
 
 
-// MARK: - DRFFilterComparator defaults
-public extension DRFFilterComparator {
-    public static var __lt: DRFFilterComparator         { return _C(.__lt) }
-    public static var __lte: DRFFilterComparator        { return _C(.__lte) }
-    public static var __gte: DRFFilterComparator        { return _C(.__gte) }
-    public static var __gt: DRFFilterComparator         { return _C(.__gt) }
-    public static var __in: DRFFilterComparator         { return _C(.__in) }
-    public static var __icontains: DRFFilterComparator  { return _C(.__icontains) }
+// MARK: - FilterComparator defaults
+public extension FilterComparator {
+    public static var __lt: FilterComparator         { return _C(.__lt) }
+    public static var __lte: FilterComparator        { return _C(.__lte) }
+    public static var __gte: FilterComparator        { return _C(.__gte) }
+    public static var __gt: FilterComparator         { return _C(.__gt) }
+    public static var __in: FilterComparator         { return _C(.__in) }
+    public static var __icontains: FilterComparator  { return _C(.__icontains) }
     
     // Helpers
     // The class name is simply too long...
-    private typealias _C = DRFFilterComparator
+    private typealias _C = FilterComparator
     
     enum DefaultFilterComparators: String {
         case __lt           = "__lt"
@@ -77,41 +77,41 @@ public extension DRFFilterComparator {
 // // // The pattern ends // // //
 
 
-// MARK: - DRFFilterType
+// MARK: - FilterType
 // This is needed, so it's possible to create Arrays
-// containing DRFFilters with different generic types
-public protocol DRFFilterType {
+// containing Filters with different generic types
+public protocol FilterType {
     var stringKey: String { get }
     var value: Any? { get }
 }
 
 
-// MARK: - DRFFilter Struct Declaration
+// MARK: - Filter Struct Declaration
 // ???: Is this typealias a good idea? Does it clutter someones namespace?
 // Technically, it's DjangoConsumer._F, so it should be fine, I hope?
-public typealias _F<V> = DRFFilter<V>
-public struct DRFFilter<V>: DRFFilterType {
+public typealias _F<V> = Filter<V>
+public struct Filter<V>: FilterType {
     // Init
-    public init(_ key: DRFFilterKey<V>, _ comparator: DRFFilterComparator, _ value: V) {
+    public init(_ key: FilterKey<V>, _ comparator: FilterComparator, _ value: V) {
         self.key = key
         self.comparator = comparator
         self.value = value
     }
     
-    // DRFFilterType Conformance
+    // FilterType Conformance
     public var stringKey: String {
         return self.key.string + self.comparator.string
     }
     
     // Public Readonly Variables
-    public private(set) var key: DRFFilterKey<V>
-    public private(set) var comparator: DRFFilterComparator
+    public private(set) var key: FilterKey<V>
+    public private(set) var comparator: FilterComparator
     public private(set) var value: Any?
 }
 
 
-// MARK: - DRFFilterKey Struct Declaration
-public struct DRFFilterKey<V>: Equatable {
+// MARK: - FilterKey Struct Declaration
+public struct FilterKey<V>: Equatable {
     // Public Init
     public init(_ string: String) {
         self.string = string
@@ -127,23 +127,23 @@ public struct DRFFilterKey<V>: Equatable {
     
     // Functions
     // Key Concatenation
-    func __<T>(_ keyToAppend: DRFFilterKey<T>) -> DRFFilterKey<T> {
-        return DRFFilterKey<T>(self.string + "__" + keyToAppend.string)
+    func __<T>(_ keyToAppend: FilterKey<T>) -> FilterKey<T> {
+        return FilterKey<T>(self.string + "__" + keyToAppend.string)
     }
     
     // Equatability
-    public static func ==<T>(_ lhs: DRFFilterKey<T>, _ rhs: DRFFilterKey<T>) -> Bool {
+    public static func ==<T>(_ lhs: FilterKey<T>, _ rhs: FilterKey<T>) -> Bool {
         return lhs.string == rhs.string
     }
     
-    public static func !=<T>(_ lhs: DRFFilterKey<T>, _ rhs: DRFFilterKey<T>) -> Bool {
+    public static func !=<T>(_ lhs: FilterKey<T>, _ rhs: FilterKey<T>) -> Bool {
         return lhs.string != rhs.string
     }
 }
 
 
-// MARK: - DRFFilterComparator Struct Declaration
-public struct DRFFilterComparator: Equatable {
+// MARK: - FilterComparator Struct Declaration
+public struct FilterComparator: Equatable {
     // Public Init
     public init(_ string: String) {
         self.string = string
@@ -158,11 +158,11 @@ public struct DRFFilterComparator: Equatable {
     private(set) var string: String
     
     // Equatability
-    public static func ==(_ lhs: DRFFilterComparator, _ rhs: DRFFilterComparator) -> Bool {
+    public static func ==(_ lhs: FilterComparator, _ rhs: FilterComparator) -> Bool {
         return lhs.string == rhs.string
     }
     
-    public static func !=(_ lhs: DRFFilterComparator, _ rhs: DRFFilterComparator) -> Bool {
+    public static func !=(_ lhs: FilterComparator, _ rhs: FilterComparator) -> Bool {
         return lhs.string != rhs.string
     }
 }

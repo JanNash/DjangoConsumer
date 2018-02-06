@@ -11,7 +11,7 @@ import DjangoConsumer
 
 
 // MARK: // Internal
-struct TestOAuth2CredentialStore: DRFOAuth2CredentialStore {
+struct TestOAuth2CredentialStore: OAuth2CredentialStore {
     // Variables
     var accessToken: String?
     var refreshToken: String?

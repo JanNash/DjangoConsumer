@@ -1,5 +1,5 @@
 //
-//  DRFOAuth2Handler.swift
+//  OAuth2Handler.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 28.01.18.
@@ -13,9 +13,9 @@ import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
-// MARK: - DRFOAuth2Settings
+// MARK: - OAuth2Settings
 // MARK: ???: Should this be a protocol, too? Check RFC
-public struct DRFOAuth2Settings {
+public struct OAuth2Settings {
     // Init
     public init(appSecret: String, tokenRequestURL: URL, tokenRefreshURL: URL, tokenRevokeURL: URL) {
         self.appSecret = appSecret
@@ -32,8 +32,8 @@ public struct DRFOAuth2Settings {
 }
 
 
-// MARK: - DRFOAuth2CredentialStore
-public protocol DRFOAuth2CredentialStore {
+// MARK: - OAuth2CredentialStore
+public protocol OAuth2CredentialStore {
     var accessToken: String? { get set }
     var refreshToken: String? { get set }
     var expiryDate: Date? { get set }
@@ -44,18 +44,18 @@ public protocol DRFOAuth2CredentialStore {
 }
 
 
-// MARK: - DRFOAuth2Error
-enum DRFOAuth2Error: Error {
+// MARK: - OAuth2Error
+enum OAuth2Error: Error {
     case noAccessToken
     case noRefreshToken
     case invalidTokenResponse(JSON)
 }
 
 
-// MARK: - DRFOAuth2Handler
-open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
+// MARK: - OAuth2Handler
+open class OAuth2Handler: RequestAdapter, RequestRetrier {
     // Init
-    public init(settings: DRFOAuth2Settings, credentialStore: DRFOAuth2CredentialStore) {
+    public init(settings: OAuth2Settings, credentialStore: OAuth2CredentialStore) {
         self._settings = settings
         self._credentialStore = credentialStore
     }
@@ -65,8 +65,8 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     private lazy var _weakSelf: _Weak = { _Weak(self) }()
     
     // Private Variables
-    private var _settings: DRFOAuth2Settings
-    private var _credentialStore: DRFOAuth2CredentialStore
+    private var _settings: OAuth2Settings
+    private var _credentialStore: OAuth2CredentialStore
     private var _requestsToRetry: [RequestRetryCompletion] = []
     private var _lock: NSLock = NSLock()
     private var _isRefreshing: Bool = false
@@ -100,20 +100,20 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
 
 // MARK: // Private
 // MARK: - Typealiases
-private typealias _C = DRFOAuth2Constants
+private typealias _C = OAuth2Constants
 
 
 // MARK: - _WrappedRequestRetrier
-// This wrapper class is needed because a DRFOAuth2Handler assigns itself as the retrier
+// This wrapper class is needed because a OAuth2Handler assigns itself as the retrier
 // for its own sessionManager. Without the wrapper, this would create a strong reference cycle.
 private class _Weak: RequestRetrier {
     // Init
-    init(_ handler: DRFOAuth2Handler) {
+    init(_ handler: OAuth2Handler) {
         self._handler = handler
     }
     
     // Weak Variables
-    private weak var _handler: DRFOAuth2Handler?
+    private weak var _handler: OAuth2Handler?
     
     // RequestRetrier
     func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
@@ -149,9 +149,9 @@ private struct _TokenResponse {
 }
 
 
-// MARK: - DRFOAuth2Handler
+// MARK: - OAuth2Handler
 // MARK: Lazy Variable Creation
-private extension DRFOAuth2Handler {
+private extension OAuth2Handler {
     func _createSessionManager() -> SessionManager {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
@@ -163,12 +163,12 @@ private extension DRFOAuth2Handler {
 
 
 // MARK: Authorization Headers
-private extension DRFOAuth2Handler {
+private extension OAuth2Handler {
     typealias _Header = (key: String, value: String)
     
     func _addBearerAuthorizationHeader(to urlRequest: URLRequest) throws -> URLRequest {
         guard let bearerAuthHeader: _Header = self._bearerAuthHeader() else {
-            throw DRFOAuth2Error.noAccessToken
+            throw OAuth2Error.noAccessToken
         }
         
         var urlRequest: URLRequest = urlRequest
@@ -191,7 +191,7 @@ private extension DRFOAuth2Handler {
 
 
 // MARK: RequestRetrier
-private extension DRFOAuth2Handler/*: RequestRetrier*/ {
+private extension OAuth2Handler/*: RequestRetrier*/ {
     func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
         self._lock.lock()
         
@@ -221,7 +221,7 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
             success: { self._processRequestsToRetry(shouldRetry: true, clear: true) },
             failure: { error in
                 switch error {
-                case DRFOAuth2Error.noRefreshToken:
+                case OAuth2Error.noRefreshToken:
                     self._processRequestsToRetry(shouldRetry: false, clear: true)
                     // ???: Clear CredentialStore
                 default: break
@@ -240,7 +240,7 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
 
 
 // MARK: Token Request Implementation
-private extension DRFOAuth2Handler {
+private extension OAuth2Handler {
     func _requestTokens(username: String, password: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         guard !self._isRequesting else { return }
         self._isRequesting = true
@@ -265,13 +265,13 @@ private extension DRFOAuth2Handler {
 
 
 // MARK: Token Refresh Implementation
-private extension DRFOAuth2Handler {
+private extension OAuth2Handler {
     func _refreshTokens(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         guard !self._isRefreshing else { return }
         self._isRefreshing = true
         
         guard let refreshToken: String = self._credentialStore.refreshToken else {
-            failure(DRFOAuth2Error.noRefreshToken)
+            failure(OAuth2Error.noRefreshToken)
             return
         }
         
@@ -293,7 +293,7 @@ private extension DRFOAuth2Handler {
 
 
 // MARK: Common Token Request Functionality
-private extension DRFOAuth2Handler {
+private extension OAuth2Handler {
     func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let method: HTTPMethod = .post
         let encoding: ParameterEncoding = URLEncoding.default
@@ -336,7 +336,7 @@ private extension DRFOAuth2Handler {
 
 
 // MARK: Token Revoke Implementation
-private extension DRFOAuth2Handler {
+private extension OAuth2Handler {
     func _revokeTokens() {
         guard let accessToken: String = self._credentialStore.accessToken else {
             // ???: Should the credentialStore be cleared here?
