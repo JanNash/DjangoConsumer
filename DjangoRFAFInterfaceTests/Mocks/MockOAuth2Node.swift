@@ -23,9 +23,7 @@ class TestOAuth2Node: DRFOAuth2Node {
     
     // OAuth2Handler
     lazy var oauth2Handler: DRFOAuth2Handler = {
-        let baseURLWith: (String) -> URL = {
-            return self.baseURL.appendingPathComponent($0)
-        }
+        let baseURLWith: (String) -> URL = self.baseURL.appendingPathComponent
         
         let settings: DRFOAuth2Settings = DRFOAuth2Settings(
             appSecret: "",
