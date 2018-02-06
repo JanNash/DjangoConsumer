@@ -8,6 +8,8 @@ xcode_sdk: iphonesimulator11.2
 cache:
   - bundler
   - cocoapods
+  directories:
+    - $HOME/.cocoapods/repos/master
 
 install:
   - pod repo update
