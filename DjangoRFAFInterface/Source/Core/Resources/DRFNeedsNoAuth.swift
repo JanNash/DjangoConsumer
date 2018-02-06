@@ -1,5 +1,5 @@
 //
-//  DRFMetaResource.swift
+//  DRFNeedsNoAuth.swift
 //  DjangoRFAFInterface
 //
 //  Created by Jan Nash (privat) on 18.01.18.
@@ -10,6 +10,6 @@ import Foundation
 
 
 // MARK: // Public
-public protocol DRFMetaResource {
+public protocol DRFNeedsNoAuth {
     static var defaultNode: DRFNode { get }
 }

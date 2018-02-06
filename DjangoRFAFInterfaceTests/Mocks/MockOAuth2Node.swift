@@ -1,8 +1,8 @@
 //
-//  MockNode.swift
+//  TestOAuth2Node.swift
 //  DjangoRFAFInterfaceTests
 //
-//  Created by Jan Nash (privat) on 21.01.18.
+//  Created by Jan Nash (privat) on 06.02.18.
 //  Copyright © 2018 Kitenow. All rights reserved.
 //
 
@@ -13,13 +13,33 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Class Declaration
-class MockNode: DRFNode {
+class MockOAuth2Node: DRFOAuth2Node {
     // Singleton
-    static let main: MockNode = MockNode()
+    static let main: MockOAuth2Node = MockOAuth2Node()
     
     // DRFNode Conformance
     // Basic Setup
-    var baseURL: URL = URL(string: "http://localhost:8080")!
+    var baseURL: URL = URL(string: "")!
+    
+    // OAuth2Clients
+    var oauth2Clients: [DRFOAuth2NodeAuthenticationClient] = []
+    
+    // OAuth2Handler
+    lazy var oauth2Handler: DRFOAuth2Handler = {
+        let baseURLWith: (String) -> URL = self.baseURL.appendingPathComponent
+        
+        let settings: DRFOAuth2Settings = DRFOAuth2Settings(
+            appSecret: "",
+            tokenRequestURL: baseURLWith(""),
+            tokenRefreshURL: baseURLWith(""),
+            tokenRevokeURL: baseURLWith("")
+        )
+        
+        return DRFOAuth2Handler(
+            settings: settings,
+            credentialStore: TestOAuth2CredentialStore()
+        )
+    }()
     
     // Alamofire SessionManager
     // This is copied from the SessionManager implementation
@@ -43,7 +63,7 @@ class MockNode: DRFNode {
 
 // MARK: // Private
 // MARK: DRFNode Implementations
-private extension MockNode {
+private extension MockOAuth2Node {
     func _relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
         if resourceType == MockListGettable.self {
@@ -52,6 +72,6 @@ private extension MockNode {
             return URL(string: "filteredlistgettables/")!
         }
         // FIXME: Throw a real Error here?
-        fatalError("[MockNode] No URL registered for '\(resourceType)'")
+        fatalError("[MockOAuth2Node] No URL registered for '\(resourceType)'")
     }
 }

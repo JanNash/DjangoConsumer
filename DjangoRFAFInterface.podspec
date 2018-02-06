@@ -37,9 +37,13 @@ Pod::Spec.new do |s|
     core.source_files = "DjangoRFAFInterface/Source/Core/**/*.swift"
   end
   
-  s.subspec 'MockBackend' do |lb|
-    lb.source_files = "DjangoRFAFInterface/Source/MockBackend/**/*.swift"
-    lb.dependency 'Embassy', '~> 4.0.0'
-    lb.dependency 'EnvoyAmbassador', '~> 4.0.1'
+  s.subspec 'OAuth2' do |oauth2|
+      core.source_files = "DjangoRFAFInterface/Source/OAuth2/**/*.swift"
+  end
+  
+  s.subspec 'MockBackend' do |mockbackend|
+    mockbackend.source_files = "DjangoRFAFInterface/Source/MockBackend/**/*.swift"
+    mockbackend.dependency 'Embassy', '~> 4.0.0'
+    mockbackend.dependency 'EnvoyAmbassador', '~> 4.0.1'
   end
 end
