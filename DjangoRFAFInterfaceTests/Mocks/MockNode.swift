@@ -13,7 +13,7 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Class Declaration
-final class TestNode: DRFNode {
+class TestNode: DRFNode {
     // Singleton
     static let main: TestNode = TestNode()
     
