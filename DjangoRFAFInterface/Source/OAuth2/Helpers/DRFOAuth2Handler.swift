@@ -25,10 +25,10 @@ public struct DRFOAuth2Settings {
     }
     
     // Public Variables
-    public var appSecret: String
-    public var tokenRequestURL: URL
-    public var tokenRefreshURL: URL
-    public var tokenRevokeURL: URL
+    public private(set) var appSecret: String
+    public private(set) var tokenRequestURL: URL
+    public private(set) var tokenRefreshURL: URL
+    public private(set) var tokenRevokeURL: URL
 }
 
 
