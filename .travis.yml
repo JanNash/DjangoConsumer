@@ -16,6 +16,7 @@ before_install:
   - gem install bundler
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further information
   - gem update --system
+  - bundle install
   - pod repo update
 
 # install:
