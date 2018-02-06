@@ -13,8 +13,8 @@ cache:
     - /home/travis/.rvm/
 
 install:
-  - pod repo update
   - bundle install 
+  - pod repo update
   - pod install
 
 script:
