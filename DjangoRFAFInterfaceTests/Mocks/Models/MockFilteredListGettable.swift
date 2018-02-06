@@ -41,6 +41,6 @@ struct MockFilteredListGettable: DRFFilteredListGettable, DRFNeedsNoAuth {
         self.name = json[Keys.name].string!
     }
     
-    static var defaultNode: DRFNode = TestNode.main
+    static var defaultNode: DRFNode = MockNode.main
     static var clients: [DRFListGettableClient] = []
 }

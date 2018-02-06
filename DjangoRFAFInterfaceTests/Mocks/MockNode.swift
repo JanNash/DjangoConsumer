@@ -1,5 +1,5 @@
 //
-//  TestNode.swift
+//  MockNode.swift
 //  DjangoRFAFInterfaceTests
 //
 //  Created by Jan Nash (privat) on 21.01.18.
@@ -13,9 +13,9 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Class Declaration
-class TestNode: DRFNode {
+class MockNode: DRFNode {
     // Singleton
-    static let main: TestNode = TestNode()
+    static let main: MockNode = MockNode()
     
     // DRFNode Conformance
     // Basic Setup
@@ -43,7 +43,7 @@ class TestNode: DRFNode {
 
 // MARK: // Private
 // MARK: DRFNode Implementations
-private extension TestNode {
+private extension MockNode {
     func _relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
         if resourceType == MockListGettable.self {
@@ -52,6 +52,6 @@ private extension TestNode {
             return URL(string: "filteredlistgettables/")!
         }
         // FIXME: Throw a real Error here?
-        fatalError("[TestNode] No URL registered for '\(resourceType)'")
+        fatalError("[MockNode] No URL registered for '\(resourceType)'")
     }
 }

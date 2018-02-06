@@ -32,6 +32,6 @@ struct MockListGettable: DRFListGettable, DRFNeedsNoAuth {
         self.id = json[Keys.id].string!
     }
     
-    static var defaultNode: DRFNode = TestNode.main
+    static var defaultNode: DRFNode = MockNode.main
     static var clients: [DRFListGettableClient] = []
 }

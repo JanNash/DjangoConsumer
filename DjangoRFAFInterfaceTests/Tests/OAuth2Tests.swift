@@ -17,7 +17,7 @@ extension TestCase {
     func testLoggingIn() {
         let expectation: XCTestExpectation = self.expectation(description: "bla")
         
-        let node: TestOAuth2Node = .main
+        let node: MockOAuth2Node = .main
         node.authenticate(username: "ios@resmio.com", password: "password")
         
         self.waitForExpectations(timeout: 100)

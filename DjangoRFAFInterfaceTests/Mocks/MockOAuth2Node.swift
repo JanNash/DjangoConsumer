@@ -13,9 +13,9 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Class Declaration
-class TestOAuth2Node: DRFOAuth2Node {
+class MockOAuth2Node: DRFOAuth2Node {
     // Singleton
-    static let main: TestOAuth2Node = TestOAuth2Node()
+    static let main: MockOAuth2Node = MockOAuth2Node()
     
     // DRFNode Conformance
     // Basic Setup
@@ -63,7 +63,7 @@ class TestOAuth2Node: DRFOAuth2Node {
 
 // MARK: // Private
 // MARK: DRFNode Implementations
-private extension TestOAuth2Node {
+private extension MockOAuth2Node {
     func _relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
         if resourceType == MockListGettable.self {
@@ -72,6 +72,6 @@ private extension TestOAuth2Node {
             return URL(string: "filteredlistgettables/")!
         }
         // FIXME: Throw a real Error here?
-        fatalError("[TestNode] No URL registered for '\(resourceType)'")
+        fatalError("[MockOAuth2Node] No URL registered for '\(resourceType)'")
     }
 }
