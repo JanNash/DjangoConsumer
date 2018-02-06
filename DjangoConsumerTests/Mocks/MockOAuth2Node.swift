@@ -19,7 +19,7 @@ class MockOAuth2Node: OAuth2Node {
     
     // Node Conformance
     // Basic Setup
-    var baseURL: URL = URL(string: "")!
+    var baseURL: URL = URL(string: "http://localhost:8080")!
     
     // OAuth2Clients
     var oauth2Clients: [OAuth2NodeAuthenticationClient] = []
