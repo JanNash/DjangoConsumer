@@ -1,3 +1,3 @@
-# DjangoRFAFInterface (or DRFAFI)
+# DjangoConsumer
 
-![travis-ci build status master](https://travis-ci.org/JanNash/DjangoRFAFInterface.svg?branch=master)
+![travis-ci build status master](https://travis-ci.org/JanNash/DjangoConsumer.svg?branch=master)
