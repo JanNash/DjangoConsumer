@@ -13,29 +13,29 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Class Declaration
-class MockOAuth2Node: DRFOAuth2Node {
+class MockOAuth2Node: OAuth2Node {
     // Singleton
     static let main: MockOAuth2Node = MockOAuth2Node()
     
-    // DRFNode Conformance
+    // Node Conformance
     // Basic Setup
     var baseURL: URL = URL(string: "")!
     
     // OAuth2Clients
-    var oauth2Clients: [DRFOAuth2NodeAuthenticationClient] = []
+    var oauth2Clients: [OAuth2NodeAuthenticationClient] = []
     
     // OAuth2Handler
-    lazy var oauth2Handler: DRFOAuth2Handler = {
+    lazy var oauth2Handler: OAuth2Handler = {
         let baseURLWith: (String) -> URL = self.baseURL.appendingPathComponent
         
-        let settings: DRFOAuth2Settings = DRFOAuth2Settings(
+        let settings: OAuth2Settings = OAuth2Settings(
             appSecret: "",
             tokenRequestURL: baseURLWith(""),
             tokenRefreshURL: baseURLWith(""),
             tokenRevokeURL: baseURLWith("")
         )
         
-        return DRFOAuth2Handler(
+        return OAuth2Handler(
             settings: settings,
             credentialStore: TestOAuth2CredentialStore()
         )
@@ -50,21 +50,21 @@ class MockOAuth2Node: DRFOAuth2Node {
     }()
     
     // Pagination
-    func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : DRFListGettable {
+    func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : ListGettable {
         return 1000
     }
     
     // List GET endpoints
-    func relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+    func relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
         return self._relativeListURL(for: resourceType)
     }
 }
 
 
 // MARK: // Private
-// MARK: DRFNode Implementations
+// MARK: Node Implementations
 private extension MockOAuth2Node {
-    func _relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
+    func _relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
         if resourceType == MockListGettable.self {
             return URL(string: "listgettables/")!

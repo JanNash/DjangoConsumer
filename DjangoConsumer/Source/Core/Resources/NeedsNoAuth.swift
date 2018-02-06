@@ -1,5 +1,5 @@
 //
-//  DRFNeedsNoAuth.swift
+//  NeedsNoAuth.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 18.01.18.
@@ -10,6 +10,6 @@ import Foundation
 
 
 // MARK: // Public
-public protocol DRFNeedsNoAuth {
-    static var defaultNode: DRFNode { get }
+public protocol NeedsNoAuth {
+    static var defaultNode: Node { get }
 }

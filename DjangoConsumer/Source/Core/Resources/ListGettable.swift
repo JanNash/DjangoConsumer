@@ -1,5 +1,5 @@
 //
-//  DRFListGettable.swift
+//  ListGettable.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 18.01.18.
@@ -14,17 +14,17 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DRFListGettable {
+public protocol ListGettable {
     init(json: JSON)
-    static var clients: [DRFListGettableClient] { get set }
-    static func get(from node: DRFNode?, offset: UInt, limit: UInt)
+    static var clients: [ListGettableClient] { get set }
+    static func get(from node: Node?, offset: UInt, limit: UInt)
 }
 
 
 // MARK: Default Implementations
-// MARK: where Self: DRFNeedsNoAuth
-public extension DRFListGettable where Self: DRFNeedsNoAuth {
-    static func get(from node: DRFNode? = nil, offset: UInt = 0, limit: UInt = 0) {
+// MARK: where Self: NeedsNoAuth
+public extension ListGettable where Self: NeedsNoAuth {
+    static func get(from node: Node? = nil, offset: UInt = 0, limit: UInt = 0) {
         self._get(from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
     }
 }
@@ -32,8 +32,8 @@ public extension DRFListGettable where Self: DRFNeedsNoAuth {
 
 // MARK: // Internal
 // MARK: Shared GET function
-extension DRFListGettable {
-    static func get_(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
+extension ListGettable {
+    static func get_(from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
         self._get(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
@@ -41,14 +41,14 @@ extension DRFListGettable {
 
 // MARK: // Private
 // MARK: Shared GET function Implementation
-private extension DRFListGettable {
-    static func _get(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
+private extension ListGettable {
+    static func _get(from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
         let url: URL = node.absoluteListURL(for: self)
         let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: self)
         
-        var allFilters: [DRFFilterType] = filters
+        var allFilters: [FilterType] = filters
         if addDefaultFilters {
-            if let filteredListGettable = self as? DRFFilteredListGettable.Type {
+            if let filteredListGettable = self as? FilteredListGettable.Type {
                 allFilters += node.defaultFilters(for: filteredListGettable)
             }
         }
@@ -57,7 +57,7 @@ private extension DRFListGettable {
         ValidatedJSONRequest(url: url, parameters: parameters).fire(
             via: node.sessionManager,
             onSuccess: { result in
-                let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(for: self, from: result)
+                let (pagination, objects): (Pagination, [Self]) = node.extractListResponse(for: self, from: result)
                 let success: GETObjectListSuccess = GETObjectListSuccess(
                     node: node, responsePagination: pagination, offset: offset, limit: limit, filters: allFilters
                 )
