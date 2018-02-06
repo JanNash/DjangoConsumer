@@ -47,6 +47,8 @@ public protocol DRFOAuth2CredentialStore {
 // MARK: - DRFOAuth2Error
 enum DRFOAuth2Error: Error {
     case noAccessToken
+    case noRefreshToken
+    case invalidTokenReponse(JSON)
 }
 
 
@@ -72,16 +74,16 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     
     
     // Overridables
-    open func requestTokens(username: String, password: String) {
-        self._requestTokens(username: username, password: password)
+    open func requestTokens(username: String, password: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        self._requestTokens(username: username, password: password, success: success, failure: failure)
     }
     
-    open func refreshTokens() {
-        self._refreshTokens()
+    open func refreshTokens(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        self._refreshTokens(success: success, failure: failure)
     }
     
-    open func revokeTokens() {
-        self._revokeTokens()
+    open func revokeTokens(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        self._revokeTokens(success: success, failure: failure)
     }
     
     // RequestAdapter
@@ -214,15 +216,25 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         }
         
         self._requestsToRetry.append(completion)
-        self._refreshTokens()
+        self._refreshTokens(
+            success: {},
+            failure: {  }
+        )
         self._lock.unlock()
+    }
+    
+    private func _processRequestsToRetry(shouldRetry: Bool, clear: Bool) {
+        self._requestsToRetry.forEach({ $0(shouldRetry, 0.0) })
+        if clear {
+            self._requestsToRetry = []
+        }
     }
 }
 
 
 // MARK: Token Request Implementation
 private extension DRFOAuth2Handler {
-    func _requestTokens(username: String, password: String) {
+    func _requestTokens(username: String, password: String, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         guard !self._isRequesting else { return }
         self._isRequesting = true
         
@@ -238,10 +250,8 @@ private extension DRFOAuth2Handler {
             url: url,
             parameters: parameters,
             updateStatus: { self._isRequesting = false },
-            success: {
-                // FIXME: Call Client/s
-            },
-            failure: { _ in }
+            success: success,
+            failure: failure
         )
     }
 }
@@ -249,13 +259,12 @@ private extension DRFOAuth2Handler {
 
 // MARK: Token Refresh Implementation
 private extension DRFOAuth2Handler {
-    func _refreshTokens() {
+    func _refreshTokens(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         guard !self._isRefreshing else { return }
         self._isRefreshing = true
         
         guard let refreshToken: String = self._credentialStore.refreshToken else {
-            self._processRequestsToRetry(shouldRetry: false, clear: true)
-            // FIXME: Call Client/s
+            failure(DRFOAuth2Error.noRefreshToken)
             return
         }
         
@@ -269,16 +278,9 @@ private extension DRFOAuth2Handler {
             url: url,
             parameters: parameters,
             updateStatus: { self._isRefreshing = false },
-            success: { self._processRequestsToRetry(shouldRetry: true, clear: true) },
-            failure: { _ in }
+            success: success,
+            failure: failure
         )
-    }
-    
-    private func _processRequestsToRetry(shouldRetry: Bool, clear: Bool) {
-        self._requestsToRetry.forEach({ $0(shouldRetry, 0.0) })
-        if clear {
-            self._requestsToRetry = []
-        }
     }
 }
 
@@ -316,7 +318,6 @@ private extension DRFOAuth2Handler {
                 self._lock.unlock()
             },
             onFailure: { error in
-                // ???: Depending on the reason for the failure, the credentialStore should maybe be cleared here?
                 self._lock.lock()
                 updateStatus()
                 failure(error)
@@ -329,8 +330,11 @@ private extension DRFOAuth2Handler {
 
 // MARK: Token Revoke Implementation
 private extension DRFOAuth2Handler {
-    func _revokeTokens() {
-        guard let accessToken: String = self._credentialStore.accessToken else { return }
+    func _revokeTokens(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        guard let accessToken: String = self._credentialStore.accessToken else {
+            // ???: Should the credentialStore be cleared here?
+            return
+        }
         
         let url: URL = self._settings.tokenRevokeURL
         let method: HTTPMethod = .post
@@ -338,7 +342,7 @@ private extension DRFOAuth2Handler {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        // ???: How should a failed request be handled here?
+        // ???: How should a failed request be handled here? Should it be handled at all?
         self._sessionManager.request(url, method: method, parameters: parameters, headers: headers)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
