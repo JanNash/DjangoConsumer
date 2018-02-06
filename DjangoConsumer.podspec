@@ -39,10 +39,12 @@ Pod::Spec.new do |s|
   
   s.subspec 'OAuth2' do |oauth2|
     oauth2.source_files = "DjangoConsumer/Source/OAuth2/**/*.swift"
+    oauth2.dependency 'DjangoConsumer/Core'
   end
   
   s.subspec 'MockBackend' do |mockbackend|
     mockbackend.source_files = "DjangoConsumer/Source/MockBackend/**/*.swift"
+    mockbackend.dependency 'DjangoConsumer/Core'
     mockbackend.dependency 'Embassy', '~> 4.0.0'
     mockbackend.dependency 'EnvoyAmbassador', '~> 4.0.1'
   end
