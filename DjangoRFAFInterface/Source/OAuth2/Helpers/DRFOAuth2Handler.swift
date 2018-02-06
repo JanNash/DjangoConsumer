@@ -37,7 +37,9 @@ public protocol DRFOAuth2CredentialStore {
     var accessToken: String? { get set }
     var refreshToken: String? { get set }
     var expiryDate: Date? { get set }
-    mutating func updateWith(accessToken: String, refreshToken: String, expiryDate: Date)
+    var tokenType: String? { get set }
+    var scope: String? { get set }
+    mutating func updateWith(accessToken: String, refreshToken: String, expiryDate: Date, tokenType: String, scope: String)
     mutating func clear()
 }
 
@@ -301,7 +303,9 @@ private extension DRFOAuth2Handler {
                 self._credentialStore.updateWith(
                     accessToken: tokenResponse.accessToken,
                     refreshToken: tokenResponse.refreshToken,
-                    expiryDate: tokenResponse.expiryDate
+                    expiryDate: tokenResponse.expiryDate,
+                    tokenType: tokenResponse.tokenType,
+                    scope: tokenResponse.scope
                 )
                 
                 updateStatus()
