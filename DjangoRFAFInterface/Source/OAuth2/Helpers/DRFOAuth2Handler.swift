@@ -46,7 +46,7 @@ public protocol DRFOAuth2CredentialStore {
 
 // MARK: - DRFOAuth2Error
 enum DRFOAuth2Error: Error {
-    case noCredentials
+    case noAccessToken
 }
 
 
@@ -166,7 +166,7 @@ private extension DRFOAuth2Handler {
     
     func _addBearerAuthorizationHeader(to urlRequest: URLRequest) throws -> URLRequest {
         guard let bearerAuthHeader: _Header = self._bearerAuthHeader() else {
-            throw DRFOAuth2Error.noCredentials
+            throw DRFOAuth2Error.noAccessToken
         }
         
         var urlRequest: URLRequest = urlRequest
