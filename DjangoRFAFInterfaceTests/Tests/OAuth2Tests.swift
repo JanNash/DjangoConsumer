@@ -13,32 +13,11 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Tests for OAuth2
-extension TestCase: DRFOAuth2NodeAuthenticationClient {
-    func authenticated(node: DRFOAuth2Node) {
-        node.refreshAuthentication()
-    }
-    
-    func failedAuthenticating(node: DRFOAuth2Node, with error: Error) {
-        print("")
-    }
-    
-    func refreshedAuthentication(for node: DRFOAuth2Node) {
-        node.endAuthentication()
-    }
-    
-    func failedRefreshingAuthenticaiton(for node: DRFOAuth2Node, with error: Error) {
-        print("")
-    }
-    
-    func endedAuthentication(for node: DRFOAuth2Node) {
-        print("")
-    }
-    
+extension TestCase {
     func testLoggingIn() {
         let expectation: XCTestExpectation = self.expectation(description: "bla")
         
         let node: TestOAuth2Node = .main
-        node.oauth2Clients.append(self)
         node.authenticate(username: "username", password: "password")
         
         self.waitForExpectations(timeout: 100)
