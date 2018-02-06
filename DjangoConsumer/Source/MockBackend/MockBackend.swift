@@ -19,7 +19,7 @@ extension MockBackend {
     // Typealiases
     public typealias Response = (String) -> WebApp
     public typealias Route = (regexPattern: String, responseFor: Response)
-    public typealias FilterClosure = (DRFListGettable) -> Bool
+    public typealias FilterClosure = (ListGettable) -> Bool
     
     // Functions
     // Start / Stop & Reset
@@ -60,7 +60,7 @@ open class MockBackend {
     }
     
     // Fixture creation
-    open func fixtures(for routePattern: String) -> [DRFListGettable] {
+    open func fixtures(for routePattern: String) -> [ListGettable] {
         // ???: Should an override be forced by a fatal error here?
         // Fixtures can either be created dynamically inside this function,
         // or, to improve performance, they can be saved to variables which
@@ -69,7 +69,7 @@ open class MockBackend {
     }
     
     // Converting objects to JSON dictionaries
-    open func createJSONDict(from object: DRFListGettable, for routePattern: String) -> [String : Any] {
+    open func createJSONDict(from object: ListGettable, for routePattern: String) -> [String : Any] {
         // ???: Should an override be forced by a fatal error here?
         return [:]
     }
@@ -164,8 +164,8 @@ private extension MockBackend {
 // MARK: Routes
 // MARK: Helper Types
 private extension MockBackend {
-    typealias _ListResponseKeys = DRFDefaultListResponseKeys
-    typealias _PaginationKeys = DRFDefaultPagination.Keys
+    typealias _ListResponseKeys = DefaultListResponseKeys
+    typealias _PaginationKeys = DefaultPagination.Keys
     typealias _URLParameters = (pagination: _Pagination, filters: [String : String])
     
     struct _Pagination {
@@ -193,9 +193,9 @@ private extension MockBackend {
             let (limit, offset): (Int, Int) = self._processPagination(urlParameters.pagination, for: routePattern)
             let filterClosure: FilterClosure = self.filterClosure(for: urlParameters.filters, with: routePattern)
             
-            let allObjects: [DRFListGettable] = self.fixtures(for: routePattern)
-            let filteredObjects: [DRFListGettable] = allObjects.filter(filterClosure)
-            // ???: How does DRF calculate the totalCount, for all objects or only for the filtered list?
+            let allObjects: [ListGettable] = self.fixtures(for: routePattern)
+            let filteredObjects: [ListGettable] = allObjects.filter(filterClosure)
+            // ???: How does  calculate the totalCount, for all objects or only for the filtered list?
             let totalCount: Int = filteredObjects.count
             let totalEndIndex: Int = totalCount - 1
             
@@ -203,7 +203,7 @@ private extension MockBackend {
             if offset < totalEndIndex {
                 let endIndexOffset: Int = limit - 1
                 let endIndex = min(offset + endIndexOffset, totalEndIndex)
-                let mapper: (DRFListGettable) -> [String : Any] = { self.createJSONDict(from: $0, for: routePattern) }
+                let mapper: (ListGettable) -> [String : Any] = { self.createJSONDict(from: $0, for: routePattern) }
                 objectDicts = filteredObjects[offset...endIndex].map(mapper)
             }
             
@@ -244,7 +244,7 @@ private extension MockBackend {
         let maximumLimit: Int = Int(self.maximumPaginationLimit(for: routePattern))
         var limit: Int = min(maximumLimit, pagination.limit ?? defaultLimit)
         if limit <= 0 {
-            // ???: Actual DRF API behaviour?
+            // ???: Actual  API behaviour?
             limit = defaultLimit
         }
         let offset: Int = max(0, pagination.offset ?? 0)

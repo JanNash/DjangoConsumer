@@ -1,5 +1,5 @@
 //
-//  DRFOAuth2Node.swift
+//  OAuth2Node.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 28.01.18.
@@ -10,25 +10,25 @@ import Foundation
 
 
 // MARK: // Public
-// MARK: - DRFOAuth2NodeAuthenticationClient
-public protocol DRFOAuth2NodeAuthenticationClient {
-    func authenticated(node: DRFOAuth2Node)
-    func failedAuthenticating(node: DRFOAuth2Node, with error: Error)
-    func refreshedAuthentication(for node: DRFOAuth2Node)
-    func failedRefreshingAuthenticaiton(for node: DRFOAuth2Node, with error: Error)
-    func endedAuthentication(for node: DRFOAuth2Node)
+// MARK: - OAuth2NodeAuthenticationClient
+public protocol OAuth2NodeAuthenticationClient {
+    func authenticated(node: OAuth2Node)
+    func failedAuthenticating(node: OAuth2Node, with error: Error)
+    func refreshedAuthentication(for node: OAuth2Node)
+    func failedRefreshingAuthenticaiton(for node: OAuth2Node, with error: Error)
+    func endedAuthentication(for node: OAuth2Node)
 }
 
-// MARK: - DRFOAuth2Node
+// MARK: - OAuth2Node
 // MARK: Protocol Declaration
-public protocol DRFOAuth2Node: DRFNode {
-    var oauth2Clients: [DRFOAuth2NodeAuthenticationClient] { get }
-    var oauth2Handler: DRFOAuth2Handler { get }
+public protocol OAuth2Node: Node {
+    var oauth2Clients: [OAuth2NodeAuthenticationClient] { get }
+    var oauth2Handler: OAuth2Handler { get }
 }
 
 
 // MARK: Default Init
-public extension DRFOAuth2Node {
+public extension OAuth2Node {
     public init() {
         self.init()
         self.sessionManager.adapter = self.oauth2Handler
@@ -38,7 +38,7 @@ public extension DRFOAuth2Node {
 
 
 // MARK: Authentication Forwarding
-public extension DRFOAuth2Node {
+public extension OAuth2Node {
     public func authenticate(username: String, password: String) {
         self._authenticate(username: username, password: password)
     }
@@ -55,7 +55,7 @@ public extension DRFOAuth2Node {
 
 // MARK: // Private
 // MARK: Authentication Forwarding Implementations
-private extension DRFOAuth2Node {
+private extension OAuth2Node {
     func _authenticate(username: String, password: String) {
         self.oauth2Handler.requestTokens(
             username: username,

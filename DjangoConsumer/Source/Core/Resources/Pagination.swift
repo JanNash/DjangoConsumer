@@ -1,5 +1,5 @@
 //
-//  DRFPagination.swift
+//  Pagination.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 18.01.18.
@@ -11,8 +11,8 @@ import SwiftyJSON
 
 
 // MARK: // Public
-// MARK: - DRFPagination
-public protocol DRFPagination {
+// MARK: - Pagination
+public protocol Pagination {
     init(json: JSON)
     
     var limit: UInt { get }
@@ -23,8 +23,8 @@ public protocol DRFPagination {
 }
 
 
-// MARK: - DRFDefaultPagination
-public struct DRFDefaultPagination: DRFPagination {
+// MARK: - DefaultPagination
+public struct DefaultPagination: Pagination {
     // Keys
     public struct Keys {
         public static let limit: String = "limit"

@@ -32,11 +32,11 @@ class TestBackend: MockBackend {
     }
     
     // General
-    override func fixtures(for routePattern: String) -> [DRFListGettable] {
+    override func fixtures(for routePattern: String) -> [ListGettable] {
         return self._fixtures(for: RoutePattern(routePattern))
     }
     
-    override func createJSONDict(from object: DRFListGettable, for routePattern: String) -> [String : Any] {
+    override func createJSONDict(from object: ListGettable, for routePattern: String) -> [String : Any] {
         return self._createJSONDict(from: object, for: RoutePattern(routePattern))
     }
     
@@ -52,11 +52,11 @@ class TestBackend: MockBackend {
     }
     
     // General
-    func fixtures(for routePattern: RoutePattern) -> [DRFListGettable] {
+    func fixtures(for routePattern: RoutePattern) -> [ListGettable] {
         return self._fixtures(for: routePattern)
     }
     
-    func createJSONDict(from object: DRFListGettable, for routePattern: RoutePattern) -> [String : Any] {
+    func createJSONDict(from object: ListGettable, for routePattern: RoutePattern) -> [String : Any] {
         return self._createJSONDict(from: object, for: routePattern)
     }
     
@@ -110,7 +110,7 @@ private extension TestBackend {
         }
     }
     
-    func _fixtures(for routePattern: RoutePattern) -> [DRFListGettable] {
+    func _fixtures(for routePattern: RoutePattern) -> [ListGettable] {
         switch routePattern {
         case .GET_list_mockListGettables:         return self.mockListGettables
         case .GET_list_mockFilteredListGettables: return self.mockFilteredListGettables
@@ -118,8 +118,8 @@ private extension TestBackend {
     }
     
     // General
-    func _createJSONDict(from object: DRFListGettable, for routePattern: RoutePattern) -> [String : Any] {
-        // TODO: Once DRFPostable is implemented, this implementation can likely be simplified.
+    func _createJSONDict(from object: ListGettable, for routePattern: RoutePattern) -> [String : Any] {
+        // TODO: Once Postable is implemented, this implementation can likely be simplified.
         switch routePattern {
         case .GET_list_mockListGettables:
             let listGettable: MockListGettable = object as! MockListGettable

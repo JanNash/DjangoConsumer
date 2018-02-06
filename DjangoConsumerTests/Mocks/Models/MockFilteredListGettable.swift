@@ -14,7 +14,7 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockFilteredListGettable: DRFFilteredListGettable, DRFNeedsNoAuth {
+struct MockFilteredListGettable: FilteredListGettable, NeedsNoAuth {
     // Init
     init(id: String, date: Date, name: String) {
         self.id = id
@@ -34,13 +34,13 @@ struct MockFilteredListGettable: DRFFilteredListGettable, DRFNeedsNoAuth {
     private(set) var date: Date = Date()
     private(set) var name: String = "A"
     
-    // DRFListGettable
+    // ListGettable
     init(json: JSON) {
         self.id = json[Keys.id].string!
         self.date = json[Keys.date].string!.date(format: .iso8601(options: .withInternetDateTime))!.absoluteDate
         self.name = json[Keys.name].string!
     }
     
-    static var defaultNode: DRFNode = MockNode.main
-    static var clients: [DRFListGettableClient] = []
+    static var defaultNode: Node = MockNode.main
+    static var clients: [ListGettableClient] = []
 }

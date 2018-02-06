@@ -13,7 +13,7 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockListGettable: DRFListGettable, DRFNeedsNoAuth {
+struct MockListGettable: ListGettable, NeedsNoAuth {
     // Init
     init(id: String) {
         self.id = id
@@ -27,11 +27,11 @@ struct MockListGettable: DRFListGettable, DRFNeedsNoAuth {
     // Variables
     private(set) var id: String = "0"
     
-    // DRFListGettable
+    // ListGettable
     init(json: JSON) {
         self.id = json[Keys.id].string!
     }
     
-    static var defaultNode: DRFNode = MockNode.main
-    static var clients: [DRFListGettableClient] = []
+    static var defaultNode: Node = MockNode.main
+    static var clients: [ListGettableClient] = []
 }

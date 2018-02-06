@@ -1,5 +1,5 @@
 //
-//  DRFOAuth2Constants.swift
+//  OAuth2Constants.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 03.02.18.
@@ -10,7 +10,7 @@ import Foundation
 
 
 // MARK: // Public
-public struct DRFOAuth2Constants {
+public struct OAuth2Constants {
     private init() {}
     
     public struct JSONKeys {
