@@ -63,7 +63,7 @@ class TestOAuth2Node: DRFOAuth2Node {
 
 // MARK: // Private
 // MARK: DRFNode Implementations
-private extension DRFOAuth2Node {
+private extension TestOAuth2Node {
     func _relativeListURL<T: DRFListGettable>(for resourceType: T.Type) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
         if resourceType == MockListGettable.self {
