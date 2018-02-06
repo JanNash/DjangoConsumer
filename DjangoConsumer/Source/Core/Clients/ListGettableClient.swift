@@ -1,5 +1,5 @@
 //
-//  DRFListGettableClient.swift
+//  ListGettableClient.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 19.01.18.
@@ -12,27 +12,27 @@ import Foundation
 // MARK: // Public
 // MARK: - GETObjectListSuccess
 public struct GETObjectListSuccess {
-    public var node: DRFNode
-    public var responsePagination: DRFPagination
+    public var node: Node
+    public var responsePagination: Pagination
     public var offset: UInt
     public var limit: UInt
-    public var filters: [DRFFilterType]
+    public var filters: [FilterType]
 }
 
 
 // MARK: - GETObjectListFailure
 public struct GETObjectListFailure {
-    public var objectType: DRFListGettable.Type
-    public var node: DRFNode
+    public var objectType: ListGettable.Type
+    public var node: Node
     public var error: Error
     public var offset: UInt
     public var limit: UInt
-    public var filters: [DRFFilterType]
+    public var filters: [FilterType]
 }
 
 
-// MARK: - DRFListGettableClient
-public protocol DRFListGettableClient: class {
-    func gotObjects(objects: [DRFListGettable], with success: GETObjectListSuccess)
+// MARK: - ListGettableClient
+public protocol ListGettableClient: class {
+    func gotObjects(objects: [ListGettable], with success: GETObjectListSuccess)
     func failedGettingObjects(with failure: GETObjectListFailure)
 }

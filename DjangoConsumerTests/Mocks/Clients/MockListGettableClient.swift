@@ -12,11 +12,11 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Class Declaration
-class MockListGettableClient: DRFListGettableClient {
-    var gotObjects_: ([DRFListGettable], GETObjectListSuccess) -> Void = { _, _ in }
+class MockListGettableClient: ListGettableClient {
+    var gotObjects_: ([ListGettable], GETObjectListSuccess) -> Void = { _, _ in }
     var failedGettingObjects_: (GETObjectListFailure) -> Void = { _ in }
     
-    func gotObjects(objects: [DRFListGettable], with success: GETObjectListSuccess) {
+    func gotObjects(objects: [ListGettable], with success: GETObjectListSuccess) {
         self.gotObjects_(objects, success)
     }
     
