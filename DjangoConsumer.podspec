@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   }
   s.platform = :ios, "9.0"
   s.source = {
-    :git => "https://github.com/resmio/DjangoConsumer.git",
+    :git => "https://github.com/JanNash/DjangoConsumer.git",
     :tag => "v#{s.version}"
   }
   s.dependency 'Alamofire-SwiftyJSON', '~> 3.0.0'
@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'OAuth2' do |oauth2|
-      core.source_files = "DjangoConsumer/Source/OAuth2/**/*.swift"
+    oauth2.source_files = "DjangoConsumer/Source/OAuth2/**/*.swift"
   end
   
   s.subspec 'MockBackend' do |mockbackend|
