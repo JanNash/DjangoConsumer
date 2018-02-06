@@ -26,8 +26,6 @@ public struct DRFOAuth2Settings {
 
 // MARK: - DRFOAuth2CredentialStore
 public protocol DRFOAuth2CredentialStore {
-    var username: String? { get set }
-    var password: String? { get set }
     var accessToken: String? { get set }
     var refreshToken: String? { get set }
     var expiryDate: Date? { get set }
