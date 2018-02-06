@@ -10,7 +10,7 @@ cache:
   cocoapods: true
   directories:
     - ~/.cocoapods
-    - /home/travis/.rvm/
+    - ~/.rvm/
 
 before_install:
   - gem install bundler
