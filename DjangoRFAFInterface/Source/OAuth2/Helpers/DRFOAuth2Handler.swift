@@ -82,8 +82,8 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
         self._refreshTokens(success: success, failure: failure)
     }
     
-    open func revokeTokens(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
-        self._revokeTokens(success: success, failure: failure)
+    open func revokeTokens() {
+        self._revokeTokens()
     }
     
     // RequestAdapter
@@ -216,18 +216,25 @@ private extension DRFOAuth2Handler/*: RequestRetrier*/ {
         }
         
         self._requestsToRetry.append(completion)
+        
         self._refreshTokens(
-            success: {},
-            failure: {  }
+            success: { self._processRequestsToRetry(shouldRetry: true, clear: true) },
+            failure: { error in
+                switch error {
+                case DRFOAuth2Error.noRefreshToken:
+                    self._processRequestsToRetry(shouldRetry: false, clear: true)
+                    // ???: Clear CredentialStore
+                default: break
+                }
+            }
         )
+        
         self._lock.unlock()
     }
     
     private func _processRequestsToRetry(shouldRetry: Bool, clear: Bool) {
         self._requestsToRetry.forEach({ $0(shouldRetry, 0.0) })
-        if clear {
-            self._requestsToRetry = []
-        }
+        if clear { self._requestsToRetry = [] }
     }
 }
 
@@ -330,7 +337,7 @@ private extension DRFOAuth2Handler {
 
 // MARK: Token Revoke Implementation
 private extension DRFOAuth2Handler {
-    func _revokeTokens(success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    func _revokeTokens() {
         guard let accessToken: String = self._credentialStore.accessToken else {
             // ???: Should the credentialStore be cleared here?
             return
@@ -342,7 +349,6 @@ private extension DRFOAuth2Handler {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        // ???: How should a failed request be handled here? Should it be handled at all?
         self._sessionManager.request(url, method: method, parameters: parameters, headers: headers)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
