@@ -21,6 +21,7 @@
 		4CEB3F35933297F205CD8645D457231D /* DRFFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB153ADF5BBB1B6592F7C464AF1CDE6 /* DRFFilteredListGettable.swift */; };
 		6031212D0075C8E1E299AB16593CF371 /* MockListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60103521F171CAFC77CB43E3C9C163C5 /* MockListGettable.swift */; };
 		7602DE915213E9316181EB79C121CFA0 /* FilteredListGettableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63154DFFF1C0B8CF666D76666CCA04D7 /* FilteredListGettableTests.swift */; };
+		834357F424EC48A38239F0F26FF59DBF /* MockOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6F70D4694EBEE49552D2011C8E8D45 /* MockOAuth2Node.swift */; };
 		8A49C8D246382A201B8E00193033DF11 /* DRFNeedsNoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A7AA77C92DB8F5C208E2B1DE1AD9AA /* DRFNeedsNoAuth.swift */; };
 		921688E877DEF002F6781DC8B7A398CC /* DRFOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AAB6CB3A601D4AA1C570D9EF88BC7C /* DRFOAuth2Node.swift */; };
 		999945F5DB36C7ED426B0736D8E1F1E6 /* MockNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB62C712CBFE583826113D08FDEA9B /* MockNode.swift */; };
@@ -28,6 +29,7 @@
 		AEFDA320CF844EFC411F17A844B2616B /* ValidatedJSONRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16342EF1D1EFEDE8729BC1578A72FDA /* ValidatedJSONRequest.swift */; };
 		BBFBED71E7F61308266E79513655D950 /* Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E58573B222FD55FCF099F7BFD49BDE /* Filtering.swift */; };
 		BE6092FDFEA91EF23BAD1C0288CEA548 /* Pods_DjangoRFAFInterfaceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */; };
+		BF1EC7926E1A9CF34D7E6DB4AC5B5358 /* MockOAuth2CredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABAB563CB863A0CB09B8AD08EDE60E2 /* MockOAuth2CredentialStore.swift */; };
 		C284DD8FB42ED3DA85B05F710850050E /* DRFFilteredListGettable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F088E10C51EC35359D91F69FFD8CAA /* DRFFilteredListGettable+OAuth2.swift */; };
 		CAE6E0E58D615CF3F80D230423E763AD /* DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84107B26D52B76B5BE19348C2DEA86B2 /* DjangoRFAFInterface.framework */; };
 		E827B5F5FCE7B66B5F52F7370916B24D /* Pods_DjangoRFAFInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB613640E19B18F0FFA429E2B123CFDE /* Pods_DjangoRFAFInterface.framework */; };
@@ -49,6 +51,7 @@
 /* Begin PBXFileReference section */
 		0FB153ADF5BBB1B6592F7C464AF1CDE6 /* DRFFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFFilteredListGettable.swift; sourceTree = "<group>"; };
 		18E58573B222FD55FCF099F7BFD49BDE /* Filtering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filtering.swift; sourceTree = "<group>"; };
+		1B6F70D4694EBEE49552D2011C8E8D45 /* MockOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2Node.swift; sourceTree = "<group>"; };
 		245E4DE041C0DBBD681441D8CD47324F /* TestBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBackend.swift; sourceTree = "<group>"; };
 		24AC8FE4ECE170EC1AEFEFD1DBC63113 /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
 		33F6D367117A11F2ADE295A690B426C0 /* DRFPagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFPagination.swift; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 		5945BE5084DBD8F2FC31CB6C59045680 /* Pods-DjangoRFAFInterfaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoRFAFInterfaceTests/Pods-DjangoRFAFInterfaceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		60103521F171CAFC77CB43E3C9C163C5 /* MockListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettable.swift; sourceTree = "<group>"; };
 		63154DFFF1C0B8CF666D76666CCA04D7 /* FilteredListGettableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettableTests.swift; sourceTree = "<group>"; };
+		6ABAB563CB863A0CB09B8AD08EDE60E2 /* MockOAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2CredentialStore.swift; sourceTree = "<group>"; };
 		76AAB6CB3A601D4AA1C570D9EF88BC7C /* DRFOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Node.swift; sourceTree = "<group>"; };
 		840899612915CFA9FA01C9BEB2B6897E /* Pods_DjangoRFAFInterfaceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoRFAFInterfaceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84107B26D52B76B5BE19348C2DEA86B2 /* DjangoRFAFInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjangoRFAFInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +264,8 @@
 				DB78F0F3D0ECFF3595121ABC5BA825D4 /* Clients */,
 				72269EA63C61489EAD58D0FB44CFE390 /* Models */,
 				F9CB62C712CBFE583826113D08FDEA9B /* MockNode.swift */,
+				6ABAB563CB863A0CB09B8AD08EDE60E2 /* MockOAuth2CredentialStore.swift */,
+				1B6F70D4694EBEE49552D2011C8E8D45 /* MockOAuth2Node.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -554,6 +560,8 @@
 				6031212D0075C8E1E299AB16593CF371 /* MockListGettable.swift in Sources */,
 				41193ED5D845B27CEFC8F2689D193E58 /* MockListGettableClient.swift in Sources */,
 				999945F5DB36C7ED426B0736D8E1F1E6 /* MockNode.swift in Sources */,
+				BF1EC7926E1A9CF34D7E6DB4AC5B5358 /* MockOAuth2CredentialStore.swift in Sources */,
+				834357F424EC48A38239F0F26FF59DBF /* MockOAuth2Node.swift in Sources */,
 				1C8D17C05866E6FD41F0AF5A4D197CF6 /* TestBackend.swift in Sources */,
 				168C5A4AA910C991649C474C539DC133 /* TestCase.swift in Sources */,
 			);
