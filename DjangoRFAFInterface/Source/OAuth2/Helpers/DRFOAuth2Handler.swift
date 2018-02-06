@@ -32,6 +32,7 @@ public protocol DRFOAuth2CredentialStore {
     var refreshToken: String? { get set }
     var expiryDate: Date? { get set }
     mutating func updateWith(accessToken: String, refreshToken: String, expiryDate: Date)
+    mutating func clear()
 }
 
 
@@ -297,18 +298,19 @@ private extension DRFOAuth2Handler {
 // MARK: Token Revoke Implementation
 private extension DRFOAuth2Handler {
     func _revokeTokens() {
+        guard let accessToken: String = self._credentialStore.accessToken else { return }
+        
         let url: URL = self._settings.tokenRevokeURL
         let method: HTTPMethod = .post
-        
+        let parameters: [String : Any] = [_C.JSONKeys.token : accessToken]
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        let parameters: [String : Any] = [
-            _C.JSONKeys.token : self._credentialStore.accessToken
-        ]
+        // ???: How should a failed request be handled here?
+        self._sessionManager.request(url, method: method, parameters: parameters, headers: headers)
         
-        self._sessionManager.request(url, method: method, headers: headers).response(completion: { _ in
-            // TODO: Delete credentials
-        })
+        // ???: I suppose it's cleaner to clear the credentialStore synchronously
+        // instead of waiting for the request to receive a response.
+        self._credentialStore.clear()
     }
 }
