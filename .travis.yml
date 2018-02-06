@@ -15,6 +15,7 @@ cache:
 before_install:
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further information
   - gem update --system
+  - pod repo update
 
 # install:
 #   - bundle install
