@@ -222,7 +222,7 @@ private extension DRFOAuth2Handler {
             parameters: parameters,
             updateStatus: { self._isRequesting = false },
             success: {
-                // TODO: Call Client/s
+                // FIXME: Call Client/s
             }
         )
     }
@@ -318,7 +318,7 @@ private extension DRFOAuth2Handler {
         self._sessionManager.request(url, method: method, parameters: parameters, headers: headers)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
-        // instead of waiting for the request to receive a response.
+        // instead of waiting for the request to receive a response. Is it though?
         self._credentialStore.clear()
     }
 }
