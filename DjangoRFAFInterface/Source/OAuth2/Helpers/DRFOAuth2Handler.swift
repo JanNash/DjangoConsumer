@@ -16,11 +16,19 @@ import Alamofire_SwiftyJSON
 // MARK: - DRFOAuth2Settings
 // MARK: ???: Should this be a protocol, too? Check RFC
 public struct DRFOAuth2Settings {
-    var appSecret: String
-    // TODO: For now, these are absolute. Would it make sense to make them relative.
-    var tokenRequestURL: URL
-    var tokenRefreshURL: URL
-    var tokenRevokeURL: URL
+    // Init
+    public init(appSecret: String, tokenRequestURL: URL, tokenRefreshURL: URL, tokenRevokeURL: URL) {
+        self.appSecret = appSecret
+        self.tokenRequestURL = tokenRequestURL
+        self.tokenRefreshURL = tokenRefreshURL
+        self.tokenRevokeURL = tokenRevokeURL
+    }
+    
+    // Public Variables
+    public var appSecret: String
+    public var tokenRequestURL: URL
+    public var tokenRefreshURL: URL
+    public var tokenRevokeURL: URL
 }
 
 
