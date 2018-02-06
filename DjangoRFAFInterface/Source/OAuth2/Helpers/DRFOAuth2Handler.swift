@@ -48,7 +48,7 @@ public protocol DRFOAuth2CredentialStore {
 enum DRFOAuth2Error: Error {
     case noAccessToken
     case noRefreshToken
-    case invalidTokenReponse(JSON)
+    case invalidTokenResponse(JSON)
 }
 
 
