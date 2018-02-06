@@ -235,9 +235,15 @@ private extension DRFOAuth2Handler {
         guard !self._isRefreshing else { return }
         self._isRefreshing = true
         
+        guard let refreshToken: String = self._credentialStore.refreshToken else {
+            self._processRequestsToRetry(shouldRetry: false, clear: true)
+            // FIXME: Call Client/s
+            return
+        }
+        
         let url: URL = self._settings.tokenRefreshURL
         let parameters: [String : Any] = [
-            _C.JSONKeys.refreshToken: self._credentialStore.refreshToken,
+            _C.JSONKeys.refreshToken: refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
         ]
         
@@ -245,11 +251,15 @@ private extension DRFOAuth2Handler {
             url: url,
             parameters: parameters,
             updateStatus: { self._isRefreshing = false },
-            success: {
-                self._requestsToRetry.forEach({ $0(true, 0.0) })
-                self._requestsToRetry = []
-            }
+            success: { self._processRequestsToRetry(shouldRetry: true, clear: true) }
         )
+    }
+    
+    private func _processRequestsToRetry(shouldRetry: Bool, clear: Bool) {
+        self._requestsToRetry.forEach({ $0(shouldRetry, 0.0) })
+        if clear {
+            self._requestsToRetry = []
+        }
     }
 }
 
