@@ -217,7 +217,7 @@ private extension DRFOAuth2Handler {
             _C.JSONKeys.password : password
         ]
         
-        self.__requestTokens(
+        self.__requestAndSaveTokens(
             url: url,
             parameters: parameters,
             updateStatus: { self._isRequesting = false },
@@ -241,7 +241,7 @@ private extension DRFOAuth2Handler {
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
         ]
         
-        self.__requestTokens(
+        self.__requestAndSaveTokens(
             url: url,
             parameters: parameters,
             updateStatus: { self._isRefreshing = false },
@@ -256,7 +256,7 @@ private extension DRFOAuth2Handler {
 
 // MARK: Common Token Request Functionality
 private extension DRFOAuth2Handler {
-    func __requestTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void) {
+    func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void) {
         let method: HTTPMethod = .post
         let encoding: ParameterEncoding = URLEncoding.default
         
