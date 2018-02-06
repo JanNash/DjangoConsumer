@@ -113,11 +113,14 @@ private class _Weak: RequestRetrier {
 // MARK: - _TokenResponse
 private struct _TokenResponse {
     init?(json: JSON) {
-        guard let accessToken: String = json[_C.JSONKeys.accessToken].string else { return nil }
-        guard let refreshToken: String = json[_C.JSONKeys.refreshToken].string else { return nil }
-        guard let expiresIn: TimeInterval = json[_C.JSONKeys.expiresIn].double else { return nil }
-        guard let tokenType: String = json[_C.JSONKeys.tokenType].string else { return nil }
-        guard let scope: String = json[_C.JSONKeys.scope].string else { return nil }
+        guard
+            let accessToken: String = json[_C.JSONKeys.accessToken].string,
+            let refreshToken: String = json[_C.JSONKeys.refreshToken].string,
+            let expiresIn: TimeInterval = json[_C.JSONKeys.expiresIn].double,
+            let tokenType: String = json[_C.JSONKeys.tokenType].string,
+            let scope: String = json[_C.JSONKeys.scope].string
+        else { return nil }
+        
         self.accessToken = accessToken
         self.refreshToken = refreshToken
         // ???: Should a tolerance be subtracted from expiresIn to account for request duration?
