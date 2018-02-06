@@ -22,6 +22,7 @@ public struct DRFOAuth2Constants {
         public static let scope: String         = "scope"
         public static let username: String      = "username"
         public static let password: String      = "password"
+        public static let token: String         = "token"
     }
     
     public struct GrantTypes {

@@ -293,6 +293,12 @@ private extension DRFOAuth2Handler {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        self._sessionManager.request(url, method: method, headers: headers)
+        let parameters: [String : Any] = [
+            _C.JSONKeys.token : self._credentialStore.accessToken
+        ]
+        
+        self._sessionManager.request(url, method: method, headers: headers).response(completion: { _ in
+            // TODO: Delete credentials
+        })
     }
 }
