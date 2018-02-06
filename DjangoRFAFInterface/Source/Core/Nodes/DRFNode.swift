@@ -17,6 +17,15 @@ public protocol DRFNode {
     // Basic Setup
     var baseURL: URL { get }
     
+    // Alamofire SessionManager
+    // For now, it can not be safely assumed that external changes
+    // made to this SessionManager instance will persist.
+    // One example for this can be found in DRFOAuth2Node, where
+    // the node accesses the sessionManager through a function
+    // that sets its adapter and its retrier, so any previously
+    // set adaptor retrier will be unset.
+    var sessionManager: SessionManager { get }
+    
     // Filtering
     func defaultFilters(for objectType: DRFFilteredListGettable.Type) -> [DRFFilterType]
     

@@ -14,7 +14,7 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DRFListGettable: DRFMetaResource {
+public protocol DRFListGettable {
     init(json: JSON)
     static var clients: [DRFListGettableClient] { get set }
     static func get(from node: DRFNode?, offset: UInt, limit: UInt)
@@ -22,25 +22,27 @@ public protocol DRFListGettable: DRFMetaResource {
 
 
 // MARK: Default Implementations
-public extension DRFListGettable {
+// MARK: where Self: DRFNeedsNoAuth
+public extension DRFListGettable where Self: DRFNeedsNoAuth {
     static func get(from node: DRFNode? = nil, offset: UInt = 0, limit: UInt = 0) {
-        self._get(from: node, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
+        self._get(from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
     }
 }
 
 
 // MARK: // Internal
+// MARK: Shared GET function
 extension DRFListGettable {
-    static func get_(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
+    static func get_(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
         self._get(from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
 
 
 // MARK: // Private
+// MARK: Shared GET function Implementation
 private extension DRFListGettable {
-    static func _get(from node: DRFNode?, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
-        let node: DRFNode = node ?? self.defaultNode
+    static func _get(from node: DRFNode, offset: UInt, limit: UInt, filters: [DRFFilterType], addDefaultFilters: Bool) {
         let url: URL = node.absoluteListURL(for: self)
         let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: self)
         
@@ -53,6 +55,7 @@ private extension DRFListGettable {
 
         let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: allFilters)
         ValidatedJSONRequest(url: url, parameters: parameters).fire(
+            via: node.sessionManager,
             onSuccess: { result in
                 let (pagination, objects): (DRFPagination, [Self]) = node.extractListResponse(for: self, from: result)
                 let success: GETObjectListSuccess = GETObjectListSuccess(

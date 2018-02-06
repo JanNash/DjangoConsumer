@@ -14,7 +14,7 @@ import DjangoRFAFInterface
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockFilteredListGettable: DRFFilteredListGettable {
+struct MockFilteredListGettable: DRFFilteredListGettable, DRFNeedsNoAuth {
     // Init
     init(id: String, date: Date, name: String) {
         self.id = id
@@ -41,6 +41,6 @@ struct MockFilteredListGettable: DRFFilteredListGettable {
         self.name = json[Keys.name].string!
     }
     
-    static var defaultNode: DRFNode = TestNode.main
+    static var defaultNode: DRFNode = MockNode.main
     static var clients: [DRFListGettableClient] = []
 }
