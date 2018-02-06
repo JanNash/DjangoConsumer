@@ -53,7 +53,7 @@ enum DRFOAuth2Error: Error {
 // MARK: - DRFOAuth2Handler
 open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     // Init
-    init(settings: DRFOAuth2Settings, credentialStore: DRFOAuth2CredentialStore) {
+    public init(settings: DRFOAuth2Settings, credentialStore: DRFOAuth2CredentialStore) {
         self._settings = settings
         self._credentialStore = credentialStore
     }
