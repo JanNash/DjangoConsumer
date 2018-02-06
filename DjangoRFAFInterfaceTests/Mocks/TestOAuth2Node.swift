@@ -21,6 +21,9 @@ class TestOAuth2Node: DRFOAuth2Node {
     // Basic Setup
     var baseURL: URL = URL(string: "")!
     
+    // OAuth2Clients
+    var oauth2Clients: [DRFOAuth2NodeAuthenticationClient] = []
+    
     // OAuth2Handler
     lazy var oauth2Handler: DRFOAuth2Handler = {
         let baseURLWith: (String) -> URL = self.baseURL.appendingPathComponent
