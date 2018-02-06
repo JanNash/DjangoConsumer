@@ -33,7 +33,7 @@ extension TestCase {
         
         // // Setup
         // Get expected node and endpoint
-        let expectedNode: TestNode = FixtureType.defaultNode as! TestNode
+        let expectedNode: MockNode = FixtureType.defaultNode as! MockNode
         let expectedRoutePattern: TestBackend.RoutePattern = .GET_list_mockFilteredListGettables
         let expectedRoutePatternString: String = expectedRoutePattern.rawValue
         
@@ -93,7 +93,7 @@ extension TestCase {
             }
             
             // FIXME: One assertion per test? :D
-            XCTAssertEqual(ObjectIdentifier(success.node as! TestNode), ObjectIdentifier(expectedNode))
+            XCTAssertEqual(ObjectIdentifier(success.node as! MockNode), ObjectIdentifier(expectedNode))
             XCTAssertEqual(success.offset, expectedOffset)
             XCTAssertEqual(success.limit, expectedLimit)
             XCTAssertEqual(success.responsePagination.offset, expectedPaginationOffset)
