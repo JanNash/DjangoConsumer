@@ -15,6 +15,11 @@ import DjangoRFAFInterface
 // MARK: Tests for OAuth2
 extension TestCase {
     func testLoggingIn() {
-        let node: 
+        let expectation: XCTestExpectation = self.expectation(description: "bla")
+        
+        let node: TestOAuth2Node = .main
+        node.oauth2Handler.requestTokens(username: "username", password: "password")
+        
+        self.waitForExpectations(timeout: 10)
     }
 }
