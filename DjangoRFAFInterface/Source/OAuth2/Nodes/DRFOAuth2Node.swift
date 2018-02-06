@@ -24,3 +24,19 @@ public extension DRFOAuth2Node {
         self.sessionManager.retrier = self.oauth2Handler
     }
 }
+
+
+// MARK: Authentication Forwarding
+public extension DRFOAuth2Node {
+    public func authenticate(username: String, password: String) {
+        self.oauth2Handler.requestTokens(username: username, password: password)
+    }
+    
+    public func refreshAuthentication() {
+        self.oauth2Handler.refreshTokens()
+    }
+    
+    public func endAuthentication() {
+        self.oauth2Handler.revokeTokens()
+    }
+}
