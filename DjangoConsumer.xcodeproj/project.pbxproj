@@ -7,377 +7,356 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02B5DF76F5097D6B127176CB9F4E7AFA /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397EA4C6AB3A6000AAE7191FC195E2D4 /* MockFilteredListGettable.swift */; };
-		0D1BC8D5B1F37DE31D57B0AF856CD9B0 /* DjangoConsumer.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoConsumer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		10834B5A56809800B1390F740D517AA9 /* DRFListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E426137AED40C5423DC011F136309 /* DRFListGettableClient.swift */; };
-		114B2AA36675C5BFAE57C0E133ACDBB0 /* ListGettableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFE60167526E9C2D24C0783A6EAA4CD /* ListGettableTests.swift */; };
-		1223B13C5955F163C0DE236E59C544ED /* DRFListGettable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45C24E869D0CEC32E42BF8DA66DBAE9 /* DRFListGettable+OAuth2.swift */; };
-		168C5A4AA910C991649C474C539DC133 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1893A1A74EEFA3831B72DC2BDF3F920 /* TestCase.swift */; };
-		1C8D17C05866E6FD41F0AF5A4D197CF6 /* TestBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E4DE041C0DBBD681441D8CD47324F /* TestBackend.swift */; };
-		1EA7D138C2E80104ED8A69B4C3EF71CA /* DRFListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33CD2E8091ACE0636AB7ACDCA50935D /* DRFListGettable.swift */; };
-		263597D9D7E760E3FABEE55B /* Pods_DjangoConsumerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 347F6D091B4E98A435420126 /* Pods_DjangoConsumerTests.framework */; };
-		41193ED5D845B27CEFC8F2689D193E58 /* MockListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AC8FE4ECE170EC1AEFEFD1DBC63113 /* MockListGettableClient.swift */; };
-		49FCC74456B167B6371514EA588892F4 /* DRFOAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9793634F64E5A96C8050FA685E5779E /* DRFOAuth2Constants.swift */; };
-		4AC209C9F5BE4BFB2224A6CE8EE0C7A6 /* DRFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA5FABE7967FC2DB9F291DFC1B07FF2 /* DRFNode.swift */; };
-		4CEB3F35933297F205CD8645D457231D /* DRFFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB153ADF5BBB1B6592F7C464AF1CDE6 /* DRFFilteredListGettable.swift */; };
-		5D612C765850BB8F894CE78D /* Pods_DjangoConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDA003FD0AB7F8650F6F7F0 /* Pods_DjangoConsumer.framework */; };
-		6031212D0075C8E1E299AB16593CF371 /* MockListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60103521F171CAFC77CB43E3C9C163C5 /* MockListGettable.swift */; };
-		7602DE915213E9316181EB79C121CFA0 /* FilteredListGettableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63154DFFF1C0B8CF666D76666CCA04D7 /* FilteredListGettableTests.swift */; };
-		834357F424EC48A38239F0F26FF59DBF /* MockOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6F70D4694EBEE49552D2011C8E8D45 /* MockOAuth2Node.swift */; };
-		8A49C8D246382A201B8E00193033DF11 /* DRFNeedsNoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A7AA77C92DB8F5C208E2B1DE1AD9AA /* DRFNeedsNoAuth.swift */; };
-		921688E877DEF002F6781DC8B7A398CC /* DRFOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AAB6CB3A601D4AA1C570D9EF88BC7C /* DRFOAuth2Node.swift */; };
-		999945F5DB36C7ED426B0736D8E1F1E6 /* MockNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9CB62C712CBFE583826113D08FDEA9B /* MockNode.swift */; };
-		A3E876F19E61AC95C0FA9E25B72B7E15 /* DRFNeedsOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F80BC8EC490B126DBED9F61F3C88FE /* DRFNeedsOAuth2.swift */; };
-		AEFDA320CF844EFC411F17A844B2616B /* ValidatedJSONRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16342EF1D1EFEDE8729BC1578A72FDA /* ValidatedJSONRequest.swift */; };
-		AF6CB3DAE51FAD71BB3233F6270C5ED3 /* OAuth2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D363F768B4331E504A9D8FDEB3F437 /* OAuth2Tests.swift */; };
-		BBFBED71E7F61308266E79513655D950 /* Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E58573B222FD55FCF099F7BFD49BDE /* Filtering.swift */; };
-		BF1EC7926E1A9CF34D7E6DB4AC5B5358 /* MockOAuth2CredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ABAB563CB863A0CB09B8AD08EDE60E2 /* MockOAuth2CredentialStore.swift */; };
-		C284DD8FB42ED3DA85B05F710850050E /* DRFFilteredListGettable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F088E10C51EC35359D91F69FFD8CAA /* DRFFilteredListGettable+OAuth2.swift */; };
-		CAE6E0E58D615CF3F80D230423E763AD /* DjangoConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84107B26D52B76B5BE19348C2DEA86B2 /* DjangoConsumer.framework */; };
-		EB3BB109743B346DC926F52D815AE660 /* MockBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9876A5A185CE6A270249FAE97C1B7066 /* MockBackend.swift */; };
-		EE0D27B881DAB2E0400E4B5E57FDC6FF /* DRFPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F6D367117A11F2ADE295A690B426C0 /* DRFPagination.swift */; };
-		F2B646FE6AEBC9CBF7F42914349BD114 /* DRFOAuth2Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351B6B7D9391916850BF52915AE2C10A /* DRFOAuth2Handler.swift */; };
-		F74D5F3750F3A99A245846641B02CAE7 /* MockOAuth2NodeAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89ACF8E6D7CF8DFC7FFD0B27820357B /* MockOAuth2NodeAuthClient.swift */; };
+		0244C312DFE85890FFF68D4B887A5305 /* DRFListGettable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F8F56E8C64B01FBDE7E3E0C5563C1A /* DRFListGettable+OAuth2.swift */; };
+		033B72D5D6ECAC6AF47531A941112424 /* DRFFilteredListGettable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA87ED8338E4A05F80AAE8CA9FDDB3 /* DRFFilteredListGettable+OAuth2.swift */; };
+		05626D9614EBC5610F00EEA49A6D2AB8 /* DjangoConsumer.h in Headers */ = {isa = PBXBuildFile; fileRef = 562929C331A4A24D4775B847847831A8 /* DjangoConsumer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */; };
+		177B7A7EBD6D8608D92FDCDDCABE428D /* DRFPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87253A2FA27226C7F8EC68A3D130F316 /* DRFPagination.swift */; };
+		311A8B9AFAA27F804985F4AC4EC7E646 /* DRFOAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2889736D0867F08C22FCF67DB00CF5 /* DRFOAuth2Constants.swift */; };
+		332D4328F65E7B4F2EF5FBA0CBB07E57 /* Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F31179E2AF1F56223851EB8CDDE05C9 /* Filtering.swift */; };
+		35B661413A5F5F9B4EE0066A648E2732 /* TestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF7F7F18DEE01CC41876E8EC814D4A9 /* TestCase.swift */; };
+		3AD57E77B4940D7CD8200CFAC4D6C715 /* ListGettableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5C011A0BE6589D7C4114C61E09C9A /* ListGettableTests.swift */; };
+		3BCA599507549D4A50C77574D9C7A49A /* DRFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AB4AE73ECF3BEA7A7BB73B8606F3CB /* DRFNode.swift */; };
+		4BC680A8052E08B1F48B74344040DA94 /* MockOAuth2CredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */; };
+		4EDA3C901E863FBF1780FFB16365DEB1 /* Pods_DjangoConsumerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12FCC406513052467D155E7706FA9ECE /* Pods_DjangoConsumerTests.framework */; };
+		54A78382368FF0E90AD7B21F2D72AECE /* Pods_DjangoConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819AB3015E9718F9E01520BBE47C2578 /* Pods_DjangoConsumer.framework */; };
+		5C7CF472BE5AF63CFB64BBA3F5AEF571 /* MockListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */; };
+		642FEE8E63E100C0AB409E73252ADDA7 /* DRFNeedsOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7ED1299F0DE3AAF3EE35C77A3F424 /* DRFNeedsOAuth2.swift */; };
+		79235A557EC109F1279B344BDC8A0E3D /* MockBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64287F4091A575BD7BE2003EE1BDFC /* MockBackend.swift */; };
+		79341EE2641F3938D0919521BE911E14 /* DRFListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFCDC0B48EE41D1844EC8B18AD1EFB9 /* DRFListGettable.swift */; };
+		8381DE7EFDE26AC874CD74E382AF479E /* TestBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA45534E8C3664348C0DC75067566627 /* TestBackend.swift */; };
+		8D1563897763879BE047F1C067533A01 /* DRFFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4D8B3EA6025E541AB4D2B6BBDA824E /* DRFFilteredListGettable.swift */; };
+		9DA5BB4FC7FEEB550E67149B48FEEC79 /* MockListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */; };
+		9F88EFE4DEC1140455C3D612FF994A79 /* DRFOAuth2Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F02AD3611B616833E8B2252052F5028 /* DRFOAuth2Handler.swift */; };
+		9F959BF0B75FAB192D1BB574B290A901 /* MockOAuth2NodeAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFC17C86ABB1FBF8CD6F23A5E50FFB2 /* MockOAuth2NodeAuthClient.swift */; };
+		A486D6CB0FE112AE731FF2A49EFB8736 /* FilteredListGettableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597E82A4019C3A1B176BBEF0C8D0D23 /* FilteredListGettableTests.swift */; };
+		C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */; };
+		CF14122D133402476DBC62886036EF40 /* DRFNeedsNoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3749F09CDBAB58CFA349E3DC10F71039 /* DRFNeedsNoAuth.swift */; };
+		E517B67ECD28998FBEE69A7DBE64EA05 /* ValidatedJSONRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94334B8949B5D907B3CE117DC11F593F /* ValidatedJSONRequest.swift */; };
+		E973B58AAB02F5CE85A735A60A1E3755 /* DjangoConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */; };
+		EB48A4DF7F2BEB6EC7A3CC321AC6A2ED /* MockNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */; };
+		F13D821068448729235E1BB7CEAB353A /* DRFListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B9DB7851196342DB7A0234BF6E29A6 /* DRFListGettableClient.swift */; };
+		FCE3CC11522448A001A21639342B4516 /* OAuth2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C0A36D06278ACEBC72AE10288A11FD /* OAuth2Tests.swift */; };
+		FFB38CC9A60F36142580F3B19C83CBAB /* DRFOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF6E7A9EA09403015F12CE9A28E5BF3 /* DRFOAuth2Node.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		BAAA635301D02226BE7875696D9DDC55 /* PBXContainerItemProxy */ = {
+		772FCED2D78811BABDAF981C3D80AC34 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4BD6450D314A1E8B84D83EEB4E917604 /* Project object */;
+			containerPortal = AD7BA9FBFAB5323E46027D57299977E7 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DAECD351E15E83DB7C3EEA5448D81C1E;
+			remoteGlobalIDString = 6ACE9893E89075804F540CF27F9DD534;
 			remoteInfo = DjangoRFAFInterface;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0FB153ADF5BBB1B6592F7C464AF1CDE6 /* DRFFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFFilteredListGettable.swift; sourceTree = "<group>"; };
-		18E58573B222FD55FCF099F7BFD49BDE /* Filtering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filtering.swift; sourceTree = "<group>"; };
-		1B6F70D4694EBEE49552D2011C8E8D45 /* MockOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2Node.swift; sourceTree = "<group>"; };
-		1CDA003FD0AB7F8650F6F7F0 /* Pods_DjangoConsumer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		245E4DE041C0DBBD681441D8CD47324F /* TestBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBackend.swift; sourceTree = "<group>"; };
-		24AC8FE4ECE170EC1AEFEFD1DBC63113 /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
-		29D363F768B4331E504A9D8FDEB3F437 /* OAuth2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Tests.swift; sourceTree = "<group>"; };
-		33F6D367117A11F2ADE295A690B426C0 /* DRFPagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFPagination.swift; sourceTree = "<group>"; };
-		347F6D091B4E98A435420126 /* Pods_DjangoConsumerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		351B6B7D9391916850BF52915AE2C10A /* DRFOAuth2Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Handler.swift; sourceTree = "<group>"; };
-		397EA4C6AB3A6000AAE7191FC195E2D4 /* MockFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFilteredListGettable.swift; sourceTree = "<group>"; };
-		41F088E10C51EC35359D91F69FFD8CAA /* DRFFilteredListGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DRFFilteredListGettable+OAuth2.swift"; sourceTree = "<group>"; };
-		42A7AA77C92DB8F5C208E2B1DE1AD9AA /* DRFNeedsNoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNeedsNoAuth.swift; sourceTree = "<group>"; };
-		4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoConsumer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjangoConsumer.h; sourceTree = "<group>"; };
-		4CA5FABE7967FC2DB9F291DFC1B07FF2 /* DRFNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNode.swift; sourceTree = "<group>"; };
-		4DFE60167526E9C2D24C0783A6EAA4CD /* ListGettableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableTests.swift; sourceTree = "<group>"; };
-		60103521F171CAFC77CB43E3C9C163C5 /* MockListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettable.swift; sourceTree = "<group>"; };
-		63154DFFF1C0B8CF666D76666CCA04D7 /* FilteredListGettableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettableTests.swift; sourceTree = "<group>"; };
-		6ABAB563CB863A0CB09B8AD08EDE60E2 /* MockOAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2CredentialStore.swift; sourceTree = "<group>"; };
-		75B33D41DF00E1C266E96E09 /* Pods-DjangoConsumerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests.release.xcconfig"; sourceTree = "<group>"; };
-		76AAB6CB3A601D4AA1C570D9EF88BC7C /* DRFOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Node.swift; sourceTree = "<group>"; };
-		84107B26D52B76B5BE19348C2DEA86B2 /* DjangoConsumer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjangoConsumer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		868E426137AED40C5423DC011F136309 /* DRFListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFListGettableClient.swift; sourceTree = "<group>"; };
-		874FA481F656785C38D7DABB /* Pods-DjangoConsumer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.debug.xcconfig"; sourceTree = "<group>"; };
-		9876A5A185CE6A270249FAE97C1B7066 /* MockBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBackend.swift; sourceTree = "<group>"; };
-		9906D61B0517B7A4ED20F87ACE5CEF26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9ABC1F7E8CE9B2547CAEFF93 /* Pods-DjangoConsumer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.release.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.release.xcconfig"; sourceTree = "<group>"; };
-		A36056D689D68D4C73FDD677 /* Pods-DjangoConsumerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B45C24E869D0CEC32E42BF8DA66DBAE9 /* DRFListGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DRFListGettable+OAuth2.swift"; sourceTree = "<group>"; };
-		B9793634F64E5A96C8050FA685E5779E /* DRFOAuth2Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Constants.swift; sourceTree = "<group>"; };
-		C33CD2E8091ACE0636AB7ACDCA50935D /* DRFListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFListGettable.swift; sourceTree = "<group>"; };
-		C5C6598F353A3605961D933957E1E026 /* DjangoConsumerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoConsumerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D1893A1A74EEFA3831B72DC2BDF3F920 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
-		E89ACF8E6D7CF8DFC7FFD0B27820357B /* MockOAuth2NodeAuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2NodeAuthClient.swift; sourceTree = "<group>"; };
-		F16342EF1D1EFEDE8729BC1578A72FDA /* ValidatedJSONRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatedJSONRequest.swift; sourceTree = "<group>"; };
-		F23253EA903E1E855AEC0253A1B8EB54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4F80BC8EC490B126DBED9F61F3C88FE /* DRFNeedsOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNeedsOAuth2.swift; sourceTree = "<group>"; };
-		F9CB62C712CBFE583826113D08FDEA9B /* MockNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNode.swift; sourceTree = "<group>"; };
+		0B4D8B3EA6025E541AB4D2B6BBDA824E /* DRFFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFFilteredListGettable.swift; sourceTree = "<group>"; };
+		12FCC406513052467D155E7706FA9ECE /* Pods_DjangoConsumerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		14AB4AE73ECF3BEA7A7BB73B8606F3CB /* DRFNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNode.swift; sourceTree = "<group>"; };
+		15AA87ED8338E4A05F80AAE8CA9FDDB3 /* DRFFilteredListGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DRFFilteredListGettable+OAuth2.swift"; sourceTree = "<group>"; };
+		26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
+		2BFCDC0B48EE41D1844EC8B18AD1EFB9 /* DRFListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFListGettable.swift; sourceTree = "<group>"; };
+		2EF7F7F18DEE01CC41876E8EC814D4A9 /* TestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCase.swift; sourceTree = "<group>"; };
+		31A5C011A0BE6589D7C4114C61E09C9A /* ListGettableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableTests.swift; sourceTree = "<group>"; };
+		3749F09CDBAB58CFA349E3DC10F71039 /* DRFNeedsNoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNeedsNoAuth.swift; sourceTree = "<group>"; };
+		4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjangoConsumer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F31179E2AF1F56223851EB8CDDE05C9 /* Filtering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filtering.swift; sourceTree = "<group>"; };
+		562929C331A4A24D4775B847847831A8 /* DjangoConsumer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjangoConsumer.h; sourceTree = "<group>"; };
+		5B40455D60A26551AE94077196644292 /* Pods-DjangoConsumerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6331C6F2052A8B5FAA17CBBBCCCDE651 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6BF6E7A9EA09403015F12CE9A28E5BF3 /* DRFOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Node.swift; sourceTree = "<group>"; };
+		6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2CredentialStore.swift; sourceTree = "<group>"; };
+		819AB3015E9718F9E01520BBE47C2578 /* Pods_DjangoConsumer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8597E82A4019C3A1B176BBEF0C8D0D23 /* FilteredListGettableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettableTests.swift; sourceTree = "<group>"; };
+		85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFilteredListGettable.swift; sourceTree = "<group>"; };
+		87253A2FA27226C7F8EC68A3D130F316 /* DRFPagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFPagination.swift; sourceTree = "<group>"; };
+		8A2889736D0867F08C22FCF67DB00CF5 /* DRFOAuth2Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Constants.swift; sourceTree = "<group>"; };
+		8F02AD3611B616833E8B2252052F5028 /* DRFOAuth2Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFOAuth2Handler.swift; sourceTree = "<group>"; };
+		8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettable.swift; sourceTree = "<group>"; };
+		94334B8949B5D907B3CE117DC11F593F /* ValidatedJSONRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatedJSONRequest.swift; sourceTree = "<group>"; };
+		9A64287F4091A575BD7BE2003EE1BDFC /* MockBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBackend.swift; sourceTree = "<group>"; };
+		9DFC17C86ABB1FBF8CD6F23A5E50FFB2 /* MockOAuth2NodeAuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2NodeAuthClient.swift; sourceTree = "<group>"; };
+		9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2Node.swift; sourceTree = "<group>"; };
+		B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNode.swift; sourceTree = "<group>"; };
+		BE4ECA45DF7E85AEE9462B19AE89EF54 /* Pods-DjangoConsumer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.release.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.release.xcconfig"; sourceTree = "<group>"; };
+		C1F8F56E8C64B01FBDE7E3E0C5563C1A /* DRFListGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DRFListGettable+OAuth2.swift"; sourceTree = "<group>"; };
+		C4C0A36D06278ACEBC72AE10288A11FD /* OAuth2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Tests.swift; sourceTree = "<group>"; };
+		C89E97BBF7E17B7AAFFDE837420F2539 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CB5B6AC36CF6BC5BB024054FB0EBDE72 /* Pods-DjangoConsumerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests.release.xcconfig"; sourceTree = "<group>"; };
+		DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.debug.xcconfig"; sourceTree = "<group>"; };
+		E0B9DB7851196342DB7A0234BF6E29A6 /* DRFListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFListGettableClient.swift; sourceTree = "<group>"; };
+		E42A43B5F7E093D4575CAE0BC56AE2E0 /* DjangoConsumerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoConsumerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFA7ED1299F0DE3AAF3EE35C77A3F424 /* DRFNeedsOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRFNeedsOAuth2.swift; sourceTree = "<group>"; };
+		FA45534E8C3664348C0DC75067566627 /* TestBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBackend.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7BDD20381045F307C892072D7C461111 /* Frameworks */ = {
+		987AC579050A9CB1D542D1EBEB47119B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D612C765850BB8F894CE78D /* Pods_DjangoConsumer.framework in Frameworks */,
+				E973B58AAB02F5CE85A735A60A1E3755 /* DjangoConsumer.framework in Frameworks */,
+				4EDA3C901E863FBF1780FFB16365DEB1 /* Pods_DjangoConsumerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AF9ED1B9E31DF9A8C5C0249FD14F8805 /* Frameworks */ = {
+		D9664A50E69F1F1EF071552ED835791D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAE6E0E58D615CF3F80D230423E763AD /* DjangoConsumer.framework in Frameworks */,
-				263597D9D7E760E3FABEE55B /* Pods_DjangoConsumerTests.framework in Frameworks */,
+				54A78382368FF0E90AD7B21F2D72AECE /* Pods_DjangoConsumer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		036B77F5B3BDE127620E825ABC4C0D35 /* Helpers */ = {
+		0B0F6940DA57CCF54880F75FE387BCFF /* OAuth2 */ = {
 			isa = PBXGroup;
 			children = (
-				351B6B7D9391916850BF52915AE2C10A /* DRFOAuth2Handler.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		16263AD2823ADF481570CE06ED2B5F92 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				84107B26D52B76B5BE19348C2DEA86B2 /* DjangoConsumer.framework */,
-				C5C6598F353A3605961D933957E1E026 /* DjangoConsumerTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		17DB4040F8DA9B3B471EEAF95824728D /* Nodes */ = {
-			isa = PBXGroup;
-			children = (
-				76AAB6CB3A601D4AA1C570D9EF88BC7C /* DRFOAuth2Node.swift */,
-			);
-			path = Nodes;
-			sourceTree = "<group>";
-		};
-		2216C4A998DE9AAE4B3E0423A7453BC6 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				0FB153ADF5BBB1B6592F7C464AF1CDE6 /* DRFFilteredListGettable.swift */,
-				C33CD2E8091ACE0636AB7ACDCA50935D /* DRFListGettable.swift */,
-				42A7AA77C92DB8F5C208E2B1DE1AD9AA /* DRFNeedsNoAuth.swift */,
-				33F6D367117A11F2ADE295A690B426C0 /* DRFPagination.swift */,
-				18E58573B222FD55FCF099F7BFD49BDE /* Filtering.swift */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		2EDB09E961958FD8A3EA26E584BDBE32 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				245E4DE041C0DBBD681441D8CD47324F /* TestBackend.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		4D2E6557EDB22E2EED69FBA975C9B420 /* DjangoConsumerTests */ = {
-			isa = PBXGroup;
-			children = (
-				2EDB09E961958FD8A3EA26E584BDBE32 /* Helpers */,
-				B209C6D25AE7967892FD290F505EE10B /* Mocks */,
-				A2758477B7336AA497B377A82935B4B3 /* Tests */,
-				9906D61B0517B7A4ED20F87ACE5CEF26 /* Info.plist */,
-			);
-			path = DjangoConsumerTests;
-			sourceTree = "<group>";
-		};
-		4E38BC5872AF506B337D7737DE16CA58 /* Nodes */ = {
-			isa = PBXGroup;
-			children = (
-				4CA5FABE7967FC2DB9F291DFC1B07FF2 /* DRFNode.swift */,
-			);
-			path = Nodes;
-			sourceTree = "<group>";
-		};
-		4F1A37B06F3F6A3BB912B78B60D9339D /* DjangoConsumer */ = {
-			isa = PBXGroup;
-			children = (
-				F8A71C113B931CEC4881C844FECF7728 /* Source */,
-				4A4E4EDC734BE9FC7BC35AC206B6B6C1 /* DjangoConsumer.h */,
-				F23253EA903E1E855AEC0253A1B8EB54 /* Info.plist */,
-			);
-			path = DjangoConsumer;
-			sourceTree = "<group>";
-		};
-		68F6E037D2581DEDC857DD07 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1CDA003FD0AB7F8650F6F7F0 /* Pods_DjangoConsumer.framework */,
-				347F6D091B4E98A435420126 /* Pods_DjangoConsumerTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		72269EA63C61489EAD58D0FB44CFE390 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				397EA4C6AB3A6000AAE7191FC195E2D4 /* MockFilteredListGettable.swift */,
-				60103521F171CAFC77CB43E3C9C163C5 /* MockListGettable.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		80B49BF2AAE446BB99EDB1E2C2EE541E /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				83932D85F73485B9AAB86BA50D8D5A97 /* Clients */,
-				E4A835A624BDE0089656450183303B0C /* Helpers */,
-				4E38BC5872AF506B337D7737DE16CA58 /* Nodes */,
-				2216C4A998DE9AAE4B3E0423A7453BC6 /* Resources */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		83932D85F73485B9AAB86BA50D8D5A97 /* Clients */ = {
-			isa = PBXGroup;
-			children = (
-				868E426137AED40C5423DC011F136309 /* DRFListGettableClient.swift */,
-			);
-			path = Clients;
-			sourceTree = "<group>";
-		};
-		A2758477B7336AA497B377A82935B4B3 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				63154DFFF1C0B8CF666D76666CCA04D7 /* FilteredListGettableTests.swift */,
-				4DFE60167526E9C2D24C0783A6EAA4CD /* ListGettableTests.swift */,
-				29D363F768B4331E504A9D8FDEB3F437 /* OAuth2Tests.swift */,
-				D1893A1A74EEFA3831B72DC2BDF3F920 /* TestCase.swift */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		A7D8CB602022B753CAE5834101A61D54 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				41F088E10C51EC35359D91F69FFD8CAA /* DRFFilteredListGettable+OAuth2.swift */,
-				B45C24E869D0CEC32E42BF8DA66DBAE9 /* DRFListGettable+OAuth2.swift */,
-				F4F80BC8EC490B126DBED9F61F3C88FE /* DRFNeedsOAuth2.swift */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		AF59FC7F51F9571A783CD49D48D662D4 /* MockBackend */ = {
-			isa = PBXGroup;
-			children = (
-				9876A5A185CE6A270249FAE97C1B7066 /* MockBackend.swift */,
-			);
-			path = MockBackend;
-			sourceTree = "<group>";
-		};
-		B209C6D25AE7967892FD290F505EE10B /* Mocks */ = {
-			isa = PBXGroup;
-			children = (
-				DB78F0F3D0ECFF3595121ABC5BA825D4 /* Clients */,
-				72269EA63C61489EAD58D0FB44CFE390 /* Models */,
-				F9CB62C712CBFE583826113D08FDEA9B /* MockNode.swift */,
-				6ABAB563CB863A0CB09B8AD08EDE60E2 /* MockOAuth2CredentialStore.swift */,
-				1B6F70D4694EBEE49552D2011C8E8D45 /* MockOAuth2Node.swift */,
-			);
-			path = Mocks;
-			sourceTree = "<group>";
-		};
-		B25B1B061D18ED91B796391A2763DB5E /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				B9793634F64E5A96C8050FA685E5779E /* DRFOAuth2Constants.swift */,
-			);
-			path = Constants;
-			sourceTree = "<group>";
-		};
-		B819955288AEA1CE9A1F31F7 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				874FA481F656785C38D7DABB /* Pods-DjangoConsumer.debug.xcconfig */,
-				9ABC1F7E8CE9B2547CAEFF93 /* Pods-DjangoConsumer.release.xcconfig */,
-				A36056D689D68D4C73FDD677 /* Pods-DjangoConsumerTests.debug.xcconfig */,
-				75B33D41DF00E1C266E96E09 /* Pods-DjangoConsumerTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		BB515B2870B88BE2561E2C97ECE82A16 /* OAuth2 */ = {
-			isa = PBXGroup;
-			children = (
-				B25B1B061D18ED91B796391A2763DB5E /* Constants */,
-				036B77F5B3BDE127620E825ABC4C0D35 /* Helpers */,
-				17DB4040F8DA9B3B471EEAF95824728D /* Nodes */,
-				A7D8CB602022B753CAE5834101A61D54 /* Resources */,
+				4245FEA1BB07F38ED9B687C924540B30 /* Constants */,
+				C13C307F2488D1A770611820B7687A9E /* Helpers */,
+				EC7ACE97DE0EB35F21CDCA403877CA15 /* Nodes */,
+				BFCD7D5EE775EB93F32441570BB93F24 /* Resources */,
 			);
 			path = OAuth2;
 			sourceTree = "<group>";
 		};
-		BD249BA56E646D7E5F152E8162EEF335 = {
+		0D3A4E791A753562721B6F317AB84D33 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				4F1A37B06F3F6A3BB912B78B60D9339D /* DjangoConsumer */,
-				4D2E6557EDB22E2EED69FBA975C9B420 /* DjangoConsumerTests */,
-				16263AD2823ADF481570CE06ED2B5F92 /* Products */,
-				B819955288AEA1CE9A1F31F7 /* Pods */,
-				68F6E037D2581DEDC857DD07 /* Frameworks */,
+				EB7871959FAC921F93CAE3FF4755A26F /* Clients */,
+				895DB36ABB6A3C23D828F69E3FB8473F /* Models */,
+				B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */,
+				6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */,
+				9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */,
 			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
-		DB78F0F3D0ECFF3595121ABC5BA825D4 /* Clients */ = {
+		4245FEA1BB07F38ED9B687C924540B30 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				24AC8FE4ECE170EC1AEFEFD1DBC63113 /* MockListGettableClient.swift */,
-				E89ACF8E6D7CF8DFC7FFD0B27820357B /* MockOAuth2NodeAuthClient.swift */,
+				8A2889736D0867F08C22FCF67DB00CF5 /* DRFOAuth2Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		5154FFD9ECE6F85DDDC299C66B1369E7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				819AB3015E9718F9E01520BBE47C2578 /* Pods_DjangoConsumer.framework */,
+				12FCC406513052467D155E7706FA9ECE /* Pods_DjangoConsumerTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6320DD654561EB03B821B869C7C7055B /* DjangoConsumer */ = {
+			isa = PBXGroup;
+			children = (
+				E70994576A5EFDEF1035B6CEEB7E88B2 /* Source */,
+				562929C331A4A24D4775B847847831A8 /* DjangoConsumer.h */,
+				C89E97BBF7E17B7AAFFDE837420F2539 /* Info.plist */,
+			);
+			path = DjangoConsumer;
+			sourceTree = "<group>";
+		};
+		895DB36ABB6A3C23D828F69E3FB8473F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */,
+				8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8CE07F5A2A38E96F49D9E62D16845614 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				E0B9DB7851196342DB7A0234BF6E29A6 /* DRFListGettableClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
 		};
-		E4A835A624BDE0089656450183303B0C /* Helpers */ = {
+		9419277B928BC422DF5D58E94D270705 = {
 			isa = PBXGroup;
 			children = (
-				F16342EF1D1EFEDE8729BC1578A72FDA /* ValidatedJSONRequest.swift */,
+				6320DD654561EB03B821B869C7C7055B /* DjangoConsumer */,
+				ECB6AA454FA146E116538DD51345448B /* DjangoConsumerTests */,
+				5154FFD9ECE6F85DDDC299C66B1369E7 /* Frameworks */,
+				CB847D9F3003F3532A31F3BAFEF3F378 /* Pods */,
+				F4DC4492F3D7E3E5E5D61A8017B30919 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A3B4C92B6E4344BE64D4D0F05AFE3A1A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8597E82A4019C3A1B176BBEF0C8D0D23 /* FilteredListGettableTests.swift */,
+				31A5C011A0BE6589D7C4114C61E09C9A /* ListGettableTests.swift */,
+				C4C0A36D06278ACEBC72AE10288A11FD /* OAuth2Tests.swift */,
+				2EF7F7F18DEE01CC41876E8EC814D4A9 /* TestCase.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		BFCD7D5EE775EB93F32441570BB93F24 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				15AA87ED8338E4A05F80AAE8CA9FDDB3 /* DRFFilteredListGettable+OAuth2.swift */,
+				C1F8F56E8C64B01FBDE7E3E0C5563C1A /* DRFListGettable+OAuth2.swift */,
+				EFA7ED1299F0DE3AAF3EE35C77A3F424 /* DRFNeedsOAuth2.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C12C5D3AAC1AC6095D7987E94DAAF37E /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				8CE07F5A2A38E96F49D9E62D16845614 /* Clients */,
+				E2F99759188939C738994DF1DFA9B28D /* Helpers */,
+				F4216A7EEF6B1AE6943EEFD7A45D1EFA /* Nodes */,
+				C9AAC5B317FB80791ED5E90DC01742BE /* Resources */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		C13C307F2488D1A770611820B7687A9E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8F02AD3611B616833E8B2252052F5028 /* DRFOAuth2Handler.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		F8A71C113B931CEC4881C844FECF7728 /* Source */ = {
+		C3923129E9C863C19B3F20D255F9D8AE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				80B49BF2AAE446BB99EDB1E2C2EE541E /* Core */,
-				AF59FC7F51F9571A783CD49D48D662D4 /* MockBackend */,
-				BB515B2870B88BE2561E2C97ECE82A16 /* OAuth2 */,
+				FA45534E8C3664348C0DC75067566627 /* TestBackend.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C9AAC5B317FB80791ED5E90DC01742BE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0B4D8B3EA6025E541AB4D2B6BBDA824E /* DRFFilteredListGettable.swift */,
+				2BFCDC0B48EE41D1844EC8B18AD1EFB9 /* DRFListGettable.swift */,
+				3749F09CDBAB58CFA349E3DC10F71039 /* DRFNeedsNoAuth.swift */,
+				87253A2FA27226C7F8EC68A3D130F316 /* DRFPagination.swift */,
+				4F31179E2AF1F56223851EB8CDDE05C9 /* Filtering.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CB847D9F3003F3532A31F3BAFEF3F378 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */,
+				BE4ECA45DF7E85AEE9462B19AE89EF54 /* Pods-DjangoConsumer.release.xcconfig */,
+				5B40455D60A26551AE94077196644292 /* Pods-DjangoConsumerTests.debug.xcconfig */,
+				CB5B6AC36CF6BC5BB024054FB0EBDE72 /* Pods-DjangoConsumerTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DAAC89CD03D7CD0D8E1C65AACCA25093 /* MockBackend */ = {
+			isa = PBXGroup;
+			children = (
+				9A64287F4091A575BD7BE2003EE1BDFC /* MockBackend.swift */,
+			);
+			path = MockBackend;
+			sourceTree = "<group>";
+		};
+		E2F99759188939C738994DF1DFA9B28D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				94334B8949B5D907B3CE117DC11F593F /* ValidatedJSONRequest.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E70994576A5EFDEF1035B6CEEB7E88B2 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				C12C5D3AAC1AC6095D7987E94DAAF37E /* Core */,
+				DAAC89CD03D7CD0D8E1C65AACCA25093 /* MockBackend */,
+				0B0F6940DA57CCF54880F75FE387BCFF /* OAuth2 */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		EB7871959FAC921F93CAE3FF4755A26F /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */,
+				9DFC17C86ABB1FBF8CD6F23A5E50FFB2 /* MockOAuth2NodeAuthClient.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		EC7ACE97DE0EB35F21CDCA403877CA15 /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				6BF6E7A9EA09403015F12CE9A28E5BF3 /* DRFOAuth2Node.swift */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
+		ECB6AA454FA146E116538DD51345448B /* DjangoConsumerTests */ = {
+			isa = PBXGroup;
+			children = (
+				C3923129E9C863C19B3F20D255F9D8AE /* Helpers */,
+				0D3A4E791A753562721B6F317AB84D33 /* Mocks */,
+				A3B4C92B6E4344BE64D4D0F05AFE3A1A /* Tests */,
+				6331C6F2052A8B5FAA17CBBBCCCDE651 /* Info.plist */,
+			);
+			path = DjangoConsumerTests;
+			sourceTree = "<group>";
+		};
+		F4216A7EEF6B1AE6943EEFD7A45D1EFA /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				14AB4AE73ECF3BEA7A7BB73B8606F3CB /* DRFNode.swift */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
+		F4DC4492F3D7E3E5E5D61A8017B30919 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */,
+				E42A43B5F7E093D4575CAE0BC56AE2E0 /* DjangoConsumerTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		F1DDB03D3DCB8DFA98AC18BF0DC89AAB /* Headers */ = {
+		5FE30DDCA1A42FAB52F4282BD5BDA32B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D1BC8D5B1F37DE31D57B0AF856CD9B0 /* DjangoConsumer.h in Headers */,
+				05626D9614EBC5610F00EEA49A6D2AB8 /* DjangoConsumer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		79CBBA213F6D7267C1CBB53D138AA870 /* DjangoConsumerTests */ = {
+		6ACE9893E89075804F540CF27F9DD534 /* DjangoConsumer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 295E3772C15DF73F05C09E1A59060D27 /* Build configuration list for PBXNativeTarget "DjangoConsumerTests" */;
+			buildConfigurationList = F16CA2C72DA061DD8C92AFC3100F91A3 /* Build configuration list for PBXNativeTarget "DjangoConsumer" */;
 			buildPhases = (
-				0777952E47D96398F49ED24F /* [CP] Check Pods Manifest.lock */,
-				C40A60B1B8F59999A679137257346828 /* Sources */,
-				AF9ED1B9E31DF9A8C5C0249FD14F8805 /* Frameworks */,
-				B3732D350D3C44680B834A0E95890A72 /* Resources */,
-				E5921525F642E49D44FC88D7 /* [CP] Embed Pods Frameworks */,
-				AD71B933FC4D421A89097F90 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E5A4930E531549E6C283EC2B6CFC95D1 /* PBXTargetDependency */,
-			);
-			name = DjangoConsumerTests;
-			productName = DjangoRFAFInterfaceTests;
-			productReference = C5C6598F353A3605961D933957E1E026 /* DjangoConsumerTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		DAECD351E15E83DB7C3EEA5448D81C1E /* DjangoConsumer */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AD958FB6902E99C16809F2E7FADF0202 /* Build configuration list for PBXNativeTarget "DjangoConsumer" */;
-			buildPhases = (
-				8F482724BFEBB6AA2093D498 /* [CP] Check Pods Manifest.lock */,
-				DDCB326001DD62BBFF8A43FA64EE8DEA /* [Custom] Generate Warnings from TODOs/FIXMEs/etc */,
-				CEF70D186E32AD431897E31DE6EE2DBA /* Sources */,
-				7BDD20381045F307C892072D7C461111 /* Frameworks */,
-				F1DDB03D3DCB8DFA98AC18BF0DC89AAB /* Headers */,
-				E809208F518966CD08D01C6A6DD84F15 /* Resources */,
-				76143DBC96D4623B2689D287 /* [CP] Copy Pods Resources */,
+				AE1EF5735CA29168084903264B19A5F5 /* [CP] Check Pods Manifest.lock */,
+				9388E81B22105ABE06CFCEBFACED66E7 /* [Custom] Generate Warnings from TODOs/FIXMEs/etc */,
+				8C8F4E33811A58BAE0315AA1962D92B2 /* Sources */,
+				D9664A50E69F1F1EF071552ED835791D /* Frameworks */,
+				5FE30DDCA1A42FAB52F4282BD5BDA32B /* Headers */,
+				4E6976EE91433E468A5C5D54689589F6 /* Resources */,
+				6961A878FD034199F9ED7E1945E475B9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -385,57 +364,78 @@
 			);
 			name = DjangoConsumer;
 			productName = DjangoRFAFInterface;
-			productReference = 84107B26D52B76B5BE19348C2DEA86B2 /* DjangoConsumer.framework */;
+			productReference = 4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		88B9D8795CCF6DAE32E4774730ED8B50 /* DjangoConsumerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4E69B9ECA81DC31876CA957B49B14990 /* Build configuration list for PBXNativeTarget "DjangoConsumerTests" */;
+			buildPhases = (
+				4DD588B44F7B3E4D55D5D6DAABAE08F6 /* [CP] Check Pods Manifest.lock */,
+				D88B227F5A981B66FE8807C2293F64A9 /* Sources */,
+				987AC579050A9CB1D542D1EBEB47119B /* Frameworks */,
+				2426E120826F17EFDA61BBCDAA4B608B /* Resources */,
+				59C6B059BE0462ABE14F97E7A9EAF91E /* [CP] Embed Pods Frameworks */,
+				9AE488817DE7999C15D5F13E0B69391C /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F953552EBCAD7E8D1EB42ECD5C517230 /* PBXTargetDependency */,
+			);
+			name = DjangoConsumerTests;
+			productName = DjangoRFAFInterfaceTests;
+			productReference = E42A43B5F7E093D4575CAE0BC56AE2E0 /* DjangoConsumerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4BD6450D314A1E8B84D83EEB4E917604 /* Project object */ = {
+		AD7BA9FBFAB5323E46027D57299977E7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = Kitenow;
 				TargetAttributes = {
-					79CBBA213F6D7267C1CBB53D138AA870 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-					};
-					DAECD351E15E83DB7C3EEA5448D81C1E = {
+					6ACE9893E89075804F540CF27F9DD534 = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
+					88B9D8795CCF6DAE32E4774730ED8B50 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
-			buildConfigurationList = 280E1F00CC38EBE415BC6D4647F3ADBF /* Build configuration list for PBXProject "DjangoConsumer" */;
+			buildConfigurationList = DD0FB0B78BD6A090139AD347543CACC1 /* Build configuration list for PBXProject "DjangoConsumer" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = BD249BA56E646D7E5F152E8162EEF335;
-			productRefGroup = 16263AD2823ADF481570CE06ED2B5F92 /* Products */;
+			mainGroup = 9419277B928BC422DF5D58E94D270705;
+			productRefGroup = F4DC4492F3D7E3E5E5D61A8017B30919 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DAECD351E15E83DB7C3EEA5448D81C1E /* DjangoConsumer */,
-				79CBBA213F6D7267C1CBB53D138AA870 /* DjangoConsumerTests */,
+				6ACE9893E89075804F540CF27F9DD534 /* DjangoConsumer */,
+				88B9D8795CCF6DAE32E4774730ED8B50 /* DjangoConsumerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B3732D350D3C44680B834A0E95890A72 /* Resources */ = {
+		2426E120826F17EFDA61BBCDAA4B608B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E809208F518966CD08D01C6A6DD84F15 /* Resources */ = {
+		4E6976EE91433E468A5C5D54689589F6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -445,7 +445,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0777952E47D96398F49ED24F /* [CP] Check Pods Manifest.lock */ = {
+		4DD588B44F7B3E4D55D5D6DAABAE08F6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -463,69 +463,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		76143DBC96D4623B2689D287 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8F482724BFEBB6AA2093D498 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-DjangoConsumer-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AD71B933FC4D421A89097F90 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DDCB326001DD62BBFF8A43FA64EE8DEA /* [Custom] Generate Warnings from TODOs/FIXMEs/etc */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[Custom] Generate Warnings from TODOs/FIXMEs/etc";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "KEYWORDS=\"\\/\\/ ERROR:|\\/\\/ WARNING:|\\/\\/ TODO:|\\/\\/ FIXME:|\\/\\/ \\?\\?\\?:|\\/\\/ \\!\\!\\!:\"\nfind \"${SRCROOT}/DjangoConsumer/\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"\n";
-		};
-		E5921525F642E49D44FC88D7 /* [CP] Embed Pods Frameworks */ = {
+		59C6B059BE0462ABE14F97E7A9EAF91E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -553,86 +491,126 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6961A878FD034199F9ED7E1945E475B9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9388E81B22105ABE06CFCEBFACED66E7 /* [Custom] Generate Warnings from TODOs/FIXMEs/etc */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[Custom] Generate Warnings from TODOs/FIXMEs/etc";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "KEYWORDS=\"\\/\\/ ERROR:|\\/\\/ WARNING:|\\/\\/ TODO:|\\/\\/ FIXME:|\\/\\/ \\?\\?\\?:|\\/\\/ \\!\\!\\!:\"\nfind \"${SRCROOT}/DjangoConsumer/\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"\n";
+		};
+		9AE488817DE7999C15D5F13E0B69391C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE1EF5735CA29168084903264B19A5F5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DjangoConsumer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C40A60B1B8F59999A679137257346828 /* Sources */ = {
+		8C8F4E33811A58BAE0315AA1962D92B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7602DE915213E9316181EB79C121CFA0 /* FilteredListGettableTests.swift in Sources */,
-				114B2AA36675C5BFAE57C0E133ACDBB0 /* ListGettableTests.swift in Sources */,
-				02B5DF76F5097D6B127176CB9F4E7AFA /* MockFilteredListGettable.swift in Sources */,
-				6031212D0075C8E1E299AB16593CF371 /* MockListGettable.swift in Sources */,
-				41193ED5D845B27CEFC8F2689D193E58 /* MockListGettableClient.swift in Sources */,
-				999945F5DB36C7ED426B0736D8E1F1E6 /* MockNode.swift in Sources */,
-				BF1EC7926E1A9CF34D7E6DB4AC5B5358 /* MockOAuth2CredentialStore.swift in Sources */,
-				834357F424EC48A38239F0F26FF59DBF /* MockOAuth2Node.swift in Sources */,
-				F74D5F3750F3A99A245846641B02CAE7 /* MockOAuth2NodeAuthClient.swift in Sources */,
-				AF6CB3DAE51FAD71BB3233F6270C5ED3 /* OAuth2Tests.swift in Sources */,
-				1C8D17C05866E6FD41F0AF5A4D197CF6 /* TestBackend.swift in Sources */,
-				168C5A4AA910C991649C474C539DC133 /* TestCase.swift in Sources */,
+				033B72D5D6ECAC6AF47531A941112424 /* DRFFilteredListGettable+OAuth2.swift in Sources */,
+				8D1563897763879BE047F1C067533A01 /* DRFFilteredListGettable.swift in Sources */,
+				0244C312DFE85890FFF68D4B887A5305 /* DRFListGettable+OAuth2.swift in Sources */,
+				79341EE2641F3938D0919521BE911E14 /* DRFListGettable.swift in Sources */,
+				F13D821068448729235E1BB7CEAB353A /* DRFListGettableClient.swift in Sources */,
+				CF14122D133402476DBC62886036EF40 /* DRFNeedsNoAuth.swift in Sources */,
+				642FEE8E63E100C0AB409E73252ADDA7 /* DRFNeedsOAuth2.swift in Sources */,
+				3BCA599507549D4A50C77574D9C7A49A /* DRFNode.swift in Sources */,
+				311A8B9AFAA27F804985F4AC4EC7E646 /* DRFOAuth2Constants.swift in Sources */,
+				9F88EFE4DEC1140455C3D612FF994A79 /* DRFOAuth2Handler.swift in Sources */,
+				FFB38CC9A60F36142580F3B19C83CBAB /* DRFOAuth2Node.swift in Sources */,
+				177B7A7EBD6D8608D92FDCDDCABE428D /* DRFPagination.swift in Sources */,
+				332D4328F65E7B4F2EF5FBA0CBB07E57 /* Filtering.swift in Sources */,
+				79235A557EC109F1279B344BDC8A0E3D /* MockBackend.swift in Sources */,
+				E517B67ECD28998FBEE69A7DBE64EA05 /* ValidatedJSONRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CEF70D186E32AD431897E31DE6EE2DBA /* Sources */ = {
+		D88B227F5A981B66FE8807C2293F64A9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C284DD8FB42ED3DA85B05F710850050E /* DRFFilteredListGettable+OAuth2.swift in Sources */,
-				4CEB3F35933297F205CD8645D457231D /* DRFFilteredListGettable.swift in Sources */,
-				1223B13C5955F163C0DE236E59C544ED /* DRFListGettable+OAuth2.swift in Sources */,
-				1EA7D138C2E80104ED8A69B4C3EF71CA /* DRFListGettable.swift in Sources */,
-				10834B5A56809800B1390F740D517AA9 /* DRFListGettableClient.swift in Sources */,
-				8A49C8D246382A201B8E00193033DF11 /* DRFNeedsNoAuth.swift in Sources */,
-				A3E876F19E61AC95C0FA9E25B72B7E15 /* DRFNeedsOAuth2.swift in Sources */,
-				4AC209C9F5BE4BFB2224A6CE8EE0C7A6 /* DRFNode.swift in Sources */,
-				49FCC74456B167B6371514EA588892F4 /* DRFOAuth2Constants.swift in Sources */,
-				F2B646FE6AEBC9CBF7F42914349BD114 /* DRFOAuth2Handler.swift in Sources */,
-				921688E877DEF002F6781DC8B7A398CC /* DRFOAuth2Node.swift in Sources */,
-				EE0D27B881DAB2E0400E4B5E57FDC6FF /* DRFPagination.swift in Sources */,
-				BBFBED71E7F61308266E79513655D950 /* Filtering.swift in Sources */,
-				EB3BB109743B346DC926F52D815AE660 /* MockBackend.swift in Sources */,
-				AEFDA320CF844EFC411F17A844B2616B /* ValidatedJSONRequest.swift in Sources */,
+				A486D6CB0FE112AE731FF2A49EFB8736 /* FilteredListGettableTests.swift in Sources */,
+				3AD57E77B4940D7CD8200CFAC4D6C715 /* ListGettableTests.swift in Sources */,
+				0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */,
+				5C7CF472BE5AF63CFB64BBA3F5AEF571 /* MockListGettable.swift in Sources */,
+				9DA5BB4FC7FEEB550E67149B48FEEC79 /* MockListGettableClient.swift in Sources */,
+				EB48A4DF7F2BEB6EC7A3CC321AC6A2ED /* MockNode.swift in Sources */,
+				4BC680A8052E08B1F48B74344040DA94 /* MockOAuth2CredentialStore.swift in Sources */,
+				C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */,
+				9F959BF0B75FAB192D1BB574B290A901 /* MockOAuth2NodeAuthClient.swift in Sources */,
+				FCE3CC11522448A001A21639342B4516 /* OAuth2Tests.swift in Sources */,
+				8381DE7EFDE26AC874CD74E382AF479E /* TestBackend.swift in Sources */,
+				35B661413A5F5F9B4EE0066A648E2732 /* TestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E5A4930E531549E6C283EC2B6CFC95D1 /* PBXTargetDependency */ = {
+		F953552EBCAD7E8D1EB42ECD5C517230 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DAECD351E15E83DB7C3EEA5448D81C1E /* DjangoConsumer */;
-			targetProxy = BAAA635301D02226BE7875696D9DDC55 /* PBXContainerItemProxy */;
+			target = 6ACE9893E89075804F540CF27F9DD534 /* DjangoConsumer */;
+			targetProxy = 772FCED2D78811BABDAF981C3D80AC34 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		37F1FA7ECB8BDA8A2BD5C4ECF7F8454D /* Debug */ = {
+		18B1D03FF0B1A8EE2890D8E323658C94 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 874FA481F656785C38D7DABB /* Pods-DjangoConsumer.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = AK5BMJ7QR5;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = DjangoConsumer/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kitenow.DjangoConsumer;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		4531331B97D3AF600424C461FE9C0DE5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9ABC1F7E8CE9B2547CAEFF93 /* Pods-DjangoConsumer.release.xcconfig */;
+			baseConfigurationReference = BE4ECA45DF7E85AEE9462B19AE89EF54 /* Pods-DjangoConsumer.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -651,7 +629,22 @@
 			};
 			name = Release;
 		};
-		82ED24CD29ACD9B20CB891CAD2EF5BE5 /* Debug */ = {
+		2A33CC587999248A5408F7A01F16E260 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B40455D60A26551AE94077196644292 /* Pods-DjangoConsumerTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = AK5BMJ7QR5;
+				INFOPLIST_FILE = DjangoConsumerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kitenow.DjangoConsumerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4CBFAF5F6CB32C68D9732F51915C7AFF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -713,22 +706,29 @@
 			};
 			name = Debug;
 		};
-		B10580E508E38A3F6DDCE536313BE997 /* Release */ = {
+		96D81FF8D927F2F30A5C9FB049DE60A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 75B33D41DF00E1C266E96E09 /* Pods-DjangoConsumerTests.release.xcconfig */;
+			baseConfigurationReference = DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AK5BMJ7QR5;
-				INFOPLIST_FILE = DjangoConsumerTests/Info.plist;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = DjangoConsumer/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kitenow.DjangoConsumerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kitenow.DjangoConsumer;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Release;
+			name = Debug;
 		};
-		C7884A428653E2AB226F5368C7F77D5B /* Release */ = {
+		AB749063C0211E5E6E1E4209704EB699 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -783,9 +783,9 @@
 			};
 			name = Release;
 		};
-		F8E33E89FB5F8743F0AE8557F7E7FDEE /* Debug */ = {
+		E88308C936B67E12E1EE04AD21786C3F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A36056D689D68D4C73FDD677 /* Pods-DjangoConsumerTests.debug.xcconfig */;
+			baseConfigurationReference = CB5B6AC36CF6BC5BB024054FB0EBDE72 /* Pods-DjangoConsumerTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AK5BMJ7QR5;
@@ -796,39 +796,39 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		280E1F00CC38EBE415BC6D4647F3ADBF /* Build configuration list for PBXProject "DjangoConsumer" */ = {
+		4E69B9ECA81DC31876CA957B49B14990 /* Build configuration list for PBXNativeTarget "DjangoConsumerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				82ED24CD29ACD9B20CB891CAD2EF5BE5 /* Debug */,
-				C7884A428653E2AB226F5368C7F77D5B /* Release */,
+				2A33CC587999248A5408F7A01F16E260 /* Debug */,
+				E88308C936B67E12E1EE04AD21786C3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		295E3772C15DF73F05C09E1A59060D27 /* Build configuration list for PBXNativeTarget "DjangoConsumerTests" */ = {
+		DD0FB0B78BD6A090139AD347543CACC1 /* Build configuration list for PBXProject "DjangoConsumer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F8E33E89FB5F8743F0AE8557F7E7FDEE /* Debug */,
-				B10580E508E38A3F6DDCE536313BE997 /* Release */,
+				4CBFAF5F6CB32C68D9732F51915C7AFF /* Debug */,
+				AB749063C0211E5E6E1E4209704EB699 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AD958FB6902E99C16809F2E7FADF0202 /* Build configuration list for PBXNativeTarget "DjangoConsumer" */ = {
+		F16CA2C72DA061DD8C92AFC3100F91A3 /* Build configuration list for PBXNativeTarget "DjangoConsumer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				37F1FA7ECB8BDA8A2BD5C4ECF7F8454D /* Debug */,
-				4531331B97D3AF600424C461FE9C0DE5 /* Release */,
+				96D81FF8D927F2F30A5C9FB049DE60A6 /* Debug */,
+				18B1D03FF0B1A8EE2890D8E323658C94 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 4BD6450D314A1E8B84D83EEB4E917604 /* Project object */;
+	rootObject = AD7BA9FBFAB5323E46027D57299977E7 /* Project object */;
 }
