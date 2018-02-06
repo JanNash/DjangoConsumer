@@ -35,6 +35,12 @@ public protocol DRFOAuth2CredentialStore {
 }
 
 
+// MARK: - DRFOAuth2Error
+enum DRFOAuth2Error: Error {
+    case noCredentials
+}
+
+
 // MARK: - DRFOAuth2Handler
 open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     // Init
@@ -71,7 +77,7 @@ open class DRFOAuth2Handler: RequestAdapter, RequestRetrier {
     
     // RequestAdapter
     open func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
-        return self._addBearerAuthorizationHeader(to: urlRequest)
+        return try self._addBearerAuthorizationHeader(to: urlRequest)
     }
     
     // RequestRetrier
@@ -141,9 +147,12 @@ private extension DRFOAuth2Handler {
 private extension DRFOAuth2Handler {
     typealias _Header = (key: String, value: String)
     
-    func _addBearerAuthorizationHeader(to urlRequest: URLRequest) -> URLRequest {
+    func _addBearerAuthorizationHeader(to urlRequest: URLRequest) throws -> URLRequest {
+        guard let bearerAuthHeader: _Header = self._bearerAuthHeader() else {
+            throw DRFOAuth2Error.noCredentials
+        }
+        
         var urlRequest: URLRequest = urlRequest
-        let bearerAuthHeader: _Header = self._bearerAuthHeader()
         urlRequest.setValue(bearerAuthHeader.value, forHTTPHeaderField: bearerAuthHeader.key)
         return urlRequest
     }
@@ -155,8 +164,9 @@ private extension DRFOAuth2Handler {
         return (_C.HeaderFields.authorization, _C.HeaderValues.basic(self._settings.appSecret))
     }
     
-    func _bearerAuthHeader() -> _Header {
-        return (_C.HeaderFields.authorization, _C.HeaderValues.bearer(self._credentialStore.accessToken))
+    func _bearerAuthHeader() -> _Header? {
+        guard let accessToken: String = self._credentialStore.accessToken else { return nil }
+        return (_C.HeaderFields.authorization, _C.HeaderValues.bearer(accessToken))
     }
 }
 
