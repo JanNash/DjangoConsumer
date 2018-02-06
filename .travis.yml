@@ -10,6 +10,7 @@ cache:
   - cocoapods
   directories:
     - $HOME/.cocoapods/repos/master
+    - /home/travis/.rvm/
 
 install:
   - pod repo update
