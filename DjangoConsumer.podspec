@@ -4,11 +4,11 @@ Pod::Spec.new do |s|
   s.version = "0.0.1"
   s.summary = "A Swift framework trying to make swiftly consuming a Django Rest Framework API quite effortless."
   s.description = <<-DESC 
-                  DjangoConsumer (or DRFAFI?) is a small assemblage of protocols and structs that should be useful
-                  to communicate with a Django Rest Framework API through a simple, hopefully quite swifty interface.
+                  DjangoConsumer (or DC?) is a small assemblage of protocols and structs that should be useful
+                  to communicate with a Django API through a simple, hopefully quite swifty interface.
 
                   You define your models, make them conform to one small protocol, write a few lines of general 
-                  configuration and get started with consuming your DRF API.
+                  configuration and get started with consuming your Django API.
 
                   // TODO: Add code examples
 
