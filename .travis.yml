@@ -12,8 +12,10 @@ cache:
     - $HOME/.cocoapods/repos/master
     - /home/travis/.rvm/
 
+before_install:
+  - gem update --system
+
 install:
-  - gem install rake
   - bundle install
   - pod repo update
   - pod install
