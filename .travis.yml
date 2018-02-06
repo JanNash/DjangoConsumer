@@ -13,7 +13,8 @@ cache:
     - /home/travis/.rvm/
 
 install:
-  - bundle install 
+  - gem install rake
+  - bundle install
   - pod repo update
   - pod install
 
