@@ -8,7 +8,8 @@
       location = "group:README.md">
    </FileRef>
    <FileRef
-      location = "group:DjangoConsumer.podspec">
+      location = "group:DjangoConsumer.podspec"
+      assignedFileDataType = "public.ruby-script">
    </FileRef>
    <Group
       location = "container:"
