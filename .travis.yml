@@ -5,6 +5,9 @@ xcode_scheme: DjangoConsumer
 osx_image: xcode9.2
 xcode_sdk: iphonesimulator11.2
 
+rvm:
+  - 2.5.0@DjangoConsumer
+
 cache:
   bundler: true
   cocoapods: true
