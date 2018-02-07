@@ -5,9 +5,6 @@ xcode_scheme: DjangoConsumer
 osx_image: xcode9.2
 xcode_sdk: iphonesimulator11.2
 
-rvm:
-  - 2.5.0@DjangoConsumer --create
-
 cache:
   cocoapods: true
   directories:
@@ -32,6 +29,8 @@ cache:
     - ~/.rvm/gems/ruby-2.5.0@DjangoConsumer/
 
 before_install:
+  # Re-running rvm use here, so it is run after the cache was loaded
+  - rvm use 2.5.0@DjangoConsumer --create
   - gem install bundler
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
   # information on why this gem update --system is necessary.
