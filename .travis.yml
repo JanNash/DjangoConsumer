@@ -9,10 +9,8 @@ rvm:
   - 2.5.0@DjangoConsumer
 
 cache:
-  bundler: true
-  cocoapods: true
   directories:
-    - ~/.cocoapods
+    - ~/.cocoapods/
     - ~/.rvm/
 
 before_install:
