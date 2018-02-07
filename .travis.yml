@@ -27,7 +27,6 @@ before_install:
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further information
   # on why this gem update --system is necessary.
   - gem update --system
-  - bundle install
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
