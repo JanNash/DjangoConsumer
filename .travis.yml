@@ -13,11 +13,11 @@ rvm:
   # # specified inside .ruby-version being installed on each run.
   # # Instead, rvm is set to use this required ruby version
   # # inside the before_install step.
-  - 2.4.2
+  # - 2.4.2
   # # This should instead be commented in to update the ruby
-  # version in the cache to the required one.
+  # # version in the cache to the required one.
   # MARK
-  # - 2.5.0
+  - 2.5.0
 
 cache:
   cocoapods: true
@@ -55,9 +55,9 @@ before_install:
   # # Specs repo that contains the required Specs, the marked commands
   # # can be commented out.
   # #
-  # - gem install bundler
-  # - bundle install
-  # - pod repo update
+  - gem install bundler
+  - bundle install
+  - pod repo update
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
