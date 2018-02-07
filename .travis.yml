@@ -18,14 +18,13 @@ rvm:
 cache:
   cocoapods: true
   directories:
-    # Specifying only the used pods because the cache can't digest
-    # the whole 1.4G master Specs repo. When updating to a new 
-    # osx_image that contains a master Specs repo that contains
-    # the specs for the required Pods, this can be commented out.
-    - ~/.cocoapods/repos/master/Specs/d/4/d/Alamofire-SwiftyJSON/
-    - ~/.cocoapods/repos/master/Specs/d/8/6/Embassy/
-    - ~/.cocoapods/repos/master/Specs/3/1/4/EnvoyAmbassador/
-    - ~/.cocoapods/repos/master/Specs/b/7/8/SwiftDate/
+    # Specifying only the pods of which the specs of the required 
+    # versions are not contained in the master Specs repo that comes
+    # with osx_image: xcode9.2 . Unfortunately, the cache can't digest
+    # the whole 1.4G master Specs repo :D. When updating to a new 
+    # osx_image that comes with a master Specs repo that contains
+    # the required specs, this can be commented out.
+    - ~/.cocoapods/repos/master/Specs/b/7/8/SwiftDate/4.5.1
     
     # Same goes for the ruby installation, .rvm has around 800M
     # on my machine, with three installed rubies. When updating
@@ -33,9 +32,9 @@ cache:
     # this can be commented out.
     - ~/.rvm/rubies/ruby-2.5.0
     
-    # Using the default bundler cache directive (like cocoapods)
-    # does not work because it caches 
-    # /Users/travis/build/JanNash/DjangoConsumer/vendor/bundle,
+    # Using the default bundler cache directive (like the 
+    # cocoapods directive above) does not work because it caches 
+    # '/Users/travis/build/JanNash/DjangoConsumer/vendor/bundle',
     # which is not the location where the gemset is going to
     # be installed.
     - ~/.rvm/gems/ruby-2.5.0@DjangoConsumer/
