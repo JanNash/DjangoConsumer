@@ -58,13 +58,13 @@ before_install:
   # MARK
   # - gem install bundler
 
-  # Re-running rvm use here, so it is run after the cache was loaded
-  - rvm use 2.5.0@DjangoConsumer --create
-
   # This mustn't be commented out on osx_image: xcode9.2
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
   # information on why this gem update --system is necessary.
   - gem update --system
+
+  # Re-running rvm use here, so it is run after the cache was loaded
+  - rvm use 2.5.0@DjangoConsumer --create
   
   # # The bundle install is necessary in order for the pod repo update to work.
   # MARK
