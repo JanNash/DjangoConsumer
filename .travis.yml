@@ -28,9 +28,13 @@ cache:
 
 before_install:
   - gem install bundler
-  # See https://github.com/travis-ci/travis-ci/issues/8978 for further information
-  # on why this gem update --system is necessary.
+  # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
+  # information on why this gem update --system is necessary.
   - gem update --system
+  # The bundle install is necessary in order for the pod repo update 
+  # to work. When the pod repo update is commented out, I suppose
+  # the bundle install can be commented out as well.
+  - bundle install
   # This pod repo update needs to be commented in for one run each time
   # one of the pod versions are updated and the spec for the new version 
   # isn't yet contained in the master Specs repo version that is included
