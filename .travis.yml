@@ -33,6 +33,18 @@ cache:
 before_install:
   # Re-running rvm use here, so it is run after the cache was loaded
   - rvm use 2.5.0@DjangoConsumer --create
+
+  # #
+  # # This whole section must only be run in order to recreate the
+  # # rvm-ruby/gemset/bundler/cocapods cache. This should be done
+  # # each time the Pod requirements change. However, when a new
+  # # osx_image is used which includes a master Specs repo that
+  # # contains the required Specs, the whole section can be commented out.
+  # #
+  #
+  # The gem install bundler is necessary in order for the bundle install
+  # to work. When the bundle install is commented out, I suppose
+  # the bundle install can be commented out as well.
   - gem install bundler
 
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
