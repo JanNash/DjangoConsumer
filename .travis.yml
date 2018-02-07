@@ -45,6 +45,7 @@ cache:
     - ~/.rvm/gems/ruby-2.5.0@DjangoConsumer/
 
 before_install:
+  - rvm use 2.5.0
   # #
   # # All marked commands must only be commented in in order to 
   # # recreate the rvm-ruby/gemset/bundler/cocapods cache. This 
@@ -66,9 +67,7 @@ before_install:
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
   # information on why this gem update --system is necessary.
   - gem update --system
-
-  # Re-running rvm use here, so it is run after the cache was loaded
-  - rvm use 2.5.0@DjangoConsumer --create
+  - rvm gemset use DjangoConsumer --create
   
   # MARK
   - pod repo update
