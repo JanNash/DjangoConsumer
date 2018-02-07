@@ -58,14 +58,14 @@ before_install:
   #
   # # The gem install bundler is necessary in order for the bundle install to work.
   # MARK
-  - gem install bundler
+  # - gem install bundler
 
   # # The bundle install is necessary in order for the pod repo update to work.
   # MARK
-  - bundle install
+  # - bundle install
   
   # MARK
-  - pod repo update
+  # - pod repo update
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
