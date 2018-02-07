@@ -5,20 +5,59 @@ xcode_scheme: DjangoConsumer
 osx_image: xcode9.2
 xcode_sdk: iphonesimulator11.2
 
+rvm:
+  # # Pinning rvm ruby to a version that is already installed 
+  # # on the current osx_image, so the default 
+  # # $ rvm use $(< .ruby-version) --install --binary --fuzzy
+  # # which leads to the non-existent ruby version that is 
+  # # specified inside .ruby-version being installed on each run.
+  # # Instead, rvm is set to use this required ruby version
+  # # inside the before_install step.
+  - 2.4.2
+  # # This should instead be commented in to update the ruby
+  # version in the cache to the required one.
+  # MARK
+  # - 2.5.0
+
 cache:
-  bundler: true
   cocoapods: true
   directories:
-    - $HOME/.cocoapods/repos/master
-    - /home/travis/.rvm/
+    # Specifying only the pods of which the specs of the required 
+    # versions are not contained in the master Specs repo that comes
+    # with osx_image: xcode9.2 . Unfortunately, the cache can't digest
+    # the whole 1.4G master Specs repo :D. When updating to a new 
+    # osx_image that comes with a master Specs repo that contains
+    # the required specs, this can be commented out.
+    - ~/.cocoapods/repos/master/Specs/b/7/8/SwiftDate/4.5.1
+    
+    # Same goes for the ruby installation, .rvm has around 800M
+    # on my machine, with three installed rubies. When updating
+    # to a new osx_image that contains the required ruby version,
+    # this can be commented out.
+    - ~/.rvm/rubies/ruby-2.5.0
+    - ~/.rvm/gems/ruby-2.5.0
+    
+    # Using the default bundler cache directive (like the 
+    # cocoapods directive above) does not work because it caches 
+    # '/Users/travis/build/JanNash/DjangoConsumer/vendor/bundle',
+    # which is not the location where the gemset is going to
+    # be installed.
+    - ~/.rvm/gems/ruby-2.5.0@DjangoConsumer/
 
 before_install:
-  - gem update --system
+  - rvm use 2.5.0@DjangoConsumer --create
 
-install:
-  - bundle install
-  - pod repo update
-  - pod install
+  # #
+  # # These three marked commands must only be commented in in order 
+  # # to recreate the rvm-ruby/gemset/bundler/cocapods cache. This 
+  # # should be done each time the Pod/ruby requirements change. 
+  # # However, when a new osx_image is used which includes a master 
+  # # Specs repo that contains the required Specs, the marked commands
+  # # can be commented out.
+  # #
+  # - gem install bundler
+  # - bundle install
+  # - pod repo update
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
