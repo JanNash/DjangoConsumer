@@ -16,7 +16,11 @@ cache:
     - ~/.cocoapods/repos/master/Specs/d/8/6/Embassy/
     - ~/.cocoapods/repos/master/Specs/3/1/4/EnvoyAmbassador/
     - ~/.cocoapods/repos/master/Specs/b/7/8/SwiftDate/
-    - ~/.rvm/
+    # Same goes for the ruby installation, .rvm has around 800M
+    # on my machine, with three installed rubies. When updating
+    # to a new osx_image that contains the required ruby version,
+    # this can be commented out.
+    - ~/.rvm/rubies/ruby-2.5.0
 
 before_install:
   - gem install bundler
