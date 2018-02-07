@@ -6,14 +6,17 @@ osx_image: xcode9.2
 xcode_sdk: iphonesimulator11.2
 
 rvm:
-  # Pinning rvm ruby to a version that is already installed 
-  # on the current osx_image, so the default 
-  # $ rvm use $(< .ruby-version) --install --binary --fuzzy
-  # which leads to the non-existent ruby version that is 
-  # specified inside .ruby-version being installed on each run.
-  # Instead, rvm is set to use this required ruby version
-  # inside the before_install step.
-  - 2.4.2
+  # # Pinning rvm ruby to a version that is already installed 
+  # # on the current osx_image, so the default 
+  # # $ rvm use $(< .ruby-version) --install --binary --fuzzy
+  # # which leads to the non-existent ruby version that is 
+  # # specified inside .ruby-version being installed on each run.
+  # # Instead, rvm is set to use this required ruby version
+  # # inside the before_install step.
+  # - 2.4.2
+  # # This should instead be commented in to update the ruby
+  # version in the cache to the required one.
+  - 2.5.0
 
 cache:
   cocoapods: true
