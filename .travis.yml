@@ -45,12 +45,7 @@ cache:
     - ~/.rvm/gems/ruby-2.5.0@DjangoConsumer/
 
 before_install:
-  - rvm use 2.5.0
-  # This mustn't be commented out on osx_image: xcode9.2
-  # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
-  # information on why this gem update --system is necessary.
-  # - gem update --system
-  - rvm gemset use DjangoConsumer --create
+  - rvm use 2.5.0@DjangoConsumer --create
 
   # #
   # # All marked commands must only be commented in in order to 
