@@ -55,8 +55,8 @@ before_install:
   # # Specs repo that contains the required Specs, the marked commands
   # # can be commented out.
   # #
-  # - bundle install
-  # - pod repo update
+  - bundle install
+  - pod repo update
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
