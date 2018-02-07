@@ -16,6 +16,7 @@ rvm:
   - 2.4.2
   # # This should instead be commented in to update the ruby
   # version in the cache to the required one.
+  # MARK
   # - 2.5.0
 
 cache:
@@ -55,7 +56,7 @@ before_install:
   #
   # # The gem install bundler is necessary in order for the bundle install to work.
   # MARK
-  - gem install bundler
+  # - gem install bundler
 
   # Re-running rvm use here, so it is run after the cache was loaded
   - rvm use 2.5.0@DjangoConsumer --create
@@ -67,10 +68,10 @@ before_install:
   
   # # The bundle install is necessary in order for the pod repo update to work.
   # MARK
-  - bundle install
+  # - bundle install
   
   # MARK
-  - pod repo update
+  # - pod repo update
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
