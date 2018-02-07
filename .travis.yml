@@ -13,10 +13,10 @@ rvm:
   # # specified inside .ruby-version being installed on each run.
   # # Instead, rvm is set to use this required ruby version
   # # inside the before_install step.
-  # - 2.4.2
+  - 2.4.2
   # # This should instead be commented in to update the ruby
   # version in the cache to the required one.
-  - 2.5.0
+  # - 2.5.0
 
 cache:
   cocoapods: true
@@ -45,16 +45,16 @@ cache:
 
 before_install:
   # #
-  # # This whole section must only be run in order to recreate the
-  # # rvm-ruby/gemset/bundler/cocapods cache. This should be done
-  # # each time the Pod requirements change. However, when a new
-  # # osx_image is used which includes a master Specs repo that
-  # # contains the required Specs, the whole section can be commented out.
+  # # All marked commands must only be commented in in order to 
+  # # recreate the rvm-ruby/gemset/bundler/cocapods cache. This 
+  # # should be done each time the Pod/ruby requirements change. 
+  # # However, when a new osx_image is used which includes a master 
+  # # Specs repo that contains the required Specs, the marked commands
+  # # can be commented out.
   # #
   #
-  # # The gem install bundler is necessary in order for the bundle install
-  # # to work. When the bundle install is commented out, I suppose
-  # # the bundle install can be commented out as well.
+  # # The gem install bundler is necessary in order for the bundle install to work.
+  # MARK
   - gem install bundler
 
   # Re-running rvm use here, so it is run after the cache was loaded
@@ -65,19 +65,11 @@ before_install:
   # information on why this gem update --system is necessary.
   - gem update --system
   
-  # # The bundle install is necessary in order for the pod repo update 
-  # # to work. When the pod repo update is commented out, I suppose
-  # # the bundle install can be commented out as well.
+  # # The bundle install is necessary in order for the pod repo update to work.
+  # MARK
   - bundle install
   
-  # # This pod repo update needs to be commented in for one run each time
-  # # one of the pod versions are updated and the spec for the new version 
-  # # isn't yet contained in the master Specs repo version that is included
-  # # in the image of the travis machine on which the build is running.
-  # # After this one time commenting it in, it should be commented out again,
-  # # as well as when updating to a newer osx_image that includes the required
-  # # versions of the pods. In this case, the cocoapods cache entries can
-  # # also be commented out, I suppose.
+  # MARK
   - pod repo update
 
 script:
