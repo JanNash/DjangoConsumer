@@ -31,6 +31,7 @@ cache:
     # to a new osx_image that contains the required ruby version,
     # this can be commented out.
     - ~/.rvm/rubies/ruby-2.5.0
+    - ~/.rvm/gems/ruby-2.5.0
     
     # Using the default bundler cache directive (like the 
     # cocoapods directive above) does not work because it caches 
@@ -52,7 +53,7 @@ before_install:
   # # to work. When the bundle install is commented out, I suppose
   # # the bundle install can be commented out as well.
   - gem install bundler
-  
+
   # Re-running rvm use here, so it is run after the cache was loaded
   - rvm use 2.5.0@DjangoConsumer --create
 
