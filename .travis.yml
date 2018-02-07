@@ -9,6 +9,8 @@ rvm:
   - 2.5.0@DjangoConsumer --create
 
 cache:
+  bundler: true
+  cocoapods: true
   directories:
     # Specifying only the used pods because the cache can't digest
     # the whole 1.4G master Specs repo. When updating to a new 
