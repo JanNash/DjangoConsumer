@@ -46,6 +46,12 @@ cache:
 
 before_install:
   - rvm use 2.5.0
+  # This mustn't be commented out on osx_image: xcode9.2
+  # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
+  # information on why this gem update --system is necessary.
+  - gem update --system
+  - rvm gemset use DjangoConsumer --create
+
   # #
   # # All marked commands must only be commented in in order to 
   # # recreate the rvm-ruby/gemset/bundler/cocapods cache. This 
@@ -62,12 +68,6 @@ before_install:
   # # The bundle install is necessary in order for the pod repo update to work.
   # MARK
   - bundle install
-
-  # This mustn't be commented out on osx_image: xcode9.2
-  # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
-  # information on why this gem update --system is necessary.
-  - gem update --system
-  - rvm gemset use DjangoConsumer --create
   
   # MARK
   - pod repo update
