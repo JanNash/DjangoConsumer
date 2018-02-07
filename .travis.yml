@@ -49,7 +49,7 @@ before_install:
   # This mustn't be commented out on osx_image: xcode9.2
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
   # information on why this gem update --system is necessary.
-  - gem update --system
+  # - gem update --system
   - rvm gemset use DjangoConsumer --create
 
   # #
