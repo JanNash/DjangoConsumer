@@ -9,7 +9,6 @@ rvm:
   - 2.5.0@DjangoConsumer --create
 
 cache:
-  bundler: true
   cocoapods: true
   directories:
     # Specifying only the used pods because the cache can't digest
@@ -25,6 +24,12 @@ cache:
     # to a new osx_image that contains the required ruby version,
     # this can be commented out.
     - ~/.rvm/rubies/ruby-2.5.0
+    # Using the default bundler cache directive (like cocoapods)
+    # does not work because it caches 
+    # /Users/travis/build/JanNash/DjangoConsumer/vendor/bundle,
+    # which is not the location where the gemset is going to
+    # be installed.
+    - ~/.rvm/gems/ruby-2.5.0@DjangoConsumer/
 
 before_install:
   - gem install bundler
