@@ -46,7 +46,7 @@ cache:
 
 before_install:
   - rvm use 2.5.0@DjangoConsumer --create
-
+  - gem install bundler
   # #
   # # These three marked commands must only be commented in in order 
   # # to recreate the rvm-ruby/gemset/bundler/cocapods cache. This 
@@ -55,7 +55,6 @@ before_install:
   # # Specs repo that contains the required Specs, the marked commands
   # # can be commented out.
   # #
-  # - gem install bundler
   # - bundle install
   # - pod repo update
 
