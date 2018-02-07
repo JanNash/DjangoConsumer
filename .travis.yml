@@ -11,7 +11,9 @@ rvm:
 cache:
   directories:
     # Specifying only the used pods because the cache can't digest
-    # the whole 1.4G master Specs repo...
+    # the whole 1.4G master Specs repo. When updating to a new 
+    # osx_image that contains a master Specs repo that contains
+    # the specs for the required Pods, this can be commented out.
     - ~/.cocoapods/repos/master/Specs/d/4/d/Alamofire-SwiftyJSON/
     - ~/.cocoapods/repos/master/Specs/d/8/6/Embassy/
     - ~/.cocoapods/repos/master/Specs/3/1/4/EnvoyAmbassador/
@@ -27,6 +29,15 @@ before_install:
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further information
   # on why this gem update --system is necessary.
   - gem update --system
+  # This pod repo update needs to be commented in for one run each time
+  # one of the pod versions are updated and the spec for the new version 
+  # isn't yet contained in the master Specs repo version that is included
+  # in the image of the travis machine on which the build is running.
+  # After this one time commenting it in, it should be commented out again,
+  # as well as when updating to a newer osx_image that includes the required
+  # versions of the pods. In this case, the cocoapods cache entries can
+  # also be commented out, I suppose.
+  - pod repo update
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
