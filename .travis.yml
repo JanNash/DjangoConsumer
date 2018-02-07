@@ -48,24 +48,16 @@ before_install:
   - rvm use 2.5.0@DjangoConsumer --create
 
   # #
-  # # All marked commands must only be commented in in order to 
-  # # recreate the rvm-ruby/gemset/bundler/cocapods cache. This 
+  # # These three marked commands must only be commented in in order 
+  # # to recreate the rvm-ruby/gemset/bundler/cocapods cache. This 
   # # should be done each time the Pod/ruby requirements change. 
   # # However, when a new osx_image is used which includes a master 
   # # Specs repo that contains the required Specs, the marked commands
   # # can be commented out.
   # #
-  #
-  # # The gem install bundler is necessary in order for the bundle install to work.
-  # MARK
-  # - gem install bundler
-
-  # # The bundle install is necessary in order for the pod repo update to work.
-  # MARK
-  # - bundle install
-  
-  # MARK
-  # - pod repo update
+  - gem install bundler
+  - bundle install
+  - pod repo update
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
