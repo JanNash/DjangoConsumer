@@ -55,8 +55,9 @@ before_install:
   # The gem install bundler is necessary in order for the bundle install
   # to work. When the bundle install is commented out, I suppose
   # the bundle install can be commented out as well.
-  - gem install bundler
+  # - gem install bundler
 
+  # # This mustn't be commented out on osx_image: xcode9.2
   # See https://github.com/travis-ci/travis-ci/issues/8978 for further 
   # information on why this gem update --system is necessary.
   - gem update --system
@@ -64,7 +65,7 @@ before_install:
   # The bundle install is necessary in order for the pod repo update 
   # to work. When the pod repo update is commented out, I suppose
   # the bundle install can be commented out as well.
-  - bundle install
+  # - bundle install
   
   # This pod repo update needs to be commented in for one run each time
   # one of the pod versions are updated and the spec for the new version 
@@ -74,7 +75,7 @@ before_install:
   # as well as when updating to a newer osx_image that includes the required
   # versions of the pods. In this case, the cocoapods cache entries can
   # also be commented out, I suppose.
-  - pod repo update
+  # - pod repo update
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
