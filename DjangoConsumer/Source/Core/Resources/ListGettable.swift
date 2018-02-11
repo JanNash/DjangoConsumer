@@ -17,7 +17,6 @@ import Alamofire_SwiftyJSON
 public protocol ListGettable {
     init(json: JSON)
     static var clients: [ListGettableClient] { get set }
-    static func get(from node: Node?, offset: UInt, limit: UInt)
 }
 
 
