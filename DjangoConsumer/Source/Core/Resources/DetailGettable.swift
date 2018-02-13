@@ -16,7 +16,7 @@ import Alamofire_SwiftyJSON
 // MARK: Protocol Declaration
 public protocol DetailGettable {
     init(json: JSON)
-    var url: URL
+    var url: URL { get }
     static var clients: [DetailGettableClient] { get set }
 }
 
