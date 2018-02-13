@@ -14,12 +14,11 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-// ???: I'm not happy with the class requirement
-// but in order to be able to live-update the instance that get was called on,
-// I couldn't find another way. Maybe the live-updating is a stupid idea after all?
-public protocol DetailGettable: class {
-    func update(from json: JSON)
+public protocol DetailGettable {
+    init(json: JSON)
     var url: URL { get }
+    var gotNewSelf: (Self, _ from: Node) -> Void { get }
+    var failedGettingNewSelf: (_ from: Node, _ with: Error) -> Void { get }
     static var clients: [DetailGettableClient] { get set }
 }
 
@@ -51,11 +50,12 @@ private extension DetailGettable {
         ValidatedJSONRequest(url: url).fire(
             via: node.sessionManager,
             onSuccess: { result in
-                self.update(from: result)
-                Self.clients.forEach({ $0.gotObject(object: self) })
+                let newSelf: Self = .init(json: result)
+                self.gotNewSelf(newSelf, node)
+                Self.clients.forEach({ $0.gotObject(newSelf, for: self, from: node)})
             },
             onFailure: { error in
-                Self.clients.forEach({ $0.failedGettingObject(self, with: error) })
+                Self.clients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
             }
         )
     }
