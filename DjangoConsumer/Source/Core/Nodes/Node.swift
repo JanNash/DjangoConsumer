@@ -78,7 +78,7 @@ public extension Node {
 }
 
 
-// MARK: List Request and Response Helpers
+// MARK: List GET Request and Response Helpers
 public extension Node {
     func paginationType<T>(for resourceType: T.Type) -> Pagination.Type where T : ListGettable {
         return DefaultPagination.self
@@ -90,6 +90,14 @@ public extension Node {
     
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         return self._extractListResponse(for: resourceType, from: json)
+    }
+}
+
+
+// MARK: Detail GET Request and Response Helpers
+public extension Node {
+    func absoluteDetailURL<T: DetailGettable>(for resource: T) -> URL {
+        return self.baseURL.appendingPathComponent(resource.resourceURI.absoluteString)
     }
 }
 
