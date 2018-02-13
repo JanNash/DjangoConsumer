@@ -34,12 +34,15 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [FilterType]) -> Parameters
     
-    // List Request and Response Helpers
+    // List GET Request and Response Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
     func relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL
     func absoluteListURL<T: ListGettable>(for resourceType: T.Type) -> URL
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
+    
+    // Detail GET Request and Response Helpers
+    func absoluteDetailURL<T: DetailGettable>(for resource: T) -> URL
 }
 
 
