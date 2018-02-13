@@ -33,6 +33,15 @@ public extension DetailGettable where Self: NeedsNoAuth {
 }
 
 
+// MARK: // Internal
+// MARK: Shared GET function
+extension DetailGettable {
+    func get_(from node: Node) {
+        self._get(from: node)
+    }
+}
+
+
 // MARK: // Private
 // MARK: GET function Implementation
 private extension DetailGettable {
