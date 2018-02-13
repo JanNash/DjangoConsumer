@@ -24,7 +24,7 @@ public protocol DetailGettable {
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
 public extension DetailGettable where Self: NeedsNoAuth {
-    func get(from node: Node? = nil) {
+    mutating func get(from node: Node? = nil) {
         self._get(from: node ?? Self.defaultNode)
     }
 }
@@ -33,13 +33,13 @@ public extension DetailGettable where Self: NeedsNoAuth {
 // MARK: // Private
 // MARK: Shared GET function Implementation
 private extension DetailGettable {
-    func _get(from node: Node) {
+    mutating func _get(from node: Node) {
         let url: URL = node.absoluteDetailURL(for: self)
         
         ValidatedJSONRequest(url: url).fire(
             via: node.sessionManager,
             onSuccess: { result in
-                
+                self.update(from: result)
             },
             onFailure: { error in
                 
