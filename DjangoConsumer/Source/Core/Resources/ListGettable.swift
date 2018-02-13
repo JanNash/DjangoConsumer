@@ -16,7 +16,7 @@ import Alamofire_SwiftyJSON
 // MARK: Protocol Declaration
 public protocol ListGettable {
     init(json: JSON)
-    static var clients: [ListGettableClient] { get set }
+    static var listGettableClients: [ListGettableClient] { get set }
 }
 
 
@@ -60,13 +60,13 @@ private extension ListGettable {
                 let success: GETObjectListSuccess = GETObjectListSuccess(
                     node: node, responsePagination: pagination, offset: offset, limit: limit, filters: allFilters
                 )
-                self.clients.forEach({ $0.gotObjects(objects: objects, with: success) })
+                self.listGettableClients.forEach({ $0.gotObjects(objects: objects, with: success) })
             },
             onFailure: { error in
                 let failure: GETObjectListFailure = GETObjectListFailure(
                     objectType: self, node: node, error: error, offset: offset, limit: limit, filters: allFilters
                 )
-                self.clients.forEach({ $0.failedGettingObjects(with: failure) })
+                self.listGettableClients.forEach({ $0.failedGettingObjects(with: failure) })
             }
         )
     }

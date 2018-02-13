@@ -19,7 +19,7 @@ public protocol DetailGettable {
     var resourceURI: URL { get }
     func gotNewSelf(_ newSelf: Self, from: Node)
     func failedGettingNewSelf(from: Node, with error: Error)
-    static var clients: [DetailGettableClient] { get set }
+    static var detailGettableClients: [DetailGettableClient] { get set }
 }
 
 
@@ -51,11 +51,11 @@ private extension DetailGettable {
             via: node.sessionManager,
             onSuccess: { result in
                 let newSelf: Self = .init(json: result)
-                Self.clients.forEach({ $0.gotObject(newSelf, for: self, from: node)})
+                Self.detailGettableClients.forEach({ $0.gotObject(newSelf, for: self, from: node)})
                 self.gotNewSelf(newSelf, from: node)
             },
             onFailure: { error in
-                Self.clients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
+                Self.detailGettableClients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
                 self.failedGettingNewSelf(from: node, with: error)
             }
         )
