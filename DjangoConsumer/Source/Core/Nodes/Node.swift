@@ -43,6 +43,7 @@ public protocol Node {
     // Detail Request and Response Helpers
     func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
     func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL
 }
 
 
@@ -105,8 +106,11 @@ public extension Node {
     }
     
     func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
-        let detailURL: URL = self.relativeDetailURL(for: resource, method: method)
-        return self.baseURL.appendingPathComponent(detailURL.absoluteString)
+        return self.baseURL.appendingPathComponent(self.relativeDetailURL(for: resource, method: method).absoluteString)
+    }
+    
+    func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(detailURI.url.absoluteString)
     }
 }
 
