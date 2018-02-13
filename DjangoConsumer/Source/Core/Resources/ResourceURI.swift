@@ -19,8 +19,8 @@ public protocol HasAResourceURI {
 // MARK: - ResourceURI
 public struct ResourceURI<T: HasAResourceURI> {
     public init(_ path: String) {
-        self.url_ = URL(string: path)!
+        self.url = URL(string: path)!
     }
     
-    private(set) var url_: URL
+    public private(set) var url: URL
 }

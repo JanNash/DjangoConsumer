@@ -95,7 +95,7 @@ public extension Node {
 // MARK: Detail GET Request and Response Helpers
 public extension Node {
     func relativeDetailURL<T: DetailGettable>(for resource: T) -> URL {
-        return resource.resourceURI
+        return resource.resourceURI.url
     }
     
     func absoluteDetailURL<T: DetailGettable>(for resource: T) -> URL {
