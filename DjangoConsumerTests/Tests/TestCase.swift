@@ -20,11 +20,12 @@ class TestCase: XCTestCase {
     // Setup / Teardown Overrides
     override func setUp() {
         super.setUp()
+        self.backend.reset()
         self.backend.start()
     }
     
     override func tearDown() {
-        self.backend.stopAndReset()
+        self.backend.stop()
         super.tearDown()
     }
 }

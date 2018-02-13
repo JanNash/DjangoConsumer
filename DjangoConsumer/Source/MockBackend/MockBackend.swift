@@ -31,6 +31,10 @@ extension MockBackend {
         self._stop()
     }
     
+    public func reset() {
+        self._reset()
+    }
+    
     public func stopAndReset() {
         self._stopAndReset()
     }
@@ -151,13 +155,15 @@ private extension MockBackend {
         self._loop.stop()
     }
     
-    func _stopAndReset() {
-        self.stop()
-        
-        // Reset
+    func _reset() {
         self._loop = self._createLoop()
         self._backgroundQueue = self._createBackgroundQueue()
         self._server = self._createServer()
+    }
+    
+    func _stopAndReset() {
+        self.stop()
+        self.reset()
     }
     
     func _resetRouter() {
