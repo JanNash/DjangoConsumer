@@ -17,8 +17,8 @@ import Alamofire_SwiftyJSON
 public protocol DetailGettable {
     init(json: JSON)
     var resourceURI: URL { get }
-    var gotNewSelf: (Self, _ from: Node) -> Void { get }
-    var failedGettingNewSelf: (_ from: Node, _ with: Error) -> Void { get }
+    func gotNewSelf(_ newSelf: Self, from: Node)
+    func failedGettingNewSelf(from: Node, with error: Error)
     static var clients: [DetailGettableClient] { get set }
 }
 
@@ -51,11 +51,12 @@ private extension DetailGettable {
             via: node.sessionManager,
             onSuccess: { result in
                 let newSelf: Self = .init(json: result)
-                self.gotNewSelf(newSelf, node)
                 Self.clients.forEach({ $0.gotObject(newSelf, for: self, from: node)})
+                self.gotNewSelf(newSelf, from: node)
             },
             onFailure: { error in
                 Self.clients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
+                self.failedGettingNewSelf(from: node, with: error)
             }
         )
     }
