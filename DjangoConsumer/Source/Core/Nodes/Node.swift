@@ -31,11 +31,13 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [FilterType]) -> Parameters
     
+    // List Request and Response Helpers
+    func relativeListURL<T: ListResource>(for resourceType: T.Type) -> URL
+    func absoluteListURL<T: ListResource>(for resourceType: T.Type) -> URL
+    
     // List GET Request and Response Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
-    func relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL
-    func absoluteListURL<T: ListGettable>(for resourceType: T.Type) -> URL
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
     
     // Detail Request and Response Helpers
@@ -76,14 +78,18 @@ public extension Node {
 }
 
 
+// MARK: List Request and Response Helpers
+public extension Node {
+    func absoluteListURL<T: ListResource>(for resourceType: T.Type) -> URL {
+        return self._absoluteListURL(for: resourceType)
+    }
+}
+
+
 // MARK: List GET Request and Response Helpers
 public extension Node {
-    func paginationType<T>(for resourceType: T.Type) -> Pagination.Type where T : ListGettable {
+    func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type {
         return DefaultPagination.self
-    }
-    
-    func absoluteListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
-        return self._absoluteListURL(for: resourceType)
     }
     
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
@@ -127,11 +133,15 @@ private extension Node {
 
 // MARK: List Request and Response Helper Implementations
 private extension Node {
-    func _absoluteListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
+    func _absoluteListURL<T: ListResource>(for resourceType: T.Type) -> URL {
         let relativeURL: URL = self.relativeListURL(for: resourceType)
         return self.baseURL.appendingPathComponent(relativeURL.absoluteString)
     }
-    
+}
+
+
+// MARK: List GET Request and Response Helper Implementations
+private extension Node {
     func _extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = self.paginationType(for: resourceType)
         let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])

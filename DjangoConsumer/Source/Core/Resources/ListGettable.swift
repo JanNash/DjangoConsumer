@@ -14,7 +14,7 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol ListGettable {
+public protocol ListGettable: ListResource {
     init(json: JSON)
     static var listGettableClients: [ListGettableClient] { get set }
 }
