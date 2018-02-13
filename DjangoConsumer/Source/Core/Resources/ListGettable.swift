@@ -42,7 +42,7 @@ extension ListGettable {
 // MARK: Shared GET function Implementation
 private extension ListGettable {
     static func _get(from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
-        let url: URL = node.absoluteListURL(for: self)
+        let url: URL = node.absoluteListURL(for: self, method: .get)
         let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: self)
         
         var allFilters: [FilterType] = filters

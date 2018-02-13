@@ -32,8 +32,8 @@ public protocol Node {
     func parametersFrom(filters: [FilterType]) -> Parameters
     
     // List Request and Response Helpers
-    func relativeListURL<T: ListResource>(for resourceType: T.Type) -> URL
-    func absoluteListURL<T: ListResource>(for resourceType: T.Type) -> URL
+    func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
+    func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
     
     // List GET Request and Response Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
@@ -41,8 +41,8 @@ public protocol Node {
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
     
     // Detail Request and Response Helpers
-    func relativeDetailURL<T: DetailResource>(for resource: T, with method: HTTPMethod) -> URL
-    func absoluteDetailURL<T: DetailResource>(for resource: T, with method: HTTPMethod) -> URL
+    func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
 }
 
 
@@ -80,7 +80,7 @@ public extension Node {
 
 // MARK: List Request and Response Helpers
 public extension Node {
-    func absoluteListURL<T: ListResource>(for resourceType: T.Type) -> URL {
+    func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
         return self._absoluteListURL(for: resourceType)
     }
 }
@@ -134,7 +134,7 @@ private extension Node {
 // MARK: List Request and Response Helper Implementations
 private extension Node {
     func _absoluteListURL<T: ListResource>(for resourceType: T.Type) -> URL {
-        let relativeURL: URL = self.relativeListURL(for: resourceType)
+        let relativeURL: URL = self.relativeListURL(for: resourceType, method: .get)
         return self.baseURL.appendingPathComponent(relativeURL.absoluteString)
     }
 }
