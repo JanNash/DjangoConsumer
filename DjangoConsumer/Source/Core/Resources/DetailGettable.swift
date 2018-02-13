@@ -34,7 +34,7 @@ public extension DetailGettable where Self: NeedsNoAuth {
 // MARK: Shared GET function Implementation
 private extension DetailGettable {
     func _get(from node: Node) {
-        let url: URL = node.absoluteURL(for: self)
+        let url: URL = node.absoluteDetailURL(for: self)
         
         ValidatedJSONRequest(url: url, parameters: parameters).fire(
             via: node.sessionManager,
