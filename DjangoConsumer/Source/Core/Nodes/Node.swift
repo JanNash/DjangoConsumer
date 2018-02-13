@@ -42,6 +42,7 @@ public protocol Node {
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
     
     // Detail GET Request and Response Helpers
+    func relativeDetailURL<T: DetailGettable>(for resource: T) -> URL
     func absoluteDetailURL<T: DetailGettable>(for resource: T) -> URL
 }
 
@@ -96,8 +97,12 @@ public extension Node {
 
 // MARK: Detail GET Request and Response Helpers
 public extension Node {
+    func relativeDetailURL<T: DetailGettable>(for resource: T) -> URL {
+        return resource.resourceURI
+    }
+    
     func absoluteDetailURL<T: DetailGettable>(for resource: T) -> URL {
-        return self.baseURL.appendingPathComponent(resource.resourceURI.absoluteString)
+        return self.baseURL.appendingPathComponent(self.relativeDetailURL(for: resource).absoluteString)
     }
 }
 
