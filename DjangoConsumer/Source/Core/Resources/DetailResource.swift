@@ -17,10 +17,40 @@ public protocol DetailResource {
 
 
 // MARK: - DetailURI
+// MARK: Struct Declaration
 public struct DetailURI<T: DetailResource> {
     public init(_ path: String) {
         self.url = URL(string: path)!
     }
     
     public private(set) var url: URL
+}
+
+
+// MARK: Default Implementations
+// MARK: where T: DetailGettable
+public extension DetailURI where T: DetailGettable {
+    func get(from node: Node) {
+        self._get(from: node)
+    }
+}
+
+
+// MARK: // Private
+// MARK: where T: DetailGettable
+private extension DetailURI where T: DetailGettable {
+    func _get(from node: Node) {
+        let url: URL = node.absoluteDetailURL(for: self, method: .get)
+
+        ValidatedJSONRequest(url: url).fire(
+            via: node.sessionManager,
+            onSuccess: { result in
+                let object: T = T.init(json: result)
+                T.detailGettableClients.forEach({ $0.gotObject(object, for: self, from: node)})
+            },
+            onFailure: { error in
+                T.detailGettableClients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
+            }
+        )
+    }
 }

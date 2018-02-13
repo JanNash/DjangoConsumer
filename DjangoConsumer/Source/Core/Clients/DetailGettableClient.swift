@@ -15,7 +15,7 @@ public protocol DetailGettableClient: class {
     // I've even thought about using something along the lines of newObject, freshObject...
     // Suggestions are very welcome :)
     func gotObject<T: DetailGettable>(_ object: T, for originator: T, from node: Node)
-    func gotObject<T: DetailGettable>(_ object: T, for originator: DetailURI<T>, from node: Node)
+    func gotObject<T: DetailGettable>(_ object: T, for uri: DetailURI<T>, from node: Node)
     func failedGettingObject<T: DetailGettable>(for originator: T, from node: Node, with error: Error)
-    func failedGettingObject<T: DetailGettable>(for originator: DetailURI<T>, from node: Node, with error: Error)
+    func failedGettingObject<T: DetailGettable>(for uri: DetailURI<T>, from node: Node, with error: Error)
 }
