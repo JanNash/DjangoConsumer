@@ -18,12 +18,9 @@ public protocol Node {
     var baseURL: URL { get }
     
     // Alamofire SessionManager
-    // For now, it can not be safely assumed that external changes
-    // made to this SessionManager instance will persist.
-    // One example for this can be found in OAuth2Node, where
-    // the node accesses the sessionManager through a function
-    // that sets its adapter and its retrier, so any previously
-    // set adaptor retrier will be unset.
+    // In OAuth2Node, the adapter and retrier variables of this sessionManager
+    // should not be changed, since an OAuth2Node sets an OAuth2Handler as
+    // its adapter and retrier.
     var sessionManager: SessionManager { get }
     
     // Filtering
