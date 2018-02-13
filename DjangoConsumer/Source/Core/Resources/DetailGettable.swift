@@ -14,9 +14,8 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DetailGettable {
+public protocol DetailGettable: HasAResourceURI {
     init(json: JSON)
-    var resourceURI: URL { get }
     func gotNewSelf(_ newSelf: Self, from: Node)
     func failedGettingNewSelf(from: Node, with error: Error)
     static var detailGettableClients: [DetailGettableClient] { get set }
