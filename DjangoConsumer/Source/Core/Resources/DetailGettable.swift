@@ -25,7 +25,7 @@ public protocol DetailGettable {
 // MARK: where Self: NeedsNoAuth
 public extension DetailGettable where Self: NeedsNoAuth {
     func get(from node: Node? = nil) {
-        self._get(from: node ?? self.defaultNode)
+        self._get(from: node ?? Self.defaultNode)
     }
 }
 
