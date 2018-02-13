@@ -1,5 +1,5 @@
 //
-//  ResourceURI.swift
+//  DetailURI.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 13.02.18.
@@ -10,14 +10,14 @@ import Foundation
 
 
 // MARK: // Public
-// MARK: - HasAResourceURI
-public protocol HasAResourceURI {
-    var resourceURI: ResourceURI<Self> { get }
+// MARK: - HasADetailURI
+public protocol HasADetailURI {
+    var detailURI: DetailURI<Self> { get }
 }
 
 
-// MARK: - ResourceURI
-public struct ResourceURI<T: HasAResourceURI> {
+// MARK: - DetailURI
+public struct DetailURI<T: HasADetailURI> {
     public init(_ path: String) {
         self.url = URL(string: path)!
     }
