@@ -50,13 +50,13 @@ class MockOAuth2Node: OAuth2Node {
     }()
     
     // Pagination
-    func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : ListGettable {
+    func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
         return 1000
     }
     
     // List GET endpoints
-    func relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
-        return self._relativeListURL(for: resourceType)
+    func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
+        return self._relativeListURL(for: resourceType, method: method)
     }
 }
 
@@ -64,7 +64,7 @@ class MockOAuth2Node: OAuth2Node {
 // MARK: // Private
 // MARK: Node Implementations
 private extension MockOAuth2Node {
-    func _relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
+    func _relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
         if resourceType == MockListGettable.self {
             return URL(string: "listgettables/")!

@@ -81,7 +81,7 @@ public extension Node {
 // MARK: List Request and Response Helpers
 public extension Node {
     func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
-        return self._absoluteListURL(for: resourceType)
+        return self._absoluteListURL(for: resourceType, method: method)
     }
 }
 
@@ -100,12 +100,12 @@ public extension Node {
 
 // MARK: Detail Request and Response Helpers
 public extension Node {
-    func relativeDetailURL<T: DetailResource>(for resource: T, with method: HTTPMethod) -> URL {
+    func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
         return resource.detailURI.url
     }
     
-    func absoluteDetailURL<T: DetailResource>(for resource: T, with method: HTTPMethod) -> URL {
-        let detailURL: URL = self.relativeDetailURL(for: resource, with: method)
+    func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
+        let detailURL: URL = self.relativeDetailURL(for: resource, method: method)
         return self.baseURL.appendingPathComponent(detailURL.absoluteString)
     }
 }
@@ -133,8 +133,8 @@ private extension Node {
 
 // MARK: List Request and Response Helper Implementations
 private extension Node {
-    func _absoluteListURL<T: ListResource>(for resourceType: T.Type) -> URL {
-        let relativeURL: URL = self.relativeListURL(for: resourceType, method: .get)
+    func _absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
+        let relativeURL: URL = self.relativeListURL(for: resourceType, method: method)
         return self.baseURL.appendingPathComponent(relativeURL.absoluteString)
     }
 }
