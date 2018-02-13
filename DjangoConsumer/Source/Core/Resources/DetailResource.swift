@@ -1,5 +1,5 @@
 //
-//  DetailURI.swift
+//  DetailResource.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 13.02.18.
@@ -10,7 +10,7 @@ import Foundation
 
 
 // MARK: // Public
-// MARK: - HasADetailURI
+// MARK: - DetailResource
 public protocol DetailResource {
     var detailURI: DetailURI<Self> { get }
 }
