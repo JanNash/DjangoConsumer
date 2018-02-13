@@ -36,7 +36,7 @@ private extension DetailGettable {
     func _get(from node: Node) {
         let url: URL = node.absoluteDetailURL(for: self)
         
-        ValidatedJSONRequest(url: url, parameters: parameters).fire(
+        ValidatedJSONRequest(url: url).fire(
             via: node.sessionManager,
             onSuccess: { result in
                 
