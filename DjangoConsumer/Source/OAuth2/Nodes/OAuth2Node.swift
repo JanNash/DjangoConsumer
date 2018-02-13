@@ -27,16 +27,6 @@ public protocol OAuth2Node: Node {
 }
 
 
-// MARK: Default Init
-public extension OAuth2Node {
-    public init() {
-        self.init()
-        self.sessionManager.adapter = self.oauth2Handler
-        self.sessionManager.retrier = self.oauth2Handler
-    }
-}
-
-
 // MARK: Authentication Forwarding
 public extension OAuth2Node {
     public func authenticate(username: String, password: String) {
