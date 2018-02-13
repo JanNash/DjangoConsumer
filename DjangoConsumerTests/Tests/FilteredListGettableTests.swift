@@ -77,7 +77,7 @@ extension TestCase {
         
         // Create and connect client
         let client: ClientType = ClientType()
-        FixtureType.clients = [client]
+        FixtureType.listGettableClients = [client]
         
         // Set client method implementations
         client.gotObjects_ = {
@@ -126,7 +126,7 @@ extension TestCase {
         methodToBeTested(filters)
         
         self.waitForExpectations(timeout: 10) { _ in
-            FixtureType.clients = []
+            FixtureType.listGettableClients = []
         }
     }
 }

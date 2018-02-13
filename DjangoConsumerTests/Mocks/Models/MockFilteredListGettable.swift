@@ -42,5 +42,5 @@ struct MockFilteredListGettable: FilteredListGettable, NeedsNoAuth {
     }
     
     static var defaultNode: Node = MockNode.main
-    static var clients: [ListGettableClient] = []
+    static var listGettableClients: [ListGettableClient] = []
 }
