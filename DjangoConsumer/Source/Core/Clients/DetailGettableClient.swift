@@ -11,6 +11,6 @@ import Foundation
 
 // MARK: // Public
 public protocol DetailGettableClient: class {
-    func gotObject(object: DetailGettable)
-    func failedGettingObject(_ object: DetailGettable, with error: Error)
+    func gotObject<T: DetailGettable>(object: T, from node: Node)
+    func failedGettingObject<T: DetailGettable>(_ object: T, from node: Node, with error: Error)
 }
