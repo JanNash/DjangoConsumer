@@ -10,17 +10,17 @@ import Foundation
 
 
 // MARK: // Public
-// MARK: -
+// MARK: - HasAResourceURI
 public protocol HasAResourceURI {
-    var resourceURI: URL { get }
+    var resourceURI: ResourceURI<Self> { get }
 }
 
 
-// MARK: -
+// MARK: - ResourceURI
 public struct ResourceURI<T: HasAResourceURI> {
-    init(_ path: String) {
-        self.resourceURI = URL(string: path)!
+    public init(_ path: String) {
+        self.url_ = URL(string: path)!
     }
     
-    private(set) var resourceURI: URL
+    private(set) var url_: URL
 }
