@@ -11,13 +11,13 @@ import Foundation
 
 // MARK: // Public
 // MARK: - HasADetailURI
-public protocol HasADetailURI {
+public protocol DetailResource {
     var detailURI: DetailURI<Self> { get }
 }
 
 
 // MARK: - DetailURI
-public struct DetailURI<T: HasADetailURI> {
+public struct DetailURI<T: DetailResource> {
     public init(_ path: String) {
         self.url = URL(string: path)!
     }
