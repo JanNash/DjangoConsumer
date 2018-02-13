@@ -11,6 +11,9 @@ import Foundation
 
 // MARK: // Public
 public protocol DetailGettableClient: class {
-    func gotObject<T: DetailGettable>(object: T, from node: Node)
-    func failedGettingObject<T: DetailGettable>(_ object: T, from node: Node, with error: Error)
+    // ???: The naming here is really hard, it all sounds a bit clumsy.
+    // I've even thought about using something along the lines of newObject, freshObject...
+    // Suggestions are very welcome :)
+    func gotObject<T: DetailGettable>(_ object: T, for originator: T, from node: Node)
+    func failedGettingObject<T: DetailGettable>(for originator: T, from node: Node, with error: Error)
 }
