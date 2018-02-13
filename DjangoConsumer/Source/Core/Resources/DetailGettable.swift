@@ -44,7 +44,7 @@ extension DetailGettable {
 // MARK: GET function Implementation
 private extension DetailGettable {
     func _get(from node: Node) {
-        let url: URL = node.absoluteDetailURL(for: self)
+        let url: URL = node.absoluteDetailURL(for: self, with: .get)
         
         ValidatedJSONRequest(url: url).fire(
             via: node.sessionManager,
