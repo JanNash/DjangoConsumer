@@ -36,7 +36,8 @@ public struct DefaultPagination: Pagination {
     
     // Init
     public init(json: JSON) {
-        // ???: Better way than to force unwrap? How can we fail gracefully here? Throw?
+        // ???: There must be a better way than to force unwrap?
+        // Is there a way to fail gracefully here? Should the function throw?
         self.limit = json[Keys.limit].uInt!
         self.next = json[Keys.next].url
         self.offset = json[Keys.offset].uInt!
