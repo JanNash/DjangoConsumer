@@ -12,7 +12,7 @@ import Foundation
 // MARK: // Public
 // MARK: where T: DetailGettable & NeedsOAuth2
 public extension DetailURI where T: DetailGettable & NeedsOAuth2 {
-    func get(from node: Node = T.defaultNode) {
+    func get(from node: OAuth2Node = T.defaultNode) {
         self.get_(from: node)
     }
 }
