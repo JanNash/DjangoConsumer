@@ -28,9 +28,18 @@ public struct DetailURI<T: DetailResource> {
 
 
 // MARK: Default Implementations
-// MARK: where T: DetailGettable
-public extension DetailURI where T: DetailGettable {
-    func get(from node: Node) {
+// MARK: where T: DetailGettable & NeedsNoAuth
+public extension DetailURI where T: DetailGettable & NeedsNoAuth {
+    func get(from node: Node = T.defaultNode) {
+        self._get(from: node)
+    }
+}
+
+
+// MARK: // Internal
+// MARK: Common GET function
+extension DetailURI where T: DetailGettable {
+    func get_(from node: Node) {
         self._get(from: node)
     }
 }
