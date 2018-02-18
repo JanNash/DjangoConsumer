@@ -28,7 +28,7 @@ public extension ValidatedJSONRequest {
 // MARK: Struct Declaration
 public struct ValidatedJSONRequest {
     // Init
-    init(url: URLConvertible, method: HTTPMethod = .get, parameters: Parameters, encoding: ParameterEncoding = URLEncoding.default, headers: HTTPHeaders? = nil) {
+    init(url: URLConvertible, method: HTTPMethod = .get, parameters: Parameters = [:], encoding: ParameterEncoding = URLEncoding.default, headers: HTTPHeaders? = nil) {
         self.url = url
         self.method = method
         self.parameters = parameters

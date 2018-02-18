@@ -18,12 +18,9 @@ public protocol Node {
     var baseURL: URL { get }
     
     // Alamofire SessionManager
-    // For now, it can not be safely assumed that external changes
-    // made to this SessionManager instance will persist.
-    // One example for this can be found in OAuth2Node, where
-    // the node accesses the sessionManager through a function
-    // that sets its adapter and its retrier, so any previously
-    // set adaptor retrier will be unset.
+    // In OAuth2Node, the adapter and retrier variables of this sessionManager
+    // should not be changed, since an OAuth2Node sets an OAuth2Handler as
+    // its adapter and retrier.
     var sessionManager: SessionManager { get }
     
     // Filtering
@@ -35,11 +32,18 @@ public protocol Node {
     func parametersFrom(filters: [FilterType]) -> Parameters
     
     // List Request and Response Helpers
+    func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
+    func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
+    
+    // List GET Request and Response Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
-    func relativeListURL<T: ListGettable>(for resourceType: T.Type) -> URL
-    func absoluteListURL<T: ListGettable>(for resourceType: T.Type) -> URL
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
+    
+    // Detail Request and Response Helpers
+    func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL
 }
 
 
@@ -77,16 +81,36 @@ public extension Node {
 
 // MARK: List Request and Response Helpers
 public extension Node {
-    func paginationType<T>(for resourceType: T.Type) -> Pagination.Type where T : ListGettable {
-        return DefaultPagination.self
+    func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
+        return self._absoluteListURL(for: resourceType, method: method)
     }
-    
-    func absoluteListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
-        return self._absoluteListURL(for: resourceType)
+}
+
+
+// MARK: List GET Request and Response Helpers
+public extension Node {
+    func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type {
+        return DefaultPagination.self
     }
     
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         return self._extractListResponse(for: resourceType, from: json)
+    }
+}
+
+
+// MARK: Detail Request and Response Helpers
+public extension Node {
+    func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
+        return resource.detailURI.url
+    }
+    
+    func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(self.relativeDetailURL(for: resource, method: method).absoluteString)
+    }
+    
+    func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(detailURI.url.absoluteString)
     }
 }
 
@@ -113,11 +137,15 @@ private extension Node {
 
 // MARK: List Request and Response Helper Implementations
 private extension Node {
-    func _absoluteListURL<T: ListGettable>(for resourceType: T.Type) -> URL {
-        let relativeURL: URL = self.relativeListURL(for: resourceType)
+    func _absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
+        let relativeURL: URL = self.relativeListURL(for: resourceType, method: method)
         return self.baseURL.appendingPathComponent(relativeURL.absoluteString)
     }
-    
+}
+
+
+// MARK: List GET Request and Response Helper Implementations
+private extension Node {
     func _extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = self.paginationType(for: resourceType)
         let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])

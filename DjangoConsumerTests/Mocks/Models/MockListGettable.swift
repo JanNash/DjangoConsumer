@@ -33,5 +33,5 @@ struct MockListGettable: ListGettable, NeedsNoAuth {
     }
     
     static var defaultNode: Node = MockNode.main
-    static var clients: [ListGettableClient] = []
+    static var listGettableClients: [ListGettableClient] = []
 }

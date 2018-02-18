@@ -14,9 +14,9 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol ListGettable {
+public protocol ListGettable: ListResource {
     init(json: JSON)
-    static var clients: [ListGettableClient] { get set }
+    static var listGettableClients: [ListGettableClient] { get set }
 }
 
 
@@ -42,7 +42,7 @@ extension ListGettable {
 // MARK: Shared GET function Implementation
 private extension ListGettable {
     static func _get(from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
-        let url: URL = node.absoluteListURL(for: self)
+        let url: URL = node.absoluteListURL(for: self, method: .get)
         let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: self)
         
         var allFilters: [FilterType] = filters
@@ -60,13 +60,13 @@ private extension ListGettable {
                 let success: GETObjectListSuccess = GETObjectListSuccess(
                     node: node, responsePagination: pagination, offset: offset, limit: limit, filters: allFilters
                 )
-                self.clients.forEach({ $0.gotObjects(objects: objects, with: success) })
+                self.listGettableClients.forEach({ $0.gotObjects(objects: objects, with: success) })
             },
             onFailure: { error in
                 let failure: GETObjectListFailure = GETObjectListFailure(
                     objectType: self, node: node, error: error, offset: offset, limit: limit, filters: allFilters
                 )
-                self.clients.forEach({ $0.failedGettingObjects(with: failure) })
+                self.listGettableClients.forEach({ $0.failedGettingObjects(with: failure) })
             }
         )
     }
