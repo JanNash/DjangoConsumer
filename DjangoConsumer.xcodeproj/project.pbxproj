@@ -38,6 +38,7 @@
 		CCB8AD7D20F61941BC4B9AF67CF37ECE /* DetailResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4310C3D446DFE26516989D3B751DFE /* DetailResource.swift */; };
 		CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */; };
 		DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */; };
+		E280A15D480A7BC9EC0C5C3616E8D319 /* DetailPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33DEE318E4534F95D04940BF86067A /* DetailPostable.swift */; };
 		E517B67ECD28998FBEE69A7DBE64EA05 /* ValidatedJSONRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94334B8949B5D907B3CE117DC11F593F /* ValidatedJSONRequest.swift */; };
 		E973B58AAB02F5CE85A735A60A1E3755 /* DjangoConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */; };
 		EB48A4DF7F2BEB6EC7A3CC321AC6A2ED /* MockNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */; };
@@ -67,6 +68,7 @@
 		30985447EB8EE7B4591CBB058C65EB40 /* DetailGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailGettable+OAuth2.swift"; sourceTree = "<group>"; };
 		31A5C011A0BE6589D7C4114C61E09C9A /* ListGettableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableTests.swift; sourceTree = "<group>"; };
 		33B16B5D99F638F04ED767777EB127CC /* NeedsNoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedsNoAuth.swift; sourceTree = "<group>"; };
+		4C33DEE318E4534F95D04940BF86067A /* DetailPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostable.swift; sourceTree = "<group>"; };
 		4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjangoConsumer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F31179E2AF1F56223851EB8CDDE05C9 /* Filtering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filtering.swift; sourceTree = "<group>"; };
 		562929C331A4A24D4775B847847831A8 /* DjangoConsumer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjangoConsumer.h; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				F7BD87442954669861AF7F33B9E12CCE /* DetailGettable.swift */,
+				4C33DEE318E4534F95D04940BF86067A /* DetailPostable.swift */,
 				9C4310C3D446DFE26516989D3B751DFE /* DetailResource.swift */,
 				1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */,
 				4F31179E2AF1F56223851EB8CDDE05C9 /* Filtering.swift */,
@@ -581,6 +584,7 @@
 				FC4F25BEB54C4DA5946080BA6B970CD2 /* DetailGettable+OAuth2.swift in Sources */,
 				508AC24843E7B90D7FA9B8FEA7AF5674 /* DetailGettable.swift in Sources */,
 				C08E100FB76F18C2A3CA876F366B829C /* DetailGettableClient.swift in Sources */,
+				E280A15D480A7BC9EC0C5C3616E8D319 /* DetailPostable.swift in Sources */,
 				CCB8AD7D20F61941BC4B9AF67CF37ECE /* DetailResource.swift in Sources */,
 				52393FFEBFEBEDF299832C7D144C455A /* DetailURI+OAuth2.swift in Sources */,
 				C20C3921D7D8C68E60F4F75BA98824AC /* FilteredListGettable+OAuth2.swift in Sources */,
