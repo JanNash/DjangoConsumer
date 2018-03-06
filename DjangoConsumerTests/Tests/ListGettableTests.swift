@@ -2,8 +2,8 @@
 //  ListGettableTests.swift
 //  DjangoRFAFInterfaceTests
 //
-//  Created by Jan Nash (privat) on 24.01.18.
-//  Copyright © 2018 Kitenow. All rights reserved.
+//  Created by Jan Nash on 24.01.18.
+//  Copyright © 2018 Jan Nash. All rights reserved.
 //
 
 import XCTest

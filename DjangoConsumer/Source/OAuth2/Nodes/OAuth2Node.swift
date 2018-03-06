@@ -2,8 +2,8 @@
 //  OAuth2Node.swift
 //  DjangoConsumer
 //
-//  Created by Jan Nash (privat) on 28.01.18.
-//  Copyright © 2018 Kitenow. All rights reserved.
+//  Created by Jan Nash on 28.01.18.
+//  Copyright © 2018 Jan Nash. All rights reserved.
 //
 
 import Foundation

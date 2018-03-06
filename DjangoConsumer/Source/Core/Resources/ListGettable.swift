@@ -2,8 +2,8 @@
 //  ListGettable.swift
 //  DjangoConsumer
 //
-//  Created by Jan Nash (privat) on 18.01.18.
-//  Copyright © 2018 Kitenow. All rights reserved.
+//  Created by Jan Nash on 18.01.18.
+//  Copyright © 2018 Jan Nash. All rights reserved.
 //
 
 import Foundation

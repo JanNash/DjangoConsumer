@@ -2,8 +2,8 @@
 //  MockNode.swift
 //  DjangoRFAFInterfaceTests
 //
-//  Created by Jan Nash (privat) on 21.01.18.
-//  Copyright © 2018 Kitenow. All rights reserved.
+//  Created by Jan Nash on 21.01.18.
+//  Copyright © 2018 Jan Nash. All rights reserved.
 //
 
 import Foundation

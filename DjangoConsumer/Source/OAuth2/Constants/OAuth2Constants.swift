@@ -2,8 +2,8 @@
 //  OAuth2Constants.swift
 //  DjangoConsumer
 //
-//  Created by Jan Nash (privat) on 03.02.18.
-//  Copyright © 2018 Kitenow. All rights reserved.
+//  Created by Jan Nash on 03.02.18.
+//  Copyright © 2018 Jan Nash. All rights reserved.
 //
 
 import Foundation
