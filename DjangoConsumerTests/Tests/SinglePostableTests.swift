@@ -38,4 +38,21 @@ class SinglePostableTests: BaseTest {
         
         self.waitForExpectations(timeout: 0.1)
     }
+    
+    func testSinglePostableInjectedNodeUsed() {
+        let injectedNode: MockNode = MockNode()
+        let expectedSessionManager: TestSessionManager = injectedNode.testSessionManager
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected .handleRequest of expectedSessionManager to be called"
+        )
+        
+        expectedSessionManager.handleRequest = { _, _ in
+            expectation.fulfill()
+        }
+        
+        FixtureType(id: "").post(to: injectedNode)
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
 }
