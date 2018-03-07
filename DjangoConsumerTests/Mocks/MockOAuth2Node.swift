@@ -44,7 +44,7 @@ class MockOAuth2Node: OAuth2Node {
         )
     }()
     
-    // Alamofire SessionManager
+    // SessionManager
     let sessionManager: SessionManagerType = SessionManager.withDefaultConfiguration()
     
     // Pagination
