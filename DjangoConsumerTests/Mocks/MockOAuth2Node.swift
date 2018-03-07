@@ -24,6 +24,20 @@ class MockOAuth2Node: OAuth2Node {
     // Basic Setup
     var baseURL: URL = URL(string: "http://localhost:8080")!
     
+    // SessionManager
+    let sessionManager: SessionManagerType = TestSessionManager()
+    
+    // Pagination
+    func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
+        return 1000
+    }
+    
+    // List GET endpoints
+    func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
+        return self._relativeListURL(for: resourceType, method: method)
+    }
+    
+    // OAuth2Node Conformance
     // OAuth2Clients
     var oauth2Clients: [OAuth2NodeAuthenticationClient] = []
     
@@ -43,19 +57,6 @@ class MockOAuth2Node: OAuth2Node {
             credentialStore: TestOAuth2CredentialStore()
         )
     }()
-    
-    // SessionManager
-    let sessionManager: SessionManagerType = SessionManager.withDefaultConfiguration()
-    
-    // Pagination
-    func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
-        return 1000
-    }
-    
-    // List GET endpoints
-    func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
-        return self._relativeListURL(for: resourceType, method: method)
-    }
 }
 
 

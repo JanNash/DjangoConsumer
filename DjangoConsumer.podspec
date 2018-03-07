@@ -46,11 +46,4 @@ Pod::Spec.new do |s|
     testing.source_files = "DjangoConsumer/Source/Testing/**/*.swift"
     testing.dependency 'DjangoConsumer/Core'
   end
-  
-  s.subspec 'MockBackend' do |mockbackend|
-    mockbackend.source_files = "DjangoConsumer/Source/MockBackend/**/*.swift"
-    mockbackend.dependency 'DjangoConsumer/Core'
-    mockbackend.dependency 'Embassy', '~> 4.0.0'
-    mockbackend.dependency 'EnvoyAmbassador', '~> 4.0.1'
-  end
 end
