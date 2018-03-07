@@ -304,38 +304,44 @@ private extension OAuth2Handler {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        let failure: (Error) -> Void = {
-            self._lock.try()
-            updateStatus()
-            failure($0)
-            self._lock.unlock()
-        }
-        
-        let success: (JSON) -> Void = { json in
-            self._lock.try()
-            
-            guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
-                failure(OAuth2Error.unmappableRequestTokensResponse(json))
-                return
-            }
-            
-            self._credentialStore.updateWith(
-                accessToken: tokenResponse.accessToken,
-                refreshToken: tokenResponse.refreshToken,
-                expiryDate: tokenResponse.expiryDate,
-                tokenType: tokenResponse.tokenType,
-                scope: tokenResponse.scope
-            )
-            
-            updateStatus()
-            success()
-            self._lock.unlock()
-        }
-        
         ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
             via: self._sessionManager,
-            onSuccess: success,
-            onFailure: failure
+            onSuccess: { self._handleSuccessfulTokenRequest(json: $0, updateStatus: updateStatus, success: success, failure: failure) },
+            onFailure: { self._handleFailedTokenRequest(error: $0, updateStatus: updateStatus, failure: failure) }
+        )
+    }
+    
+    func _handleSuccessfulTokenRequest(json: JSON, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        self._lock.try()
+        
+        guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
+            failure(OAuth2Error.unmappableRequestTokensResponse(json))
+            // We don't need to update the status and unlock here, since this is done
+            // inside the onFailure function (declared above).
+            return
+        }
+        
+        self._updateCredentialStore(with: tokenResponse)
+        
+        updateStatus()
+        success()
+        self._lock.unlock()
+    }
+    
+    func _handleFailedTokenRequest(error: Error, updateStatus: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        self._lock.try()
+        updateStatus()
+        failure(error)
+        self._lock.unlock()
+    }
+    
+    func _updateCredentialStore(with tokenResponse: _TokenResponse) {
+        self._credentialStore.updateWith(
+            accessToken: tokenResponse.accessToken,
+            refreshToken: tokenResponse.refreshToken,
+            expiryDate: tokenResponse.expiryDate,
+            tokenType: tokenResponse.tokenType,
+            scope: tokenResponse.scope
         )
     }
 }
