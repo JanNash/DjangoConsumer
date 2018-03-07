@@ -141,4 +141,23 @@ class SinglePostableTests: BaseTest {
         
         self.waitForExpectations(timeout: 0.1)
     }
+    
+    func testSinglePostableHeaders() {
+        let expectedNode: Node = FixtureType.defaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected .handleRequest of expectedSessionManager to be called"
+        )
+        
+        let singlePostable: FixtureType = FixtureType(id: "")
+        
+        expectedSessionManager.handleRequest = { cfg, _ in
+            XCTAssert(cfg.headers.isEmpty)
+            expectation.fulfill()
+        }
+        
+        singlePostable.post()
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
 }
