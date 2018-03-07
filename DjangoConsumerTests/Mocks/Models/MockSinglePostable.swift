@@ -16,7 +16,7 @@ import DjangoConsumer
 // MARK: Struct Declaration
 struct MockSinglePostable: SinglePostable, NeedsNoAuth {
     // Init
-    init(id: String, url: String) {
+    init(id: String) {
         self.id = id
     }
     
