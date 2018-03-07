@@ -47,19 +47,23 @@ extension DetailGettable {
 // MARK: GET function Implementation
 private extension DetailGettable {
     func _get(from node: Node) {
-        let url: URL = node.absoluteDetailURL(for: self, method: .get)
+        let method: HTTPMethod = .get
+        let url: URL = node.absoluteDetailURL(for: self, method: method)
         
-        ValidatedJSONRequest(url: url).fire(
-            via: node.sessionManager,
-            onSuccess: { result in
-                let newSelf: Self = .init(json: result)
-                Self.detailGettableClients.forEach({ $0.gotObject(newSelf, for: self, from: node)})
-                self.gotNewSelf(newSelf, from: node)
-            },
-            onFailure: { error in
-                Self.detailGettableClients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
-                self.failedGettingNewSelf(from: node, with: error)
-            }
+        func onSuccess(_ json: JSON) {
+            let newSelf: Self = .init(json: json)
+            Self.detailGettableClients.forEach({ $0.gotObject(newSelf, for: self, from: node)})
+            self.gotNewSelf(newSelf, from: node)
+        }
+        
+        func onFailure(_ error: Error) {
+            Self.detailGettableClients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
+            self.failedGettingNewSelf(from: node, with: error)
+        }
+        
+        node.sessionManager.fireJSONRequest(
+            cfg: RequestConfiguration(url: url, method: method),
+            responseHandling: ResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
 }

@@ -10,6 +10,9 @@
 //
 
 import Foundation
+import Alamofire
+import SwiftyJSON
+import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
@@ -52,17 +55,21 @@ extension DetailURI where T: DetailGettable {
 // MARK: where T: DetailGettable
 private extension DetailURI where T: DetailGettable {
     func _get(from node: Node) {
-        let url: URL = node.absoluteDetailURL(for: self, method: .get)
+        let method: HTTPMethod = .get
+        let url: URL = node.absoluteDetailURL(for: self, method: method)
 
-        ValidatedJSONRequest(url: url).fire(
-            via: node.sessionManager,
-            onSuccess: { result in
-                let object: T = T.init(json: result)
-                T.detailGettableClients.forEach({ $0.gotObject(object, for: self, from: node)})
-            },
-            onFailure: { error in
-                T.detailGettableClients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
-            }
+        func onSuccess(_ json: JSON) {
+            let object: T = T.init(json: json)
+            T.detailGettableClients.forEach({ $0.gotObject(object, for: self, from: node)})
+        }
+        
+        func onFailure(_ error: Error) {
+            T.detailGettableClients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
+        }
+        
+        node.sessionManager.fireJSONRequest(
+            cfg: RequestConfiguration(url: url, method: method),
+            responseHandling: ResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
 }
