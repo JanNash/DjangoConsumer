@@ -357,11 +357,17 @@ private extension OAuth2Handler {
         
         let url: URL = self._settings.tokenRevokeURL
         let method: HTTPMethod = .post
+        let encoding: ParameterEncoding = URLEncoding.default
         let parameters: [String : Any] = [_C.JSONKeys.token : accessToken]
+        
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        self._sessionManager.request(url, method: method, parameters: parameters, headers: headers)
+        ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
+            via: self._sessionManager,
+            onSuccess: { _ in },
+            onFailure: { _ in }
+        )
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
         // instead of waiting for the request to receive a response. Is it though?
