@@ -28,7 +28,7 @@ public protocol SinglePostable {
 // MARK: where Self: NeedsNoAuth
 public extension SinglePostable where Self: NeedsNoAuth {
     func post(to node: Node? = nil) {
-        self._post(to: node ?? Self.defaultNode)
+        self.post_(to: node ?? Self.defaultNode)
     }
 }
 
