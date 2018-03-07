@@ -20,7 +20,7 @@ import Alamofire_SwiftyJSON
 public protocol SinglePostable {
     init(json: JSON)
     func toParameters() -> Parameters
-    static var detailPostableClients: [SinglePostableClient] { get set }
+    static var singlePostableClients: [SinglePostableClient] { get set }
 }
 
 
@@ -52,11 +52,11 @@ private extension SinglePostable {
         let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
-            Self.detailPostableClients.forEach({ $0.postedObject(self, responseObject: .init(json: json), to: node)})
+            Self.singlePostableClients.forEach({ $0.postedObject(self, responseObject: .init(json: json), to: node)})
         }
         
         func onFailure(_ error: Error) {
-            Self.detailPostableClients.forEach({ $0.failedPostingObject(self, to: node, with: error) })
+            Self.singlePostableClients.forEach({ $0.failedPostingObject(self, to: node, with: error) })
         }
         
         node.sessionManager.fireJSONRequest(
