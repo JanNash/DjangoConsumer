@@ -25,7 +25,7 @@ class MockOAuth2Node: OAuth2Node {
     var baseURL: URL = URL(string: "http://localhost:8080")!
     
     // SessionManager
-    let sessionManager: SessionManagerType = SessionManager.withDefaultConfiguration()
+    let sessionManager: SessionManagerType = TestSessionManager()
     
     // Pagination
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
