@@ -1,5 +1,5 @@
 //
-//  DetailPostable+OAuth2.swift
+//  SinglePostable+OAuth2.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 06.03.18.
@@ -15,7 +15,7 @@ import Alamofire
 
 // MARK: // Public
 // MARK: where Self: NeedsOAuth2
-public extension DetailPostable where Self: NeedsOAuth2 {
+public extension SinglePostable where Self: NeedsOAuth2 {
     func post(to node: OAuth2Node? = nil) {
         self.post_(to: node ?? Self.defaultNode)
     }

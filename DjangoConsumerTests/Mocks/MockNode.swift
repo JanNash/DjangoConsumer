@@ -36,11 +36,17 @@ class MockNode: Node {
     func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
         return self._relativeListURL(for: resourceType, method: method)
     }
+    
+    // Single POST endpoints
+    func relativeSinglePOSTURL<T>(for resourceType: T.Type) -> URL where T : SinglePostable {
+        return self._relativeSinglePOSTURL(for: resourceType)
+    }
 }
 
 
 // MARK: // Private
 // MARK: Node Implementations
+// MARK: List GET endpoints
 private extension MockNode {
     func _relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
@@ -49,7 +55,20 @@ private extension MockNode {
         } else if resourceType == MockFilteredListGettable.self {
             return URL(string: "filteredlistgettables/")!
         }
+        
         // FIXME: Throw a real Error here?
-        fatalError("[MockNode] No URL registered for '\(resourceType)'")
+        fatalError("[MockNode] No relativeListURL registered for '\(resourceType)' with method '\(method)'")
+    }
+}
+
+
+// MARK: Single POST endpoints
+private extension MockNode {
+    func _relativeSinglePOSTURL<T>(for resourceType: T.Type) -> URL where T : SinglePostable {
+        if resourceType == MockSinglePostable.self {
+            return URL(string: "singlepostables/")!
+        }
+        
+        fatalError("[MockNode] No singlePOSTURL registered for '\(resourceType)'")
     }
 }

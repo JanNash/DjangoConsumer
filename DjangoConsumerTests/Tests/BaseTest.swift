@@ -14,14 +14,4 @@ import XCTest
 
 
 // MARK: // Internal
-// MARK: Class Declaration
-class TestCase: XCTestCase {
-    // Setup / Teardown Overrides
-    override func setUp() {
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-    }
-}
+class BaseTest: XCTestCase {}

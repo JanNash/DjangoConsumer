@@ -37,6 +37,11 @@ class MockOAuth2Node: OAuth2Node {
         return self._relativeListURL(for: resourceType, method: method)
     }
     
+    // Single POST endpoints
+    func relativeSinglePOSTURL<T>(for resourceType: T.Type) -> URL where T : SinglePostable {
+        return self._relativeSinglePOSTURL(for: resourceType)
+    }
+    
     // OAuth2Node Conformance
     // OAuth2Clients
     var oauth2Clients: [OAuth2NodeAuthenticationClient] = []
@@ -62,6 +67,7 @@ class MockOAuth2Node: OAuth2Node {
 
 // MARK: // Private
 // MARK: Node Implementations
+// MARK: List GET endpoints
 private extension MockOAuth2Node {
     func _relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
         // ???: Didn't get a switch to work properly, what is the right syntax?
@@ -71,6 +77,18 @@ private extension MockOAuth2Node {
             return URL(string: "filteredlistgettables/")!
         }
         // FIXME: Throw a real Error here?
-        fatalError("[MockOAuth2Node] No URL registered for '\(resourceType)'")
+        fatalError("[MockOAuth2Node] No relativeListURL registered for '\(resourceType)' with method '\(method)'")
+    }
+}
+
+
+// MARK: Single POST endpoints
+private extension MockOAuth2Node {
+    func _relativeSinglePOSTURL<T>(for resourceType: T.Type) -> URL where T : SinglePostable {
+        if resourceType == MockSinglePostable.self {
+            return URL(string: "singlepostables/")!
+        }
+        
+        fatalError("[MockOAuth2Node] No singlePOSTURL registered for '\(resourceType)'")
     }
 }

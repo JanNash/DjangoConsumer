@@ -25,20 +25,20 @@ public struct RequestConfiguration {
         self.acceptableContentTypes = acceptableContentTypes
     }
     
-    var url: URL
-    var method: HTTPMethod
-    var parameters: Parameters
-    var encoding: ParameterEncoding
-    var headers: HTTPHeaders
-    var acceptableStatusCodes: [Int]
-    var acceptableContentTypes: [String]
+    public var url: URL
+    public var method: HTTPMethod
+    public var parameters: Parameters
+    public var encoding: ParameterEncoding
+    public var headers: HTTPHeaders
+    public var acceptableStatusCodes: [Int]
+    public var acceptableContentTypes: [String]
 }
 
 
 // MARK: - ResponseHandling
 public struct ResponseHandling {
-    var onSuccess: (JSON) -> Void
-    var onFailure: (Error) -> Void
+    public var onSuccess: (JSON) -> Void
+    public var onFailure: (Error) -> Void
 }
 
 
