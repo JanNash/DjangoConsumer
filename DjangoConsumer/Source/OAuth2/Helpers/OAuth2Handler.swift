@@ -51,7 +51,7 @@ public protocol OAuth2CredentialStore {
 enum OAuth2Error: Error {
     case noAccessToken
     case noRefreshToken
-    case invalidTokenResponse(JSON)
+    case unmappableRequestTokensResponse(JSON)
 }
 
 
@@ -315,7 +315,7 @@ private extension OAuth2Handler {
             self._lock.try()
             
             guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
-                failure(OAuth2Error.invalidTokenResponse(json))
+                failure(OAuth2Error.unmappableRequestTokensResponse(json))
                 return
             }
             
