@@ -64,7 +64,7 @@ private extension MockNode {
 // MARK: Single POST endpoints
 private extension MockNode {
     func _relativeSinglePOSTURL<T>(for resourceType: T.Type) -> URL where T : SinglePostable {
-        if resourceType == SinglePostable.self {
+        if resourceType == MockSinglePostable.self {
             return URL(string: "singlepostables/")!
         }
         
