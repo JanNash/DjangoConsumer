@@ -14,18 +14,19 @@ import DjangoConsumer
 class SinglePostableTests: BaseTest {
     typealias FixtureType = MockSinglePostable
     
-    func testPostingSinglePostable() {
-        let singlePostable: FixtureType = FixtureType(id: "1")
+    func testSinglePostableDefaultNodeUsed() {
+        let expectedSessionManager: TestSessionManager = FixtureType.defaultNode.testSessionManager
         
-        let expectedNode: Node = FixtureType.defaultNode
-        let expectedURL: URL = expectedNode.absoluteSinglePOSTURL(for: type(of: singlePostable))
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected .handleRequest of expectedSessionManager to be called"
+        )
         
-        let testSessionManager: TestSessionManager = expectedNode.testSessionManager
-        testSessionManager.handleRequest = {
-            cfg, responseHandling in
-            XCTAssertEqual(cfg.url, expectedURL)
+        expectedSessionManager.handleRequest = { _, _ in
+            expectation.fulfill()
         }
         
-        singlePostable.post()
+        FixtureType(id: "").post()
+        
+        self.waitForExpectations(timeout: 0.1)
     }
 }
