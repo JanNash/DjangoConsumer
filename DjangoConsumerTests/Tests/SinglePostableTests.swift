@@ -108,13 +108,32 @@ class SinglePostableTests: BaseTest {
         let expectedParameters: [String : String] = [FixtureType.Keys.id : id]
         
         expectedSessionManager.handleRequest = { cfg, _ in
+            expectation.fulfill()
+            
             guard let parameters: [String : String] = cfg.parameters as? [String : String] else {
                 XCTFail("Expected requestConfiguration to be of type [String : String]")
-                expectation.fulfill()
                 return
             }
             
             XCTAssertEqual(expectedParameters, parameters)
+        }
+        
+        singlePostable.post()
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
+    
+    func testSinglePostableEncoding() {
+        let expectedNode: Node = FixtureType.defaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected .handleRequest of expectedSessionManager to be called"
+        )
+        
+        let singlePostable: FixtureType = FixtureType(id: "")
+        
+        expectedSessionManager.handleRequest = { cfg, _ in
+            XCTAssert(cfg.encoding is JSONEncoding)
             expectation.fulfill()
         }
         
