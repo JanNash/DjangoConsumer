@@ -7,12 +7,11 @@
 //
 
 import Foundation
-import DjangoConsumer
 
 
-// MARK: // Internal
+// MARK: // Public
 // MARK: Testing Convenience Interface
-extension Node {
+public extension Node {
     var testSessionManager: TestSessionManager {
         return self.sessionManager as! TestSessionManager
     }
