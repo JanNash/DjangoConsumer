@@ -1,5 +1,5 @@
 //
-//  DetailPostable.swift
+//  SinglePostable.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 06.03.18.
@@ -17,16 +17,16 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DetailPostable {
+public protocol SinglePostable {
     init(json: JSON)
     func toParameters() -> Parameters
-    static var detailPostableClients: [DetailPostableClient] { get set }
+    static var detailPostableClients: [SinglePostableClient] { get set }
 }
 
 
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
-public extension DetailPostable where Self: NeedsNoAuth {
+public extension SinglePostable where Self: NeedsNoAuth {
     func post(to node: Node? = nil) {
         self._post(to: node ?? Self.defaultNode)
     }
@@ -35,7 +35,7 @@ public extension DetailPostable where Self: NeedsNoAuth {
 
 // MARK: // Internal
 // MARK: Shared GET function
-extension DetailPostable {
+extension SinglePostable {
     func post_(to node: Node) {
         self._post(to: node)
     }
@@ -44,7 +44,7 @@ extension DetailPostable {
 
 // MARK: // Private
 // MARK: GET function Implementation
-private extension DetailPostable {
+private extension SinglePostable {
     func _post(to node: Node) {
         let method: HTTPMethod = .post
         let url: URL = node.absoluteDetailURL(for: self, method: method)

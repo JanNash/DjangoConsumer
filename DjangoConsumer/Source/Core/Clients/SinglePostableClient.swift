@@ -1,5 +1,5 @@
 //
-//  DetailPostableClient.swift
+//  SinglePostableClient.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 06.03.18.
@@ -14,7 +14,7 @@ import Foundation
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DetailPostableClient {
-    func postedObject<T: DetailPostable>(_ object: T, responseObject: T, to node: Node)
-    func failedPostingObject<T: DetailPostable>(_ object: T, to node: Node, with error: Error)
+public protocol SinglePostableClient {
+    func postedObject<T: SinglePostable>(_ object: T, responseObject: T, to node: Node)
+    func failedPostingObject<T: SinglePostable>(_ object: T, to node: Node, with error: Error)
 }

@@ -1,5 +1,5 @@
 //
-//  DetailPostableTests.swift
+//  SinglePostableTests.swift
 //  DjangoConsumerTests
 //
 //  Created by Jan Nash (privat) on 07.03.18.
@@ -10,8 +10,8 @@ import XCTest
 
 
 // MARK: // Internal
-class DetailPostableTests: BaseTest {
-    func testPostingDetailPostable() {
+class SinglePostableTests: BaseTest {
+    func testPostingSinglePostable() {
         
     }
 }
