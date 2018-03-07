@@ -44,13 +44,8 @@ class MockOAuth2Node: OAuth2Node {
         )
     }()
     
-    // Alamofire SessionManager
-    // This is copied from the SessionManager implementation
-    let sessionManager: SessionManager = {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        return SessionManager(configuration: configuration)
-    }()
+    // SessionManager
+    let sessionManager: SessionManagerType = SessionManager.withDefaultConfiguration()
     
     // Pagination
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {

@@ -24,13 +24,8 @@ class MockNode: Node {
     // Basic Setup
     var baseURL: URL = URL(string: "http://localhost:8080")!
     
-    // Alamofire SessionManager
-    // This is copied from the SessionManager implementation
-    let sessionManager: SessionManager = {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        return SessionManager(configuration: configuration)
-    }()
+    // SessionManager
+    let sessionManager: SessionManagerType = TestSessionManager()
     
     // Pagination
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
