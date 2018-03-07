@@ -221,8 +221,6 @@
 		A3B4C92B6E4344BE64D4D0F05AFE3A1A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C4C0A36D06278ACEBC72AE10288A11FD /* OAuth2Tests.swift */,
-				2EF7F7F18DEE01CC41876E8EC814D4A9 /* TestCase.swift */,
 				4483E4F025B67F9A65AFA6C06CE62659 /* BaseTest.swift */,
 				360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */,
 			);
