@@ -103,8 +103,6 @@ class SinglePostableTests: BaseTest {
         )
         
         let id: String = "123456"
-        let singlePostable: FixtureType = FixtureType(id: id)
-        
         let expectedParameters: [String : String] = [FixtureType.Keys.id : id]
         
         expectedSessionManager.handleRequest = { cfg, _ in
@@ -118,7 +116,7 @@ class SinglePostableTests: BaseTest {
             XCTAssertEqual(expectedParameters, parameters)
         }
         
-        singlePostable.post()
+        FixtureType(id: id).post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -130,14 +128,12 @@ class SinglePostableTests: BaseTest {
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
         
-        let singlePostable: FixtureType = FixtureType(id: "")
-        
         expectedSessionManager.handleRequest = { cfg, _ in
             XCTAssert(cfg.encoding is JSONEncoding)
             expectation.fulfill()
         }
         
-        singlePostable.post()
+        FixtureType(id: "").post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -149,14 +145,31 @@ class SinglePostableTests: BaseTest {
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
         
-        let singlePostable: FixtureType = FixtureType(id: "")
-        
         expectedSessionManager.handleRequest = { cfg, _ in
             XCTAssert(cfg.headers.isEmpty)
             expectation.fulfill()
         }
         
-        singlePostable.post()
+        FixtureType(id: "").post()
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
+    
+    func testSinglePostableAcceptableStatusCodes() {
+        let expectedNode: Node = FixtureType.defaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected .handleRequest of expectedSessionManager to be called"
+        )
+        
+        let expectedAcceptableStatusCodes: [Int] = Array(200..<300)
+        
+        expectedSessionManager.handleRequest = { cfg, _ in
+            XCTAssertEqual(cfg.acceptableStatusCodes, expectedAcceptableStatusCodes)
+            expectation.fulfill()
+        }
+        
+        FixtureType(id: "").post()
         
         self.waitForExpectations(timeout: 0.1)
     }
