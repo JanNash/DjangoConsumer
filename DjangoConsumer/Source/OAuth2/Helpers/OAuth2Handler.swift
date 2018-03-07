@@ -51,7 +51,7 @@ public protocol OAuth2CredentialStore {
 enum OAuth2Error: Error {
     case noAccessToken
     case noRefreshToken
-    case invalidTokenResponse(JSON)
+    case unmappableRequestTokensResponse(JSON)
 }
 
 
@@ -306,33 +306,42 @@ private extension OAuth2Handler {
         
         ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
             via: self._sessionManager,
-            onSuccess: { json in
-                self._lock.try()
-                
-                guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
-                    // FIXME: Handle this somehow (call client, log, ?)
-                    return
-                }
-                
-                self._credentialStore.updateWith(
-                    accessToken: tokenResponse.accessToken,
-                    refreshToken: tokenResponse.refreshToken,
-                    expiryDate: tokenResponse.expiryDate,
-                    tokenType: tokenResponse.tokenType,
-                    scope: tokenResponse.scope
-                )
-                
-                updateStatus()
-                success()
-                
-                self._lock.unlock()
-            },
-            onFailure: { error in
-                self._lock.try()
-                updateStatus()
-                failure(error)
-                self._lock.unlock()
-            }
+            onSuccess: { self._handleSuccessfulTokenRequest(json: $0, updateStatus: updateStatus, success: success, failure: failure) },
+            onFailure: { self._handleFailedTokenRequest(error: $0, updateStatus: updateStatus, failure: failure) }
+        )
+    }
+    
+    func _handleSuccessfulTokenRequest(json: JSON, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        self._lock.try()
+        
+        guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
+            failure(OAuth2Error.unmappableRequestTokensResponse(json))
+            // We don't need to update the status and unlock here, since this is done
+            // inside the onFailure function (declared above).
+            return
+        }
+        
+        self._updateCredentialStore(with: tokenResponse)
+        
+        updateStatus()
+        success()
+        self._lock.unlock()
+    }
+    
+    func _handleFailedTokenRequest(error: Error, updateStatus: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+        self._lock.try()
+        updateStatus()
+        failure(error)
+        self._lock.unlock()
+    }
+    
+    func _updateCredentialStore(with tokenResponse: _TokenResponse) {
+        self._credentialStore.updateWith(
+            accessToken: tokenResponse.accessToken,
+            refreshToken: tokenResponse.refreshToken,
+            expiryDate: tokenResponse.expiryDate,
+            tokenType: tokenResponse.tokenType,
+            scope: tokenResponse.scope
         )
     }
 }
@@ -348,11 +357,17 @@ private extension OAuth2Handler {
         
         let url: URL = self._settings.tokenRevokeURL
         let method: HTTPMethod = .post
+        let encoding: ParameterEncoding = URLEncoding.default
         let parameters: [String : Any] = [_C.JSONKeys.token : accessToken]
+        
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        self._sessionManager.request(url, method: method, parameters: parameters, headers: headers)
+        ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
+            via: self._sessionManager,
+            onSuccess: { _ in },
+            onFailure: { _ in }
+        )
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
         // instead of waiting for the request to receive a response. Is it though?
