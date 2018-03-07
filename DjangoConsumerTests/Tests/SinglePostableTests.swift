@@ -12,8 +12,17 @@ import DjangoConsumer
 
 // MARK: // Internal
 class SinglePostableTests: BaseTest {
+    // FixtureType typealias
     typealias FixtureType = MockSinglePostable
     
+    // Setup Override
+    override func setUp() {
+        super.setUp()
+        FixtureType.defaultNode = MockNode.main
+        MockNode.main.testSessionManager.handleRequest = nil
+    }
+    
+    // Tests
     func testSinglePostableDefaultNodeUsed() {
         let expectedSessionManager: TestSessionManager = FixtureType.defaultNode.testSessionManager
         
