@@ -193,7 +193,7 @@ private extension OAuth2Handler {
 // MARK: RequestRetrier
 private extension OAuth2Handler/*: RequestRetrier*/ {
     func _should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
-        self._lock.lock()
+        self._lock.try()
         
         guard let url: URL = request.request?.url else {
             completion(false, 0.0)
@@ -304,7 +304,7 @@ private extension OAuth2Handler {
         ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
             via: self._sessionManager,
             onSuccess: { json in
-                self._lock.lock()
+                self._lock.try()
                 
                 guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
                     // FIXME: Handle this somehow (call client, log, ?)
@@ -325,7 +325,7 @@ private extension OAuth2Handler {
                 self._lock.unlock()
             },
             onFailure: { error in
-                self._lock.lock()
+                self._lock.try()
                 updateStatus()
                 failure(error)
                 self._lock.unlock()
