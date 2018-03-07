@@ -26,11 +26,7 @@ class MockNode: Node {
     
     // Alamofire SessionManager
     // This is copied from the SessionManager implementation
-    let sessionManager: SessionManagerType = {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        return SessionManager(configuration: configuration)
-    }()
+    let sessionManager: SessionManagerType = SessionManager.withDefaultConfiguration()
     
     // Pagination
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
