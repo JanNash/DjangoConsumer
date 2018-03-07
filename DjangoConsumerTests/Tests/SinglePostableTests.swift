@@ -173,4 +173,23 @@ class SinglePostableTests: BaseTest {
         
         self.waitForExpectations(timeout: 0.1)
     }
+    
+    func testSinglePostableAcceptableContentTypes() {
+        let expectedNode: Node = FixtureType.defaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected .handleRequest of expectedSessionManager to be called"
+        )
+        
+        let expectedAcceptableContentTypes: [String] = ["*/*"]
+        
+        expectedSessionManager.handleRequest = { cfg, _ in
+            XCTAssertEqual(cfg.acceptableContentTypes, expectedAcceptableContentTypes)
+            expectation.fulfill()
+        }
+        
+        FixtureType(id: "").post()
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
 }
