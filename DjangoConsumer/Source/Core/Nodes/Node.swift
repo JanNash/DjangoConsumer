@@ -46,8 +46,8 @@ public protocol Node {
     func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL
     
     // Single POST Request and Response Helpers
-    func relativeSinglePOSTURL<T: SinglePostable>(for resource: T) -> URL
-    func absoluteSinglePOSTURL<T: SinglePostable>(for resource: T) -> URL
+    func relativeSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL
+    func absoluteSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL
 }
 
 
@@ -121,8 +121,8 @@ public extension Node {
 
 // MARK: Single POST Request and Response Helpers
 public extension Node {
-    func absoluteSinglePOSTURL<T: SinglePostable>(for resource: T) -> URL {
-        return self.baseURL.appendingPathComponent(self.relativeSinglePOSTURL(for: resource).absoluteString)
+    func absoluteSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL {
+        return self.baseURL.appendingPathComponent(self.relativeSinglePOSTURL(for: resourceType).absoluteString)
     }
 }
 
