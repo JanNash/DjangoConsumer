@@ -304,35 +304,38 @@ private extension OAuth2Handler {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
+        let failure: (Error) -> Void = {
+            self._lock.try()
+            updateStatus()
+            failure($0)
+            self._lock.unlock()
+        }
+        
+        let success: (JSON) -> Void = {
+            self._lock.try()
+            
+            guard let tokenResponse: _TokenResponse = _TokenResponse(json: $0) else {
+                // FIXME: Handle this somehow (call client, log, ?)
+                return
+            }
+            
+            self._credentialStore.updateWith(
+                accessToken: tokenResponse.accessToken,
+                refreshToken: tokenResponse.refreshToken,
+                expiryDate: tokenResponse.expiryDate,
+                tokenType: tokenResponse.tokenType,
+                scope: tokenResponse.scope
+            )
+            
+            updateStatus()
+            success()
+            self._lock.unlock()
+        }
+        
         ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
             via: self._sessionManager,
-            onSuccess: { json in
-                self._lock.try()
-                
-                guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
-                    // FIXME: Handle this somehow (call client, log, ?)
-                    return
-                }
-                
-                self._credentialStore.updateWith(
-                    accessToken: tokenResponse.accessToken,
-                    refreshToken: tokenResponse.refreshToken,
-                    expiryDate: tokenResponse.expiryDate,
-                    tokenType: tokenResponse.tokenType,
-                    scope: tokenResponse.scope
-                )
-                
-                updateStatus()
-                success()
-                
-                self._lock.unlock()
-            },
-            onFailure: { error in
-                self._lock.try()
-                updateStatus()
-                failure(error)
-                self._lock.unlock()
-            }
+            onSuccess: success,
+            onFailure: failure
         )
     }
 }
