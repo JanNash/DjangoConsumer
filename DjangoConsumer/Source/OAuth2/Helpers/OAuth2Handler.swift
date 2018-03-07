@@ -311,11 +311,11 @@ private extension OAuth2Handler {
             self._lock.unlock()
         }
         
-        let success: (JSON) -> Void = {
+        let success: (JSON) -> Void = { json in
             self._lock.try()
             
-            guard let tokenResponse: _TokenResponse = _TokenResponse(json: $0) else {
-                // FIXME: Handle this somehow (call client, log, ?)
+            guard let tokenResponse: _TokenResponse = _TokenResponse(json: json) else {
+                failure(OAuth2Error.invalidTokenResponse(json))
                 return
             }
             
