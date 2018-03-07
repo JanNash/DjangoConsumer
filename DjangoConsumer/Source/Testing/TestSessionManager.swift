@@ -1,5 +1,5 @@
 //
-//  MockSessionManager.swift
+//  TestSessionManager.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (privat) on 07.03.18.
@@ -10,12 +10,12 @@ import Foundation
 
 
 // MARK: // Public
-public class MockSessionManager {
+public class TestSessionManager {
     var handleRequest: ((RequestConfiguration, ResponseHandling) -> Void)?
 }
 
 // MARK: SessionManagerType
-extension MockSessionManager: SessionManagerType {
+extension TestSessionManager: SessionManagerType {
     public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
         self.handleRequest?(cfg, responseHandling)
     }
