@@ -298,16 +298,20 @@ private extension OAuth2Handler {
 // MARK: Common Token Request Functionality
 private extension OAuth2Handler {
     func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
-        let method: HTTPMethod = .post
-        let encoding: ParameterEncoding = URLEncoding.default
-        
         let basicAuthHeader: _Header = self._basicAuthHeader()
-        let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
-            via: self._sessionManager,
-            onSuccess: { self._handleSuccessfulTokenRequest(json: $0, updateStatus: updateStatus, success: success, failure: failure) },
-            onFailure: { self._handleFailedTokenRequest(error: $0, updateStatus: updateStatus, failure: failure) }
+        self._sessionManager.fireJSONRequest(
+            cfg: RequestConfiguration(
+                url: url,
+                method: .post,
+                parameters: parameters,
+                encoding: URLEncoding.default,
+                headers: [basicAuthHeader.key : basicAuthHeader.value]
+            ),
+            responseHandling: ResponseHandling(
+                onSuccess: { self._handleSuccessfulTokenRequest(json: $0, updateStatus: updateStatus, success: success, failure: failure) },
+                onFailure: { self._handleFailedTokenRequest(error: $0, updateStatus: updateStatus, failure: failure) }
+            )
         )
     }
     
@@ -355,19 +359,21 @@ private extension OAuth2Handler {
             return
         }
         
-        let url: URL = self._settings.tokenRevokeURL
-        let method: HTTPMethod = .post
-        let encoding: ParameterEncoding = URLEncoding.default
-        let parameters: [String : Any] = [_C.JSONKeys.token : accessToken]
-        
         let basicAuthHeader: _Header = self._basicAuthHeader()
-        let headers: [String : String] = [basicAuthHeader.key : basicAuthHeader.value]
         
-        ValidatedJSONRequest(url: url, method: method, parameters: parameters, encoding: encoding, headers: headers).fire(
-            via: self._sessionManager,
+        let requestConfiguration: RequestConfiguration = RequestConfiguration(
+            url: self._settings.tokenRevokeURL,
+            method: .post,
+            parameters: [_C.JSONKeys.token : accessToken],
+            headers: [basicAuthHeader.key : basicAuthHeader.value]
+        )
+        
+        let responseHandling: ResponseHandling = ResponseHandling(
             onSuccess: { _ in },
             onFailure: { _ in }
         )
+        
+        self._sessionManager.fireJSONRequest(cfg: requestConfiguration, responseHandling: responseHandling)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
         // instead of waiting for the request to receive a response. Is it though?
