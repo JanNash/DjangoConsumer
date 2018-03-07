@@ -48,19 +48,24 @@ extension DetailPostable {
 // MARK: GET function Implementation
 private extension DetailPostable {
     func _post(to node: Node) {
-        let url: URL = node.absoluteDetailURL(for: self, method: .post)
+        let method: HTTPMethod = .post
+        let url: URL = node.absoluteDetailURL(for: self, method: method)
         
-        ValidatedJSONRequest(url: url, method: .post).fire(
-            via: node.sessionManager,
-            onSuccess: { result in
-                let responseSelf: Self = .init(json: result)
-                Self.detailPostableClients.forEach({ $0.postedObject(self, responseObject: responseSelf, to: node)})
-                self.postedSelf(responseSelf, to: node)
-            },
-            onFailure: { error in
-                Self.detailPostableClients.forEach({ $0.failedPostingObject(self, to: node, with: error) })
-                self.failedPostingSelf(to: node, with: error)
-            }
+        func onSuccess(_ json: JSON) {
+            let responseSelf: Self = .init(json: json)
+            Self.detailPostableClients.forEach({ $0.postedObject(self, responseObject: responseSelf, to: node)})
+            self.postedSelf(responseSelf, to: node)
+        }
+        
+        func onFailure(_ error: Error) {
+            Self.detailPostableClients.forEach({ $0.failedPostingObject(self, to: node, with: error) })
+            self.failedPostingSelf(to: node, with: error)
+        }
+        
+        // FIXME: The object isn't sent along yet :D
+        node.sessionManager.fireJSONRequest(
+            cfg: RequestConfiguration(url: url, method: method) ,
+            responseHandling: ResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
 }
