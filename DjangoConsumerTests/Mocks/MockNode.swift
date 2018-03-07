@@ -55,8 +55,9 @@ private extension MockNode {
         } else if resourceType == MockFilteredListGettable.self {
             return URL(string: "filteredlistgettables/")!
         }
+        
         // FIXME: Throw a real Error here?
-        fatalError("[MockNode] No URL registered for '\(resourceType)'")
+        fatalError("[MockNode] No relativeListURL registered for '\(resourceType)' with method '\(method)'")
     }
 }
 
@@ -68,6 +69,6 @@ private extension MockNode {
             return URL(string: "singlepostables/")!
         }
         
-        fatalError("[MockNode] No URL registered for '\(resourceType)'")
+        fatalError("[MockNode] No singlePOSTURL registered for '\(resourceType)'")
     }
 }

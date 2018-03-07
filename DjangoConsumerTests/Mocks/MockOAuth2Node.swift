@@ -77,7 +77,7 @@ private extension MockOAuth2Node {
             return URL(string: "filteredlistgettables/")!
         }
         // FIXME: Throw a real Error here?
-        fatalError("[MockOAuth2Node] No URL registered for '\(resourceType)'")
+        fatalError("[MockOAuth2Node] No relativeListURL registered for '\(resourceType)' with method '\(method)'")
     }
 }
 
@@ -89,6 +89,6 @@ private extension MockOAuth2Node {
             return URL(string: "singlepostables/")!
         }
         
-        fatalError("[MockOAuth2Node] No URL registered for '\(resourceType)'")
+        fatalError("[MockOAuth2Node] No singlePOSTURL registered for '\(resourceType)'")
     }
 }
