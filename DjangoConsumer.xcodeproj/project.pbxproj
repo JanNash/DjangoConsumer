@@ -623,7 +623,6 @@
 				94F0BF27F8D93AC5513DF318216D5297 /* Pagination.swift in Sources */,
 				BD0207F557936C71DCCAD97E939DBD0F /* SessionManagerType.swift in Sources */,
 				557530DE6AA3CD51D0D406B18EF0DABA /* TestSessionManager.swift in Sources */,
-				E517B67ECD28998FBEE69A7DBE64EA05 /* ValidatedJSONRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
