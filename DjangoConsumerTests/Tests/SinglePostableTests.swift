@@ -95,7 +95,21 @@ class SinglePostableTests: BaseTest {
         self.waitForExpectations(timeout: 0.1)
     }
     
-    func testSinglePostableParameters() {
+    func testSinglePostableParameters1() {
+        let id: String = "123456"
+        let singlePostable: FixtureType = FixtureType(id: id)
+        
+        guard let parametersFromObject: [String : String] = singlePostable.toParameters() as? [String : String] else {
+            XCTFail("Expected singlePostable.toParameters() to be of type [String : String]")
+            return
+        }
+        
+        let expectedParameters: [String : String] = [FixtureType.Keys.id : id]
+        
+        XCTAssertEqual(parametersFromObject, expectedParameters)
+    }
+    
+    func testSinglePostableParameters2() {
         let expectedNode: Node = FixtureType.defaultNode
         let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
         let expectation: XCTestExpectation = self.expectation(
@@ -109,7 +123,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
             
             guard let parameters: [String : String] = cfg.parameters as? [String : String] else {
-                XCTFail("Expected requestConfiguration to be of type [String : String]")
+                XCTFail("Expected requestConfiguration.parameters to be of type [String : String]")
                 return
             }
             
