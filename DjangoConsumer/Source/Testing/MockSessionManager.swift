@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+
+// MARK: // Public
+public class MockSessionManager {
+    var handleRequest: ((RequestConfiguration, ResponseHandling) -> Void)?
+}
+
+// MARK: SessionManagerType
+extension MockSessionManager: SessionManagerType {
+    public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
+        self.handleRequest?(cfg, responseHandling)
+    }
+}
