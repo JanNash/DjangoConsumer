@@ -11,7 +11,8 @@ import Foundation
 
 // MARK: // Public
 public class TestSessionManager {
-    var handleRequest: ((RequestConfiguration, ResponseHandling) -> Void)?
+    public init() {}
+    public var handleRequest: ((RequestConfiguration, ResponseHandling) -> Void)?
 }
 
 // MARK: SessionManagerType
