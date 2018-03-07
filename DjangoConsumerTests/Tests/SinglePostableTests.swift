@@ -25,7 +25,6 @@ class SinglePostableTests: BaseTest {
     // Tests
     func testSinglePostableDefaultNodeUsed() {
         let expectedSessionManager: TestSessionManager = FixtureType.defaultNode.testSessionManager
-        
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -42,7 +41,6 @@ class SinglePostableTests: BaseTest {
     func testSinglePostableInjectedNodeUsed() {
         let injectedNode: MockNode = MockNode()
         let expectedSessionManager: TestSessionManager = injectedNode.testSessionManager
-        
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -52,6 +50,27 @@ class SinglePostableTests: BaseTest {
         }
         
         FixtureType(id: "").post(to: injectedNode)
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
+    
+    func testSinglePostableURL() {
+        let expectedNode: Node = FixtureType.defaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected .handleRequest of expectedSessionManager to be called"
+        )
+        
+        let singlePostable: FixtureType = FixtureType(id: "")
+        
+        let expectedURL: URL = expectedNode.absoluteSinglePOSTURL(for: type(of: singlePostable))
+        
+        expectedSessionManager.handleRequest = { cfg, _ in
+            XCTAssertEqual(cfg.url, expectedURL)
+            expectation.fulfill()
+        }
+        
+        singlePostable.post()
         
         self.waitForExpectations(timeout: 0.1)
     }
