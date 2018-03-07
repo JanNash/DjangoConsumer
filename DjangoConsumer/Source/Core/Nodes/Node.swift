@@ -20,11 +20,8 @@ public protocol Node {
     // Basic Setup
     var baseURL: URL { get }
     
-    // Alamofire SessionManager
-    // In OAuth2Node, the adapter and retrier variables of this sessionManager
-    // should not be changed, since an OAuth2Node sets an OAuth2Handler as
-    // its adapter and retrier.
-    var sessionManager: SessionManager { get }
+    // SessionManager
+    var sessionManager: SessionManagerType { get }
     
     // Filtering
     func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType]

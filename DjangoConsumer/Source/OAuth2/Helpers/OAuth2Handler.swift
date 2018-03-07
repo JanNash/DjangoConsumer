@@ -64,7 +64,7 @@ open class OAuth2Handler: RequestAdapter, RequestRetrier {
     }
     
     // Private Lazy Variables
-    private lazy var _sessionManager: SessionManager = self._createSessionManager()
+    private lazy var _sessionManager: SessionManagerType = self._createSessionManager()
     private lazy var _weakSelf: _Weak = { _Weak(self) }()
     
     // Private Variables
