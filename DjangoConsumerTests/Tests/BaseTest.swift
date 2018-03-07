@@ -14,5 +14,4 @@ import XCTest
 
 
 // MARK: // Internal
-// MARK: Class Declaration
 class BaseTest: XCTestCase {}
