@@ -46,7 +46,7 @@ class MockOAuth2Node: OAuth2Node {
     
     // Alamofire SessionManager
     // This is copied from the SessionManager implementation
-    let sessionManager: SessionManager = {
+    let sessionManager: SessionManagerType = {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
         return SessionManager(configuration: configuration)
