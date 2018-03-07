@@ -50,6 +50,8 @@ private extension DetailPostable {
     func _post(to node: Node) {
         let method: HTTPMethod = .post
         let url: URL = node.absoluteDetailURL(for: self, method: method)
+        let parameters: Parameters = self.toParameters()
+        let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
             let responseSelf: Self = .init(json: json)
@@ -62,9 +64,8 @@ private extension DetailPostable {
             self.failedPostingSelf(to: node, with: error)
         }
         
-        // FIXME: The object isn't sent along yet :D
         node.sessionManager.fireJSONRequest(
-            cfg: RequestConfiguration(url: url, method: method) ,
+            cfg: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding) ,
             responseHandling: ResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
