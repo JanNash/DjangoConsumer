@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Alamofire
 import DjangoConsumer
 
 
@@ -71,6 +72,25 @@ class SinglePostableTests: BaseTest {
         }
         
         singlePostable.post()
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
+    
+    func testSinglePostableMethod() {
+        let expectedNode: Node = FixtureType.defaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected .handleRequest of expectedSessionManager to be called"
+        )
+        
+        let expectedMethod: HTTPMethod = .post
+        
+        expectedSessionManager.handleRequest = { cfg, _ in
+            XCTAssertEqual(cfg.method, expectedMethod)
+            expectation.fulfill()
+        }
+        
+        FixtureType(id: "").post()
         
         self.waitForExpectations(timeout: 0.1)
     }
