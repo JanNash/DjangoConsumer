@@ -20,8 +20,6 @@ import Alamofire_SwiftyJSON
 public protocol DetailPostable: DetailResource {
     init(json: JSON)
     func toParameters() -> Parameters
-    func postedSelf(_ responseSelf: Self, to: Node)
-    func failedPostingSelf(to: Node, with error: Error)
     static var detailPostableClients: [DetailPostableClient] { get set }
 }
 
@@ -54,14 +52,11 @@ private extension DetailPostable {
         let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
-            let responseSelf: Self = .init(json: json)
-            Self.detailPostableClients.forEach({ $0.postedObject(self, responseObject: responseSelf, to: node)})
-            self.postedSelf(responseSelf, to: node)
+            Self.detailPostableClients.forEach({ $0.postedObject(self, responseObject: .init(json: json), to: node)})
         }
         
         func onFailure(_ error: Error) {
             Self.detailPostableClients.forEach({ $0.failedPostingObject(self, to: node, with: error) })
-            self.failedPostingSelf(to: node, with: error)
         }
         
         node.sessionManager.fireJSONRequest(
