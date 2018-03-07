@@ -15,13 +15,23 @@ import Alamofire_SwiftyJSON
 // MARK: // Public
 // MARK: - RequestConfiguration
 public struct RequestConfiguration {
+    public init(url: URL, method: HTTPMethod, parameters: Parameters = [:], encoding: ParameterEncoding = URLEncoding.default, headers: HTTPHeaders = [:], acceptableStatusCodes: [Int] = Array(200..<300), acceptableContentTypes: [String] = ["*/*"]) {
+        self.url = url
+        self.method = method
+        self.parameters = parameters
+        self.encoding = encoding
+        self.headers = headers
+        self.acceptableStatusCodes = acceptableStatusCodes
+        self.acceptableContentTypes = acceptableContentTypes
+    }
+    
     var url: URL
     var method: HTTPMethod
-    var parameters: Parameters = [:]
-    var encoding: ParameterEncoding = URLEncoding.default
-    var headers: HTTPHeaders = [:]
-    var acceptableStatusCodes: [Int] = Array(200..<300)
-    var acceptableContentTypes: [String] = ["*/*"]
+    var parameters: Parameters
+    var encoding: ParameterEncoding
+    var headers: HTTPHeaders
+    var acceptableStatusCodes: [Int]
+    var acceptableContentTypes: [String]
 }
 
 
