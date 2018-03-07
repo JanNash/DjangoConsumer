@@ -47,7 +47,7 @@ extension SinglePostable {
 private extension SinglePostable {
     func _post(to node: Node) {
         let method: HTTPMethod = .post
-        let url: URL = node.absoluteDetailURL(for: self, method: method)
+        let url: URL = node.absoluteSinglePOSTURL(for: self)
         let parameters: Parameters = self.toParameters()
         let encoding: ParameterEncoding = JSONEncoding.default
         
