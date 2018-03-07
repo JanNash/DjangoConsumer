@@ -19,7 +19,7 @@ import Alamofire_SwiftyJSON
 // MARK: Protocol Declaration
 public protocol DetailPostable: DetailResource {
     init(json: JSON)
-    func toJSON() -> JSON
+    func toParameters() -> Parameters
     func postedSelf(_ responseSelf: Self, to: Node)
     func failedPostingSelf(to: Node, with error: Error)
     static var detailPostableClients: [DetailPostableClient] { get set }
