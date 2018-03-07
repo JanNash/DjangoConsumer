@@ -7,11 +7,25 @@
 //
 
 import XCTest
+import DjangoConsumer
 
 
 // MARK: // Internal
 class SinglePostableTests: BaseTest {
+    typealias FixtureType = MockSinglePostable
+    
     func testPostingSinglePostable() {
+        let singlePostable: FixtureType = FixtureType(id: "1")
         
+        let expectedNode: Node = FixtureType.defaultNode
+        let expectedURL: URL = expectedNode.absoluteSinglePOSTURL(for: type(of: singlePostable))
+        
+        let testSessionManager: TestSessionManager = expectedNode.testSessionManager
+        testSessionManager.handleRequest = {
+            cfg, responseHandling in
+            XCTAssertEqual(cfg.url, expectedURL)
+        }
+        
+        singlePostable.post()
     }
 }
