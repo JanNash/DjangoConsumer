@@ -20,20 +20,17 @@ import Alamofire_SwiftyJSON
 public protocol DetailResource: MetaResource {}
 
 
-// MARK: - DetailURI
+// MARK: - ResourceID
 // MARK: Struct Declaration
-public struct DetailURI<T: DetailResource> {
-    public init(_ path: String) {
-        self.url = URL(string: path)!
-    }
-    
-    public private(set) var url: URL
+public struct ResourceID<T: DetailResource> {
+    public init(_ id: String) { self.id = id }
+    public private(set) var id: String
 }
 
 
 // MARK: Default Implementations
 // MARK: where T: DetailGettable & NeedsNoAuth
-public extension DetailURI where T: DetailGettable & NeedsNoAuth {
+public extension ResourceID where T: DetailGettable & NeedsNoAuth {
     func get(from node: Node = T.defaultNode) {
         self._get(from: node)
     }
@@ -42,7 +39,7 @@ public extension DetailURI where T: DetailGettable & NeedsNoAuth {
 
 // MARK: // Internal
 // MARK: Common GET function
-extension DetailURI where T: DetailGettable {
+extension ResourceID where T: DetailGettable {
     func get_(from node: Node) {
         self._get(from: node)
     }
@@ -51,7 +48,7 @@ extension DetailURI where T: DetailGettable {
 
 // MARK: // Private
 // MARK: where T: DetailGettable
-private extension DetailURI where T: DetailGettable {
+private extension ResourceID where T: DetailGettable {
     func _get(from node: Node) {
         let method: HTTPMethod = .get
         let url: URL = node.absoluteDetailURL(for: self, method: method)
