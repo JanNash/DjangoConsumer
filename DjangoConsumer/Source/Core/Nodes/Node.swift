@@ -33,23 +33,15 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [FilterType]) -> Parameters
     
-    // List Request and Response Helpers
-    func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
-    func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
+    // Request URL Helpers
+    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
     
-    // List GET Request and Response Helpers
+    // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
+    
+    // List Response Helpers
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
-    
-    // Detail Request and Response Helpers
-    func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
-    func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
-    func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL
-    
-    // Single POST Request and Response Helpers
-    func relativeSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL
-    func absoluteSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL
 }
 
 
@@ -85,15 +77,7 @@ public extension Node {
 }
 
 
-// MARK: List Request and Response Helpers
-public extension Node {
-    func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
-        return self._absoluteListURL(for: resourceType, method: method)
-    }
-}
-
-
-// MARK: List GET Request and Response Helpers
+// MARK: List Response Helpers
 public extension Node {
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type {
         return DefaultPagination.self
@@ -101,30 +85,6 @@ public extension Node {
     
     func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         return self._extractListResponse(for: resourceType, from: json)
-    }
-}
-
-
-// MARK: Detail Request and Response Helpers
-public extension Node {
-    func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
-        return resource.detailURI.url
-    }
-    
-    func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
-        return self.baseURL.appendingPathComponent(self.relativeDetailURL(for: resource, method: method).absoluteString)
-    }
-    
-    func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL {
-        return self.baseURL.appendingPathComponent(detailURI.url.absoluteString)
-    }
-}
-
-
-// MARK: Single POST Request and Response Helpers
-public extension Node {
-    func absoluteSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL {
-        return self.baseURL.appendingPathComponent(self.relativeSinglePOSTURL(for: resourceType).absoluteString)
     }
 }
 
@@ -149,15 +109,6 @@ private extension Node {
 }
 
 
-// MARK: List Request and Response Helper Implementations
-private extension Node {
-    func _absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
-        let relativeURL: URL = self.relativeListURL(for: resourceType, method: method)
-        return self.baseURL.appendingPathComponent(relativeURL.absoluteString)
-    }
-}
-
-
 // MARK: List GET Request and Response Helper Implementations
 private extension Node {
     func _extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
@@ -167,4 +118,3 @@ private extension Node {
         return (pagination, objects)
     }
 }
-

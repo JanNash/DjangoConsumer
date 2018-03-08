@@ -22,6 +22,7 @@ public enum RouteType: String {
 // MARK: - Route
 // MARK: Struct Declaration
 public struct Route {
+    public var resourceType: MetaResource.Type
     public var routeType: RouteType
     public var method: HTTPMethod
     public var relativeURL: URL
