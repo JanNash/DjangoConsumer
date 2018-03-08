@@ -90,10 +90,6 @@ public extension Node {
         return self.baseURL.appendingPathComponent(self.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
     }
     
-    func relativeURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
-        return resource.detailURI.url
-    }
-    
     func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
         return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
     }
