@@ -41,8 +41,8 @@ public protocol Node {
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     
     // List Response Helpers
-    func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
-    func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
+    func paginationType<T: ListResource>(for resourceType: T.Type) -> Pagination.Type
+    func extractListResponse<T: ListResource>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
 }
 
 
@@ -81,7 +81,7 @@ public extension Node {
 // MARK: Request URL Helpers
 public extension Node {
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
-        return self.routes.first(where: { $0.resourceType == resourceType && $0.routeType == routeType && $0.method == method })
+        return self._relativeURL(for: resourceType, routeType: routeType, method: method)
     }
     
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
@@ -118,6 +118,21 @@ private extension Node {
             DefaultPagination.Keys.offset: offset,
             DefaultPagination.Keys.limit: limit
         ]
+    }
+}
+
+
+// MARK: Request URL Helper Implementation
+private extension Node {
+    func _relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+        if let route: Route = self.routes.first(where: { $0.resourceType == resourceType && $0.routeType == routeType && $0.method == method }) {
+            return route.relativeURL
+        }
+        
+        fatalError(
+            "[DjangoConsumer.Node] No relative URL registered in '\(self)' for type " +
+            "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
+        )
     }
 }
 
