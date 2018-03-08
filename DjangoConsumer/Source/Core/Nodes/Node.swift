@@ -131,7 +131,7 @@ private extension Node {
 // MARK: Request URL Helper Implementation
 private extension Node {
     func _relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
-        if let route: Route = self.routes.first(where: { $0.resourceType == resourceType && $0.routeType == routeType && $0.method == method }) {
+        if let route: Route = self._routeMatching(resourceType: resourceType, routeType: routeType, method: method) {
             return route.relativeURL
         }
         
@@ -139,6 +139,15 @@ private extension Node {
             "[DjangoConsumer.Node] No relative URL registered in '\(self)' for type " +
             "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
         )
+    }
+    
+    // Helper
+    func _routeMatching(resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> Route? {
+        return self.routes.first(where: {
+            $0.resourceType == resourceType &&
+            $0.routeType == routeType &&
+            $0.method == method
+        })
     }
 }
 
