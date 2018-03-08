@@ -36,6 +36,8 @@ public protocol Node {
     // Request URL Helpers
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
+    func relativeURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
     
     // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
@@ -86,6 +88,14 @@ public extension Node {
     
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
         return self.baseURL.appendingPathComponent(self.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
+    }
+    
+    func relativeURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
+        return resource.detailURI.url
+    }
+    
+    func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
     }
 }
 
