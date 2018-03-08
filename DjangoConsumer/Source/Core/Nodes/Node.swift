@@ -19,11 +19,11 @@ public protocol Node {
     // Basic Setup
     var baseURL: URL { get }
     
-    // SessionManager
-    var sessionManager: SessionManagerType { get }
-    
     // Routes
     var routes: [Route] { get }
+    
+    // SessionManager
+    var sessionManager: SessionManagerType { get }
     
     // Filtering
     func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType]
@@ -98,18 +98,18 @@ public extension Node {
 
 // MARK: List Response Helpers
 public extension Node {
-    func paginationType<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type {
+    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type {
         return DefaultPagination.self
     }
     
-    func extractListResponse<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
         return self._extractListResponse(for: resourceType, with: method, from: json)
     }
 }
 
 
 // MARK: // Private
-// MARK: Parameter Generation Implementation
+// MARK: Parameter Generation Implementations
 private extension Node {
     func _parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
         var parameters: Parameters = [:]
@@ -128,7 +128,7 @@ private extension Node {
 }
 
 
-// MARK: Request URL Helper Implementation
+// MARK: Request URL Helper Implementations
 private extension Node {
     func _relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
         if let route: Route = self._routeMatching(resourceType: resourceType, routeType: routeType, method: method) {
@@ -152,9 +152,9 @@ private extension Node {
 }
 
 
-// MARK: List GET Request and Response Helper Implementations
+// MARK: List Response Helper Implementations
 private extension Node {
-    func _extractListResponse<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+    func _extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = self.paginationType(for: resourceType, with: method)
         let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])
         let objects: [T] = json[DefaultListResponseKeys.results].array!.map(T.init)
