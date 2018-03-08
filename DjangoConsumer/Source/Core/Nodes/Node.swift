@@ -38,6 +38,7 @@ public protocol Node {
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
     func relativeURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
     func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL
     
     // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt

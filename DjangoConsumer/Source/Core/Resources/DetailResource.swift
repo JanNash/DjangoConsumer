@@ -51,7 +51,7 @@ extension ResourceID where T: DetailGettable {
 private extension ResourceID where T: DetailGettable {
     func _get(from node: Node) {
         let method: HTTPMethod = .get
-        let url: URL = node.absoluteDetailURL(for: self, method: method)
+        let url: URL = node.absoluteGETURL(for: self)
 
         func onSuccess(_ json: JSON) {
             let object: T = T.init(json: json)
