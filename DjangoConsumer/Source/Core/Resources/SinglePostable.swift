@@ -17,7 +17,7 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol SinglePostable {
+public protocol SinglePostable: DetailResource {
     init(json: JSON)
     func toParameters() -> Parameters
     static var singlePostableClients: [SinglePostableClient] { get set }
@@ -47,7 +47,7 @@ extension SinglePostable {
 private extension SinglePostable {
     func _post(to node: Node) {
         let method: HTTPMethod = .post
-        let url: URL = node.absoluteSinglePOSTURL(for: type(of: self))
+        let url: URL = node.absoluteURL(for: self, method: method)
         let parameters: Parameters = self.toParameters()
         let encoding: ParameterEncoding = JSONEncoding.default
         
