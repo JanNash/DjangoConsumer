@@ -15,7 +15,14 @@ import SwiftyJSON
 
 
 // MARK: // Public
-// MARK: Protocol Declaration
+// MARK: - RouteType
+public enum RouteType {
+    case detail(HTTPMethod)
+    case list(HTTPMethod)
+}
+
+
+// MARK: - Node
 public protocol Node {
     // Basic Setup
     var baseURL: URL { get }
@@ -30,6 +37,11 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [FilterType]) -> Parameters
+    
+    // URLS
+    
+    
+    
     
     // List Request and Response Helpers
     func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
