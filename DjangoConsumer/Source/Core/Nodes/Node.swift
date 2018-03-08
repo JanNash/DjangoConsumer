@@ -98,11 +98,11 @@ public extension Node {
 
 // MARK: List Response Helpers
 public extension Node {
-    func paginationType<T: ListGettable>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type {
+    func paginationType<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type {
         return DefaultPagination.self
     }
     
-    func extractListResponse<T: ListGettable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+    func extractListResponse<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
         return self._extractListResponse(for: resourceType, with: method, from: json)
     }
 }
@@ -145,7 +145,7 @@ private extension Node {
 
 // MARK: List GET Request and Response Helper Implementations
 private extension Node {
-    func _extractListResponse<T: ListGettable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+    func _extractListResponse<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = self.paginationType(for: resourceType, with: method)
         let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])
         let objects: [T] = json[DefaultListResponseKeys.results].array!.map(T.init)
