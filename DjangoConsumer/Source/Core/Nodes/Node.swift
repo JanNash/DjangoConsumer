@@ -78,6 +78,18 @@ public extension Node {
 }
 
 
+// MARK: Request URL Helpers
+public extension Node {
+    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+        return self.routes.first(where: { $0.resourceType == resourceType && $0.routeType == routeType && $0.method == method })
+    }
+    
+    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(self.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
+    }
+}
+
+
 // MARK: List Response Helpers
 public extension Node {
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type {
