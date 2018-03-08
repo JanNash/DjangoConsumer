@@ -12,6 +12,7 @@
 		0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */; };
 		1710D23BA1151FCD005E179F9A088D3F /* NeedsOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713AFFDDB83D2E01F86F582D62459F44 /* NeedsOAuth2.swift */; };
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
+		30BAB63DDA592082D067DC05C204E4C8 /* MetaResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13597ED957EA7C4148E68D16ED4E465B /* MetaResource.swift */; };
 		332D4328F65E7B4F2EF5FBA0CBB07E57 /* Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F31179E2AF1F56223851EB8CDDE05C9 /* Filtering.swift */; };
 		36FB7694D0EC516AB7CD007226092BF4 /* SinglePostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */; };
 		3822C625D7D6018BF412869914F1C6F8 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */; };
@@ -62,6 +63,7 @@
 		11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettable.swift; sourceTree = "<group>"; };
 		12FCC406513052467D155E7706FA9ECE /* Pods_DjangoConsumerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettableClient.swift; sourceTree = "<group>"; };
+		13597ED957EA7C4148E68D16ED4E465B /* MetaResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaResource.swift; sourceTree = "<group>"; };
 		1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettable.swift; sourceTree = "<group>"; };
 		26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
 		29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostable.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				4F31179E2AF1F56223851EB8CDDE05C9 /* Filtering.swift */,
 				11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */,
 				BC69A84EF0C7C8240AD5FEBA3F9485BC /* ListResource.swift */,
+				13597ED957EA7C4148E68D16ED4E465B /* MetaResource.swift */,
 				33B16B5D99F638F04ED767777EB127CC /* NeedsNoAuth.swift */,
 				9301A7BFC91751C141E772D032A31C0A /* Pagination.swift */,
 				29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */,
@@ -584,6 +587,7 @@
 				BB90ACBC8821CCCF71AA5B325EE08EE1 /* ListGettable.swift in Sources */,
 				CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */,
 				0547C8FDE085DBE0C6F682C4DB293764 /* ListResource.swift in Sources */,
+				30BAB63DDA592082D067DC05C204E4C8 /* MetaResource.swift in Sources */,
 				65AADAC7E454A9A05606D2841E1B334B /* NeedsNoAuth.swift in Sources */,
 				1710D23BA1151FCD005E179F9A088D3F /* NeedsOAuth2.swift in Sources */,
 				C1A0FE433A02E624FEF2EA26B54DC8EB /* Node+TestSessionManager.swift in Sources */,

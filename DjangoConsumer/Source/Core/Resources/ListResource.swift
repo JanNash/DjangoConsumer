@@ -14,7 +14,7 @@ import Foundation
 
 // MARK: // Public
 // MARK: - ListResource
-public protocol ListResource {}
+public protocol ListResource: MetaResource {}
 
 
 // MARK: - DetailURI
