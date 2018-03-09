@@ -20,6 +20,13 @@ import Alamofire_SwiftyJSON
 public protocol DetailResource: MetaResource {}
 
 
+// MARK: - IdentifiableResource
+// ???: Does this have to be a refinement of DetailResource
+public protocol IdentifiableResource: DetailResource {
+    var id: ResourceID<Self> { get }
+}
+
+
 // MARK: - ResourceID
 // MARK: Struct Declaration
 public struct ResourceID<T: DetailResource> {
