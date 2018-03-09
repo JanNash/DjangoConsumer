@@ -16,6 +16,6 @@ import Foundation
 // MARK: where T: DetailGettable & NeedsOAuth2
 public extension ResourceID where T: DetailGettable & NeedsOAuth2 {
     func get(from node: OAuth2Node = T.defaultNode) {
-        ResourceIDDefaultImplementations.getResource(withID: self, from: node)
+        DefaultImplementations._ResourceID_.getResource(withID: self, from: node)
     }
 }

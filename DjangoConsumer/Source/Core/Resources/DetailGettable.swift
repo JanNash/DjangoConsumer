@@ -34,7 +34,7 @@ public extension DetailGettable where Self: NeedsNoAuth {
 }
 
 
-// MARK: - DefaultDetailGettableImplementations
+// MARK: - DefaultImplementations._DetailGettable_
 public extension DefaultImplementations._DetailGettable_ {
     public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
         self._get(detailGettable, from: node)

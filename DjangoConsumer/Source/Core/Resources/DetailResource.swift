@@ -39,13 +39,14 @@ public struct ResourceID<T: DetailResource> {
 // MARK: where T: DetailGettable & NeedsNoAuth
 public extension ResourceID where T: DetailGettable & NeedsNoAuth {
     func get(from node: Node = T.defaultNode) {
-        ResourceIDDefaultImplementations.getResource(withID: self, from: node)
+        DefaultImplementations._ResourceID_.getResource(withID: self, from: node)
     }
 }
 
 
-// MARK: - ResourceIDDefaultImplementations
-public struct ResourceIDDefaultImplementations {
+// MARK: - DefaultImplementations._ResourceID_
+// MARK: where T: DetailGettable
+public extension DefaultImplementations._ResourceID_ {
     public static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node) {
         self._getResource(withID: resourceID, from: node)
     }
@@ -54,7 +55,7 @@ public struct ResourceIDDefaultImplementations {
 
 // MARK: // Private
 // MARK: where T: DetailGettable
-private extension ResourceIDDefaultImplementations {
+private extension DefaultImplementations._ResourceID_ {
     static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node) {
         let url: URL = node.absoluteGETURL(for: resourceID)
         let method: HTTPMethod = .get
