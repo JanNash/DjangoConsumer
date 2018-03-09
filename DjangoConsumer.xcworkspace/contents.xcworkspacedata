@@ -11,6 +11,9 @@
       location = "group:DjangoConsumer.podspec"
       assignedFileDataType = "public.ruby-script">
    </FileRef>
+   <FileRef
+      location = "group:DjangoConsumer.xcworkspace/xcshareddata/IDETemplateMacros.plist">
+   </FileRef>
    <Group
       location = "container:"
       name = "xcode-project-setup">
