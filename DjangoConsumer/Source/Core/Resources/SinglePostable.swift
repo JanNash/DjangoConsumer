@@ -28,14 +28,13 @@ public protocol SinglePostable: DetailResource {
 // MARK: where Self: NeedsNoAuth
 public extension SinglePostable where Self: NeedsNoAuth {
     func post(to node: Node? = nil) {
-        DefaultSinglePostableImplementations.post(self, to: node ?? Self.defaultNode)
+        DefaultImplementations._SinglePostable_.post(self, to: node ?? Self.defaultNode)
     }
 }
 
 
-// MARK: // Internal
-// MARK: DefaultSinglePostableImplementations
-public struct DefaultSinglePostableImplementations {
+// MARK: - DefaultImplementations._SinglePostable_
+public extension DefaultImplementations._SinglePostable_ {
     public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node) {
         self._post(singlePostable, to: node)
     }
@@ -43,7 +42,7 @@ public struct DefaultSinglePostableImplementations {
 
 
 // MARK: // Private
-private extension DefaultSinglePostableImplementations {
+private extension DefaultImplementations._SinglePostable_ {
     static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node) {
         let method: HTTPMethod = .post
         let url: URL = node.absoluteURL(for: singlePostable, method: method)

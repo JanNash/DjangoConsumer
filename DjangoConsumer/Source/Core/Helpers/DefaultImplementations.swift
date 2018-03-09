@@ -15,4 +15,5 @@ public struct DefaultImplementations {
     public struct _DetailGettable_ {}
     public struct _ResourceID_ {}
     public struct _ListGettable_ {}
+    public struct _SinglePostable_ {}
 }

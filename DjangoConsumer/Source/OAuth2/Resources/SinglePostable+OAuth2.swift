@@ -17,6 +17,6 @@ import Alamofire
 // MARK: where Self: NeedsOAuth2
 public extension SinglePostable where Self: NeedsOAuth2 {
     func post(to node: OAuth2Node? = nil) {
-        DefaultSinglePostableImplementations.post(self, to: node ?? Self.defaultNode)
+        DefaultImplementations._SinglePostable_.post(self, to: node ?? Self.defaultNode)
     }
 }
