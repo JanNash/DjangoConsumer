@@ -29,13 +29,13 @@ public protocol DetailGettable: DetailResource {
 // MARK: where Self: NeedsNoAuth
 public extension DetailGettable where Self: NeedsNoAuth {
     func get(from node: Node? = nil) {
-        DefaultDetailGettableImplementations.get(self, from: node ?? Self.defaultNode)
+        DefaultImplementations._DetailGettable_.get(self, from: node ?? Self.defaultNode)
     }
 }
 
 
 // MARK: - DefaultDetailGettableImplementations
-public struct DefaultDetailGettableImplementations {
+public extension DefaultImplementations._DetailGettable_ {
     public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
         self._get(detailGettable, from: node)
     }
@@ -44,7 +44,7 @@ public struct DefaultDetailGettableImplementations {
 
 // MARK: // Private
 // MARK: GET function Implementation
-private extension DefaultDetailGettableImplementations {
+private extension DefaultImplementations._DetailGettable_ {
     static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
         let method: HTTPMethod = .get
         let url: URL = node.absoluteURL(for: detailGettable, method: method)

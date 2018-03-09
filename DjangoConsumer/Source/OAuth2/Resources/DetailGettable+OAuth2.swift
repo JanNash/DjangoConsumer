@@ -17,6 +17,6 @@ import Alamofire
 // MARK: where Self: NeedsNoAuth
 public extension DetailGettable where Self: NeedsOAuth2 {
     func get(from node: OAuth2Node? = nil) {
-        DefaultDetailGettableImplementations.get(self, from: node ?? Self.defaultNode)
+        DefaultImplementations._DetailGettable_.get(self, from: node ?? Self.defaultNode)
     }
 }

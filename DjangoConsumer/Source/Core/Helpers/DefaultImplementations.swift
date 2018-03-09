@@ -12,4 +12,5 @@ import Foundation
 // MARK: // Public
 public struct DefaultImplementations {
     public struct _Node_ {}
+    public struct _DetailGettable_: {}
 }
