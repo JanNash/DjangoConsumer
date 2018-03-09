@@ -42,8 +42,9 @@ public protocol Node {
     func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
     
     // IdentifiableResource URLs
-    func relativeURL<T: IdendtifiableResource>(for resource: T, method: HTTPMethod) -> URL
-    func absoluteURL<T: IdendtifiableResource>(for resource: T, method: HTTPMethod) -> URL
+    func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
+    
     // ResourceID URLs
     func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL
     
