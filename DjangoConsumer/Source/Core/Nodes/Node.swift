@@ -37,10 +37,6 @@ public protocol Node {
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
     
-    // DetailResource URLs
-    func relativeURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
-    func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
-    
     // IdentifiableResource URLs
     func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
     func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
@@ -101,11 +97,6 @@ public extension Node {
         return DefaultImplementations._Node_.absoluteURL(node: self, for: resourceType, routeType: routeType, method: method)
     }
     
-    // DetailResource URLs
-    func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
-        return DefaultImplementations._Node_.absoluteURL(node: self, for: resource, method: method)
-    }
-    
     // IdentifiableResource URLs
     func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
         return DefaultImplementations._Node_.relativeURL(node: self, for: resource, method: method)
@@ -164,11 +155,6 @@ public extension DefaultImplementations._Node_ {
     
     public static func absoluteURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
         return node.baseURL.appendingPathComponent(node.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
-    }
-    
-    // DetailResource URLs
-    public static func absoluteURL<T: DetailResource>(node: Node, for resource: T, method: HTTPMethod) -> URL {
-        return node.baseURL.appendingPathComponent(node.relativeURL(for: resource, method: method).absoluteString)
     }
     
     // IdentifiableResource URLs
