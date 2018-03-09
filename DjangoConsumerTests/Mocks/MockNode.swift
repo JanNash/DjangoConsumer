@@ -28,7 +28,12 @@ class MockNode: Node {
     var baseURL: URL = URL(string: "http://localhost:8080")!
     
     // Routes
-    var routes: [Route] = []
+    var routes: [Route] = [
+        Route(MockListGettable.self, .detail, .get, "listgettables/"),
+        Route(MockListGettable.self, .detail, .post, "listgettables/"),
+        Route(MockListGettable.self, .list, .get, "listgettables/"),
+        Route(MockListGettable.self, .list, .post, "listgettables/"),
+    ]
     
     // Pagination
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
