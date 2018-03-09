@@ -58,7 +58,7 @@ public protocol Node {
 }
 
 
-// MARK: DefaultListResponseKeys
+// MARK: - DefaultListResponseKeys
 public struct DefaultListResponseKeys {
     public static let meta: String = "meta"
     public static let results: String = "results"
@@ -77,15 +77,15 @@ public extension Node {
 // MARK: Parameter Generation
 public extension Node {
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
-        return self._parametersFrom(offset: offset, limit: limit, filters: filters)
+        return DefaultNodeImplementations.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
     }
     
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters {
-        return self._parametersFrom(offset: offset, limit: limit)
+        return DefaultNodeImplementations.parametersFrom(node: self, offset: offset, limit: limit)
     }
     
     func parametersFrom(filters: [FilterType]) -> Parameters {
-        return filters.reduce(into: [:], { $0[$1.stringKey] = $1.value })
+        return DefaultNodeImplementations.parametersFrom(node: self, filters: filters)
     }
 }
 
@@ -94,35 +94,30 @@ public extension Node {
 public extension Node {
     // MetaResource.Type URLs
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
-        return self._relativeURL(for: resourceType, routeType: routeType, method: method)
+        return DefaultNodeImplementations.relativeURL(node: self, for: resourceType, routeType: routeType, method: method)
     }
     
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
-        return self.baseURL.appendingPathComponent(self.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
+        return DefaultNodeImplementations.absoluteURL(node: self, for: resourceType, routeType: routeType, method: method)
     }
     
     // DetailResource URLs
     func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
-        return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
+        return DefaultNodeImplementations.absoluteURL(node: self, for: resource, method: method)
     }
     
     // IdentifiableResource URLs
     func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
-        return self.relativeURL(for: T.self, method: method).appendingPathComponent(resource.id.string)
+        return DefaultNodeImplementations.relativeURL(node: self, for: resource, method: method)
     }
     
     func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
-        return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
-    }
-    
-    // ResourceID URLs
-    func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL {
-        return self.relativeURL(for: T.self, method: .get)
+        return DefaultNodeImplementations.absoluteURL(node: self, for: resource, method: method)
     }
     
     // ResourceID URLs
     func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL {
-        return self.absoluteURL(for: T.self, routeType: .detail, method: .get).appendingPathComponent(resourceID.string)
+        return DefaultNodeImplementations.absoluteGETURL(node: self, for: resourceID)
     }
 }
 
@@ -130,65 +125,10 @@ public extension Node {
 // MARK: List Response Helpers
 public extension Node {
     func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type {
-        return DefaultPagination.self
+        return DefaultNodeImplementations.paginationType(node: self, for: resourceType, with: method)
     }
     
     func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
-        return self._extractListResponse(for: resourceType, with: method, from: json)
-    }
-}
-
-
-// MARK: // Private
-// MARK: Parameter Generation Implementations
-private extension Node {
-    func _parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
-        var parameters: Parameters = [:]
-        let writeToParameters: (String, Any) -> Void = { parameters[$0] = $1 }
-        self.parametersFrom(offset: offset, limit: limit).forEach(writeToParameters)
-        self.parametersFrom(filters: filters).forEach(writeToParameters)
-        return parameters
-    }
-    
-    func _parametersFrom(offset: UInt, limit: UInt) -> Parameters {
-        return [
-            DefaultPagination.Keys.offset: offset,
-            DefaultPagination.Keys.limit: limit
-        ]
-    }
-}
-
-
-// MARK: Request URL Helper Implementations
-private extension Node {
-    func _relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
-        if let route: Route = self._routeMatching(resourceType: resourceType, routeType: routeType, method: method) {
-            return route.relativeURL
-        }
-        
-        fatalError(
-            "[DjangoConsumer.Node] No relative URL registered in '\(self)' for type " +
-            "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
-        )
-    }
-    
-    // Helper
-    func _routeMatching(resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> Route? {
-        return self.routes.first(where: {
-            $0.resourceType == resourceType &&
-            $0.routeType == routeType &&
-            $0.method == method
-        })
-    }
-}
-
-
-// MARK: List Response Helper Implementations
-private extension Node {
-    func _extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
-        let paginationType: Pagination.Type = self.paginationType(for: resourceType, with: method)
-        let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])
-        let objects: [T] = json[DefaultListResponseKeys.results].array!.map(T.init)
-        return (pagination, objects)
+        return DefaultNodeImplementations.extractListResponse(node: self, for: resourceType, with: method, from: json)
     }
 }
