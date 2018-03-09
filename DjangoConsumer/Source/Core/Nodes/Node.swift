@@ -16,14 +16,14 @@ import SwiftyJSON
 
 // MARK: // Public
 public protocol Node {
+    // SessionManager
+    var sessionManager: SessionManagerType { get }
+    
     // Basic Setup
     var baseURL: URL { get }
     
     // Routes
     var routes: [Route] { get }
-    
-    // SessionManager
-    var sessionManager: SessionManagerType { get }
     
     // Filtering
     func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType]
