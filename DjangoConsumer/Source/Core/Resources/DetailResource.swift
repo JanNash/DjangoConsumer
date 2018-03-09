@@ -30,8 +30,8 @@ public protocol IdentifiableResource: DetailResource {
 // MARK: - ResourceID
 // MARK: Struct Declaration
 public struct ResourceID<T: DetailResource> {
-    public init(_ id: String) { self.id = id }
-    public private(set) var id: String
+    public init(_ string: String) { self.string = id }
+    public private(set) var string: String
 }
 
 
