@@ -35,8 +35,8 @@ public extension DetailGettable where Self: NeedsNoAuth {
 
 
 // MARK: - DefaultDetailGettableImplementations
-struct DefaultDetailGettableImplementations {
-    static func get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
+public struct DefaultDetailGettableImplementations {
+    public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
         self._get(detailGettable, from: node)
     }
 }
@@ -50,7 +50,7 @@ private extension DefaultDetailGettableImplementations {
         let url: URL = node.absoluteURL(for: detailGettable, method: method)
         
         func onSuccess(_ json: JSON) {
-            let newSelf: T = T.init(json: json)
+            let newSelf: T = T(json: json)
             T.detailGettableClients.forEach({ $0.gotObject(newSelf, for: detailGettable, from: node)})
             detailGettable.gotNewSelf(newSelf, from: node)
         }
