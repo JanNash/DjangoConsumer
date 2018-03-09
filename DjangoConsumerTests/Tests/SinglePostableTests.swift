@@ -37,7 +37,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: ResourceID("")).post()
+        FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -53,7 +53,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: ResourceID("")).post(to: injectedNode)
+        FixtureType().post(to: injectedNode)
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -65,9 +65,9 @@ class SinglePostableTests: BaseTest {
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
         
-        let singlePostable: FixtureType = FixtureType(id: ResourceID(""))
+        let singlePostable: FixtureType = FixtureType()
         
-        let expectedURL: URL = expectedNode.absoluteURL(for: singlePostable, method: .post)
+        let expectedURL: URL = expectedNode.absoluteURL(for: type(of: singlePostable), routeType: .detail, method: .post)
         
         expectedSessionManager.handleRequest = { cfg, _ in
             XCTAssertEqual(cfg.url, expectedURL)
@@ -93,21 +93,21 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: ResourceID("")).post()
+        FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableParameters1() {
         let id: String = "123456"
-        let singlePostable: FixtureType = FixtureType(id: ResourceID(id))
+        let singlePostable: FixtureType = FixtureType()
         
         guard let parametersFromObject: [String : String] = singlePostable.toParameters() as? [String : String] else {
             XCTFail("Expected singlePostable.toParameters() to be of type [String : String]")
             return
         }
         
-        let expectedParameters: [String : String] = [FixtureType.Keys.id : id]
+        let expectedParameters: [String : String] = [:]
         
         XCTAssertEqual(parametersFromObject, expectedParameters)
     }
@@ -120,7 +120,7 @@ class SinglePostableTests: BaseTest {
         )
         
         let id: String = "123456"
-        let expectedParameters: [String : String] = [FixtureType.Keys.id : id]
+        let expectedParameters: [String : String] = [:]
         
         expectedSessionManager.handleRequest = { cfg, _ in
             expectation.fulfill()
@@ -133,7 +133,7 @@ class SinglePostableTests: BaseTest {
             XCTAssertEqual(expectedParameters, parameters)
         }
         
-        FixtureType(id: ResourceID(id)).post()
+        FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -150,7 +150,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: ResourceID("")).post()
+        FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -167,7 +167,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: ResourceID("")).post()
+        FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -186,7 +186,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: ResourceID("")).post()
+        FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -205,7 +205,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: ResourceID("")).post()
+        FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
