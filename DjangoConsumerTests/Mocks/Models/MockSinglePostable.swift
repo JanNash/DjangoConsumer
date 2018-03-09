@@ -37,6 +37,6 @@ struct MockSinglePostable: SinglePostable, IdentifiableResource, NeedsNoAuth {
     static var singlePostableClients: [SinglePostableClient] = []
     
     func toParameters() -> Parameters {
-        return [Keys.id : self.id]
+        return [Keys.id : self.id.string]
     }
 }
