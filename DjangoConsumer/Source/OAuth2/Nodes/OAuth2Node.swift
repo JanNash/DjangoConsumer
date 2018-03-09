@@ -33,21 +33,21 @@ public protocol OAuth2Node: Node {
 // MARK: Authentication Forwarding
 public extension OAuth2Node {
     public func authenticate(username: String, password: String) {
-        DefaultOAuth2NodeImplementations.authenticate(node: self, username: username, password: password)
+        DefaultImplementations._OAuth2Node_.authenticate(node: self, username: username, password: password)
     }
     
     public func refreshAuthentication() {
-        DefaultOAuth2NodeImplementations.refreshAuthentication(node: self)
+        DefaultImplementations._OAuth2Node_.refreshAuthentication(node: self)
     }
     
     public func endAuthentication() {
-        DefaultOAuth2NodeImplementations.endAuthentication(node: self)
+        DefaultImplementations._OAuth2Node_.endAuthentication(node: self)
     }
 }
 
 
-// MARK: - DefaultOAuth2NodeImplementations
-public struct DefaultOAuth2NodeImplementations {
+// MARK: - DefaultImplementations._OAuth2Node_
+public extension DefaultImplementations._OAuth2Node_ {
     public static func authenticate(node: OAuth2Node, username: String, password: String) {
         self._authenticate(node: node, username: username, password: password)
     }
@@ -63,7 +63,7 @@ public struct DefaultOAuth2NodeImplementations {
 
 
 // MARK: // Private
-private extension DefaultOAuth2NodeImplementations {
+private extension DefaultImplementations._OAuth2Node_ {
     static func _authenticate(node: OAuth2Node, username: String, password: String) {
         node.oauth2Handler.requestTokens(
             username: username,
