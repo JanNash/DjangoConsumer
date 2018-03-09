@@ -17,9 +17,7 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: - DetailResource
-public protocol DetailResource {
-    var detailURI: DetailURI<Self> { get }
-}
+public protocol DetailResource: MetaResource {}
 
 
 // MARK: - DetailURI

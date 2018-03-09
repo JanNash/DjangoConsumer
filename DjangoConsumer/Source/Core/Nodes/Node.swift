@@ -15,10 +15,12 @@ import SwiftyJSON
 
 
 // MARK: // Public
-// MARK: Protocol Declaration
 public protocol Node {
     // Basic Setup
     var baseURL: URL { get }
+    
+    // Routes
+    var routes: [Route] { get }
     
     // SessionManager
     var sessionManager: SessionManagerType { get }
@@ -31,23 +33,18 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [FilterType]) -> Parameters
     
-    // List Request and Response Helpers
-    func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
-    func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL
+    // Request URL Helpers
+    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
+    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
+    func relativeURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
     
-    // List GET Request and Response Helpers
+    // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
-    func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
-    func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
     
-    // Detail Request and Response Helpers
-    func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
-    func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
-    func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL
-    
-    // Single POST Request and Response Helpers
-    func relativeSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL
-    func absoluteSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL
+    // List Response Helpers
+    func paginationType<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type
+    func extractListResponse<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T])
 }
 
 
@@ -83,52 +80,36 @@ public extension Node {
 }
 
 
-// MARK: List Request and Response Helpers
+// MARK: Request URL Helpers
 public extension Node {
-    func absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
-        return self._absoluteListURL(for: resourceType, method: method)
+    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+        return self._relativeURL(for: resourceType, routeType: routeType, method: method)
+    }
+    
+    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(self.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
+    }
+    
+    func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
     }
 }
 
 
-// MARK: List GET Request and Response Helpers
+// MARK: List Response Helpers
 public extension Node {
-    func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type {
+    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type {
         return DefaultPagination.self
     }
     
-    func extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
-        return self._extractListResponse(for: resourceType, from: json)
-    }
-}
-
-
-// MARK: Detail Request and Response Helpers
-public extension Node {
-    func relativeDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
-        return resource.detailURI.url
-    }
-    
-    func absoluteDetailURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
-        return self.baseURL.appendingPathComponent(self.relativeDetailURL(for: resource, method: method).absoluteString)
-    }
-    
-    func absoluteDetailURL<T>(for detailURI: DetailURI<T>, method: HTTPMethod) -> URL {
-        return self.baseURL.appendingPathComponent(detailURI.url.absoluteString)
-    }
-}
-
-
-// MARK: Single POST Request and Response Helpers
-public extension Node {
-    func absoluteSinglePOSTURL<T: SinglePostable>(for resourceType: T.Type) -> URL {
-        return self.baseURL.appendingPathComponent(self.relativeSinglePOSTURL(for: resourceType).absoluteString)
+    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+        return self._extractListResponse(for: resourceType, with: method, from: json)
     }
 }
 
 
 // MARK: // Private
-// MARK: Parameter Generation Implementation
+// MARK: Parameter Generation Implementations
 private extension Node {
     func _parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
         var parameters: Parameters = [:]
@@ -147,22 +128,36 @@ private extension Node {
 }
 
 
-// MARK: List Request and Response Helper Implementations
+// MARK: Request URL Helper Implementations
 private extension Node {
-    func _absoluteListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
-        let relativeURL: URL = self.relativeListURL(for: resourceType, method: method)
-        return self.baseURL.appendingPathComponent(relativeURL.absoluteString)
+    func _relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+        if let route: Route = self._routeMatching(resourceType: resourceType, routeType: routeType, method: method) {
+            return route.relativeURL
+        }
+        
+        fatalError(
+            "[DjangoConsumer.Node] No relative URL registered in '\(self)' for type " +
+            "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
+        )
+    }
+    
+    // Helper
+    func _routeMatching(resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> Route? {
+        return self.routes.first(where: {
+            $0.resourceType == resourceType &&
+            $0.routeType == routeType &&
+            $0.method == method
+        })
     }
 }
 
 
-// MARK: List GET Request and Response Helper Implementations
+// MARK: List Response Helper Implementations
 private extension Node {
-    func _extractListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
-        let paginationType: Pagination.Type = self.paginationType(for: resourceType)
+    func _extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+        let paginationType: Pagination.Type = self.paginationType(for: resourceType, with: method)
         let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])
         let objects: [T] = json[DefaultListResponseKeys.results].array!.map(T.init)
         return (pagination, objects)
     }
 }
-

@@ -48,7 +48,7 @@ extension DetailGettable {
 private extension DetailGettable {
     func _get(from node: Node) {
         let method: HTTPMethod = .get
-        let url: URL = node.absoluteDetailURL(for: self, method: method)
+        let url: URL = node.absoluteURL(for: self, method: method)
         
         func onSuccess(_ json: JSON) {
             let newSelf: Self = .init(json: json)

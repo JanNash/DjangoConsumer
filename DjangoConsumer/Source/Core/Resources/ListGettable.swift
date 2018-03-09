@@ -46,7 +46,7 @@ extension ListGettable {
 private extension ListGettable {
     static func _get(from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
         let method: HTTPMethod = .get
-        let url: URL = node.absoluteListURL(for: self, method: method)
+        let url: URL = node.absoluteURL(for: self, routeType: .list, method: method)
         
         let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: self)
         
@@ -61,7 +61,7 @@ private extension ListGettable {
         let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: allFilters)
         
         func onSuccess(_ json: JSON) {
-            let (pagination, objects): (Pagination, [Self]) = node.extractListResponse(for: self, from: json)
+            let (pagination, objects): (Pagination, [Self]) = node.extractListResponse(for: self, with: method, from: json)
             let success: GETObjectListSuccess = GETObjectListSuccess(
                 node: node, responsePagination: pagination, offset: offset, limit: limit, filters: allFilters
             )
