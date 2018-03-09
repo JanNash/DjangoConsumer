@@ -14,4 +14,5 @@ public struct DefaultImplementations {
     public struct _Node_ {}
     public struct _DetailGettable_ {}
     public struct _ResourceID_ {}
+    public struct _ListGettable_ {}
 }

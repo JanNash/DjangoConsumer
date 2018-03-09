@@ -27,15 +27,15 @@ public protocol ListGettable: ListResource {
 // MARK: where Self: NeedsNoAuth
 public extension ListGettable where Self: NeedsNoAuth {
     static func get(from node: Node? = nil, offset: UInt = 0, limit: UInt = 0) {
-        DefaultListGettableImplementations.get(
+        DefaultImplementations._ListGettable_.get(
             self, from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false
         )
     }
 }
 
 
-// MARK: - DefaultListGettableImplementations
-public struct DefaultListGettableImplementations {
+// MARK: - DefaultImplementations._ListGettable_
+public extension DefaultImplementations._ListGettable_ {
     public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
         self._get(listGettableType, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
@@ -43,7 +43,7 @@ public struct DefaultListGettableImplementations {
 
 
 // MARK: // Private
-private extension DefaultListGettableImplementations {
+private extension DefaultImplementations._ListGettable_ {
     static func _get<T: ListGettable>(_ l: T.Type, from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
         let method: HTTPMethod = .get
         let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
