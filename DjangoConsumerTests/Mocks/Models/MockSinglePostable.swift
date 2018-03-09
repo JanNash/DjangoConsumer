@@ -14,9 +14,9 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockSinglePostable: SinglePostable, NeedsNoAuth {
+struct MockSinglePostable: SinglePostable, IdentifiableResource, NeedsNoAuth {
     // Init
-    init(id: String) {
+    init(id: ResourceID<MockSinglePostable>) {
         self.id = id
     }
     
@@ -26,17 +26,17 @@ struct MockSinglePostable: SinglePostable, NeedsNoAuth {
     }
     
     // Variables
-    private(set) var id: String = "0"
+    private(set) var id: ResourceID<MockSinglePostable>
     
     // SinglePostable
     init(json: JSON) {
-        self.id = json[Keys.id].string!
+        self.id = ResourceID<MockSinglePostable>(json[Keys.id].string!)
     }
     
     static var defaultNode: Node = MockNode.main
     static var singlePostableClients: [SinglePostableClient] = []
     
     func toParameters() -> Parameters {
-        return [Keys.id : self.id]
+        return [Keys.id : self.id.string]
     }
 }

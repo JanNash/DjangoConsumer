@@ -16,14 +16,14 @@ import SwiftyJSON
 
 // MARK: // Public
 public protocol Node {
+    // SessionManager
+    var sessionManager: SessionManagerType { get }
+    
     // Basic Setup
     var baseURL: URL { get }
     
     // Routes
     var routes: [Route] { get }
-    
-    // SessionManager
-    var sessionManager: SessionManagerType { get }
     
     // Filtering
     func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType]
@@ -49,8 +49,8 @@ public protocol Node {
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     
     // List Response Helpers
-    func paginationType<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type
-    func extractListResponse<T: ListResource>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T])
+    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type
+    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T])
 }
 
 

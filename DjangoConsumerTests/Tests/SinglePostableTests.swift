@@ -34,7 +34,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: "").post()
+        FixtureType(id: ResourceID("")).post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -50,7 +50,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: "").post(to: injectedNode)
+        FixtureType(id: ResourceID("")).post(to: injectedNode)
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -62,9 +62,9 @@ class SinglePostableTests: BaseTest {
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
         
-        let singlePostable: FixtureType = FixtureType(id: "")
+        let singlePostable: FixtureType = FixtureType(id: ResourceID(""))
         
-        let expectedURL: URL = expectedNode.absoluteSinglePOSTURL(for: type(of: singlePostable))
+        let expectedURL: URL = expectedNode.absoluteURL(for: singlePostable, method: .post)
         
         expectedSessionManager.handleRequest = { cfg, _ in
             XCTAssertEqual(cfg.url, expectedURL)
@@ -90,14 +90,14 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: "").post()
+        FixtureType(id: ResourceID("")).post()
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableParameters1() {
         let id: String = "123456"
-        let singlePostable: FixtureType = FixtureType(id: id)
+        let singlePostable: FixtureType = FixtureType(id: ResourceID(id))
         
         guard let parametersFromObject: [String : String] = singlePostable.toParameters() as? [String : String] else {
             XCTFail("Expected singlePostable.toParameters() to be of type [String : String]")
@@ -130,7 +130,7 @@ class SinglePostableTests: BaseTest {
             XCTAssertEqual(expectedParameters, parameters)
         }
         
-        FixtureType(id: id).post()
+        FixtureType(id: ResourceID(id)).post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -147,7 +147,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: "").post()
+        FixtureType(id: ResourceID("")).post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -164,7 +164,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: "").post()
+        FixtureType(id: ResourceID("")).post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -183,7 +183,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: "").post()
+        FixtureType(id: ResourceID("")).post()
         
         self.waitForExpectations(timeout: 0.1)
     }
@@ -202,7 +202,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType(id: "").post()
+        FixtureType(id: ResourceID("")).post()
         
         self.waitForExpectations(timeout: 0.1)
     }

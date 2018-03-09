@@ -21,25 +21,21 @@ class MockNode: Node {
     static let main: MockNode = MockNode()
     
     // Node Conformance
-    // Basic Setup
-    var baseURL: URL = URL(string: "http://localhost:8080")!
-    
     // SessionManager
     let sessionManager: SessionManagerType = TestSessionManager()
+    
+    // Base URL
+    var baseURL: URL = URL(string: "http://localhost:8080")!
+    
+    // Routes
+    var routes: [Route] = [
+        Route(MockListGettable.self, .list, .get, "listgettables/"),
+        Route(MockSinglePostable.self, .detail, .post, "singlepostables/"),
+    ]
     
     // Pagination
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
         return 1000
-    }
-    
-    // List GET endpoints
-    func relativeListURL<T: ListResource>(for resourceType: T.Type, method: HTTPMethod) -> URL {
-        return self._relativeListURL(for: resourceType, method: method)
-    }
-    
-    // Single POST endpoints
-    func relativeSinglePOSTURL<T>(for resourceType: T.Type) -> URL where T : SinglePostable {
-        return self._relativeSinglePOSTURL(for: resourceType)
     }
 }
 
