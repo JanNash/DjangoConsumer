@@ -33,11 +33,21 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [FilterType]) -> Parameters
     
-    // Request URL Helpers
+    // MetaResource.Type URLs
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
+    
+    // DetailResource URLs
     func relativeURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
     func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
+    
+    // IdentifiableResource URLs
+    func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
+    
+    // ResourceID URLs
+    func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL
+    func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL
     
     // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
@@ -82,6 +92,7 @@ public extension Node {
 
 // MARK: Request URL Helpers
 public extension Node {
+    // MetaResource.Type URLs
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
         return self._relativeURL(for: resourceType, routeType: routeType, method: method)
     }
@@ -90,8 +101,28 @@ public extension Node {
         return self.baseURL.appendingPathComponent(self.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
     }
     
+    // DetailResource URLs
     func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
         return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
+    }
+    
+    // IdentifiableResource URLs
+    func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
+        return self.relativeURL(for: T.self, method: method).appendingPathComponent(resource.id.string)
+    }
+    
+    func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
+    }
+    
+    // ResourceID URLs
+    func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL {
+        return self.relativeURL(for: T.self, method: .get)
+    }
+    
+    // ResourceID URLs
+    func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL {
+        return self.absoluteURL(for: T.self, routeType: .detail, method: .get).appendingPathComponent(resourceID.string)
     }
 }
 

@@ -20,20 +20,24 @@ import Alamofire_SwiftyJSON
 public protocol DetailResource: MetaResource {}
 
 
-// MARK: - DetailURI
+// MARK: - IdentifiableResource
+// ???: Does this have to be a refinement of DetailResource
+public protocol IdentifiableResource: DetailResource {
+    var id: ResourceID<Self> { get }
+}
+
+
+// MARK: - ResourceID
 // MARK: Struct Declaration
-public struct DetailURI<T: DetailResource> {
-    public init(_ path: String) {
-        self.url = URL(string: path)!
-    }
-    
-    public private(set) var url: URL
+public struct ResourceID<T: DetailResource> {
+    public init(_ string: String) { self.string = id }
+    public private(set) var string: String
 }
 
 
 // MARK: Default Implementations
 // MARK: where T: DetailGettable & NeedsNoAuth
-public extension DetailURI where T: DetailGettable & NeedsNoAuth {
+public extension ResourceID where T: DetailGettable & NeedsNoAuth {
     func get(from node: Node = T.defaultNode) {
         self._get(from: node)
     }
@@ -42,7 +46,7 @@ public extension DetailURI where T: DetailGettable & NeedsNoAuth {
 
 // MARK: // Internal
 // MARK: Common GET function
-extension DetailURI where T: DetailGettable {
+extension ResourceID where T: DetailGettable {
     func get_(from node: Node) {
         self._get(from: node)
     }
@@ -51,10 +55,10 @@ extension DetailURI where T: DetailGettable {
 
 // MARK: // Private
 // MARK: where T: DetailGettable
-private extension DetailURI where T: DetailGettable {
+private extension ResourceID where T: DetailGettable {
     func _get(from node: Node) {
         let method: HTTPMethod = .get
-        let url: URL = node.absoluteDetailURL(for: self, method: method)
+        let url: URL = node.absoluteGETURL(for: self)
 
         func onSuccess(_ json: JSON) {
             let object: T = T.init(json: json)
