@@ -28,39 +28,37 @@ public protocol SinglePostable: DetailResource {
 // MARK: where Self: NeedsNoAuth
 public extension SinglePostable where Self: NeedsNoAuth {
     func post(to node: Node? = nil) {
-        self.post_(to: node ?? Self.defaultNode)
+        DefaultImplementations._SinglePostable_.post(self, to: node ?? Self.defaultNode)
     }
 }
 
 
-// MARK: // Internal
-// MARK: Shared GET function
-extension SinglePostable {
-    func post_(to node: Node) {
-        self._post(to: node)
+// MARK: - DefaultImplementations._SinglePostable_
+public extension DefaultImplementations._SinglePostable_ {
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node) {
+        self._post(singlePostable, to: node)
     }
 }
 
 
 // MARK: // Private
-// MARK: GET function Implementation
-private extension SinglePostable {
-    func _post(to node: Node) {
+private extension DefaultImplementations._SinglePostable_ {
+    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node) {
         let method: HTTPMethod = .post
-        let url: URL = node.absoluteURL(for: self, method: method)
-        let parameters: Parameters = self.toParameters()
+        let url: URL = node.absoluteURL(for: singlePostable, method: method)
+        let parameters: Parameters = singlePostable.toParameters()
         let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
-            Self.singlePostableClients.forEach({ $0.postedObject(self, responseObject: .init(json: json), to: node)})
+            T.singlePostableClients.forEach({ $0.postedObject(singlePostable, responseObject: T.init(json: json), to: node)})
         }
         
         func onFailure(_ error: Error) {
-            Self.singlePostableClients.forEach({ $0.failedPostingObject(self, to: node, with: error) })
+            T.singlePostableClients.forEach({ $0.failedPostingObject(singlePostable, to: node, with: error) })
         }
         
         node.sessionManager.fireJSONRequest(
-            cfg: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding) ,
+            cfg: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
             responseHandling: ResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

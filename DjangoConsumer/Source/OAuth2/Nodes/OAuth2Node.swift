@@ -33,44 +33,59 @@ public protocol OAuth2Node: Node {
 // MARK: Authentication Forwarding
 public extension OAuth2Node {
     public func authenticate(username: String, password: String) {
-        self._authenticate(username: username, password: password)
+        DefaultImplementations._OAuth2Node_.authenticate(node: self, username: username, password: password)
     }
     
     public func refreshAuthentication() {
-        self._refreshAuthentication()
+        DefaultImplementations._OAuth2Node_.refreshAuthentication(node: self)
     }
     
     public func endAuthentication() {
-        self._endAuthentication()
+        DefaultImplementations._OAuth2Node_.endAuthentication(node: self)
+    }
+}
+
+
+// MARK: - DefaultImplementations._OAuth2Node_
+public extension DefaultImplementations._OAuth2Node_ {
+    public static func authenticate(node: OAuth2Node, username: String, password: String) {
+        self._authenticate(node: node, username: username, password: password)
+    }
+    
+    public static func refreshAuthentication(node: OAuth2Node) {
+        self._refreshAuthentication(node: node)
+    }
+    
+    public static func endAuthentication(node: OAuth2Node) {
+        self._endAuthentication(node: node)
     }
 }
 
 
 // MARK: // Private
-// MARK: Authentication Forwarding Implementations
-private extension OAuth2Node {
-    func _authenticate(username: String, password: String) {
-        self.oauth2Handler.requestTokens(
+private extension DefaultImplementations._OAuth2Node_ {
+    static func _authenticate(node: OAuth2Node, username: String, password: String) {
+        node.oauth2Handler.requestTokens(
             username: username,
             password: password,
-            success: { self.oauth2Clients.forEach({ $0.authenticated(node: self) }) },
+            success: { node.oauth2Clients.forEach({ $0.authenticated(node: node) }) },
             failure: { error in
-                self.oauth2Clients.forEach({ $0.failedAuthenticating(node: self, with: error) })
+                node.oauth2Clients.forEach({ $0.failedAuthenticating(node: node, with: error) })
             }
         )
     }
     
-    func _refreshAuthentication() {
-        self.oauth2Handler.refreshTokens(
-            success: { self.oauth2Clients.forEach({ $0.refreshedAuthentication(for: self) }) },
+    static func _refreshAuthentication(node: OAuth2Node) {
+        node.oauth2Handler.refreshTokens(
+            success: { node.oauth2Clients.forEach({ $0.refreshedAuthentication(for: node) }) },
             failure: { error in
-                self.oauth2Clients.forEach({ $0.failedRefreshingAuthenticaiton(for: self, with: error) })
+                node.oauth2Clients.forEach({ $0.failedRefreshingAuthenticaiton(for: node, with: error) })
             }
         )
     }
     
-    func _endAuthentication() {
-        self.oauth2Handler.revokeTokens()
-        self.oauth2Clients.forEach({ $0.endedAuthentication(for: self) })
+    static func _endAuthentication(node: OAuth2Node) {
+        node.oauth2Handler.revokeTokens()
+        node.oauth2Clients.forEach({ $0.endedAuthentication(for: node) })
     }
 }

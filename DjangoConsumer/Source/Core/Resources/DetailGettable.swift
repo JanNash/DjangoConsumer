@@ -29,36 +29,35 @@ public protocol DetailGettable: DetailResource {
 // MARK: where Self: NeedsNoAuth
 public extension DetailGettable where Self: NeedsNoAuth {
     func get(from node: Node? = nil) {
-        self._get(from: node ?? Self.defaultNode)
+        DefaultImplementations._DetailGettable_.get(self, from: node ?? Self.defaultNode)
     }
 }
 
 
-// MARK: // Internal
-// MARK: Shared GET function
-extension DetailGettable {
-    func get_(from node: Node) {
-        self._get(from: node)
+// MARK: - DefaultImplementations._DetailGettable_
+public extension DefaultImplementations._DetailGettable_ {
+    public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
+        self._get(detailGettable, from: node)
     }
 }
 
 
 // MARK: // Private
 // MARK: GET function Implementation
-private extension DetailGettable {
-    func _get(from node: Node) {
+private extension DefaultImplementations._DetailGettable_ {
+    static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
         let method: HTTPMethod = .get
-        let url: URL = node.absoluteURL(for: self, method: method)
+        let url: URL = node.absoluteURL(for: detailGettable, method: method)
         
         func onSuccess(_ json: JSON) {
-            let newSelf: Self = .init(json: json)
-            Self.detailGettableClients.forEach({ $0.gotObject(newSelf, for: self, from: node)})
-            self.gotNewSelf(newSelf, from: node)
+            let newSelf: T = T(json: json)
+            T.detailGettableClients.forEach({ $0.gotObject(newSelf, for: detailGettable, from: node)})
+            detailGettable.gotNewSelf(newSelf, from: node)
         }
         
         func onFailure(_ error: Error) {
-            Self.detailGettableClients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
-            self.failedGettingNewSelf(from: node, with: error)
+            T.detailGettableClients.forEach({ $0.failedGettingObject(for: detailGettable, from: node, with: error) })
+            detailGettable.failedGettingNewSelf(from: node, with: error)
         }
         
         node.sessionManager.fireJSONRequest(

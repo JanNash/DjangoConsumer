@@ -15,13 +15,3 @@ import Foundation
 // MARK: // Public
 // MARK: - ListResource
 public protocol ListResource: MetaResource {}
-
-
-// MARK: - DetailURI
-public struct ListURI<T: ListResource> {
-    public init(_ path: String) {
-        self.url = URL(string: path)!
-    }
-    
-    public private(set) var url: URL
-}

@@ -39,34 +39,34 @@ public struct ResourceID<T: DetailResource> {
 // MARK: where T: DetailGettable & NeedsNoAuth
 public extension ResourceID where T: DetailGettable & NeedsNoAuth {
     func get(from node: Node = T.defaultNode) {
-        self._get(from: node)
+        DefaultImplementations._ResourceID_.getResource(withID: self, from: node)
     }
 }
 
 
-// MARK: // Internal
-// MARK: Common GET function
-extension ResourceID where T: DetailGettable {
-    func get_(from node: Node) {
-        self._get(from: node)
+// MARK: - DefaultImplementations._ResourceID_
+// MARK: where T: DetailGettable
+public extension DefaultImplementations._ResourceID_ {
+    public static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node) {
+        self._getResource(withID: resourceID, from: node)
     }
 }
 
 
 // MARK: // Private
 // MARK: where T: DetailGettable
-private extension ResourceID where T: DetailGettable {
-    func _get(from node: Node) {
+private extension DefaultImplementations._ResourceID_ {
+    static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node) {
+        let url: URL = node.absoluteGETURL(for: resourceID)
         let method: HTTPMethod = .get
-        let url: URL = node.absoluteGETURL(for: self)
 
         func onSuccess(_ json: JSON) {
-            let object: T = T.init(json: json)
-            T.detailGettableClients.forEach({ $0.gotObject(object, for: self, from: node)})
+            let object: T = T(json: json)
+            T.detailGettableClients.forEach({ $0.gotObject(object, for: resourceID, from: node)})
         }
         
         func onFailure(_ error: Error) {
-            T.detailGettableClients.forEach({ $0.failedGettingObject(for: self, from: node, with: error) })
+            T.detailGettableClients.forEach({ $0.failedGettingObject(for: resourceID, from: node, with: error) })
         }
         
         node.sessionManager.fireJSONRequest(
