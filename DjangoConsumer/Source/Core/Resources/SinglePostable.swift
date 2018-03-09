@@ -45,7 +45,7 @@ public extension DefaultImplementations._SinglePostable_ {
 private extension DefaultImplementations._SinglePostable_ {
     static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node) {
         let method: HTTPMethod = .post
-        let url: URL = node.absoluteURL(for: singlePostable, method: method)
+        let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
         let parameters: Parameters = singlePostable.toParameters()
         let encoding: ParameterEncoding = JSONEncoding.default
         
