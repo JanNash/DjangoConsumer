@@ -108,16 +108,11 @@ public extension Node {
     
     // IdentifiableResource URLs
     func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
-        return self.relativeURL(for: T.self, method: method).appendingPathComponent(resource.id.string)
+        return self.relativeURL(for: T.self, routeType: .detail, method: method).appendingPathComponent(resource.id.string)
     }
     
     func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
         return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
-    }
-    
-    // ResourceID URLs
-    func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL {
-        return self.relativeURL(for: T.self, method: .get)
     }
     
     // ResourceID URLs
