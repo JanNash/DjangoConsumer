@@ -64,7 +64,7 @@ class SinglePostableTests: BaseTest {
         
         let singlePostable: FixtureType = FixtureType(id: "")
         
-        let expectedURL: URL = expectedNode.absoluteSinglePOSTURL(for: type(of: singlePostable))
+        let expectedURL: URL = expectedNode.absoluteURL(for: singlePostable, method: .post)
         
         expectedSessionManager.handleRequest = { cfg, _ in
             XCTAssertEqual(cfg.url, expectedURL)
