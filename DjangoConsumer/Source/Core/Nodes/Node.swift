@@ -46,6 +46,7 @@ public protocol Node {
     func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
     
     // ResourceID URLs
+    func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL
     func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL
     
     // List GET Request Helpers
@@ -112,6 +113,11 @@ public extension Node {
     
     func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
         return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
+    }
+    
+    // ResourceID URLs
+    func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL {
+        return self.relativeURL(for: T.self, method: .get)
     }
     
     // ResourceID URLs
