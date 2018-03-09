@@ -17,6 +17,8 @@ import Alamofire
 // MARK: where Self: NeedsOAuth2
 extension ListGettable where Self: NeedsOAuth2 {
     static func get(from node: OAuth2Node? = nil, offset: UInt = 0, limit: UInt = 0) {
-        self.get_(from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false)
+        DefaultListGettableImplementations.get(
+            self, from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false
+        )
     }
 }

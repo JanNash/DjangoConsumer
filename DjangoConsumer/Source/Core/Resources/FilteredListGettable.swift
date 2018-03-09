@@ -27,6 +27,8 @@ public protocol FilteredListGettable: ListGettable {
 // MARK: where Self: NeedsNoAuth
 public extension FilteredListGettable where Self: NeedsNoAuth {
     static func get(from node: Node? = nil, offset: UInt = 0, limit: UInt = 0, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
-        self.get_(from: node ?? self.defaultNode, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
+        DefaultListGettableImplementations.get(
+            self, from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false
+        )
     }
 }
