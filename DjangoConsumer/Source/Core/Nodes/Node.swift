@@ -41,6 +41,9 @@ public protocol Node {
     func relativeURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
     func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL
     
+    // IdentifiableResource URLs
+    func relativeURL<T: IdendtifiableResource>(for resource: T, method: HTTPMethod) -> URL
+    func absoluteURL<T: IdendtifiableResource>(for resource: T, method: HTTPMethod) -> URL
     // ResourceID URLs
     func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL
     
@@ -98,6 +101,15 @@ public extension Node {
     
     // DetailResource URLs
     func absoluteURL<T: DetailResource>(for resource: T, method: HTTPMethod) -> URL {
+        return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
+    }
+    
+    // IdentifiableResource URLs
+    func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
+        return self.relativeURL(for: T.self, method: method).appendingPathComponent(resource.id.string)
+    }
+    
+    func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
         return self.baseURL.appendingPathComponent(self.relativeURL(for: resource, method: method).absoluteString)
     }
     
