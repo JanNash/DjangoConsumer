@@ -29,10 +29,8 @@ class MockNode: Node {
     
     // Routes
     var routes: [Route] = [
-        Route(MockListGettable.self, .detail, .get, "listgettables/"),
-        Route(MockListGettable.self, .detail, .post, "listgettables/"),
         Route(MockListGettable.self, .list, .get, "listgettables/"),
-        Route(MockListGettable.self, .list, .post, "listgettables/"),
+        Route(MockSinglePostable.self, .detail, .post, "singlepostables/"),
     ]
     
     // Pagination
