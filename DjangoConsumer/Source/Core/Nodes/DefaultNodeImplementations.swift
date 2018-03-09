@@ -115,8 +115,8 @@ private extension DefaultNodeImplementations {
     static func _routeMatching(resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod, in node: Node) -> Route? {
         return node.routes.first(where: {
             $0.resourceType == resourceType &&
-                $0.routeType == routeType &&
-                $0.method == method
+            $0.routeType == routeType &&
+            $0.method == method
         })
     }
 }
