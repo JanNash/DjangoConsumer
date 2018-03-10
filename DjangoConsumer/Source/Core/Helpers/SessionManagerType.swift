@@ -40,8 +40,16 @@ public struct RequestConfiguration {
 
 // MARK: - ResponseHandling
 public struct ResponseHandling {
-    public var onSuccess: (JSON) -> Void
-    public var onFailure: (Error) -> Void
+    // Inits
+    public init() {}
+    public init(onSuccess: @escaping (JSON) -> Void, onFailure: @escaping (Error) -> Void) {
+        self.onSuccess = onSuccess
+        self.onFailure = onFailure
+    }
+    
+    // Public Variables
+    public var onSuccess: (JSON) -> Void = { _ in }
+    public var onFailure: (Error) -> Void = { _ in }
 }
 
 
