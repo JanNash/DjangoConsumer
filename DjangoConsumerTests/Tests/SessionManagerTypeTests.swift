@@ -51,4 +51,18 @@ class TestSessionManagerTests: BaseTest {
         
         self.waitForExpectations(timeout: 0.1)
     }
+    
+    func testResettingHandlers() {
+        let sessionManager: TestSessionManager = TestSessionManager()
+        
+        sessionManager.receivedRequestConfig = { _ in }
+        sessionManager.createdRequest = { _ in }
+        sessionManager.mockResponse = { _, _ in }
+        
+        sessionManager.resetHandlers()
+        
+        XCTAssertNil(sessionManager.receivedRequestConfig)
+        XCTAssertNil(sessionManager.createdRequest)
+        XCTAssertNil(sessionManager.mockResponse)
+    }
 }
