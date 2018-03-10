@@ -16,13 +16,13 @@ import Alamofire
 // MARK: // Public
 // MARK: - TestSessionDelegate
 public class TestSessionDelegate: SessionDelegate {
-    // Fileprivate Variables
-    fileprivate var _receivedRequest: ((Request) -> Void)?
+    // Public Variables
+    public var receivedRequest: ((Request) -> Void)?
     
     // Subscript Override
     override public subscript(task: URLSessionTask) -> Request? {
         get { return nil }
-        set { if let newValue: Request = newValue { self._receivedRequest?(newValue) } }
+        set { if let newValue: Request = newValue { self.receivedRequest?(newValue) } }
     }
 }
 
@@ -32,15 +32,11 @@ public class TestSessionManager {
     // Public Init
     public init() {}
     
-    // Public Variables
-    public var requestHandedToDelegate: ((Request) -> Void)? {
-        get { return self._testDelegate._receivedRequest }
-        set { self._testDelegate._receivedRequest = newValue }
-    }
+    // Public Constants
+    public let testDelegate: TestSessionDelegate = TestSessionDelegate()
     
     // Private Constants
-    private let _testDelegate: TestSessionDelegate = TestSessionDelegate()
-    private lazy var _AF_sessionManager: SessionManager = .makeDefault(delegate: self._testDelegate, startsRequestsImmediately: false)
+    private lazy var _AF_sessionManager: SessionManager = .makeDefault(delegate: self.testDelegate, startsRequestsImmediately: false)
 }
 
 
