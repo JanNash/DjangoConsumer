@@ -61,7 +61,7 @@ public protocol SessionManagerType {
 
 // MARK: - Request Convenience Extension
 public extension Alamofire.DataRequest {
-    func handleJSONResponse(_ responseHandling: JSONResponseHandling) {
+    func handleJSONResponse(with responseHandling: JSONResponseHandling) {
         self.responseSwiftyJSON {
             switch $0.result {
             case let .success(result):

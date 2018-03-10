@@ -300,19 +300,24 @@ private extension OAuth2Handler {
     func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
-        self._sessionManager.fireJSONRequest(
-            cfg: RequestConfiguration(
+        let cfg: RequestConfiguration = {
+            RequestConfiguration(
                 url: url,
                 method: .post,
                 parameters: parameters,
                 encoding: URLEncoding.default,
                 headers: [basicAuthHeader.key : basicAuthHeader.value]
-            ),
-            responseHandling: JSONResponseHandling(
+            )
+        }()
+        
+        let responseHandling: JSONResponseHandling = {
+            JSONResponseHandling(
                 onSuccess: { self._handleSuccessfulTokenRequest(json: $0, updateStatus: updateStatus, success: success, failure: failure) },
                 onFailure: { self._handleFailedTokenRequest(error: $0, updateStatus: updateStatus, failure: failure) }
             )
-        )
+        }()
+        
+        self._sessionManager.request(with: cfg).handleJSONResponse(with: responseHandling)
     }
     
     func _handleSuccessfulTokenRequest(json: JSON, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
@@ -373,7 +378,7 @@ private extension OAuth2Handler {
             onFailure: { _ in }
         )
         
-        self._sessionManager.fireJSONRequest(cfg: requestConfiguration, responseHandling: responseHandling)
+        self._sessionManager.request(with: requestConfiguration).handleJSONResponse(with: responseHandling)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
         // instead of waiting for the request to receive a response. Is it though?
