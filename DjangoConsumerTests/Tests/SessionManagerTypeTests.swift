@@ -15,7 +15,24 @@ import DjangoConsumer
 
 
 // MARK: // Internal
-class TestSessionManagerTests: XCTestCase {
+// MARK: - AlamofireSessionManagerExtensionTests
+class AlamofireSessionManagerExtensionTests: BaseTest {
+    func testSessionManagerWithDefaultConfiguration() {
+        let sessionManager: SessionManager = .withDefaultConfiguration()
+        let configuration: URLSessionConfiguration = sessionManager.session.configuration
+        
+        guard let additionalHeaders: HTTPHeaders = configuration.httpAdditionalHeaders as? HTTPHeaders else {
+            XCTFail("Expected configuration.httpAdditionalHeaders to be of type 'Alamofire.HTTPHeaders'")
+            return
+        }
+        
+        XCTAssertEqual(additionalHeaders, SessionManager.defaultHTTPHeaders)
+    }
+}
+
+
+// MARK: - TestSessionManagerTests
+class TestSessionManagerTests: BaseTest {
     private let _fakeRequestConfig: RequestConfiguration = RequestConfiguration(url: URL(string: "http://example.com")!, method: .get)
     private let _fakeResponseHandling: ResponseHandling = ResponseHandling()
     

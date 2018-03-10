@@ -95,7 +95,7 @@ extension Alamofire.SessionManager: SessionManagerType {
 public extension Alamofire.SessionManager {
     public static func withDefaultConfiguration() -> Alamofire.SessionManager {
         // This is copied from the SessionManager implementation
-        let configuration = URLSessionConfiguration.default
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
         return SessionManager(configuration: configuration)
     }
