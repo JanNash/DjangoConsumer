@@ -39,7 +39,7 @@ public struct RequestConfiguration {
 
 
 // MARK: - ResponseHandling
-public struct ResponseHandling {
+public struct JSONResponseHandling {
     // Inits
     public init() {}
     public init(onSuccess: @escaping (JSON) -> Void, onFailure: @escaping (Error) -> Void) {
@@ -55,22 +55,6 @@ public struct ResponseHandling {
 
 // MARK: - SessionManagerType
 public protocol SessionManagerType {
-    func createRequest(from cfg: RequestConfiguration) -> DataRequest
-    func fireRequest(_ request: DataRequest, responseHandling: ResponseHandling)
-}
-
-
-// MARK: Default Implementations
-public extension SessionManagerType {
-    public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        DefaultImplementations._SessionManagerType_.fireJSONRequest(self, cfg: cfg, responseHandling: responseHandling)
-    }
-}
-
-
-// MARK: - DefaultImplementations._SessionManagerType_
-public extension DefaultImplementations._SessionManagerType_ {
-    public static func fireJSONRequest(_ sessionManager: SessionManagerType, cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        sessionManager.fireRequest(sessionManager.createRequest(from: cfg), responseHandling: responseHandling)
-    }
+    func request(with cfg: RequestConfiguration) -> DataRequest
+    func handleJSONResponse(for request: DataRequest, responseHandling: JSONResponseHandling)
 }
