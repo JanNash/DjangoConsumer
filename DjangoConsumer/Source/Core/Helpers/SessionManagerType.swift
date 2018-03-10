@@ -54,7 +54,7 @@ public struct JSONResponseHandling {
 
 
 // MARK: - SessionManagerType
-public protocol SessionManagerType {
+public protocol SessionManagerType: class {
     func request(with cfg: RequestConfiguration) -> DataRequest
 }
 
