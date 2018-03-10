@@ -43,8 +43,12 @@ public class TestSessionManager {
 
 // MARK: SessionManagerType
 extension TestSessionManager: SessionManagerType {
-    public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        self._fireJSONRequest(cfg: cfg, responseHandling: responseHandling)
+    public func createRequest(from cfg: RequestConfiguration) -> DataRequest {
+        return self._createRequest(from: cfg)
+    }
+    
+    public func fireRequest(_ request: DataRequest, responseHandling: ResponseHandling) {
+        self.mockResponse?(request, responseHandling)
     }
 }
 
@@ -52,11 +56,11 @@ extension TestSessionManager: SessionManagerType {
 // MARK: // Private
 // MARK: SessionManagerType Implementation
 private extension TestSessionManager/*: SessionManagerType*/ {
-    func _fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
+    func _createRequest(from cfg: RequestConfiguration) -> DataRequest {
         self.receivedRequestConfig?(cfg)
-        let request: DataRequest = self._AF_SessionManager.request(cfg: cfg)
+        let request: DataRequest = self._AF_SessionManager.createRequest(from: cfg)
         self.createdRequest?(request)
-        self.mockResponse?(request, responseHandling)
+        return request
     }
 }
 
