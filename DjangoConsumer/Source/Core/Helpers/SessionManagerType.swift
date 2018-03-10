@@ -55,6 +55,31 @@ public struct JSONResponseHandling {
 
 // MARK: - SessionManagerType
 public protocol SessionManagerType {
+    init(configuration: URLSessionConfiguration, delegate: SessionDelegate, serverTrustPolicyManager: ServerTrustPolicyManager?)
     func request(with cfg: RequestConfiguration) -> DataRequest
-    func handleJSONResponse(for request: DataRequest, responseHandling: JSONResponseHandling)
+}
+
+
+public extension SessionManagerType {
+    public static func makeDefault() -> Self {
+        // This is copied from the SessionManager implementation
+        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
+        return Self(configuration: configuration, delegate: SessionDelegate(), serverTrustPolicyManager: nil)
+    }
+}
+
+
+// MARK: - Request Convenience Extension
+public extension Alamofire.DataRequest {
+    func handleJSONResponse(_ responseHandling: JSONResponseHandling) {
+        self.responseSwiftyJSON {
+            switch $0.result {
+            case let .success(result):
+                responseHandling.onSuccess(result)
+            case let .failure(error):
+                responseHandling.onFailure(error)
+            }
+        }
+    }
 }
