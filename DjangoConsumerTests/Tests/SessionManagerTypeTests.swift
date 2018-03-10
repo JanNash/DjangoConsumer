@@ -1,5 +1,5 @@
 //
-//  TestSessionManagerTests.swift
+//  SessionManagerTypeTests.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 10.03.18.

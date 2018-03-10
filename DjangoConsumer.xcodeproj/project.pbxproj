@@ -28,7 +28,7 @@
 		5C7CF472BE5AF63CFB64BBA3F5AEF571 /* MockListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */; };
 		63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */; };
 		65AADAC7E454A9A05606D2841E1B334B /* NeedsNoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B16B5D99F638F04ED767777EB127CC /* NeedsNoAuth.swift */; };
-		882A905778F4B59288AB838085D8182D /* TestSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B20BA76CA3490B07F2676A6CB0C3AD /* TestSessionManagerTests.swift */; };
+		7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */; };
 		94F0BF27F8D93AC5513DF318216D5297 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301A7BFC91751C141E772D032A31C0A /* Pagination.swift */; };
 		99D46C6B74849127CA26E2909DE50695 /* SinglePostable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F736C83807239B57CC753ED914B53BB3 /* SinglePostable+OAuth2.swift */; };
 		9DA5BB4FC7FEEB550E67149B48FEEC79 /* MockListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */; };
@@ -69,7 +69,6 @@
 		132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettableClient.swift; sourceTree = "<group>"; };
 		13597ED957EA7C4148E68D16ED4E465B /* MetaResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaResource.swift; sourceTree = "<group>"; };
 		1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettable.swift; sourceTree = "<group>"; };
-		24B20BA76CA3490B07F2676A6CB0C3AD /* TestSessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSessionManagerTests.swift; sourceTree = "<group>"; };
 		26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
 		29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostable.swift; sourceTree = "<group>"; };
 		2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableClient.swift; sourceTree = "<group>"; };
@@ -98,6 +97,7 @@
 		9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2Node.swift; sourceTree = "<group>"; };
 		9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Handler.swift; sourceTree = "<group>"; };
 		A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTypeTests.swift; sourceTree = "<group>"; };
 		B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNode.swift; sourceTree = "<group>"; };
 		BC69A84EF0C7C8240AD5FEBA3F9485BC /* ListResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListResource.swift; sourceTree = "<group>"; };
 		BD3544C08905698C9261C19A40538C03 /* ListGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListGettable+OAuth2.swift"; sourceTree = "<group>"; };
@@ -231,8 +231,8 @@
 			isa = PBXGroup;
 			children = (
 				4483E4F025B67F9A65AFA6C06CE62659 /* BaseTest.swift */,
+				AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */,
 				360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */,
-				24B20BA76CA3490B07F2676A6CB0C3AD /* TestSessionManagerTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -632,8 +632,8 @@
 				C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */,
 				9F959BF0B75FAB192D1BB574B290A901 /* MockOAuth2NodeAuthClient.swift in Sources */,
 				C5252E609C992D95A9FDC45D386332A4 /* MockSinglePostable.swift in Sources */,
+				7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */,
 				63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */,
-				882A905778F4B59288AB838085D8182D /* TestSessionManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
