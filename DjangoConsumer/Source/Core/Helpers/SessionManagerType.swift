@@ -89,14 +89,3 @@ extension Alamofire.SessionManager: SessionManagerType {
         }
     }
 }
-
-
-// MARK: makeDefault
-public extension Alamofire.SessionManager {
-    public static func makeDefault() -> Alamofire.SessionManager {
-        // This is copied from the SessionManager implementation
-        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        return SessionManager(configuration: configuration)
-    }
-}

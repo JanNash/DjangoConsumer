@@ -28,6 +28,7 @@
 		5C7CF472BE5AF63CFB64BBA3F5AEF571 /* MockListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */; };
 		63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */; };
 		65AADAC7E454A9A05606D2841E1B334B /* NeedsNoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B16B5D99F638F04ED767777EB127CC /* NeedsNoAuth.swift */; };
+		724788139A6191BEA81B194930066CD1 /* SessionManager (makeDefault).swift in Sources */ = {isa = PBXBuildFile; fileRef = 63517F9A1590959431370576551504DC /* SessionManager (makeDefault).swift */; };
 		7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */; };
 		94F0BF27F8D93AC5513DF318216D5297 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301A7BFC91751C141E772D032A31C0A /* Pagination.swift */; };
 		99D46C6B74849127CA26E2909DE50695 /* SinglePostable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F736C83807239B57CC753ED914B53BB3 /* SinglePostable+OAuth2.swift */; };
@@ -82,6 +83,7 @@
 		562929C331A4A24D4775B847847831A8 /* DjangoConsumer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjangoConsumer.h; sourceTree = "<group>"; };
 		5B40455D60A26551AE94077196644292 /* Pods-DjangoConsumerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6331C6F2052A8B5FAA17CBBBCCCDE651 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63517F9A1590959431370576551504DC /* SessionManager (makeDefault).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager (makeDefault).swift"; sourceTree = "<group>"; };
 		6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2CredentialStore.swift; sourceTree = "<group>"; };
 		6F8042D5F51399BB3BA078D848DE1E6C /* DefaultImplementations+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultImplementations+OAuth2.swift"; sourceTree = "<group>"; };
 		712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Constants.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				8CE07F5A2A38E96F49D9E62D16845614 /* Clients */,
+				E5B0F2C1D3D6A2991AD1DE5C4D1B5977 /* Extensions */,
 				E2F99759188939C738994DF1DFA9B28D /* Helpers */,
 				F4216A7EEF6B1AE6943EEFD7A45D1EFA /* Nodes */,
 				C9AAC5B317FB80791ED5E90DC01742BE /* Resources */,
@@ -298,6 +301,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		DE08B3F5887EB82182246352FBB830D6 /* SessionManager */ = {
+			isa = PBXGroup;
+			children = (
+				63517F9A1590959431370576551504DC /* SessionManager (makeDefault).swift */,
+			);
+			path = SessionManager;
+			sourceTree = "<group>";
+		};
 		E2F99759188939C738994DF1DFA9B28D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,6 +317,14 @@
 				C9A80FEAC85E6904F4663E739B587472 /* SessionManagerType.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E5B0F2C1D3D6A2991AD1DE5C4D1B5977 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DE08B3F5887EB82182246352FBB830D6 /* SessionManager */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		E70994576A5EFDEF1035B6CEEB7E88B2 /* Source */ = {
@@ -611,6 +630,7 @@
 				94F0BF27F8D93AC5513DF318216D5297 /* Pagination.swift in Sources */,
 				E912FBEE5C47723A158B745B84A1F870 /* ResourceID+OAuth2.swift in Sources */,
 				AF0B9F5D0B3ADE02B23829D55976FBE0 /* Route.swift in Sources */,
+				724788139A6191BEA81B194930066CD1 /* SessionManager (makeDefault).swift in Sources */,
 				BD0207F557936C71DCCAD97E939DBD0F /* SessionManagerType.swift in Sources */,
 				99D46C6B74849127CA26E2909DE50695 /* SinglePostable+OAuth2.swift in Sources */,
 				36FB7694D0EC516AB7CD007226092BF4 /* SinglePostable.swift in Sources */,
