@@ -66,26 +66,3 @@ public extension SessionManagerType {
         self.fireRequest(self.createRequest(from: cfg), responseHandling: responseHandling)
     }
 }
-
-
-// MARK: - Alamofire.SessionManager Extensions
-// MARK: SessionManagerType
-extension Alamofire.SessionManager: SessionManagerType {
-    public func createRequest(from cfg: RequestConfiguration) -> DataRequest {
-        return self
-            .request(cfg.url, method: cfg.method, parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
-            .validate(statusCode: cfg.acceptableStatusCodes)
-            .validate(contentType: cfg.acceptableContentTypes)
-    }
-    
-    public func fireRequest(_ request: DataRequest, responseHandling: ResponseHandling) {
-        request.responseSwiftyJSON {
-            switch $0.result {
-            case let .success(result):
-                responseHandling.onSuccess(result)
-            case let .failure(error):
-                responseHandling.onFailure(error)
-            }
-        }
-    }
-}
