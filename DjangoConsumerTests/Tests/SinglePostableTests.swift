@@ -77,14 +77,14 @@ class SinglePostableTests: BaseTest {
         let expectedNode: MockNode = _FixtureType._mockDefaultNode
         let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .createdRequest of expectedSessionManager to be called"
+            description: "Expected .receivedRequestConfig of expectedSessionManager to be called"
         )
         
         let singlePostable: _FixtureType = _FixtureType()
         
         let expectedURL: URL = expectedNode.absoluteURL(for: type(of: singlePostable), routeType: .detail, method: .post)
         
-        expectedSessionManager.handleRequest = { cfg in
+        expectedSessionManager.receivedRequestConfig = { cfg in
             XCTAssertEqual(cfg.url, expectedURL)
             expectation.fulfill()
         }
@@ -98,12 +98,12 @@ class SinglePostableTests: BaseTest {
         let expectedNode: MockNode = _FixtureType._mockDefaultNode
         let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .receivedRequestConfig of expectedSessionManager to be called"
         )
         
         let expectedMethod: HTTPMethod = .post
         
-        expectedSessionManager.handleRequest = { cfg, _ in
+        expectedSessionManager.receivedRequestConfig = { cfg in
             XCTAssertEqual(cfg.method, expectedMethod)
             expectation.fulfill()
         }
@@ -130,13 +130,12 @@ class SinglePostableTests: BaseTest {
         let expectedNode: MockNode = _FixtureType._mockDefaultNode
         let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .receivedRequestConfig of expectedSessionManager to be called"
         )
         
-        let id: String = "123456"
         let expectedParameters: [String : String] = [:]
         
-        expectedSessionManager.handleRequest = { cfg, _ in
+        expectedSessionManager.receivedRequestConfig = { cfg in
             expectation.fulfill()
             
             guard let parameters: [String : String] = cfg.parameters as? [String : String] else {
@@ -156,10 +155,10 @@ class SinglePostableTests: BaseTest {
         let expectedNode: MockNode = _FixtureType._mockDefaultNode
         let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .receivedRequestConfig of expectedSessionManager to be called"
         )
         
-        expectedSessionManager.handleRequest = { cfg, _ in
+        expectedSessionManager.receivedRequestConfig = { cfg in
             XCTAssert(cfg.encoding is JSONEncoding)
             expectation.fulfill()
         }
@@ -173,10 +172,10 @@ class SinglePostableTests: BaseTest {
         let expectedNode: MockNode = _FixtureType._mockDefaultNode
         let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .receivedRequestConfig of expectedSessionManager to be called"
         )
         
-        expectedSessionManager.handleRequest = { cfg, _ in
+        expectedSessionManager.receivedRequestConfig = { cfg in
             XCTAssert(cfg.headers.isEmpty)
             expectation.fulfill()
         }
@@ -190,12 +189,12 @@ class SinglePostableTests: BaseTest {
         let expectedNode: MockNode = _FixtureType._mockDefaultNode
         let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .receivedRequestConfig of expectedSessionManager to be called"
         )
         
         let expectedAcceptableStatusCodes: [Int] = Array(200..<300)
         
-        expectedSessionManager.handleRequest = { cfg, _ in
+        expectedSessionManager.receivedRequestConfig = { cfg in
             XCTAssertEqual(cfg.acceptableStatusCodes, expectedAcceptableStatusCodes)
             expectation.fulfill()
         }
@@ -207,14 +206,14 @@ class SinglePostableTests: BaseTest {
     
     func testSinglePostableAcceptableContentTypes() {
         let expectedNode: MockNode = _FixtureType._mockDefaultNode
-        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .receivedRequestConfig of expectedSessionManager to be called"
         )
         
         let expectedAcceptableContentTypes: [String] = ["*/*"]
         
-        expectedSessionManager.handleRequest = { cfg, _ in
+        expectedSessionManager.receivedRequestConfig = { cfg in
             XCTAssertEqual(cfg.acceptableContentTypes, expectedAcceptableContentTypes)
             expectation.fulfill()
         }
