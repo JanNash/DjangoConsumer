@@ -71,7 +71,7 @@ private extension DefaultImplementations._ResourceID_ {
         
         node.sessionManager.fireJSONRequest(
             cfg: RequestConfiguration(url: url, method: method),
-            responseHandling: ResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+            responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
 }

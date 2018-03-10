@@ -38,7 +38,7 @@ public struct RequestConfiguration {
 }
 
 
-// MARK: - ResponseHandling
+// MARK: - JSONResponseHandling
 public struct JSONResponseHandling {
     // Inits
     public init() {}

@@ -16,7 +16,7 @@ import DjangoConsumer
 
 // MARK: // Private
 private let _fakeRequestConfig: RequestConfiguration = RequestConfiguration(url: URL(string: "http://example.com")!, method: .get)
-private let _fakeResponseHandling: ResponseHandling = ResponseHandling()
+private let _fakeResponseHandling: JSONResponseHandling = JSONResponseHandling()
 
 
 // MARK: // Internal

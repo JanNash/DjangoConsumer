@@ -308,7 +308,7 @@ private extension OAuth2Handler {
                 encoding: URLEncoding.default,
                 headers: [basicAuthHeader.key : basicAuthHeader.value]
             ),
-            responseHandling: ResponseHandling(
+            responseHandling: JSONResponseHandling(
                 onSuccess: { self._handleSuccessfulTokenRequest(json: $0, updateStatus: updateStatus, success: success, failure: failure) },
                 onFailure: { self._handleFailedTokenRequest(error: $0, updateStatus: updateStatus, failure: failure) }
             )
@@ -368,7 +368,7 @@ private extension OAuth2Handler {
             headers: [basicAuthHeader.key : basicAuthHeader.value]
         )
         
-        let responseHandling: ResponseHandling = ResponseHandling(
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
             onSuccess: { _ in },
             onFailure: { _ in }
         )
