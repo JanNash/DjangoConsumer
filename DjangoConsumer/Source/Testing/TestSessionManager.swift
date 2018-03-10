@@ -34,7 +34,7 @@ public class TestSessionManager {
     
     // Private Constants
     private let _AF_SessionManager: SessionManager = {
-        let sessionManager: SessionManager = .withDefaultConfiguration()
+        let sessionManager: SessionManager = .makeDefault()
         sessionManager.startRequestsImmediately = false
         return sessionManager
     }()

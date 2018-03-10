@@ -17,8 +17,8 @@ import DjangoConsumer
 // MARK: // Internal
 // MARK: - AlamofireSessionManagerExtensionTests
 class AlamofireSessionManagerExtensionTests: BaseTest {
-    func testSessionManagerWithDefaultConfiguration() {
-        let sessionManager: SessionManager = .withDefaultConfiguration()
+    func testSessionManagerMakeDefault() {
+        let sessionManager: SessionManager = .makeDefault()
         let configuration: URLSessionConfiguration = sessionManager.session.configuration
         
         guard let additionalHeaders: HTTPHeaders = configuration.httpAdditionalHeaders as? HTTPHeaders else {
