@@ -10,17 +10,62 @@
 //
 
 import Foundation
+import Alamofire
 
 
 // MARK: // Public
-public class TestSessionManager {
-    public init() {}
-    public var handleRequest: ((RequestConfiguration, ResponseHandling) -> Void)?
+// MARK: Interface
+public extension TestSessionManager {
+    public func resetHandlers() {
+        self._resetHandlers()
+    }
 }
+
+
+// MARK: Class Declaration
+public class TestSessionManager {
+    // Init
+    public init() {}
+    
+    // Public Variables
+    public var receivedRequestConfig: ((RequestConfiguration) -> ())?
+    public var createdRequest: ((DataRequest) -> ())?
+    public var mockResponse: ((DataRequest, ResponseHandling) -> ())?
+    
+    // Private Constants
+    private let _AF_SessionManager: SessionManager = {
+        let sessionManager: SessionManager = .withDefaultConfiguration()
+        sessionManager.startRequestsImmediately = false
+        return sessionManager
+    }()
+}
+
 
 // MARK: SessionManagerType
 extension TestSessionManager: SessionManagerType {
     public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        self.handleRequest?(cfg, responseHandling)
+        self._fireJSONRequest(cfg: cfg, responseHandling: responseHandling)
+    }
+}
+
+
+// MARK: // Private
+// MARK: SessionManagerType Implementation
+private extension TestSessionManager/*: SessionManagerType*/ {
+    func _fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
+        self.receivedRequestConfig?(cfg)
+        let request: DataRequest = self._AF_SessionManager.request(cfg: cfg)
+        self.createdRequest?(request)
+        self.mockResponse?(request, responseHandling)
+    }
+}
+
+
+// MARK: Reset Handlers
+private extension TestSessionManager {
+    func _resetHandlers() {
+        self.receivedRequestConfig = nil
+        self.createdRequest = nil
+        self.mockResponse = nil
     }
 }

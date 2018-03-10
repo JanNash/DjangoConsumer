@@ -51,21 +51,26 @@ public protocol SessionManagerType {
 }
 
 
-// MARK: - Alamofire SessionManager Extensions
+// MARK: - Alamofire.SessionManager Extensions
 // MARK: SessionManagerType
 extension Alamofire.SessionManager: SessionManagerType {
     public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        self.request(cfg.url, method: cfg.method, parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
+        self.request(cfg: cfg).responseSwiftyJSON {
+            switch $0.result {
+            case let .success(result):
+                responseHandling.onSuccess(result)
+            case let .failure(error):
+                responseHandling.onFailure(error)
+            }
+        }
+    }
+    
+    // Helper
+    public func request(cfg: RequestConfiguration) -> DataRequest {
+        return self
+            .request(cfg.url, method: cfg.method, parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
             .validate(statusCode: cfg.acceptableStatusCodes)
             .validate(contentType: cfg.acceptableContentTypes)
-            .responseSwiftyJSON {
-                switch $0.result {
-                case let .success(result):
-                    responseHandling.onSuccess(result)
-                case let .failure(error):
-                    responseHandling.onFailure(error)
-                }
-            }
     }
 }
 
