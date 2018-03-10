@@ -14,6 +14,11 @@ import Alamofire
 import DjangoConsumer
 
 
+// MARK: // Private
+private let _fakeRequestConfig: RequestConfiguration = RequestConfiguration(url: URL(string: "http://example.com")!, method: .get)
+private let _fakeResponseHandling: ResponseHandling = ResponseHandling()
+
+
 // MARK: // Internal
 // MARK: - AlamofireSessionManagerExtensionTests
 class AlamofireSessionManagerExtensionTests: BaseTest {
@@ -33,9 +38,6 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
 
 // MARK: - TestSessionManagerTests
 class TestSessionManagerTests: BaseTest {
-    private let _fakeRequestConfig: RequestConfiguration = RequestConfiguration(url: URL(string: "http://example.com")!, method: .get)
-    private let _fakeResponseHandling: ResponseHandling = ResponseHandling()
-    
     func testReceivedRequestConfigCalled() {
         let sessionManager: TestSessionManager = TestSessionManager()
         
@@ -47,7 +49,7 @@ class TestSessionManagerTests: BaseTest {
             expectation.fulfill()
         }
         
-        sessionManager.fireJSONRequest(cfg: self._fakeRequestConfig, responseHandling: self._fakeResponseHandling)
+        sessionManager.fireJSONRequest(cfg: _fakeRequestConfig, responseHandling: _fakeResponseHandling)
         
         self.waitForExpectations(timeout: 0.1)
     }
