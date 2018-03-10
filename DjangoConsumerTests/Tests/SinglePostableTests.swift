@@ -45,10 +45,10 @@ class SinglePostableTests: BaseTest {
     func testSinglePostableDefaultNodeUsed() {
         let expectedSessionManager: TestSessionManager = _FixtureType._mockDefaultNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .createdRequest of expectedSessionManager to be called"
         )
         
-        expectedSessionManager.handleRequest = { _, _ in
+        expectedSessionManager.createdRequest = { _ in
             expectation.fulfill()
         }
         
@@ -61,10 +61,10 @@ class SinglePostableTests: BaseTest {
         let injectedNode: MockNode = MockNode()
         let expectedSessionManager: TestSessionManager = injectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .createdRequest of expectedSessionManager to be called"
         )
         
-        expectedSessionManager.handleRequest = { _, _ in
+        expectedSessionManager.createdRequest = { _ in
             expectation.fulfill()
         }
         
@@ -77,14 +77,14 @@ class SinglePostableTests: BaseTest {
         let expectedNode: MockNode = _FixtureType._mockDefaultNode
         let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
-            description: "Expected .handleRequest of expectedSessionManager to be called"
+            description: "Expected .createdRequest of expectedSessionManager to be called"
         )
         
         let singlePostable: _FixtureType = _FixtureType()
         
         let expectedURL: URL = expectedNode.absoluteURL(for: type(of: singlePostable), routeType: .detail, method: .post)
         
-        expectedSessionManager.handleRequest = { cfg, _ in
+        expectedSessionManager.handleRequest = { cfg in
             XCTAssertEqual(cfg.url, expectedURL)
             expectation.fulfill()
         }
