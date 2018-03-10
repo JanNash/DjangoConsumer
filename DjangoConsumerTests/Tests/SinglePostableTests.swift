@@ -14,21 +14,36 @@ import Alamofire
 import DjangoConsumer
 
 
+// MARK: // Private
+// MARK: Convenience Extensions
+// MARK: - SinglePostable
+private typealias _FixtureType = MockSinglePostable
+private extension MockSinglePostable {
+    static var _mockDefaultNode: MockNode {
+        return self.defaultNode as! MockNode
+    }
+}
+
+
+// MARK: - MockNode
+private extension MockNode {
+    var _testSessionManager: TestSessionManager {
+        return self.sessionManager as! TestSessionManager
+    }
+}
+
+
 // MARK: // Internal
+// MARK: - SinglePostableTests
 class SinglePostableTests: BaseTest {
-    // FixtureType typealias
-    typealias FixtureType = MockSinglePostable
-    
-    // Setup Override
     override func setUp() {
         super.setUp()
-        FixtureType.defaultNode = MockNode.main
-        MockNode.main.testSessionManager.handleRequest = nil
+        _FixtureType._mockDefaultNode._testSessionManager.resetHandlers()
     }
     
     // Tests
     func testSinglePostableDefaultNodeUsed() {
-        let expectedSessionManager: TestSessionManager = FixtureType.defaultNode.testSessionManager
+        let expectedSessionManager: TestSessionManager = _FixtureType._mockDefaultNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -37,14 +52,14 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType().post()
+        _FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableInjectedNodeUsed() {
         let injectedNode: MockNode = MockNode()
-        let expectedSessionManager: TestSessionManager = injectedNode.testSessionManager
+        let expectedSessionManager: TestSessionManager = injectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -53,19 +68,19 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType().post(to: injectedNode)
+        _FixtureType().post(to: injectedNode)
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableURL() {
-        let expectedNode: Node = FixtureType.defaultNode
-        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectedNode: MockNode = _FixtureType._mockDefaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
         
-        let singlePostable: FixtureType = FixtureType()
+        let singlePostable: _FixtureType = _FixtureType()
         
         let expectedURL: URL = expectedNode.absoluteURL(for: type(of: singlePostable), routeType: .detail, method: .post)
         
@@ -80,8 +95,8 @@ class SinglePostableTests: BaseTest {
     }
     
     func testSinglePostableMethod() {
-        let expectedNode: Node = FixtureType.defaultNode
-        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectedNode: MockNode = _FixtureType._mockDefaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -93,14 +108,13 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType().post()
+        _FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableParameters1() {
-        let id: String = "123456"
-        let singlePostable: FixtureType = FixtureType()
+        let singlePostable: _FixtureType = _FixtureType()
         
         guard let parametersFromObject: [String : String] = singlePostable.toParameters() as? [String : String] else {
             XCTFail("Expected singlePostable.toParameters() to be of type [String : String]")
@@ -113,8 +127,8 @@ class SinglePostableTests: BaseTest {
     }
     
     func testSinglePostableParameters2() {
-        let expectedNode: Node = FixtureType.defaultNode
-        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectedNode: MockNode = _FixtureType._mockDefaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -133,14 +147,14 @@ class SinglePostableTests: BaseTest {
             XCTAssertEqual(expectedParameters, parameters)
         }
         
-        FixtureType().post()
+        _FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableEncoding() {
-        let expectedNode: Node = FixtureType.defaultNode
-        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectedNode: MockNode = _FixtureType._mockDefaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -150,14 +164,14 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType().post()
+        _FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableHeaders() {
-        let expectedNode: Node = FixtureType.defaultNode
-        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectedNode: MockNode = _FixtureType._mockDefaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -167,14 +181,14 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType().post()
+        _FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableAcceptableStatusCodes() {
-        let expectedNode: Node = FixtureType.defaultNode
-        let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
+        let expectedNode: MockNode = _FixtureType._mockDefaultNode
+        let expectedSessionManager: TestSessionManager = expectedNode._testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
         )
@@ -186,13 +200,13 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType().post()
+        _FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
     
     func testSinglePostableAcceptableContentTypes() {
-        let expectedNode: Node = FixtureType.defaultNode
+        let expectedNode: MockNode = _FixtureType._mockDefaultNode
         let expectedSessionManager: TestSessionManager = expectedNode.testSessionManager
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected .handleRequest of expectedSessionManager to be called"
@@ -205,7 +219,7 @@ class SinglePostableTests: BaseTest {
             expectation.fulfill()
         }
         
-        FixtureType().post()
+        _FixtureType().post()
         
         self.waitForExpectations(timeout: 0.1)
     }
