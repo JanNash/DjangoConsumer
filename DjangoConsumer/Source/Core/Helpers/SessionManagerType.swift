@@ -55,18 +55,7 @@ public struct JSONResponseHandling {
 
 // MARK: - SessionManagerType
 public protocol SessionManagerType {
-    init(configuration: URLSessionConfiguration, delegate: SessionDelegate, serverTrustPolicyManager: ServerTrustPolicyManager?)
     func request(with cfg: RequestConfiguration) -> DataRequest
-}
-
-
-public extension SessionManagerType {
-    public static func makeDefault() -> Self {
-        // This is copied from the SessionManager implementation
-        let configuration: URLSessionConfiguration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        return Self(configuration: configuration, delegate: SessionDelegate(), serverTrustPolicyManager: nil)
-    }
 }
 
 
