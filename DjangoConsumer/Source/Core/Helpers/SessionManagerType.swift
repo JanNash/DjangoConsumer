@@ -63,6 +63,14 @@ public protocol SessionManagerType {
 // MARK: Default Implementations
 public extension SessionManagerType {
     public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        self.fireRequest(self.createRequest(from: cfg), responseHandling: responseHandling)
+        DefaultImplementations._SessionManagerType_.fireJSONRequest(self, cfg: cfg, responseHandling: responseHandling)
+    }
+}
+
+
+// MARK: - DefaultImplementations._SessionManagerType_
+public extension DefaultImplementations._SessionManagerType_ {
+    public static func fireJSONRequest(_ sessionManager: SessionManagerType, cfg: RequestConfiguration, responseHandling: ResponseHandling) {
+        sessionManager.fireRequest(sessionManager.createRequest(from: cfg), responseHandling: responseHandling)
     }
 }
