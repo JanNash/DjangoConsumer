@@ -14,62 +14,39 @@ import Alamofire
 
 
 // MARK: // Public
-// MARK: Interface
-public extension TestSessionManager {
-    public func resetHandlers() {
-        self._resetHandlers()
+// MARK: - TestSessionDelegate
+public class TestSessionDelegate: SessionDelegate {
+    // Fileprivate Variables
+    fileprivate var _receivedRequest: ((Request) -> Void)?
+    
+    // Subscript Override
+    override public subscript(task: URLSessionTask) -> Request? {
+        get { return nil }
+        set { if let newValue: Request = newValue { self._receivedRequest?(newValue) } }
     }
 }
 
 
-// MARK: Class Declaration
+// MARK: - TestSessionManager
 public class TestSessionManager {
-    // Init
+    // Public Init
     public init() {}
     
     // Public Variables
-    public var receivedRequestConfig: ((RequestConfiguration) -> ())?
-    public var createdRequest: ((DataRequest) -> ())?
-    public var mockResponse: ((DataRequest, ResponseHandling) -> ())?
+    public var requestHandedToDelegate: ((Request) -> Void)? {
+        get { return self._testDelegate._receivedRequest }
+        set { self._testDelegate._receivedRequest = newValue }
+    }
     
     // Private Constants
-    private let _AF_SessionManager: SessionManager = {
-        let sessionManager: SessionManager = .makeDefault()
-        sessionManager.startRequestsImmediately = false
-        return sessionManager
-    }()
+    private let _testDelegate: TestSessionDelegate = TestSessionDelegate()
+    private lazy var _AF_sessionManager: SessionManager = .makeDefault(delegate: self._testDelegate, startsRequestsImmediately: false)
 }
 
 
 // MARK: SessionManagerType
 extension TestSessionManager: SessionManagerType {
-    public func createRequest(from cfg: RequestConfiguration) -> DataRequest {
-        return self._createRequest(from: cfg)
-    }
-    
-    public func fireRequest(_ request: DataRequest, responseHandling: ResponseHandling) {
-        self.mockResponse?(request, responseHandling)
-    }
-}
-
-
-// MARK: // Private
-// MARK: SessionManagerType Implementation
-private extension TestSessionManager/*: SessionManagerType*/ {
-    func _createRequest(from cfg: RequestConfiguration) -> DataRequest {
-        self.receivedRequestConfig?(cfg)
-        let request: DataRequest = self._AF_SessionManager.createRequest(from: cfg)
-        self.createdRequest?(request)
-        return request
-    }
-}
-
-
-// MARK: Reset Handlers
-private extension TestSessionManager {
-    func _resetHandlers() {
-        self.receivedRequestConfig = nil
-        self.createdRequest = nil
-        self.mockResponse = nil
+    public func request(with cfg: RequestConfiguration) -> DataRequest {
+        return self._AF_sessionManager.request(with: cfg)
     }
 }
