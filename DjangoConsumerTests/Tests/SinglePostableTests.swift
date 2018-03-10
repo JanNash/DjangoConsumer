@@ -17,9 +17,9 @@ import DjangoConsumer
 // MARK: // Private
 // MARK: - Node
 private extension SessionManagerType {
-    var _receivedRequest: ((Request) -> Void)? {
-        get { return (self as? TestSessionManager)?.testDelegate.receivedRequest }
-        set { (self as? TestSessionManager)?.testDelegate.receivedRequest = newValue }
+    var _receivedRequest: ((DataRequest) -> Void)? {
+        get { return (self as? TestSessionManager)?.testDelegate.receivedDataRequest }
+        set { (self as? TestSessionManager)?.testDelegate.receivedDataRequest = newValue }
     }
 }
 
@@ -43,7 +43,7 @@ class SinglePostableTests: BaseTest {
             description: "Expected request to be handed to sessionDelegate"
         )
         
-        expectedSessionManager._receivedRequest = { _ in
+        expectedSessionManager._receivedRequest = { request in
             expectation.fulfill()
         }
         

@@ -17,12 +17,12 @@ import Alamofire
 // MARK: - TestSessionDelegate
 public class TestSessionDelegate: SessionDelegate {
     // Public Variables
-    public var receivedRequest: ((Request) -> Void)?
+    public var receivedDataRequest: ((DataRequest) -> Void)?
     
     // Subscript Override
     override public subscript(task: URLSessionTask) -> Request? {
         get { return nil }
-        set { if let newValue: Request = newValue { self.receivedRequest?(newValue) } }
+        set(r) { if let dr: DataRequest = r as? DataRequest { self.receivedDataRequest?(dr) } }
     }
 }
 

@@ -45,7 +45,7 @@ class TestSessionManagerTests: BaseTest {
             "Expected sessionManager.receivedRequestConfig to be called"
         )
         
-        sessionManager.testDelegate.receivedRequest = { _ in }
+        sessionManager.testDelegate.receivedDataRequest = { _ in }
         
         self.waitForExpectations(timeout: 0.1)
     }
