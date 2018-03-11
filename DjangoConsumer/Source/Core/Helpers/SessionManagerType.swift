@@ -40,47 +40,37 @@ public struct RequestConfiguration {
 
 // MARK: - ResponseHandling
 public struct ResponseHandling {
-    public var onSuccess: (JSON) -> Void
-    public var onFailure: (Error) -> Void
+    // Inits
+    public init() {}
+    public init(onSuccess: @escaping (JSON) -> Void, onFailure: @escaping (Error) -> Void) {
+        self.onSuccess = onSuccess
+        self.onFailure = onFailure
+    }
+    
+    // Public Variables
+    public var onSuccess: (JSON) -> Void = { _ in }
+    public var onFailure: (Error) -> Void = { _ in }
 }
 
 
 // MARK: - SessionManagerType
 public protocol SessionManagerType {
-    func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling)
+    func createRequest(from cfg: RequestConfiguration) -> DataRequest
+    func fireRequest(_ request: DataRequest, responseHandling: ResponseHandling)
 }
 
 
-// MARK: - Alamofire.SessionManager Extensions
-// MARK: SessionManagerType
-extension Alamofire.SessionManager: SessionManagerType {
+// MARK: Default Implementations
+public extension SessionManagerType {
     public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        self.request(cfg: cfg).responseSwiftyJSON {
-            switch $0.result {
-            case let .success(result):
-                responseHandling.onSuccess(result)
-            case let .failure(error):
-                responseHandling.onFailure(error)
-            }
-        }
-    }
-    
-    // Helper
-    public func request(cfg: RequestConfiguration) -> DataRequest {
-        return self
-            .request(cfg.url, method: cfg.method, parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
-            .validate(statusCode: cfg.acceptableStatusCodes)
-            .validate(contentType: cfg.acceptableContentTypes)
+        DefaultImplementations._SessionManagerType_.fireJSONRequest(self, cfg: cfg, responseHandling: responseHandling)
     }
 }
 
 
-// MARK: withDefaultConfiguration
-public extension Alamofire.SessionManager {
-    public static func withDefaultConfiguration() -> Alamofire.SessionManager {
-        // This is copied from the SessionManager implementation
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        return SessionManager(configuration: configuration)
+// MARK: - DefaultImplementations._SessionManagerType_
+public extension DefaultImplementations._SessionManagerType_ {
+    public static func fireJSONRequest(_ sessionManager: SessionManagerType, cfg: RequestConfiguration, responseHandling: ResponseHandling) {
+        sessionManager.fireRequest(sessionManager.createRequest(from: cfg), responseHandling: responseHandling)
     }
 }
