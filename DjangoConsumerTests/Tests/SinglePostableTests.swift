@@ -22,6 +22,7 @@ class SinglePostableTests: BaseTest {
     // SetUp Override
     override func setUp() {
         super.setUp()
+        (_FixtureType.defaultNode as? MockNode)?.routes = []
         _FixtureType.defaultNode.testDelegate?.receivedDataRequest = nil
         _FixtureType.defaultNode.testDelegate?.mockJSONResponse = nil
     }
@@ -29,6 +30,9 @@ class SinglePostableTests: BaseTest {
     // Tests
     func testSinglePostableDefaultNodeUsed() {
         let expectedNode: Node = _FixtureType.defaultNode
+        
+        (expectedNode as? MockNode)?.routes = [Route(MockSinglePostable.self, .detail, .post, "singlepostables")]
+        
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected request to be handed to sessionDelegate"
         )
