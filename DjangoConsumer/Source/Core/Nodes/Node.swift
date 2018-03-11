@@ -34,12 +34,12 @@ public protocol Node {
     func parametersFrom(filters: [FilterType]) -> Parameters
     
     // MetaResource.Type URLs
-    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
-    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL
+    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
+    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
     
     // IdentifiableResource URLs
-    func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
-    func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL
+    func relativeURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL
+    func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL
     
     // ResourceID URLs
     func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL
@@ -49,8 +49,8 @@ public protocol Node {
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     
     // List Response Helpers
-    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type
-    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T])
+    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod) -> Pagination.Type
+    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod, from json: JSON) -> (Pagination, [T])
 }
 
 
@@ -89,20 +89,20 @@ public extension Node {
 // MARK: Request URL Helpers
 public extension Node {
     // MetaResource.Type URLs
-    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
         return DefaultImplementations._Node_.relativeURL(node: self, for: resourceType, routeType: routeType, method: method)
     }
     
-    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
         return DefaultImplementations._Node_.absoluteURL(node: self, for: resourceType, routeType: routeType, method: method)
     }
     
     // IdentifiableResource URLs
-    func relativeURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
+    func relativeURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL {
         return DefaultImplementations._Node_.relativeURL(node: self, for: resource, method: method)
     }
     
-    func absoluteURL<T: IdentifiableResource>(for resource: T, method: HTTPMethod) -> URL {
+    func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL {
         return DefaultImplementations._Node_.absoluteURL(node: self, for: resource, method: method)
     }
     
@@ -119,11 +119,11 @@ public extension Node {
 
 // MARK: List Response Helpers
 public extension Node {
-    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type {
+    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod) -> Pagination.Type {
         return DefaultImplementations._Node_.paginationType(node: self, for: resourceType, with: method)
     }
     
-    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod, from json: JSON) -> (Pagination, [T]) {
         return DefaultImplementations._Node_.extractListResponse(node: self, for: resourceType, with: method, from: json)
     }
 }
@@ -149,20 +149,20 @@ public extension DefaultImplementations._Node_ {
 // MARK: Request URL Helpers
 public extension DefaultImplementations._Node_ {
     // MetaResource.Type URLs
-    public static func relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+    public static func relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
         return self._relativeURL(node: node, for: resourceType, routeType: routeType, method: method)
     }
     
-    public static func absoluteURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+    public static func absoluteURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
         return node.baseURL.appendingPathComponent(node.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
     }
     
     // IdentifiableResource URLs
-    public static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, method: HTTPMethod) -> URL {
+    public static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) -> URL {
         return node.relativeURL(for: T.self, routeType: .detail, method: method).appendingPathComponent(resource.id.string)
     }
     
-    public static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, method: HTTPMethod) -> URL {
+    public static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) -> URL {
         return node.baseURL.appendingPathComponent(node.relativeURL(for: resource, method: method).absoluteString)
     }
     
@@ -179,11 +179,11 @@ public extension DefaultImplementations._Node_ {
 
 // MARK: List Response Helpers
 public extension DefaultImplementations._Node_ {
-    public static func paginationType<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: HTTPMethod) -> Pagination.Type {
+    public static func paginationType<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: ResourceHTTPMethod) -> Pagination.Type {
         return DefaultPagination.self
     }
     
-    public static func extractListResponse<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+    public static func extractListResponse<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: ResourceHTTPMethod, from json: JSON) -> (Pagination, [T]) {
         return self._extractListResponse(node: node, for: resourceType, with: method, from: json)
     }
 }
@@ -211,7 +211,7 @@ private extension DefaultImplementations._Node_ {
 
 // MARK: Request URL Helper Implementations
 private extension DefaultImplementations._Node_ {
-    static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod) -> URL {
+    static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
         if let route: Route = self._routeMatching(resourceType: resourceType, routeType: routeType, method: method, in: node) {
             return route.relativeURL
         }
@@ -223,7 +223,7 @@ private extension DefaultImplementations._Node_ {
     }
     
     // Helper
-    static func _routeMatching(resourceType: MetaResource.Type, routeType: RouteType, method: HTTPMethod, in node: Node) -> Route? {
+    static func _routeMatching(resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod, in node: Node) -> Route? {
         return node.routes.first(where: {
             $0.resourceType == resourceType &&
                 $0.routeType == routeType &&
@@ -235,7 +235,7 @@ private extension DefaultImplementations._Node_ {
 
 // MARK: List Response Helper Implementations
 private extension DefaultImplementations._Node_ {
-    static func _extractListResponse<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: HTTPMethod, from json: JSON) -> (Pagination, [T]) {
+    static func _extractListResponse<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: ResourceHTTPMethod, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = node.paginationType(for: resourceType, with: method)
         let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])
         let objects: [T] = json[DefaultListResponseKeys.results].array!.map(T.init)
