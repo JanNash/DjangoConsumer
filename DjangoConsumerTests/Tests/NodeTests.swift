@@ -25,16 +25,15 @@ class NodeTests: BaseTest {
         let node: Node = MockNode()
         typealias FixtureType = MockListGettable
         
-        let nodeImplementation: (HTTPMethod) -> Pagination.Type = {
+        let nodeImplementation: (ResourceHTTPMethod) -> Pagination.Type = {
             node.paginationType(for: FixtureType.self, with: $0)
         }
         
-        let defaultImplementation: (HTTPMethod) -> Pagination.Type = {
+        let defaultImplementation: (ResourceHTTPMethod) -> Pagination.Type = {
             DefaultImplementations._Node_.paginationType(node: node, for: FixtureType.self, with: $0)
         }
         
-        let methods: [HTTPMethod] = [.get, .post, .patch, .put, .delete]
-        methods.forEach({
+        ResourceHTTPMethod.all.forEach({
             XCTAssert(nodeImplementation($0) == DefaultPagination.self)
             XCTAssert(defaultImplementation($0) == DefaultPagination.self)
         })
