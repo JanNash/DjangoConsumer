@@ -10,7 +10,6 @@
 //
 
 import XCTest
-@testable import DjangoConsumer
 
 
 // MARK: // Internal
