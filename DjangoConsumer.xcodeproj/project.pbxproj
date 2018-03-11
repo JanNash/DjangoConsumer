@@ -49,6 +49,7 @@
 		C8838BBFE465FA535F3E2F0578713250 /* SessionManager (SessionManagerType).swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EAF5D5B3E41D378B0E052F4FF4729A /* SessionManager (SessionManagerType).swift */; };
 		CCB8AD7D20F61941BC4B9AF67CF37ECE /* DetailResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4310C3D446DFE26516989D3B751DFE /* DetailResource.swift */; };
 		CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */; };
+		D3A15BBA45BD33768284AB591283DF91 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */; };
 		DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */; };
 		E912FBEE5C47723A158B745B84A1F870 /* ResourceID+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */; };
 		E973B58AAB02F5CE85A735A60A1E3755 /* DjangoConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */; };
@@ -116,6 +117,7 @@
 		C89E97BBF7E17B7AAFFDE837420F2539 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9A80FEAC85E6904F4663E739B587472 /* SessionManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerType.swift; sourceTree = "<group>"; };
 		CB5B6AC36CF6BC5BB024054FB0EBDE72 /* Pods-DjangoConsumerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests.release.xcconfig"; sourceTree = "<group>"; };
+		CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourceID+OAuth2.swift"; sourceTree = "<group>"; };
 		DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			children = (
 				4483E4F025B67F9A65AFA6C06CE62659 /* BaseTest.swift */,
 				EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */,
+				CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */,
 				AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */,
 				360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */,
 			);
@@ -668,6 +671,7 @@
 				C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */,
 				9F959BF0B75FAB192D1BB574B290A901 /* MockOAuth2NodeAuthClient.swift in Sources */,
 				C5252E609C992D95A9FDC45D386332A4 /* MockSinglePostable.swift in Sources */,
+				D3A15BBA45BD33768284AB591283DF91 /* NodeTests.swift in Sources */,
 				7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */,
 				63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */,
 			);
