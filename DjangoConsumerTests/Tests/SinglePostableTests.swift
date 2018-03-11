@@ -31,7 +31,9 @@ class SinglePostableTests: BaseTest {
     func testSinglePostableDefaultNodeUsed() {
         let expectedNode: Node = _FixtureType.defaultNode
         
-        (expectedNode as? MockNode)?.routes = [Route(MockSinglePostable.self, .detail, .post, "singlepostables")]
+        (expectedNode as? MockNode)?.routes = [
+            .singlePOST(MockSinglePostable.self, "singlepostables")
+        ]
         
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected request to be handed to sessionDelegate"

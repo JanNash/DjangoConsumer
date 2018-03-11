@@ -41,6 +41,8 @@ public struct DefaultPagination: Pagination {
     public init(json: JSON) {
         // ???: There must be a better way than to force unwrap?
         // Is there a way to fail gracefully here? Should the function throw?
+        // Should it maybe be a failable initializer and leave the handling
+        // of a failed initialization to the ListGettable implementation?
         self.limit = json[Keys.limit].uInt!
         self.next = json[Keys.next].url
         self.offset = json[Keys.offset].uInt!

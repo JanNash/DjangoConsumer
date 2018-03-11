@@ -25,8 +25,8 @@ public enum RouteType: String {
 // MARK: - Route
 // MARK: Struct Declaration
 public struct Route {
-    // Init
-    public init(_ resourceType: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod, _ relativePath: String) {
+    // Private Init
+    private init(_ resourceType: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod, _ relativePath: String) {
         self.resourceType = resourceType
         self.routeType = routeType
         self.method = method
@@ -39,3 +39,53 @@ public struct Route {
     public private(set) var method: ResourceHTTPMethod
     public private(set) var relativeURL: URL
 }
+
+
+// MARK: Available Routes
+// MARK: GET
+public extension Route {
+    public static func listGET<T>(_ t: T.Type, _ rel: String) -> Route where T: ListGettable {
+        return Route(t, .list, .get, rel)
+    }
+    
+    public static func detailGET<T>(_ t: T.Type, _ rel: String) -> Route where T: DetailGettable {
+        return Route(t, .detail, .get, rel)
+    }
+}
+
+
+// MARK: POST
+public extension Route {
+//    public static func listPOST<T>(_ t: T.Type, _ rel: String) -> Route where T: ListPostable {
+//        return Route(t, .list, .post, rel)
+//    }
+    
+    public static func singlePOST<T>(_ t: T.Type, _ rel: String) -> Route where T: SinglePostable {
+        return Route(t, .detail, .post, rel)
+    }
+}
+
+
+// MARK: PUT
+//public extension Route {
+//    public static func detailPUT<T>(_ t: T.Type, _ rel: String) -> Route where T: DetailPuttable {
+//        return Route(t, .detail, .put, rel)
+//    }
+//}
+
+
+// MARK: PATCH
+//public extension Route {
+//    public static func detailPATCH<T>(_ t: T.Type, _ rel: String) -> Route where T: DetailPatchable {
+//        return Route(t, .detail, .patch, rel)
+//    }
+//}
+
+
+// MARK: PATCH
+//public extension Route {
+//    public static func detailDELETE<T>(_ t: T.Type, _ rel: String) -> Route where T: DetailDeletable {
+//        return Route(t, .detail, .delete, rel)
+//    }
+//}
+
