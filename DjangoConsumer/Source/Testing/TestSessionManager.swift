@@ -22,7 +22,7 @@ public class TestSessionDelegate: SessionDelegate {
     // Subscript Override
     override public subscript(task: URLSessionTask) -> Request? {
         get { return nil }
-        set(r) { if let dr: DataRequest = r as? DataRequest { self.receivedDataRequest?(dr) } }
+        set(r) { ifT(his: r, isA: DataRequest.self, then: self.receivedDataRequest) }
     }
 }
 
