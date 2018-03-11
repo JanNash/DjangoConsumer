@@ -40,22 +40,17 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         XCTAssertEqual(additionalHeaders, SessionManager.defaultHTTPHeaders)
     }
     
-    func testAFSessionManagerFireJSONRequest() {
+    func testAFSessionManagerFireJSONRequestFailure() {
         let sessionManager: SessionManager = .makeDefault()
         
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected 'onFailure' to be called"
         )
         
-        func onSuccess(_ json: JSON) {
-            XCTFail("'onSuccess' should not be called")
-        }
-        
-        func onFailure(_ error: Error) {
-            expectation.fulfill()
-        }
-        
-        let responseHandling: JSONResponseHandling = JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { XCTFail("'onSuccess' should not be called but was called with json: \($0)") },
+            onFailure: { _ in expectation.fulfill() }
+        )
         
         sessionManager.fireJSONRequest(with: _badRequestConfig, responseHandling: responseHandling)
         
