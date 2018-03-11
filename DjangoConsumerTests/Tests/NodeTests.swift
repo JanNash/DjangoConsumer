@@ -21,6 +21,25 @@ class NodeTests: BaseTest {
         XCTAssert(node.defaultFilters(for: MockFilteredListGettable.self).isEmpty)
     }
     
+    func testDefaultPaginationType() {
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        
+        let nodeImplementation: (HTTPMethod) -> Pagination.Type = {
+            node.paginationType(for: FixtureType.self, with: $0)
+        }
+        
+        let defaultImplementation: (HTTPMethod) -> Pagination.Type = {
+            DefaultImplementations._Node_.paginationType(node: node, for: FixtureType.self, with: $0)
+        }
+        
+        let methods: [HTTPMethod] = [.get, .post, .patch, .put, .delete]
+        methods.forEach({
+            XCTAssert(nodeImplementation($0) == DefaultPagination.self)
+            XCTAssert(defaultImplementation($0) == DefaultPagination.self)
+        })
+    }
+    
     func testParametersFromOffsetAndLimit() {
         let node: Node = MockNode()
         let expectedOffset: UInt = 10
