@@ -22,4 +22,8 @@ extension Alamofire.SessionManager: SessionManagerType {
             .validate(statusCode: cfg.acceptableStatusCodes)
             .validate(contentType: cfg.acceptableContentTypes)
     }
+    
+    public func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling) {
+        request.responseSwiftyJSON(completionHandler: responseHandling.handleResponse)
+    }
 }

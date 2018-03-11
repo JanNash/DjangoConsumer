@@ -18,6 +18,7 @@ import Alamofire
 public class TestSessionDelegate: SessionDelegate {
     // Public Variables
     public var receivedDataRequest: ((DataRequest) -> Void)?
+    public var mockJSONResponse: ((DataRequest, JSONResponseHandling) -> Void)?
     
     // Subscript Override
     override public subscript(task: URLSessionTask) -> Request? {
@@ -44,5 +45,9 @@ public class TestSessionManager {
 extension TestSessionManager: SessionManagerType {
     public func request(with cfg: RequestConfiguration) -> DataRequest {
         return self._AF_sessionManager.request(with: cfg)
+    }
+    
+    public func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling) {
+        self.testDelegate.mockJSONResponse?(request, responseHandling)
     }
 }
