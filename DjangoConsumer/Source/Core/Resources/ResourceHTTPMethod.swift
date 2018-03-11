@@ -22,6 +22,6 @@ public enum ResourceHTTPMethod: String {
     case patch   = "PATCH"
     case delete  = "DELETE"
     
-    public static var all: [ResourceHTTPMethod] = [.get, .head, .post, .put, .patch, .delete]
+    public static let all: [ResourceHTTPMethod] = [.get, .head, .post, .put, .patch, .delete]
     public func toHTTPMethod() -> HTTPMethod { return HTTPMethod(rawValue: self.rawValue)! }
 }
