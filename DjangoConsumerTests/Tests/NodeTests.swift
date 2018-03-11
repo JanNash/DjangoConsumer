@@ -91,12 +91,12 @@ class NodeTests: BaseTest {
         let routes: [Route] = [
             .listGET(MockListGettable.self, "mocklistgettables"),
             .listGET(MockFilteredListGettable.self, "mockfilteredlistgettables"),
-            // .detailGET(MockDetailGettable.self, "mockdetailgettables"),
-            // .listPOST(MockListPostable.self, "mocklistpostables"),
+            .detailGET(MockDetailGettable.self, "mockdetailgettables"),
+            //.listPOST(MockListPostable.self, "mocklistpostables"),
             .singlePOST(MockSinglePostable.self, "mocksinglepostables"),
-            // .detailPUT(MockDetailPostable.self, "mockdetailputtables"),
-            // .detailPATCH(MockDetailPatchable.self, "mockdetailpatchables"),
-            // .detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
+            //.detailPUT(MockDetailPostable.self, "mockdetailputtables"),
+            //.detailPATCH(MockDetailPatchable.self, "mockdetailpatchables"),
+            //.detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
         ]
         
         mockNode.routes = routes
@@ -130,12 +130,12 @@ class NodeTests: BaseTest {
         let routes: [Route] = [
             .listGET(MockListGettable.self, "mocklistgettables"),
             .listGET(MockFilteredListGettable.self, "mockfilteredlistgettables"),
-            // .detailGET(MockDetailGettable.self, "mockdetailgettables"),
-            // .listPOST(MockListPostable.self, "mocklistpostables"),
+            .detailGET(MockDetailGettable.self, "mockdetailgettables"),
+            //.listPOST(MockListPostable.self, "mocklistpostables"),
             .singlePOST(MockSinglePostable.self, "mocksinglepostables"),
-            // .detailPUT(MockDetailPostable.self, "mockdetailputtables"),
-            // .detailPATCH(MockDetailPatchable.self, "mockdetailpatchables"),
-            // .detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
+            //.detailPUT(MockDetailPostable.self, "mockdetailputtables"),
+            //.detailPATCH(MockDetailPatchable.self, "mockdetailpatchables"),
+            //.detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
         ]
         
         mockNode.routes = routes
