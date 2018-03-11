@@ -11,18 +11,24 @@
 
 import XCTest
 import Alamofire
+import SwiftyJSON
 import DjangoConsumer
 
 
 // MARK: // Private
-private let _fakeRequestConfig: RequestConfiguration = RequestConfiguration(url: URL(string: "http://example.com")!, method: .get)
-private let _fakeResponseHandling: JSONResponseHandling = JSONResponseHandling()
+private let _badRequestConfig: RequestConfiguration = {
+    RequestConfiguration(url: URL(string: "http://example.com")!, method: .get)
+}()
+
+private let _goodRequestConfig: RequestConfiguration = {
+    RequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, method: .get)
+}()
 
 
 // MARK: // Internal
 // MARK: - AlamofireSessionManagerExtensionTests
 class AlamofireSessionManagerExtensionTests: BaseTest {
-    func testSessionManagerMakeDefault() {
+    func testAFSessionManagerMakeDefault() {
         let sessionManager: SessionManager = .makeDefault()
         let configuration: URLSessionConfiguration = sessionManager.session.configuration
         
@@ -33,20 +39,32 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         XCTAssertEqual(additionalHeaders, SessionManager.defaultHTTPHeaders)
     }
+    
+    func testAFSessionManagerFireJSONRequest() {
+        let sessionManager: SessionManager = .makeDefault()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onFailure' to be called"
+        )
+        
+        func onSuccess(_ json: JSON) {
+            XCTFail("'onSuccess' should not be called")
+        }
+        
+        func onFailure(_ error: Error) {
+            expectation.fulfill()
+        }
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+        
+        sessionManager.fireJSONRequest(with: _badRequestConfig, responseHandling: responseHandling)
+        
+        self.waitForExpectations(timeout: 1)
+    }
 }
 
 
 // MARK: - TestSessionManagerTests
 class TestSessionManagerTests: BaseTest {
-    func testReceivedRequestConfigCalled() {
-        let sessionManager: TestSessionManager = TestSessionManager()
-        
-        let expectation: XCTestExpectation = self.expectation(description:
-            "Expected sessionManager.receivedRequestConfig to be called"
-        )
-        
-        sessionManager.testDelegate.receivedDataRequest = { _ in }
-        
-        self.waitForExpectations(timeout: 0.1)
-    }
+    
 }
