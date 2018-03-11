@@ -58,8 +58,8 @@ private extension DefaultImplementations._SinglePostable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            cfg: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
-            responseHandling: ResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
+            responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
 }

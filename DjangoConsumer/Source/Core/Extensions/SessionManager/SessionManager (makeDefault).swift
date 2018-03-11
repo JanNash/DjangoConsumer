@@ -15,10 +15,12 @@ import Alamofire
 
 // MARK: // Public
 public extension Alamofire.SessionManager {
-    public static func makeDefault() -> Alamofire.SessionManager {
-        // This is copied from the SessionManager implementation
+    public static func makeDefault(delegate: SessionDelegate = SessionDelegate(), startsRequestsImmediately: Bool = true) -> SessionManager {
+        // This is partially and kindly copied from the SessionManager.default implementation in Alamofire
         let configuration: URLSessionConfiguration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        return SessionManager(configuration: configuration)
+        let sessionManager: SessionManager = SessionManager(configuration: configuration, delegate: delegate)
+        sessionManager.startRequestsImmediately = startsRequestsImmediately
+        return sessionManager
     }
 }

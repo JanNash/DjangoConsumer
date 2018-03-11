@@ -38,39 +38,48 @@ public struct RequestConfiguration {
 }
 
 
-// MARK: - ResponseHandling
-public struct ResponseHandling {
+// MARK: - JSONResponseHandling
+public struct JSONResponseHandling {
     // Inits
-    public init() {}
     public init(onSuccess: @escaping (JSON) -> Void, onFailure: @escaping (Error) -> Void) {
         self.onSuccess = onSuccess
         self.onFailure = onFailure
     }
     
     // Public Variables
-    public var onSuccess: (JSON) -> Void = { _ in }
-    public var onFailure: (Error) -> Void = { _ in }
+    public var onSuccess: (JSON) -> Void
+    public var onFailure: (Error) -> Void
+    
+    // Handle Response
+    func handleResponse(_ response: DataResponse<JSON>) {
+        switch response.result {
+        case let .success(result):
+            self.onSuccess(result)
+        case let .failure(error):
+            self.onFailure(error)
+        }
+    }
 }
 
 
 // MARK: - SessionManagerType
-public protocol SessionManagerType {
-    func createRequest(from cfg: RequestConfiguration) -> DataRequest
-    func fireRequest(_ request: DataRequest, responseHandling: ResponseHandling)
+public protocol SessionManagerType: class {
+    func request(with cfg: RequestConfiguration) -> DataRequest
+    func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling)
 }
 
 
-// MARK: Default Implementations
+// MARK: Convenience Default Implementation
 public extension SessionManagerType {
-    public func fireJSONRequest(cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        DefaultImplementations._SessionManagerType_.fireJSONRequest(self, cfg: cfg, responseHandling: responseHandling)
+    func fireJSONRequest(with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
+        DefaultImplementations._SessionManagerType_.fireJSONRequest(via: self, with: cfg, responseHandling: responseHandling)
     }
 }
 
 
 // MARK: - DefaultImplementations._SessionManagerType_
 public extension DefaultImplementations._SessionManagerType_ {
-    public static func fireJSONRequest(_ sessionManager: SessionManagerType, cfg: RequestConfiguration, responseHandling: ResponseHandling) {
-        sessionManager.fireRequest(sessionManager.createRequest(from: cfg), responseHandling: responseHandling)
+    static func fireJSONRequest(via sessionManager: SessionManagerType, with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
+        sessionManager.handleJSONResponse(for: sessionManager.request(with: cfg), with: responseHandling)
     }
 }

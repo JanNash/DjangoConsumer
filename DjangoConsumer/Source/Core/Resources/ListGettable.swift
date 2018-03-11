@@ -75,8 +75,8 @@ private extension DefaultImplementations._ListGettable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            cfg: RequestConfiguration(url: url, method: method, parameters: parameters),
-            responseHandling: ResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+            with: RequestConfiguration(url: url, method: method, parameters: parameters),
+            responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
 }

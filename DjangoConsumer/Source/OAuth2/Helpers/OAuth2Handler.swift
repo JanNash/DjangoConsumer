@@ -300,19 +300,24 @@ private extension OAuth2Handler {
     func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
-        self._sessionManager.fireJSONRequest(
-            cfg: RequestConfiguration(
+        let cfg: RequestConfiguration = {
+            RequestConfiguration(
                 url: url,
                 method: .post,
                 parameters: parameters,
                 encoding: URLEncoding.default,
                 headers: [basicAuthHeader.key : basicAuthHeader.value]
-            ),
-            responseHandling: ResponseHandling(
+            )
+        }()
+        
+        let responseHandling: JSONResponseHandling = {
+            JSONResponseHandling(
                 onSuccess: { self._handleSuccessfulTokenRequest(json: $0, updateStatus: updateStatus, success: success, failure: failure) },
                 onFailure: { self._handleFailedTokenRequest(error: $0, updateStatus: updateStatus, failure: failure) }
             )
-        )
+        }()
+        
+        self._sessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
     }
     
     func _handleSuccessfulTokenRequest(json: JSON, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
@@ -361,19 +366,19 @@ private extension OAuth2Handler {
         
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
-        let requestConfiguration: RequestConfiguration = RequestConfiguration(
+        let cfg: RequestConfiguration = RequestConfiguration(
             url: self._settings.tokenRevokeURL,
             method: .post,
             parameters: [_C.JSONKeys.token : accessToken],
             headers: [basicAuthHeader.key : basicAuthHeader.value]
         )
         
-        let responseHandling: ResponseHandling = ResponseHandling(
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
             onSuccess: { _ in },
             onFailure: { _ in }
         )
         
-        self._sessionManager.fireJSONRequest(cfg: requestConfiguration, responseHandling: responseHandling)
+        self._sessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
         // instead of waiting for the request to receive a response. Is it though?
