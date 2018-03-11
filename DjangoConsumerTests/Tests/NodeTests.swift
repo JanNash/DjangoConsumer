@@ -26,11 +26,20 @@ class NodeTests: BaseTest {
         let expectedOffset: UInt = 10
         let expectedLimit: UInt = 100
         
-        let parameters: Parameters = node.parametersFrom(offset: expectedOffset, limit: expectedLimit)
+        let nodeImplementation: () -> Parameters = {
+            node.parametersFrom(offset: expectedOffset, limit: expectedLimit)
+        }
         
-        XCTAssert(parameters.count == 2)
-        XCTAssertEqual(parameters[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
-        XCTAssertEqual(parameters[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
+        let defaultImplementation: () -> Parameters = {
+            DefaultImplementations._Node_.parametersFrom(node: node, offset: expectedOffset, limit: expectedLimit)
+        }
+        
+        [nodeImplementation, defaultImplementation].forEach({
+            let parameters: Parameters = $0()
+            XCTAssert(parameters.count == 2)
+            XCTAssertEqual(parameters[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
+            XCTAssertEqual(parameters[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
+        })
     }
     
     func testParametersFromOffsetAndLimitAndFilters() {
@@ -40,11 +49,20 @@ class NodeTests: BaseTest {
         let nameFilter: _F<String> = _F(.name, .__icontains, "blubb")
         let filters = [nameFilter]
         
-        let parameters: Parameters = node.parametersFrom(offset: expectedOffset, limit: expectedLimit, filters: filters)
+        let nodeImplementation: () -> Parameters = {
+            node.parametersFrom(offset: expectedOffset, limit: expectedLimit, filters: filters)
+        }
         
-        XCTAssert(parameters.count == 3)
-        XCTAssertEqual(parameters[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
-        XCTAssertEqual(parameters[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
-        XCTAssertEqual(parameters[nameFilter.stringKey] as? String, nameFilter.value as? String)
+        let defaultImplementation: () -> Parameters = {
+            DefaultImplementations._Node_.parametersFrom(node: node, offset: expectedOffset, limit: expectedLimit, filters: filters)
+        }
+        
+        [nodeImplementation, defaultImplementation].forEach({
+            let parameters: Parameters = $0()
+            XCTAssert(parameters.count == 3)
+            XCTAssertEqual(parameters[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
+            XCTAssertEqual(parameters[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
+            XCTAssertEqual(parameters[nameFilter.stringKey] as? String, nameFilter.value as? String)
+        })
     }
 }
