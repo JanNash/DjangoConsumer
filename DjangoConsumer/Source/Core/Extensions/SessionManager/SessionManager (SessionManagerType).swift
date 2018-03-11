@@ -18,7 +18,7 @@ import Alamofire
 extension Alamofire.SessionManager: SessionManagerType {
     public func request(with cfg: RequestConfiguration) -> DataRequest {
         return self
-            .request(cfg.url, method: cfg.method, parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
+            .request(cfg.url, method: cfg.method.toHTTPMethod(), parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
             .validate(statusCode: cfg.acceptableStatusCodes)
             .validate(contentType: cfg.acceptableContentTypes)
     }
