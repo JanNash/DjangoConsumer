@@ -14,18 +14,7 @@ import Alamofire
 import DjangoConsumer
 
 
-// MARK: // Private
-// MARK: - Node
-private extension SessionManagerType {
-    var _receivedRequest: ((DataRequest) -> Void)? {
-        get { return (self as? TestSessionManager)?.testDelegate.receivedDataRequest }
-        set { (self as? TestSessionManager)?.testDelegate.receivedDataRequest = newValue }
-    }
-}
-
-
 // MARK: // Internal
-// MARK: - SinglePostableTests
 class SinglePostableTests: BaseTest {
     // FixtureType
     private typealias _FixtureType = MockSinglePostable
