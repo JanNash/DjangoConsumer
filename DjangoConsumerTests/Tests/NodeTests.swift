@@ -83,4 +83,41 @@ class NodeTests: BaseTest {
             XCTAssertEqual(parameters[nameFilter.stringKey] as? String, nameFilter.value as? String)
         })
     }
+    
+    func testRelativeURLForResourceType() {
+        let mockNode: MockNode = MockNode()
+        let node: Node = mockNode
+        
+        func generateRelativePath(_ typ: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> String {
+            return "\(method)-\(routeType)-\("\(typ)".hashValue)"
+        }
+        
+        let types: [MetaResource.Type] = [MockListGettable.self]
+        let routeTypes: [RouteType] = [.detail, .list]
+        let resourceHTTPMethods: [ResourceHTTPMethod] = ResourceHTTPMethod.all
+        let permutations: [(MetaResource.Type, RouteType, ResourceHTTPMethod, String)] = types
+                .permutate(with: routeTypes)
+                .permutate(with: resourceHTTPMethods)
+                .map({ ($0.0.0, $0.0.1, $0.1, generateRelativePath($0.0.0, $0.0.1, $0.1)) })
+        
+        mockNode.routes = permutations.map(Route.init)
+        
+        let nodeImplementation: (MetaResource.Type, RouteType, ResourceHTTPMethod) -> URL = {
+            node.relativeURL(for: $0, routeType: $1, method: $2)
+        }
+        
+        let defaultImplementation: (MetaResource.Type, RouteType, ResourceHTTPMethod) -> URL = {
+            DefaultImplementations._Node_.relativeURL(node: node, for: $0, routeType: $1, method: $2)
+        }
+        
+        permutations.forEach({ typ, routeType, method, path in
+            let expectedURL: URL = URL(string: path)!
+            
+            let nodeRelativeURL: URL = nodeImplementation(typ, routeType, method)
+            XCTAssertEqual(nodeRelativeURL, expectedURL)
+            
+            let defaultRelativeURL: URL = defaultImplementation(typ, routeType, method)
+            XCTAssertEqual(defaultRelativeURL, expectedURL)
+        })
+    }
 }
