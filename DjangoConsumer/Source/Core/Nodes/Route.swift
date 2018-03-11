@@ -25,8 +25,8 @@ public enum RouteType: String {
 // MARK: - Route
 // MARK: Struct Declaration
 public struct Route {
-    // Init
-    public init(_ resourceType: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod, _ relativePath: String) {
+    // Private Init
+    private init(_ resourceType: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod, _ relativePath: String) {
         self.resourceType = resourceType
         self.routeType = routeType
         self.method = method
