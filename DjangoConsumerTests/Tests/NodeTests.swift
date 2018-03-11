@@ -21,7 +21,19 @@ class NodeTests: BaseTest {
         XCTAssert(node.defaultFilters(for: MockFilteredListGettable.self).isEmpty)
     }
     
-    func testParametersFromOffsetLimitAndFilters() {
+    func testParametersFromOffsetAndLimit() {
+        let node: Node = MockNode()
+        let expectedOffset: UInt = 10
+        let expectedLimit: UInt = 100
+        
+        let parameters: Parameters = node.parametersFrom(offset: expectedOffset, limit: expectedLimit)
+        
+        XCTAssert(parameters.count == 2)
+        XCTAssertEqual(parameters[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
+        XCTAssertEqual(parameters[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
+    }
+    
+    func testParametersFromOffsetAndLimitAndFilters() {
         let node: Node = MockNode()
         let expectedOffset: UInt = 10
         let expectedLimit: UInt = 100
