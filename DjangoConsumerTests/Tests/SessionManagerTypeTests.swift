@@ -76,6 +76,37 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
 }
 
 
+// MARK: - TestSessionDelegateTests
+class TestSessionDelegateTests: BaseTest {
+    func testTestSessionDelegateSubscriptSetter() {
+        let sessionDelegate: TestSessionDelegate = TestSessionDelegate()
+        let sessionManager: SessionManager = SessionManager()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected sessionDelegate.receivedDataRequest to be called"
+        )
+        
+        sessionDelegate.receivedDataRequest = { _ in
+            expectation.fulfill()
+        }
+        
+        let fakeTask: URLSessionTask = URLSessionTask()
+        let fakeRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
+        
+        sessionDelegate[fakeTask] = fakeRequest
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
+    
+    func testTestSessionDelegateSubscriptGetter() {
+        let sessionDelegate: TestSessionDelegate = TestSessionDelegate()
+        let fakeTask: URLSessionTask = URLSessionTask()
+        
+        XCTAssertNil(sessionDelegate[fakeTask])
+    }
+}
+
+
 // MARK: - TestSessionManagerTests
 class TestSessionManagerTests: BaseTest {
     
