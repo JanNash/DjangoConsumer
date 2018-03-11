@@ -109,5 +109,62 @@ class TestSessionDelegateTests: BaseTest {
 
 // MARK: - TestSessionManagerTests
 class TestSessionManagerTests: BaseTest {
+    func testTestSessionManagerRequestWithConfig() {
+        let sessionManager: TestSessionManager = TestSessionManager()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected sessionManager.testDelegate.receivedDataRequest to be called"
+        )
+        
+        var receivedRequest: DataRequest?
+        
+        sessionManager.testDelegate.receivedDataRequest = {
+            receivedRequest = $0
+            expectation.fulfill()
+        }
+        
+        let expectedRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
+        
+        self.waitForExpectations(timeout: 01, handler: { _ in
+            XCTAssert(receivedRequest === expectedRequest)
+        })
+    }
     
+    func testTestSessionManagerHandleJSONResponse() {
+        let sessionManager: TestSessionManager = TestSessionManager()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected sessionManager.testDelegate.mockJSONResponse to be called"
+        )
+        
+        let expectedRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
+        
+        // This funny pattern is used because functions can't be tested for equality
+        // and JSONResponseHandling is a struct, so it's quite impossible to make
+        // it conform to Equatable, which is fine, because I deem it also quite unnecessary.
+        enum TestError: Error { case foo }
+        var onSuccessCalled: Bool = false
+        var onFailureCalled: Bool = false
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in onSuccessCalled = true },
+            onFailure: { _ in onFailureCalled = true }
+        )
+        
+        sessionManager.testDelegate.mockJSONResponse = { req, resp in
+            XCTAssert(req === expectedRequest)
+            
+            resp.onSuccess(JSON())
+            XCTAssertTrue(onSuccessCalled)
+            
+            resp.onFailure(TestError.foo)
+            XCTAssertTrue(onFailureCalled)
+            
+            expectation.fulfill()
+        }
+        
+        sessionManager.handleJSONResponse(for: expectedRequest, with: responseHandling)
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
 }
