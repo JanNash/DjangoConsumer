@@ -14,18 +14,7 @@ import Alamofire
 import DjangoConsumer
 
 
-// MARK: // Private
-// MARK: - Node
-private extension SessionManagerType {
-    var _receivedRequest: ((DataRequest) -> Void)? {
-        get { return (self as? TestSessionManager)?.testDelegate.receivedDataRequest }
-        set { (self as? TestSessionManager)?.testDelegate.receivedDataRequest = newValue }
-    }
-}
-
-
 // MARK: // Internal
-// MARK: - SinglePostableTests
 class SinglePostableTests: BaseTest {
     // FixtureType
     private typealias _FixtureType = MockSinglePostable
@@ -33,17 +22,22 @@ class SinglePostableTests: BaseTest {
     // SetUp Override
     override func setUp() {
         super.setUp()
-        _FixtureType.defaultNode.sessionManager._receivedRequest = nil
+        (_FixtureType.defaultNode as? MockNode)?.routes = []
+        _FixtureType.defaultNode.testDelegate?.receivedDataRequest = nil
+        _FixtureType.defaultNode.testDelegate?.mockJSONResponse = nil
     }
     
     // Tests
     func testSinglePostableDefaultNodeUsed() {
-        let expectedSessionManager: SessionManagerType = _FixtureType.defaultNode.sessionManager
+        let expectedNode: Node = _FixtureType.defaultNode
+        
+        (expectedNode as? MockNode)?.routes = [Route(MockSinglePostable.self, .detail, .post, "singlepostables")]
+        
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected request to be handed to sessionDelegate"
         )
         
-        expectedSessionManager._receivedRequest = { request in
+        expectedNode.testDelegate?.receivedDataRequest = { request in
             expectation.fulfill()
         }
         

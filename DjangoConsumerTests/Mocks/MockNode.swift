@@ -15,23 +15,28 @@ import DjangoConsumer
 
 
 // MARK: // Internal
-// MARK: Class Declaration
+// MARK: Node Convenience Extension
+extension Node {
+    var testDelegate: TestSessionDelegate? {
+        return (self.sessionManager as? TestSessionManager)?.testDelegate
+    }
+}
+
+
+// MARK: - MockNode
 class MockNode: Node {
     // Singleton
     static let main: MockNode = MockNode()
     
     // Node Conformance
     // SessionManager
-    let sessionManager: SessionManagerType = TestSessionManager()
+    var sessionManager: SessionManagerType = TestSessionManager()
     
     // Base URL
     var baseURL: URL = URL(string: "http://localhost:8080")!
     
     // Routes
-    var routes: [Route] = [
-        Route(MockListGettable.self, .list, .get, "listgettables"),
-        Route(MockSinglePostable.self, .detail, .post, "singlepostables"),
-    ]
+    var routes: [Route] = []
     
     // Pagination
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt {
