@@ -16,11 +16,11 @@ import DjangoConsumer
 
 
 // MARK: // Private
-private let _badRequestConfig: RequestConfiguration = {
+private let _failingRequestConfig: RequestConfiguration = {
     RequestConfiguration(url: URL(string: "http://example.com")!, method: .get)
 }()
 
-private let _goodRequestConfig: RequestConfiguration = {
+private let _succeedingRequestConfig: RequestConfiguration = {
     RequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, method: .get)
 }()
 
@@ -40,7 +40,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         XCTAssertEqual(additionalHeaders, SessionManager.defaultHTTPHeaders)
     }
     
-    func testAFSessionManagerFireJSONRequestFailure() {
+    func testAFSessionManagerFireJSONRequestWithFailingRequestConfig() {
         let sessionManager: SessionManager = .makeDefault()
         
         let expectation: XCTestExpectation = self.expectation(
@@ -52,7 +52,24 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
             onFailure: { _ in expectation.fulfill() }
         )
         
-        sessionManager.fireJSONRequest(with: _badRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireJSONRequest(with: _failingRequestConfig, responseHandling: responseHandling)
+        
+        self.waitForExpectations(timeout: 1)
+    }
+    
+    func testAFSessionManagerFireJSONRequestWithSucceedingRequestConfig() {
+        let sessionManager: SessionManager = .makeDefault()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onSuccess' to be called"
+        )
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in expectation.fulfill() },
+            onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
+        )
+        
+        sessionManager.fireJSONRequest(with: _succeedingRequestConfig, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 1)
     }
