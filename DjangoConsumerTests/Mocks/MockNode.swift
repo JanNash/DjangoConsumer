@@ -22,7 +22,8 @@ class MockNode: Node {
     
     // Node Conformance
     // SessionManager
-    let sessionManager: SessionManagerType = TestSessionManager()
+    var sessionManager: SessionManagerType = TestSessionManager()
+    var testDelegate: TestSessionDelegate { return (self.sessionManager as! TestSessionManager).testDelegate }
     
     // Base URL
     var baseURL: URL = URL(string: "http://localhost:8080")!
