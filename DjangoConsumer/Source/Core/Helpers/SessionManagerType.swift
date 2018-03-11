@@ -41,15 +41,14 @@ public struct RequestConfiguration {
 // MARK: - JSONResponseHandling
 public struct JSONResponseHandling {
     // Inits
-    public init() {}
     public init(onSuccess: @escaping (JSON) -> Void, onFailure: @escaping (Error) -> Void) {
         self.onSuccess = onSuccess
         self.onFailure = onFailure
     }
     
     // Public Variables
-    public var onSuccess: (JSON) -> Void = { _ in }
-    public var onFailure: (Error) -> Void = { _ in }
+    public var onSuccess: (JSON) -> Void
+    public var onFailure: (Error) -> Void
     
     // Handle Response
     func handleResponse(_ response: DataResponse<JSON>) {
