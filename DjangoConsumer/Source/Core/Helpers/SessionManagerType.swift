@@ -50,25 +50,20 @@ public struct JSONResponseHandling {
     // Public Variables
     public var onSuccess: (JSON) -> Void = { _ in }
     public var onFailure: (Error) -> Void = { _ in }
+    
+    // Handle Response
+    func handleResponse(_ response: DataResponse<JSON>) {
+        switch response.result {
+        case let .success(result):
+            self.onSuccess(result)
+        case let .failure(error):
+            self.onFailure(error)
+        }
+    }
 }
 
 
 // MARK: - SessionManagerType
 public protocol SessionManagerType: class {
     func request(with cfg: RequestConfiguration) -> DataRequest
-}
-
-
-// MARK: - Request Convenience Extension
-public extension Alamofire.DataRequest {
-    func handleJSONResponse(with responseHandling: JSONResponseHandling) {
-        self.responseSwiftyJSON {
-            switch $0.result {
-            case let .success(result):
-                responseHandling.onSuccess(result)
-            case let .failure(error):
-                responseHandling.onFailure(error)
-            }
-        }
-    }
 }
