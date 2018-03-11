@@ -84,23 +84,22 @@ class NodeTests: BaseTest {
         })
     }
     
-    func testRelativeURLForResourceTypeWithAllRoutePermutations() {
+    func testRoutesAgainstRelativeURLForResourceType() {
         let mockNode: MockNode = MockNode()
         let node: Node = mockNode
         
-        func generateRelativePath(_ typ: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> String {
-            return "\(method)-\(routeType)-\("\(typ)".hashValue)"
-        }
+        let routes: [Route] = [
+            .listGET(MockListGettable.self, "mocklistgettables"),
+            .listGET(MockFilteredListGettable.self, "mockfilteredlistgettables"),
+            // .detailGET(MockDetailGettable.self, "mockdetailgettables"),
+            // .listPOST(MockListPostable.self, "mocklistpostables"),
+            .singlePOST(MockSinglePostable.self, "mocksinglepostables"),
+            // .detailPUT(MockDetailPostable.self, "mockdetailputtables"),
+            // .detailPATCH(MockDetailPatchable.self, "mockdetailpatchables"),
+            // .detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
+        ]
         
-        let types: [MetaResource.Type] = [MockListGettable.self]
-        let routeTypes: [RouteType] = [.detail, .list]
-        let resourceHTTPMethods: [ResourceHTTPMethod] = ResourceHTTPMethod.all
-        let permutations: [(MetaResource.Type, RouteType, ResourceHTTPMethod, String)] = types
-                .permutate(with: routeTypes)
-                .permutate(with: resourceHTTPMethods)
-                .map({ ($0.0.0, $0.0.1, $0.1, generateRelativePath($0.0.0, $0.0.1, $0.1)) })
-        
-        mockNode.routes = permutations.map(Route.init)
+        mockNode.routes = routes
         
         let nodeImplementation: (MetaResource.Type, RouteType, ResourceHTTPMethod) -> URL = {
             node.relativeURL(for: $0, routeType: $1, method: $2)
@@ -110,8 +109,11 @@ class NodeTests: BaseTest {
             DefaultImplementations._Node_.relativeURL(node: node, for: $0, routeType: $1, method: $2)
         }
         
-        permutations.forEach({ typ, routeType, method, path in
-            let expectedURL: URL = URL(string: path)!
+        routes.forEach({
+            let expectedURL: URL = $0.relativeURL
+            let typ: MetaResource.Type = $0.resourceType
+            let routeType: RouteType = $0.routeType
+            let method: ResourceHTTPMethod = $0.method
             
             let nodeRelativeURL: URL = nodeImplementation(typ, routeType, method)
             XCTAssertEqual(nodeRelativeURL, expectedURL)
@@ -121,23 +123,22 @@ class NodeTests: BaseTest {
         })
     }
     
-    func testAbsoluteURLForResourceTypeWithAllRoutePermutations() {
+    func testRoutesAgainstAbsoluteURLForResourceType() {
         let mockNode: MockNode = MockNode()
         let node: Node = mockNode
         
-        func generateRelativePath(_ typ: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> String {
-            return "\(method)-\(routeType)-\("\(typ)".hashValue)"
-        }
+        let routes: [Route] = [
+            .listGET(MockListGettable.self, "mocklistgettables"),
+            .listGET(MockFilteredListGettable.self, "mockfilteredlistgettables"),
+            // .detailGET(MockDetailGettable.self, "mockdetailgettables"),
+            // .listPOST(MockListPostable.self, "mocklistpostables"),
+            .singlePOST(MockSinglePostable.self, "mocksinglepostables"),
+            // .detailPUT(MockDetailPostable.self, "mockdetailputtables"),
+            // .detailPATCH(MockDetailPatchable.self, "mockdetailpatchables"),
+            // .detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
+        ]
         
-        let types: [MetaResource.Type] = [MockListGettable.self]
-        let routeTypes: [RouteType] = [.detail, .list]
-        let resourceHTTPMethods: [ResourceHTTPMethod] = ResourceHTTPMethod.all
-        let permutations: [(MetaResource.Type, RouteType, ResourceHTTPMethod, String)] = types
-            .permutate(with: routeTypes)
-            .permutate(with: resourceHTTPMethods)
-            .map({ ($0.0.0, $0.0.1, $0.1, generateRelativePath($0.0.0, $0.0.1, $0.1)) })
-        
-        mockNode.routes = permutations.map(Route.init)
+        mockNode.routes = routes
         
         let nodeImplementation: (MetaResource.Type, RouteType, ResourceHTTPMethod) -> URL = {
             node.absoluteURL(for: $0, routeType: $1, method: $2)
@@ -149,8 +150,11 @@ class NodeTests: BaseTest {
         
         let baseURL: URL = node.baseURL
         
-        permutations.forEach({ typ, routeType, method, path in
-            let expectedURL: URL = baseURL.appendingPathComponent(path)
+        routes.forEach({
+            let expectedURL: URL = baseURL.appendingPathComponent($0.relativeURL.absoluteString)
+            let typ: MetaResource.Type = $0.resourceType
+            let routeType: RouteType = $0.routeType
+            let method: ResourceHTTPMethod = $0.method
             
             let nodeAbsoluteURL: URL = nodeImplementation(typ, routeType, method)
             XCTAssertEqual(nodeAbsoluteURL, expectedURL)
