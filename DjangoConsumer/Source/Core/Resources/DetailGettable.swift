@@ -60,8 +60,9 @@ private extension DefaultImplementations._DetailGettable_ {
             detailGettable.failedGettingNewSelf(from: node, with: error)
         }
         
-        node.sessionManager
-            .request(with: RequestConfiguration(url: url, method: method))
-            .handleJSONResponse(with: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure))
+        node.sessionManager.fireJSONRequest(
+            with: RequestConfiguration(url: url, method: method),
+            responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+        )
     }
 }

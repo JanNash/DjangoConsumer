@@ -69,8 +69,9 @@ private extension DefaultImplementations._ResourceID_ {
             T.detailGettableClients.forEach({ $0.failedGettingObject(for: resourceID, from: node, with: error) })
         }
         
-        node.sessionManager
-            .request(with: RequestConfiguration(url: url, method: method))
-            .handleJSONResponse(with: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure))
+        node.sessionManager.fireJSONRequest(
+            with: RequestConfiguration(url: url, method: method),
+            responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+        )
     }
 }

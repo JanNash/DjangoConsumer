@@ -74,8 +74,9 @@ private extension DefaultImplementations._ListGettable_ {
             T.listGettableClients.forEach({ $0.failedGettingObjects(with: failure) })
         }
         
-        node.sessionManager
-            .request(with: RequestConfiguration(url: url, method: method, parameters: parameters))
-            .handleJSONResponse(with: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure))
+        node.sessionManager.fireJSONRequest(
+            with: RequestConfiguration(url: url, method: method, parameters: parameters),
+            responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+        )
     }
 }
