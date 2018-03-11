@@ -58,7 +58,7 @@ public extension DefaultImplementations._ResourceID_ {
 private extension DefaultImplementations._ResourceID_ {
     static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node) {
         let url: URL = node.absoluteGETURL(for: resourceID)
-        let method: HTTPMethod = .get
+        let method: ResourceHTTPMethod = .get
 
         func onSuccess(_ json: JSON) {
             let object: T = T(json: json)

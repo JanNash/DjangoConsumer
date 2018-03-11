@@ -44,7 +44,7 @@ public extension DefaultImplementations._ListGettable_ {
 // MARK: // Private
 private extension DefaultImplementations._ListGettable_ {
     static func _get<T: ListGettable>(_ l: T.Type, from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
-        let method: HTTPMethod = .get
+        let method: ResourceHTTPMethod = .get
         let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
         
         let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: T.self)

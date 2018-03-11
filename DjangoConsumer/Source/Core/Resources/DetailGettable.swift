@@ -46,7 +46,7 @@ public extension DefaultImplementations._DetailGettable_ {
 // MARK: GET function Implementation
 private extension DefaultImplementations._DetailGettable_ {
     static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
-        let method: HTTPMethod = .get
+        let method: ResourceHTTPMethod = .get
         let url: URL = node.absoluteURL(for: detailGettable, method: method)
         
         func onSuccess(_ json: JSON) {
