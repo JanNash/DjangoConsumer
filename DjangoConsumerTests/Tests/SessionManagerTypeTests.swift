@@ -24,8 +24,86 @@ private let _succeedingRequestConfig: RequestConfiguration = {
     RequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, method: .get)
 }()
 
+private enum _TestError: Error { case foo }
+
 
 // MARK: // Internal
+// MARK: - SessionManagerTypeTests
+class SessionManagerTypeTests: BaseTest {
+    // Helper Class
+    class _MockSessionManager: SessionManagerType {
+        var requestWithCFGCalled: (() -> Void)?
+        
+        private var _AF_sessionManager: SessionManager = SessionManager()
+        
+        func request(with cfg: RequestConfiguration) -> DataRequest {
+            self.requestWithCFGCalled?()
+            return self._AF_sessionManager.request(with: cfg)
+        }
+        
+        func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling) {
+            responseHandling.onSuccess(JSON())
+            responseHandling.onFailure(_TestError.foo)
+        }
+    }
+    
+    // Tests
+    func testSessionManagerTypeDefaultImplementations1() {
+        let sessionManager: _MockSessionManager = _MockSessionManager()
+        
+        sessionManager.requestWithCFGCalled = self.expectation(
+            description: "Expected sessionManager.request(with cfg:) to be called"
+        ).fulfill
+        
+        let onSuccessExpectation: XCTestExpectation = self.expectation(
+            description: "Expected responseHandling.onSuccess() to be called"
+        )
+        
+        let onFailureExpectation: XCTestExpectation = self.expectation(
+            description: "Expected responseHandling.onFailure() to be called"
+        )
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in onSuccessExpectation.fulfill() },
+            onFailure: { _ in onFailureExpectation.fulfill() }
+        )
+        
+        DefaultImplementations._SessionManagerType_.fireJSONRequest(
+            via: sessionManager,
+            with: _failingRequestConfig,
+            responseHandling: responseHandling
+        )
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
+    
+    func testSessionManagerTypeDefaultImplementations() {
+        let sessionManager: _MockSessionManager = _MockSessionManager()
+        
+        sessionManager.requestWithCFGCalled = self.expectation(
+            description: "Expected sessionManager.request(with cfg:) to be called"
+            ).fulfill
+        
+        let onSuccessExpectation: XCTestExpectation = self.expectation(
+            description: "Expected responseHandling.onSuccess() to be called"
+        )
+        
+        let onFailureExpectation: XCTestExpectation = self.expectation(
+            description: "Expected responseHandling.onFailure() to be called"
+        )
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in onSuccessExpectation.fulfill() },
+            onFailure: { _ in onFailureExpectation.fulfill() }
+        )
+        
+        sessionManager.fireJSONRequest(with: _failingRequestConfig, responseHandling: responseHandling)
+        
+        self.waitForExpectations(timeout: 0.1)
+    }
+}
+
+
 // MARK: - AlamofireSessionManagerExtensionTests
 class AlamofireSessionManagerExtensionTests: BaseTest {
     func testAFSessionManagerMakeDefault() {
@@ -41,7 +119,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
     }
     
     func testAFSessionManagerFireJSONRequestWithFailingRequestConfig() {
-        let sessionManager: SessionManager = .makeDefault()
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
         
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected 'onFailure' to be called"
@@ -58,7 +136,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
     }
     
     func testAFSessionManagerFireJSONRequestWithSucceedingRequestConfig() {
-        let sessionManager: SessionManager = .makeDefault()
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
         
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected 'onSuccess' to be called"
@@ -80,7 +158,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
 class TestSessionDelegateTests: BaseTest {
     func testTestSessionDelegateSubscriptSetter() {
         let sessionDelegate: TestSessionDelegate = TestSessionDelegate()
-        let sessionManager: SessionManager = SessionManager()
+        let sessionManager: SessionManagerType = SessionManager()
         
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected sessionDelegate.receivedDataRequest to be called"
@@ -142,7 +220,6 @@ class TestSessionManagerTests: BaseTest {
         // This funny pattern is used because functions can't be tested for equality
         // and JSONResponseHandling is a struct, so it's quite impossible to make
         // it conform to Equatable, which is fine, because I deem it also quite unnecessary.
-        enum TestError: Error { case foo }
         var onSuccessCalled: Bool = false
         var onFailureCalled: Bool = false
         
@@ -157,7 +234,7 @@ class TestSessionManagerTests: BaseTest {
             resp.onSuccess(JSON())
             XCTAssertTrue(onSuccessCalled)
             
-            resp.onFailure(TestError.foo)
+            resp.onFailure(_TestError.foo)
             XCTAssertTrue(onFailureCalled)
             
             expectation.fulfill()
