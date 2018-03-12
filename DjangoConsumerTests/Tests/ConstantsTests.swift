@@ -15,7 +15,17 @@ import Alamofire
 
 
 // MARK: // Internal
-class ConstantsTests: BaseTest {
+// MARK: StaticLetTests
+class StaticLetTests: BaseTest {
+    // Node.swift
+    func testDefaultListResponseKeys() {
+        typealias FixtureType = DefaultListResponseKeys
+        
+        XCTAssertEqual(FixtureType.meta, "meta")
+        XCTAssertEqual(FixtureType.results, "results")
+    }
+    
+    // Pagination.swift
     func testDefaultPaginationKeys() {
         typealias FixtureType = DefaultPagination.Keys
         
@@ -26,30 +36,7 @@ class ConstantsTests: BaseTest {
         XCTAssertEqual(FixtureType.totalCount, "total_count")
     }
     
-    func testDefaultListResponseKeys() {
-        typealias FixtureType = DefaultListResponseKeys
-        
-        XCTAssertEqual(FixtureType.meta, "meta")
-        XCTAssertEqual(FixtureType.results, "results")
-    }
-    
-    func testResourceHTTPMethodRawValues() {
-        typealias FixtureType = ResourceHTTPMethod
-        
-        XCTAssertEqual(FixtureType.get.rawValue, "GET")
-        XCTAssertEqual(FixtureType.head.rawValue, "HEAD")
-        XCTAssertEqual(FixtureType.post.rawValue, "POST")
-        XCTAssertEqual(FixtureType.put.rawValue, "PUT")
-        XCTAssertEqual(FixtureType.patch.rawValue, "PATCH")
-        XCTAssertEqual(FixtureType.delete.rawValue, "DELETE")
-        
-        let allResourceHTTPMethods: [FixtureType] = FixtureType.all
-        XCTAssertEqual(allResourceHTTPMethods, [.get, .head, .post, .put, .patch, .delete])
-        
-        let allHTTPMethods: [HTTPMethod] = [.get, .head, .post, .put, .patch, .delete]
-        XCTAssertEqual(allResourceHTTPMethods.map({ $0.toHTTPMethod() }), allHTTPMethods)
-    }
-    
+    // OAuth2Constants.swift
     func testOAuth2Constants() {
         typealias FixtureType = OAuth2Constants
         
@@ -58,7 +45,7 @@ class ConstantsTests: BaseTest {
         
         XCTAssertEqual(FixtureType.HeaderFields.authorization, "Authorization")
         
-        let fakeToken: String = "wibbly-wobbly-timey-whimey"
+        let fakeToken: String = "Wibbly wobbly, timey wimey"
         XCTAssertEqual(FixtureType.HeaderValues.basic(fakeToken), "Basic \(fakeToken)")
         XCTAssertEqual(FixtureType.HeaderValues.bearer(fakeToken), "Bearer \(fakeToken)")
         
@@ -74,32 +61,33 @@ class ConstantsTests: BaseTest {
         
         XCTAssertEqual(FixtureType.Scopes.readWrite, "read write")
     }
-    
-    func testRouteTypesRawValues() {
+}
+
+
+// MARK: EnumTests
+class EnumTests: BaseTest {
+    // Route.swift
+    func testRouteType() {
         typealias FixtureType = RouteType
         
         XCTAssertEqual(FixtureType.detail.rawValue, "detail")
         XCTAssertEqual(FixtureType.list.rawValue, "list")
     }
     
-    func testFilterKeyConstants() {
+    // Filtering.swift
+    func testFilterKey() {
         typealias FixtureType = FilterKey<Any>.DefaultFilterKeys
         
         XCTAssertEqual(FixtureType.date.rawValue, "date")
         XCTAssertEqual(FixtureType.id.rawValue, "id")
         XCTAssertEqual(FixtureType.name.rawValue, "name")
         
-        let date: FilterKey = .date
-        XCTAssertEqual(date.string, "date")
-        
-        let _id: FilterKey = .id
-        XCTAssertEqual(_id.string, "id")
-        
-        let name: FilterKey = .name
-        XCTAssertEqual(name.string, "name")
+        XCTAssertEqual(FilterKey<Date>.date.string, "date")
+        XCTAssertEqual(FilterKey<id_Type>.id.string, "id")
+        XCTAssertEqual(FilterKey<String>.name.string, "name")
     }
     
-    func testFilterComparatorConstants() {
+    func testFilterComparator() {
         typealias FixtureType = FilterComparator.DefaultFilterComparators
         
         XCTAssertEqual(FixtureType.__gt.rawValue, "__gt")
@@ -108,5 +96,26 @@ class ConstantsTests: BaseTest {
         XCTAssertEqual(FixtureType.__in.rawValue, "__in")
         XCTAssertEqual(FixtureType.__lt.rawValue, "__lt")
         XCTAssertEqual(FixtureType.__lte.rawValue, "__lte")
+    }
+    
+    // ResourceHTTPMethod.swift
+    func testResourceHTTPMethod() {
+        typealias FixtureType = ResourceHTTPMethod
+        
+        XCTAssertEqual(FixtureType.get.rawValue, "GET")
+        XCTAssertEqual(FixtureType.head.rawValue, "HEAD")
+        XCTAssertEqual(FixtureType.post.rawValue, "POST")
+        XCTAssertEqual(FixtureType.put.rawValue, "PUT")
+        XCTAssertEqual(FixtureType.patch.rawValue, "PATCH")
+        XCTAssertEqual(FixtureType.delete.rawValue, "DELETE")
+        
+        XCTAssertEqual(
+            FixtureType.all, [.get, .head, .post, .put, .patch, .delete]
+        )
+        
+        XCTAssertEqual(
+            FixtureType.all.map({ $0.toHTTPMethod() }),
+            [.get, .head, .post, .put, .patch, .delete]
+        )
     }
 }
