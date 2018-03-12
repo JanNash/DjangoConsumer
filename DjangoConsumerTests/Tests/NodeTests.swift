@@ -24,7 +24,23 @@ class NodeTests: BaseTest {
     
     // Parameter Generation
     func testParametersFromFilters() {
-        XCTFail()
+        let node: Node = MockNode()
+        let nameFilter: _F<String> = _F(.name, .__icontains, "blubb")
+        let filters = [nameFilter]
+        
+        let nodeImplementation: () -> Parameters = {
+            node.parametersFrom(filters: filters)
+        }
+        
+        let defaultImplementation: () -> Parameters = {
+            DefaultImplementations._Node_.parametersFrom(node: node, filters: filters)
+        }
+        
+        [nodeImplementation, defaultImplementation].forEach({
+            let parameters: Parameters = $0()
+            XCTAssert(parameters.count == 1)
+            XCTAssertEqual(parameters[nameFilter.stringKey] as? String, nameFilter.value as? String)
+        })
     }
     
     func testParametersFromOffsetAndLimit() {
