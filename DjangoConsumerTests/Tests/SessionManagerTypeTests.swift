@@ -177,8 +177,13 @@ class TestSessionDelegateTests: BaseTest {
     }
     
     func testTestSessionDelegateSubscriptGetter() {
+        let sessionManager: SessionManagerType = SessionManager()
         let sessionDelegate: TestSessionDelegate = TestSessionDelegate()
+        
         let fakeTask: URLSessionTask = URLSessionTask()
+        let fakeRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
+        
+        sessionDelegate[fakeTask] = fakeRequest
         
         XCTAssertNil(sessionDelegate[fakeTask])
     }
