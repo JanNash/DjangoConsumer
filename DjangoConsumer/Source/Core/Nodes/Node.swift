@@ -28,10 +28,13 @@ public protocol Node {
     // Filtering
     func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType]
     
+    // List GET Request Helpers
+    func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
+    
     // Parameter Generation
-    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
-    func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(filters: [FilterType]) -> Parameters
+    func parametersFrom(offset: UInt, limit: UInt) -> Parameters
+    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
     
     // MetaResource.Type URLs
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
@@ -44,9 +47,6 @@ public protocol Node {
     // ResourceID URLs
     func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL
     func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL
-    
-    // List GET Request Helpers
-    func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     
     // List Response Helpers
     func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod) -> Pagination.Type
@@ -72,16 +72,16 @@ public extension Node {
 
 // MARK: Parameter Generation
 public extension Node {
-    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
-        return DefaultImplementations._Node_.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
+    func parametersFrom(filters: [FilterType]) -> Parameters {
+        return DefaultImplementations._Node_.parametersFrom(node: self, filters: filters)
     }
     
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters {
         return DefaultImplementations._Node_.parametersFrom(node: self, offset: offset, limit: limit)
     }
     
-    func parametersFrom(filters: [FilterType]) -> Parameters {
-        return DefaultImplementations._Node_.parametersFrom(node: self, filters: filters)
+    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
+        return DefaultImplementations._Node_.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
     }
 }
 

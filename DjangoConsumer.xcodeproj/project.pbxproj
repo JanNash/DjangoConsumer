@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04E15EBD5C49531B6D58F88D9DCAED68 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A486C0DB729A213E98D9E0A63958A103 /* URL+.swift */; };
 		0547C8FDE085DBE0C6F682C4DB293764 /* ListResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69A84EF0C7C8240AD5FEBA3F9485BC /* ListResource.swift */; };
 		05626D9614EBC5610F00EEA49A6D2AB8 /* DjangoConsumer.h in Headers */ = {isa = PBXBuildFile; fileRef = 562929C331A4A24D4775B847847831A8 /* DjangoConsumer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */; };
@@ -110,6 +111,7 @@
 		9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2Node.swift; sourceTree = "<group>"; };
 		9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Handler.swift; sourceTree = "<group>"; };
 		A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		A486C0DB729A213E98D9E0A63958A103 /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 		A9E690E363AB7FAD4E38E696AB8E4CF5 /* Sequence (permutateWith).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence (permutateWith).swift"; sourceTree = "<group>"; };
 		AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTypeTests.swift; sourceTree = "<group>"; };
 		B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNode.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 			children = (
 				45A4663B5A7E8ABD82363BF8C7E8578B /* DefaultImplementations.swift */,
 				C9A80FEAC85E6904F4663E739B587472 /* SessionManagerType.swift */,
+				A486C0DB729A213E98D9E0A63958A103 /* URL+.swift */,
 				30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */,
 			);
 			path = Helpers;
@@ -674,6 +677,7 @@
 				36FB7694D0EC516AB7CD007226092BF4 /* SinglePostable.swift in Sources */,
 				FC33B13DEEA289C618CE183525F935BD /* SinglePostableClient.swift in Sources */,
 				557530DE6AA3CD51D0D406B18EF0DABA /* TestSessionManager.swift in Sources */,
+				04E15EBD5C49531B6D58F88D9DCAED68 /* URL+.swift in Sources */,
 				A6254114C15C891EA8B9B955EBD6D3BE /* ifThisIsAThen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

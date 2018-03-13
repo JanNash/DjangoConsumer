@@ -23,6 +23,11 @@ struct MockDetailGettable: DetailGettable, NeedsNoAuth {
         static let id: String = "id"
     }
     
+    // Init
+    init(id: ResourceID<MockDetailGettable>) {
+        self.id = id
+    }
+    
     // SinglePostable
     init(json: JSON) {
         self.id = ResourceID(json[Keys.id].string!)
