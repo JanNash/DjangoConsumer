@@ -189,7 +189,49 @@ class NodeTests: BaseTest {
     }
     
     func testRoutesAgainstAbsoluteURLForIdentifiableResource() {
-        XCTFail()
+        // Setup
+        let node: Node = MockNode()
+        
+        let detailGettableRoute: Route = .detailGET(MockDetailGettable.self, "mockdetailgettables")
+//        let detailPuttableRoute: Route = .detailPUT(MockDetailPuttable.self, "mockdetailputtables")
+//        let detailPatchableRoute: Route = .detailPATCH(MockDetailPatchable.self, "mockdetailpatchables")
+//        let detailDeletableRoute: Route = .detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
+        
+        (node as! MockNode).routes = [
+            detailGettableRoute,
+//            detailPuttableRoute,
+//            detailPatchableRoute,
+//            detailDeletableRoute
+        ]
+        
+        // Test Helper
+        let baseURL: URL = node.baseURL
+        func objectsMethodsAndExpectedURLs<T: IdentifiableResource>(expectedRoute: Route, objects: [T]) -> [(T, ResourceHTTPMethod, URL)] {
+            return objects.map({ ($0, expectedRoute.method, baseURL + expectedRoute.relativeURL + $0.id.string) })
+        }
+        
+        // Test Function
+        func testAbsoluteURL<T: IdentifiableResource>(_ resource: T, _ method: ResourceHTTPMethod, _ expectedURL: URL) {
+            XCTAssertEqual(node.absoluteURL(for: resource, method: method), expectedURL)
+            XCTAssertEqual(DefaultImplementations._Node_.absoluteURL(node: node, for: resource, method: method), expectedURL)
+        }
+        
+        // Fixtures
+        let detailGettables: [MockDetailGettable] = (1..<1000).map({ MockDetailGettable(id: ResourceID("\($0)")) })
+//        let detailPuttables: [MockDetailPuttable] = (1..<1000).map({ MockDetailPuttable(id: ResourceID("\($0)")) })
+//        let detailPatchables: [MockDetailPatchable] = (1..<1000).map({ MockDetailPatchable(id: ResourceID("\($0)")) })
+//        let detailDeletables: [MockDetailDeletable] = (1..<1000).map({ MockDetailDeletable(id: ResourceID("\($0)")) })
+        
+        // Test Run
+        [
+            (detailGettableRoute, detailGettables),
+//            (detailPuttableRoute, detailPuttables),
+//            (detailPatchableRoute, detailPatchables),
+//            (detailDeletableRoute, detailDeletables),
+        ]
+        .map(objectsMethodsAndExpectedURLs)
+        .reduce([], +)
+        .forEach(testAbsoluteURL)
     }
     
     // ResourceID URLs
