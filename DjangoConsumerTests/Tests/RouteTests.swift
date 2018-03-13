@@ -26,4 +26,28 @@ class RouteTests: BaseTest {
         XCTAssert(route.method == .get)
         XCTAssert(route.relativeURL == URL(string: relPath)!)
     }
+    
+    func testDetailGETRoute() {
+        typealias FixtureType = MockDetailGettable
+        let relPath: String = "mockdetailgettables"
+        
+        let route: Route = .detailGET(FixtureType.self, relPath)
+        
+        XCTAssert(route.resourceType == FixtureType.self)
+        XCTAssert(route.routeType == .detail)
+        XCTAssert(route.method == .get)
+        XCTAssert(route.relativeURL == URL(string: relPath)!)
+    }
+    
+    func testSinglePostRoute() {
+        typealias FixtureType = MockSinglePostable
+        let relPath: String = "mocksinglepostables"
+        
+        let route: Route = .singlePOST(FixtureType.self, relPath)
+        
+        XCTAssert(route.resourceType == FixtureType.self)
+        XCTAssert(route.routeType == .detail)
+        XCTAssert(route.method == .post)
+        XCTAssert(route.relativeURL == URL(string: relPath)!)
+    }
 }
