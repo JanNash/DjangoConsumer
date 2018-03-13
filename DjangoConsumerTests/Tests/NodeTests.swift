@@ -156,7 +156,7 @@ class NodeTests: BaseTest {
         let baseURL: URL = node.baseURL
         
         routes.forEach({
-            let expectedURL: URL = baseURL.appendingPathComponent($0.relativeURL.absoluteString)
+            let expectedURL: URL = baseURL + $0.relativeURL
             let typ: MetaResource.Type = $0.resourceType
             let routeType: RouteType = $0.routeType
             let method: ResourceHTTPMethod = $0.method
@@ -171,7 +171,48 @@ class NodeTests: BaseTest {
 
     // IdentifiableResource URLs
     func testRoutesAgainstRelativeURLForIdentifiableResource() {
-        XCTFail()
+        // Setup
+        let node: Node = MockNode()
+        
+        let detailGettableRoute: Route = .detailGET(MockDetailGettable.self, "mockdetailgettables")
+//        let detailPuttableRoute: Route = .detailPUT(MockDetailPuttable.self, "mockdetailputtables")
+//        let detailPatchableRoute: Route = .detailPATCH(MockDetailPatchable.self, "mockdetailpatchables")
+//        let detailDeletableRoute: Route = .detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
+        
+        (node as! MockNode).routes = [
+            detailGettableRoute,
+//            detailPuttableRoute,
+//            detailPatchableRoute,
+//            detailDeletableRoute
+        ]
+        
+        // Test Helper
+        func objectsMethodsAndExpectedURLs<T: IdentifiableResource>(expectedRoute: Route, objects: [T]) -> [(T, ResourceHTTPMethod, URL)] {
+            return objects.map({ ($0, expectedRoute.method, expectedRoute.relativeURL + $0.id.string) })
+        }
+        
+        // Test Function
+        func testRelativeURL<T: IdentifiableResource>(_ resource: T, _ method: ResourceHTTPMethod, _ expectedURL: URL) {
+            XCTAssertEqual(node.relativeURL(for: resource, method: method), expectedURL)
+            XCTAssertEqual(DefaultImplementations._Node_.relativeURL(node: node, for: resource, method: method), expectedURL)
+        }
+        
+        // Fixtures
+        let detailGettables: [MockDetailGettable] = (1..<1000).map({ MockDetailGettable(id: ResourceID("\($0)")) })
+//        let detailPuttables: [MockDetailPuttable] = (1..<1000).map({ MockDetailPuttable(id: ResourceID("\($0)")) })
+//        let detailPatchables: [MockDetailPatchable] = (1..<1000).map({ MockDetailPatchable(id: ResourceID("\($0)")) })
+//        let detailDeletables: [MockDetailDeletable] = (1..<1000).map({ MockDetailDeletable(id: ResourceID("\($0)")) })
+        
+        // Test Run
+        [
+            (detailGettableRoute, detailGettables),
+//            (detailPuttableRoute, detailPuttables),
+//            (detailPatchableRoute, detailPatchables),
+//            (detailDeletableRoute, detailDeletables),
+        ]
+        .map(objectsMethodsAndExpectedURLs)
+        .reduce([], +)
+        .forEach(testRelativeURL)
     }
     
     func testRoutesAgainstAbsoluteURLForIdentifiableResource() {
