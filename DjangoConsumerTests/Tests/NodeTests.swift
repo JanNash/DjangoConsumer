@@ -36,10 +36,9 @@ class NodeTests: BaseTest {
             DefaultImplementations._Node_.parametersFrom(node: node, filters: filters)
         }
         
-        [nodeImplementation, defaultImplementation].forEach({
-            let parameters: Parameters = $0()
-            XCTAssert(parameters.count == 1)
-            XCTAssertEqual(parameters[nameFilter.stringKey] as? String, nameFilter.value as? String)
+        [nodeImplementation, defaultImplementation].map({ $0() }).forEach({
+            XCTAssert($0.count == 1)
+            XCTAssertEqual($0[nameFilter.stringKey] as? String, nameFilter.value as? String)
         })
     }
     
@@ -56,11 +55,10 @@ class NodeTests: BaseTest {
             DefaultImplementations._Node_.parametersFrom(node: node, offset: expectedOffset, limit: expectedLimit)
         }
         
-        [nodeImplementation, defaultImplementation].forEach({
-            let parameters: Parameters = $0()
-            XCTAssert(parameters.count == 2)
-            XCTAssertEqual(parameters[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
-            XCTAssertEqual(parameters[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
+        [nodeImplementation, defaultImplementation].map({ $0() }).forEach({
+            XCTAssert($0.count == 2)
+            XCTAssertEqual($0[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
+            XCTAssertEqual($0[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
         })
     }
     
@@ -79,12 +77,11 @@ class NodeTests: BaseTest {
             DefaultImplementations._Node_.parametersFrom(node: node, offset: expectedOffset, limit: expectedLimit, filters: filters)
         }
         
-        [nodeImplementation, defaultImplementation].forEach({
-            let parameters: Parameters = $0()
-            XCTAssert(parameters.count == 3)
-            XCTAssertEqual(parameters[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
-            XCTAssertEqual(parameters[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
-            XCTAssertEqual(parameters[nameFilter.stringKey] as? String, nameFilter.value as? String)
+        [nodeImplementation, defaultImplementation].map({ $0() }).forEach({
+            XCTAssert($0.count == 3)
+            XCTAssertEqual($0[DefaultPagination.Keys.offset] as? UInt, expectedOffset)
+            XCTAssertEqual($0[DefaultPagination.Keys.limit] as? UInt, expectedLimit)
+            XCTAssertEqual($0[nameFilter.stringKey] as? String, nameFilter.value as? String)
         })
     }
     
@@ -106,26 +103,14 @@ class NodeTests: BaseTest {
         
         mockNode.routes = routes
         
-        let nodeImplementation: (MetaResource.Type, RouteType, ResourceHTTPMethod) -> URL = {
-            node.relativeURL(for: $0, routeType: $1, method: $2)
+        let testNodeAndDefaultImplementation: (Route) -> Void = {
+            let relURL: URL = $0.relativeURL
+            typealias Dflt = DefaultImplementations._Node_
+            XCTAssertEqual(relURL, Dflt.relativeURL(node: node, for: $0.resourceType, routeType: $0.routeType, method: $0.method))
+            XCTAssertEqual(relURL, node.relativeURL(for: $0.resourceType, routeType: $0.routeType, method: $0.method))
         }
         
-        let defaultImplementation: (MetaResource.Type, RouteType, ResourceHTTPMethod) -> URL = {
-            DefaultImplementations._Node_.relativeURL(node: node, for: $0, routeType: $1, method: $2)
-        }
-        
-        routes.forEach({
-            let expectedURL: URL = $0.relativeURL
-            let typ: MetaResource.Type = $0.resourceType
-            let routeType: RouteType = $0.routeType
-            let method: ResourceHTTPMethod = $0.method
-            
-            let nodeRelativeURL: URL = nodeImplementation(typ, routeType, method)
-            XCTAssertEqual(nodeRelativeURL, expectedURL)
-            
-            let defaultRelativeURL: URL = defaultImplementation(typ, routeType, method)
-            XCTAssertEqual(defaultRelativeURL, expectedURL)
-        })
+        routes.forEach(testNodeAndDefaultImplementation)
     }
     
     func testRoutesAgainstAbsoluteURLForResourceType() {
@@ -145,28 +130,16 @@ class NodeTests: BaseTest {
         
         mockNode.routes = routes
         
-        let nodeImplementation: (MetaResource.Type, RouteType, ResourceHTTPMethod) -> URL = {
-            node.absoluteURL(for: $0, routeType: $1, method: $2)
-        }
-        
-        let defaultImplementation: (MetaResource.Type, RouteType, ResourceHTTPMethod) -> URL = {
-            DefaultImplementations._Node_.absoluteURL(node: node, for: $0, routeType: $1, method: $2)
-        }
-        
         let baseURL: URL = node.baseURL
         
-        routes.forEach({
+        let testNodeAndDefaultImplementation: (Route) -> Void = {
             let expectedURL: URL = baseURL + $0.relativeURL
-            let typ: MetaResource.Type = $0.resourceType
-            let routeType: RouteType = $0.routeType
-            let method: ResourceHTTPMethod = $0.method
-            
-            let nodeAbsoluteURL: URL = nodeImplementation(typ, routeType, method)
-            XCTAssertEqual(nodeAbsoluteURL, expectedURL)
-            
-            let defaultAbsoluteURL: URL = defaultImplementation(typ, routeType, method)
-            XCTAssertEqual(defaultAbsoluteURL, expectedURL)
-        })
+            typealias Dflt = DefaultImplementations._Node_
+            XCTAssertEqual(expectedURL, Dflt.absoluteURL(node: node, for: $0.resourceType, routeType: $0.routeType, method: $0.method))
+            XCTAssertEqual(expectedURL, node.absoluteURL(for: $0.resourceType, routeType: $0.routeType, method: $0.method))
+        }
+        
+        routes.forEach(testNodeAndDefaultImplementation)
     }
 
     // IdentifiableResource URLs
