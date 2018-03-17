@@ -45,8 +45,8 @@ public protocol Node {
     func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL
     
     // ResourceID URLs
-    func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL
-    func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL
+    func relativeGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL
+    func absoluteGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL
     
     // List Response Helpers
     func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod) -> Pagination.Type
@@ -107,11 +107,11 @@ public extension Node {
     }
     
     // ResourceID URLs
-    func relativeGETURL<T>(for resourceID: ResourceID<T>) -> URL {
+    func relativeGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL {
         return DefaultImplementations._Node_.relativeGETURL(node: self, for: resourceID)
     }
     
-    func absoluteGETURL<T>(for resourceID: ResourceID<T>) -> URL {
+    func absoluteGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL {
         return DefaultImplementations._Node_.absoluteGETURL(node: self, for: resourceID)
     }
 }
@@ -167,11 +167,11 @@ public extension DefaultImplementations._Node_ {
     }
     
     // ResourceID URLs
-    public static func relativeGETURL<T>(node: Node, for resourceID: ResourceID<T>) -> URL {
+    public static func relativeGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
         return node.relativeURL(for: T.self, routeType: .detail, method: .get).appendingPathComponent(resourceID.string)
     }
     
-    public static func absoluteGETURL<T>(node: Node, for resourceID: ResourceID<T>) -> URL {
+    public static func absoluteGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
         return node.baseURL.appendingPathComponent(node.relativeGETURL(for: resourceID).absoluteString)
     }
 }
