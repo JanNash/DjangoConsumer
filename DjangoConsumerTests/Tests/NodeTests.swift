@@ -244,7 +244,6 @@ class NodeTests: BaseTest {
         (node as! MockNode).routes = [detailGettableRoute]
         
         // Test Helper
-        let baseURL: URL = node.baseURL
         func resourceIDsAndExpectedURLs<T: DetailGettable>(expectedRoute: Route, resourceIDs: [ResourceID<T>]) -> [(ResourceID<T>, URL)] {
             return resourceIDs.map({ ($0, expectedRoute.relativeURL + $0.string) })
         }
@@ -268,7 +267,35 @@ class NodeTests: BaseTest {
     }
     
     func testRoutesAgainstAbsoluteGETURLForResourceID() {
-        XCTFail()
+        // Setup
+        let node: Node = MockNode()
+        
+        let detailGettableRoute: Route = .detailGET(MockDetailGettable.self, "mockdetailgettables")
+        
+        (node as! MockNode).routes = [detailGettableRoute]
+        
+        // Test Helper
+        let baseURL: URL = node.baseURL
+        func resourceIDsAndExpectedURLs<T: DetailGettable>(expectedRoute: Route, resourceIDs: [ResourceID<T>]) -> [(ResourceID<T>, URL)] {
+            return resourceIDs.map({ ($0, baseURL + expectedRoute.relativeURL + $0.string) })
+        }
+        
+        // Test Function
+        func testAbsoluteGETURL<T: DetailGettable>(_ resourceID: ResourceID<T>, _ expectedURL: URL) {
+            XCTAssertEqual(node.absoluteGETURL(for: resourceID), expectedURL)
+            XCTAssertEqual(DefaultImplementations._Node_.absoluteGETURL(node: node, for: resourceID), expectedURL)
+        }
+        
+        // Fixtures
+        let detailGettableIDs: [ResourceID<MockDetailGettable>] = (0..<1000).map({ ResourceID("\($0)") })
+        
+        // Test Run
+        [
+            (detailGettableRoute, detailGettableIDs),
+        ]
+        .map(resourceIDsAndExpectedURLs)
+        .reduce([], +)
+        .forEach(testAbsoluteGETURL)
     }
     
     // List Response Helpers
