@@ -168,7 +168,7 @@ public extension DefaultImplementations._Node_ {
     
     // ResourceID URLs
     public static func relativeGETURL<T>(node: Node, for resourceID: ResourceID<T>) -> URL {
-        return node.absoluteURL(for: T.self, routeType: .detail, method: .get).appendingPathComponent(resourceID.string)
+        return node.relativeURL(for: T.self, routeType: .detail, method: .get).appendingPathComponent(resourceID.string)
     }
     
     public static func absoluteGETURL<T>(node: Node, for resourceID: ResourceID<T>) -> URL {
