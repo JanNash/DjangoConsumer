@@ -73,9 +73,9 @@ public extension Route {
 
 // MARK: POST
 public extension Route {
-//    public static func listPOST<T>(_ t: T.Type, _ rel: String) -> Route where T: ListPostable {
-//        return Route(t, .list, .post, rel)
-//    }
+    public static func listPOST<T>(_ t: T.Type, _ rel: String) -> Route where T: ListPostable {
+        return Route(t, .list, .post, rel)
+    }
     
     public static func singlePOST<T>(_ t: T.Type, _ rel: String) -> Route where T: SinglePostable {
         return Route(t, .detail, .post, rel)
