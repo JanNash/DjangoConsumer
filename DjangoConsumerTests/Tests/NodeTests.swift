@@ -11,6 +11,7 @@
 
 import XCTest
 import Alamofire
+import SwiftyJSON
 import DjangoConsumer
 
 
@@ -236,11 +237,66 @@ class NodeTests: BaseTest {
     
     // ResourceID URLs
     func testRoutesAgainstRelativeGETURLForResourceID() {
-        XCTFail()
+        // Setup
+        let node: Node = MockNode()
+        
+        let detailGettableRoute: Route = .detailGET(MockDetailGettable.self, "mockdetailgettables")
+        
+        (node as! MockNode).routes = [detailGettableRoute]
+        
+        // Test Helper
+        func resourceIDsAndExpectedURLs<T: DetailGettable>(expectedRoute: Route, resourceIDs: [ResourceID<T>]) -> [(ResourceID<T>, URL)] {
+            return resourceIDs.map({ ($0, expectedRoute.relativeURL + $0.string) })
+        }
+        
+        // Test Function
+        func testRelativeGETURL<T: DetailGettable>(_ resourceID: ResourceID<T>, _ expectedURL: URL) {
+            XCTAssertEqual(node.relativeGETURL(for: resourceID), expectedURL)
+            XCTAssertEqual(DefaultImplementations._Node_.relativeGETURL(node: node, for: resourceID), expectedURL)
+        }
+        
+        // Fixtures
+        let detailGettableIDs: [ResourceID<MockDetailGettable>] = (0..<1000).map({ ResourceID("\($0)") })
+        
+        // Test Run
+        [
+            (detailGettableRoute, detailGettableIDs),
+        ]
+        .map(resourceIDsAndExpectedURLs)
+        .reduce([], +)
+        .forEach(testRelativeGETURL)
     }
     
     func testRoutesAgainstAbsoluteGETURLForResourceID() {
-        XCTFail()
+        // Setup
+        let node: Node = MockNode()
+        
+        let detailGettableRoute: Route = .detailGET(MockDetailGettable.self, "mockdetailgettables")
+        
+        (node as! MockNode).routes = [detailGettableRoute]
+        
+        // Test Helper
+        let baseURL: URL = node.baseURL
+        func resourceIDsAndExpectedURLs<T: DetailGettable>(expectedRoute: Route, resourceIDs: [ResourceID<T>]) -> [(ResourceID<T>, URL)] {
+            return resourceIDs.map({ ($0, baseURL + expectedRoute.relativeURL + $0.string) })
+        }
+        
+        // Test Function
+        func testAbsoluteGETURL<T: DetailGettable>(_ resourceID: ResourceID<T>, _ expectedURL: URL) {
+            XCTAssertEqual(node.absoluteGETURL(for: resourceID), expectedURL)
+            XCTAssertEqual(DefaultImplementations._Node_.absoluteGETURL(node: node, for: resourceID), expectedURL)
+        }
+        
+        // Fixtures
+        let detailGettableIDs: [ResourceID<MockDetailGettable>] = (0..<1000).map({ ResourceID("\($0)") })
+        
+        // Test Run
+        [
+            (detailGettableRoute, detailGettableIDs),
+        ]
+        .map(resourceIDsAndExpectedURLs)
+        .reduce([], +)
+        .forEach(testAbsoluteGETURL)
     }
     
     // List Response Helpers
@@ -263,6 +319,71 @@ class NodeTests: BaseTest {
     }
     
     func testExtractListResponse() {
-        XCTFail()
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        let method: ResourceHTTPMethod = .get
+        
+        func nodeImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
+            return node.extractListResponse(for: FixtureType.self, with: method, from: json)
+        }
+        
+        func defaultImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
+            return DefaultImplementations._Node_.extractListResponse(node: node, for: FixtureType.self, with: method, from: json)
+        }
+        
+        let expectedLimit: UInt = 100
+        let expectedNext: URL = URL(string: "url/to/next/page")!
+        let expectedOffset: UInt = 10
+        let expectedPrevious: URL = URL(string: "url/to/previous/page")!
+        let expectedTotalCount: UInt = 1000
+        let expectedResults: [FixtureType] = (0..<100).map({ FixtureType(id: "\($0)") })
+        
+        let jsonFixture: JSON = JSON([
+            DefaultListResponseKeys.meta: [
+                DefaultPagination.Keys.limit: expectedLimit,
+                DefaultPagination.Keys.next: expectedNext.absoluteString,
+                DefaultPagination.Keys.offset: expectedOffset,
+                DefaultPagination.Keys.previous: expectedPrevious.absoluteString,
+                DefaultPagination.Keys.totalCount: expectedTotalCount,
+            ],
+            DefaultListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.id : $0.id] })
+        ])
+        
+        [nodeImplementation(jsonFixture), defaultImplementation(jsonFixture)].forEach({ listResponse in
+            let (pagination, results): (Pagination, [FixtureType]) = listResponse
+            
+            XCTAssertEqual(pagination.limit, expectedLimit)
+            XCTAssertEqual(pagination.next, expectedNext)
+            XCTAssertEqual(pagination.offset, expectedOffset)
+            XCTAssertEqual(pagination.previous, expectedPrevious)
+            XCTAssertEqual(pagination.totalCount, expectedTotalCount)
+            
+            XCTAssertEqual(results.count, expectedResults.count)
+            XCTAssertEqual(results.map({ $0.id }), expectedResults.map({ $0.id }))
+        })
+    }
+    
+    func testNoRouteFoundFatalError() {
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        let routeType: RouteType = .list
+        let method: ResourceHTTPMethod = .get
+        
+        (node as! MockNode).routes = []
+        
+        let expectedMessage: String =
+            "[DjangoConsumer.Node] No relative URL registered in '\(node)' for type " +
+            "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
+        
+        let nodeImplementation: () -> Void = {
+            let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        let defaultImplementation: () -> Void = {
+            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 0.1, nodeImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 0.1, defaultImplementation)
     }
 }
