@@ -16,24 +16,33 @@ import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
+// MARK: - ListPostable
 // MARK: Protocol Declaration
 public protocol ListPostable: ListResource, JSONInitializable {
     static var listPostableClients: [ListPostableClient] { get set }
 }
 
 
-// MARK: Default Implementations
-// MARK: where Self: NeedsNoAuth
-
+// MARK: - Collection
+// MARK: where Self.Element: ListPostable & NeedsNoAuth
+public extension Collection where Element: ListPostable & NeedsNoAuth {
+    public func post(to node: Node = Element.defaultNode) {
+        DefaultImplementations._ListPostable_.post(self, to: node)
+    }
+}
 
 
 // MARK: - DefaultImplementations._ListPostable_
 public extension DefaultImplementations._ListPostable_ {
-    
+    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node) where C.Element == T {
+        self._post(objects, to: node)
+    }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations._ListPostable_ {
-    
+    static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node) where C.Element == T {
+        
+    }
 }
