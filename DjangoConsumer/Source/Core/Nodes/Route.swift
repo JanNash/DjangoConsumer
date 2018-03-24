@@ -41,6 +41,23 @@ public struct Route {
 }
 
 
+// MARK: Protocol Conformances
+// MARK: Equatable
+extension Route: Equatable {
+    public static func ==(_ lhs: Route, _ rhs: Route) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+}
+
+
+// MARK: Hashable
+extension Route: Hashable {
+    public var hashValue: Int {
+        return "\(self.resourceType)-\(self.routeType)-\(self.method)".hashValue
+    }
+}
+
+
 // MARK: Available Routes
 // MARK: GET
 public extension Route {
@@ -89,3 +106,10 @@ public extension Route {
 //    }
 //}
 
+// MARK: // Internal
+// MARK: Matching function
+extension Route {
+    static func matches(_ resourceType: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> (Route) -> Bool {
+        return { return $0.resourceType == resourceType && $0.routeType == routeType && $0.method == method }
+    }
+}

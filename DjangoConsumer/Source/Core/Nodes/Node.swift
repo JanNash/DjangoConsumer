@@ -212,23 +212,23 @@ private extension DefaultImplementations._Node_ {
 // MARK: Request URL Helper Implementations
 private extension DefaultImplementations._Node_ {
     static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
-        if let route: Route = self._routeMatching(resourceType: resourceType, routeType: routeType, method: method, in: node) {
-            return route.relativeURL
+        let availableRoutes: [Route] = node.routes.filter(Route.matches(resourceType, routeType, method))
+        
+        guard availableRoutes.count > 0 else {
+            fatalError(
+                "[DjangoConsumer.Node] No Route registered in '\(node)' for type " +
+                "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
+            )
         }
         
-        fatalError(
-            "[DjangoConsumer.Node] No relative URL registered in '\(node)' for type " +
-            "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
-        )
-    }
-    
-    // Helper
-    static func _routeMatching(resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod, in node: Node) -> Route? {
-        return node.routes.first(where: {
-            $0.resourceType == resourceType &&
-            $0.routeType == routeType &&
-            $0.method == method
-        })
+        guard availableRoutes.count == 1 else {
+            fatalError(
+                "[DjangoConsumer.Node] Multiple Routes registered in '\(node)' for type " +
+                "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
+            )
+        }
+        
+        return availableRoutes[0].relativeURL
     }
 }
 

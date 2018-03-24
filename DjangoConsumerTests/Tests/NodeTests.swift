@@ -372,7 +372,7 @@ class NodeTests: BaseTest {
         (node as! MockNode).routes = []
         
         let expectedMessage: String =
-            "[DjangoConsumer.Node] No relative URL registered in '\(node)' for type " +
+            "[DjangoConsumer.Node] No Route registered in '\(node)' for type " +
             "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
         
         let nodeImplementation: () -> Void = {
@@ -383,7 +383,34 @@ class NodeTests: BaseTest {
             let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
         }
         
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 1, nodeImplementation)
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 1, defaultImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, nodeImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, defaultImplementation)
+    }
+    
+    func testMultipleRoutesFoundFatalError() {
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        let routeType: RouteType = .list
+        let method: ResourceHTTPMethod = .get
+        
+        (node as! MockNode).routes = [
+            .listGET(FixtureType.self, "a"),
+            .listGET(FixtureType.self, "b")
+        ]
+        
+        let expectedMessage: String =
+            "[DjangoConsumer.Node] Multiple Routes registered in '\(node)' for type " +
+            "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
+        
+        let nodeImplementation: () -> Void = {
+            let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        let defaultImplementation: () -> Void = {
+            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, nodeImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, defaultImplementation)
     }
 }
