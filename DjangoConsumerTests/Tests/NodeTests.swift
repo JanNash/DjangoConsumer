@@ -372,7 +372,7 @@ class NodeTests: BaseTest {
         (node as! MockNode).routes = []
         
         let expectedMessage: String =
-            "[DjangoConsumer.Node] No relative URL registered in '\(node)' for type " +
+            "[DjangoConsumer.Node] No Route registered in '\(node)' for type " +
             "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
         
         let nodeImplementation: () -> Void = {
