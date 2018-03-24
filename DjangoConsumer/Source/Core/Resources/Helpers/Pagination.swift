@@ -15,9 +15,7 @@ import SwiftyJSON
 
 // MARK: // Public
 // MARK: - Pagination
-public protocol Pagination {
-    init(json: JSON)
-    
+public protocol Pagination: JSONInitializable {
     var limit: UInt { get }
     var next: URL? { get }
     var offset: UInt { get }

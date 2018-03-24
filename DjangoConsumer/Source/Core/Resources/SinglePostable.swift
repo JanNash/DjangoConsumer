@@ -17,8 +17,7 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol SinglePostable: DetailResource {
-    init(json: JSON)
+public protocol SinglePostable: DetailResource, JSONInitializable {
     func toParameters() -> Parameters
     static var singlePostableClients: [SinglePostableClient] { get set }
 }
