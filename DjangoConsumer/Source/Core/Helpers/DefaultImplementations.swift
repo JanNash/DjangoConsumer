@@ -20,4 +20,5 @@ public struct DefaultImplementations {
     public struct _ListGettable_ {}
     public struct _SinglePostable_ {}
     public struct _SessionManagerType_ {}
+    public struct _ListPostable_ {}
 }
