@@ -25,11 +25,9 @@ public protocol Node {
     // Routes
     var routes: [Route] { get }
     
-    // Filtering
-    func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType]
-    
     // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
+    func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType]
     
     // Parameter Generation
     func parametersFrom(filters: [FilterType]) -> Parameters
