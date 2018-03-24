@@ -15,6 +15,7 @@
 		0DA416CBCD82CA7F959DB11E7FCAC7D5 /* IfThisIsAThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */; };
 		17A3DC6F5D1547507CEE04A6CEC65797 /* ParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAC30B85576BFA11BC68B797C59B343 /* ParameterConvertible.swift */; };
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
+		22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
 		36FB7694D0EC516AB7CD007226092BF4 /* SinglePostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */; };
 		3822C625D7D6018BF412869914F1C6F8 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */; };
@@ -99,6 +100,7 @@
 		30985447EB8EE7B4591CBB058C65EB40 /* DetailGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailGettable+OAuth2.swift"; sourceTree = "<group>"; };
 		30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ifThisIsAThen.swift; sourceTree = "<group>"; };
 		360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableTests.swift; sourceTree = "<group>"; };
+		3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListPostable.swift; sourceTree = "<group>"; };
 		4483E4F025B67F9A65AFA6C06CE62659 /* BaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTest.swift; sourceTree = "<group>"; };
 		45A4663B5A7E8ABD82363BF8C7E8578B /* DefaultImplementations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImplementations.swift; sourceTree = "<group>"; };
 		461A692D56D0CF8C910394B69EA98D4D /* JSONInitializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONInitializable.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				6DB0E8D5513F5112E8ED64C72CD785E2 /* MockDetailGettable.swift */,
 				85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */,
 				8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */,
+				3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */,
 				C48CB71CB329ABC9596AAAE3BD0F001B /* MockSinglePostable.swift */,
 			);
 			path = Models;
@@ -740,6 +743,7 @@
 				0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */,
 				5C7CF472BE5AF63CFB64BBA3F5AEF571 /* MockListGettable.swift in Sources */,
 				9DA5BB4FC7FEEB550E67149B48FEEC79 /* MockListGettableClient.swift in Sources */,
+				22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */,
 				EB48A4DF7F2BEB6EC7A3CC321AC6A2ED /* MockNode.swift in Sources */,
 				4BC680A8052E08B1F48B74344040DA94 /* MockOAuth2CredentialStore.swift in Sources */,
 				C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */,
