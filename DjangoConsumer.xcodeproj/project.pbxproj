@@ -13,7 +13,6 @@
 		0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */; };
 		0DA416CBCD82CA7F959DB11E7FCAC7D5 /* IfThisIsAThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */; };
 		1710D23BA1151FCD005E179F9A088D3F /* NeedsOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713AFFDDB83D2E01F86F582D62459F44 /* NeedsOAuth2.swift */; };
-		179AC35F2A66271CB456F37FB21E9147 /* Sequence (permutateWith).swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E690E363AB7FAD4E38E696AB8E4CF5 /* Sequence (permutateWith).swift */; };
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
 		30BAB63DDA592082D067DC05C204E4C8 /* MetaResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13597ED957EA7C4148E68D16ED4E465B /* MetaResource.swift */; };
 		332D4328F65E7B4F2EF5FBA0CBB07E57 /* Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F31179E2AF1F56223851EB8CDDE05C9 /* Filtering.swift */; };
@@ -117,7 +116,6 @@
 		9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Handler.swift; sourceTree = "<group>"; };
 		A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		A486C0DB729A213E98D9E0A63958A103 /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
-		A9E690E363AB7FAD4E38E696AB8E4CF5 /* Sequence (permutateWith).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence (permutateWith).swift"; sourceTree = "<group>"; };
 		AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTypeTests.swift; sourceTree = "<group>"; };
 		B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNode.swift; sourceTree = "<group>"; };
 		B1A44C16B8D6687CDE60BBFE0BF196EA /* ConstantsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsTests.swift; sourceTree = "<group>"; };
@@ -280,14 +278,6 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		AC7AF14B0C4D1D782CC1AABA79B46D21 /* Swift.Sequence */ = {
-			isa = PBXGroup;
-			children = (
-				A9E690E363AB7FAD4E38E696AB8E4CF5 /* Sequence (permutateWith).swift */,
-			);
-			path = Swift.Sequence;
-			sourceTree = "<group>";
-		};
 		BFCD7D5EE775EB93F32441570BB93F24 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,7 +366,6 @@
 			isa = PBXGroup;
 			children = (
 				281C58B1D90872CA21FEF1274C9F4F1D /* Alamofire.SessionManager */,
-				AC7AF14B0C4D1D782CC1AABA79B46D21 /* Swift.Sequence */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -687,7 +676,6 @@
 				684AA2A5392371AA9A4258A170E56CC8 /* ResourceHTTPMethod.swift in Sources */,
 				E912FBEE5C47723A158B745B84A1F870 /* ResourceID+OAuth2.swift in Sources */,
 				AF0B9F5D0B3ADE02B23829D55976FBE0 /* Route.swift in Sources */,
-				179AC35F2A66271CB456F37FB21E9147 /* Sequence (permutateWith).swift in Sources */,
 				382B523A6651A0ABFF4B3EDE91903E0D /* SessionManager (SessionManagerType).swift in Sources */,
 				87E7444A70F7D003157530A3017A53C4 /* SessionManager (makeDefault).swift in Sources */,
 				BD0207F557936C71DCCAD97E939DBD0F /* SessionManagerType.swift in Sources */,
