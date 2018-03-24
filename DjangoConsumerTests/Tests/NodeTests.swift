@@ -362,4 +362,28 @@ class NodeTests: BaseTest {
             XCTAssertEqual(results.map({ $0.id }), expectedResults.map({ $0.id }))
         })
     }
+    
+    func testNoRouteFoundFatalError() {
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        let routeType: RouteType = .list
+        let method: ResourceHTTPMethod = .get
+        
+        (node as! MockNode).routes = []
+        
+        let expectedMessage: String =
+            "[DjangoConsumer.Node] No relative URL registered in '\(node)' for type " +
+            "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
+        
+        let nodeImplementation: () -> Void = {
+            let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        let defaultImplementation: () -> Void = {
+            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 0.1, nodeImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 0.1, defaultImplementation)
+    }
 }
