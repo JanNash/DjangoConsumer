@@ -36,6 +36,9 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
     
+    // List POST Request Helpers
+    func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T]
+    
     // MetaResource.Type URLs
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
@@ -86,6 +89,14 @@ public extension Node {
     
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
         return DefaultImplementations._Node_.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
+    }
+}
+
+
+// MARK: List POST Request Helpers
+public extension Node {
+    func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T] {
+        return DefaultImplementations._Node_.extractPOSTListResponse(node: self, for: resourceType, from: json)
     }
 }
 
@@ -150,6 +161,14 @@ public extension DefaultImplementations._Node_ {
     
     public static func parametersFrom(node: Node, filters: [FilterType]) -> Parameters {
         return filters.reduce(into: [:], { $0[$1.stringKey] = $1.value })
+    }
+}
+
+
+// MARK: List POST Request Helpers
+public extension DefaultImplementations._Node_ {
+    public static func extractPOSTListResponse<T: ListPostable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
+        return json[DefaultListResponseKeys.results].array!.map(T.init)
     }
 }
 
