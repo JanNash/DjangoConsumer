@@ -34,6 +34,7 @@
 		63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */; };
 		6F88632AF116A6692DCF6A2152FAE897 /* ProgrammerAssertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B670AB270ECCE2990C43EB5638B493A9 /* ProgrammerAssertions.swift */; };
 		7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */; };
+		85DDC752F3F7E6CC82A38B043FC37B92 /* ListPostableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA8C41090A85EA39F94744D3849CC4E /* ListPostableClient.swift */; };
 		85F678709D3A9DE7B8D9D6A653A13EE4 /* JSONInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461A692D56D0CF8C910394B69EA98D4D /* JSONInitializable.swift */; };
 		87E7444A70F7D003157530A3017A53C4 /* SessionManager (makeDefault).swift in Sources */ = {isa = PBXBuildFile; fileRef = F551E4C07509B8D4F303FA00AF46FA0B /* SessionManager (makeDefault).swift */; };
 		8B0DE899983027EA77FB41779D8E2C91 /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F8ECBEF70AE3055686F408EE9D2341 /* RouteTests.swift */; };
@@ -81,6 +82,7 @@
 /* Begin PBXFileReference section */
 		0329884BE9C2D49B66A81CA93A9A4810 /* URL+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Tests.swift"; sourceTree = "<group>"; };
 		065C9BF09011C37981416352EB8E8030 /* DetailResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailResource.swift; sourceTree = "<group>"; };
+		0FA8C41090A85EA39F94744D3849CC4E /* ListPostableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPostableClient.swift; sourceTree = "<group>"; };
 		10799D2B2F94923B9DCF49FCD0327C09 /* ListPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPostable.swift; sourceTree = "<group>"; };
 		11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettable.swift; sourceTree = "<group>"; };
 		12FCC406513052467D155E7706FA9ECE /* Pods_DjangoConsumerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,6 +253,7 @@
 			children = (
 				132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */,
 				2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */,
+				0FA8C41090A85EA39F94744D3849CC4E /* ListPostableClient.swift */,
 				EBE7058B6D4EE8561EB98944C87B41A2 /* SinglePostableClient.swift */,
 			);
 			path = Clients;
@@ -684,6 +687,7 @@
 				BB90ACBC8821CCCF71AA5B325EE08EE1 /* ListGettable.swift in Sources */,
 				CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */,
 				08C04A5407E7AD2E9F5FFB9C4C213D39 /* ListPostable.swift in Sources */,
+				85DDC752F3F7E6CC82A38B043FC37B92 /* ListPostableClient.swift in Sources */,
 				0547C8FDE085DBE0C6F682C4DB293764 /* ListResource.swift in Sources */,
 				B3E299C9B70F83930F6D0B466E8A32A9 /* MetaResource.swift in Sources */,
 				A6F8D40582379E615749874293474ABC /* NeedsNoAuth.swift in Sources */,
