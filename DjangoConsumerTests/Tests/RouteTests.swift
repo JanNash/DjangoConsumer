@@ -10,11 +10,44 @@
 //
 
 import XCTest
-import DjangoConsumer
+@testable import DjangoConsumer
 
 
 // MARK: // Internal
 class RouteTests: BaseTest {
+    func testRouteEquatability1() {
+        typealias FixtureType = MockListGettable
+        XCTAssertEqual(Route.listGET(FixtureType.self, "a"), Route.listGET(FixtureType.self, "b"))
+    }
+    
+    func testRouteEquatability2() {
+        XCTAssertNotEqual(Route.listGET(MockListGettable.self, "a"), Route.detailGET(MockDetailGettable.self, "b"))
+    }
+    
+    func testRouteHashValue1() {
+        typealias FixtureType = MockListGettable
+        XCTAssertEqual(Route.listGET(FixtureType.self, "a").hashValue, Route.listGET(FixtureType.self, "b").hashValue)
+    }
+    
+    func testRouteHashValue2() {
+        XCTAssertNotEqual(Route.listGET(MockListGettable.self, "a").hashValue, Route.detailGET(MockDetailGettable.self, "b").hashValue)
+    }
+    
+    func testRouteMatchesListGET() {
+        typealias FixtureType = MockListGettable
+        XCTAssert(Route.matches(FixtureType.self, .list, .get)(Route.listGET(FixtureType.self, "a")))
+    }
+    
+    func testRouteMatchesDetailGET() {
+        typealias FixtureType = MockDetailGettable
+        XCTAssert(Route.matches(FixtureType.self, .detail, .get)(Route.detailGET(FixtureType.self, "a")))
+    }
+    
+    func testRouteMatchesSinglePOST() {
+        typealias FixtureType = MockSinglePostable
+        XCTAssert(Route.matches(FixtureType.self, .detail, .post)(Route.singlePOST(FixtureType.self, "a")))
+    }
+    
     func testListGETRoute() {
         typealias FixtureType = MockListGettable
         let relPath: String = "mocklistgettables"
