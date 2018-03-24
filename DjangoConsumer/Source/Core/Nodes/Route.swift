@@ -89,3 +89,10 @@ public extension Route {
 //    }
 //}
 
+// MARK: // Internal
+// MARK: Matching function
+extension Route {
+    static func matches(_ resourceType: MetaResource.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> (Route) -> Bool {
+        return { return $0.resourceType == resourceType && $0.routeType == routeType && $0.method == method }
+    }
+}
