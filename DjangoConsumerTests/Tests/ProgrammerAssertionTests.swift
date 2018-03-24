@@ -18,7 +18,7 @@ class ProgrammerAssertionTests: BaseTest {
     func testAssert() {
         let message: String = "Foobar!"
         
-        self.expect(.assert, expectedMessage: message, timeout: 0.1, {
+        self.expect(.assert, expectedMessage: message, timeout: 1, {
             DjangoConsumer.assert(false, message)
         })
     }
@@ -26,7 +26,7 @@ class ProgrammerAssertionTests: BaseTest {
     func testPrecondition() {
         let message: String = "Foobar!"
         
-        self.expect(.precondition, expectedMessage: message, timeout: 0.1, {
+        self.expect(.precondition, expectedMessage: message, timeout: 1, {
             DjangoConsumer.precondition(false, message)
         })
     }
@@ -34,7 +34,7 @@ class ProgrammerAssertionTests: BaseTest {
     func testAssertionFailure() {
         let message: String = "Foobar!"
         
-        self.expect(.assertionFailure, expectedMessage: message, timeout: 0.1, {
+        self.expect(.assertionFailure, expectedMessage: message, timeout: 1, {
             DjangoConsumer.assertionFailure(message)
         })
     }
@@ -42,7 +42,7 @@ class ProgrammerAssertionTests: BaseTest {
     func testPreconditionFailure() {
         let message: String = "Foobar!"
         
-        self.expect(.preconditionFailure, expectedMessage: message, timeout: 0.1, {
+        self.expect(.preconditionFailure, expectedMessage: message, timeout: 1, {
             DjangoConsumer.preconditionFailure(message)
         })
     }
@@ -50,7 +50,7 @@ class ProgrammerAssertionTests: BaseTest {
     func testFatalError() {
         let message: String = "Foobar!"
         
-        self.expect(.fatalError, expectedMessage: message, timeout: 0.1, {
+        self.expect(.fatalError, expectedMessage: message, timeout: 1, {
             DjangoConsumer.fatalError(message)
         })
     }
