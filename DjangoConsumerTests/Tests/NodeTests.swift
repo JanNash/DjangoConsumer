@@ -383,7 +383,7 @@ class NodeTests: BaseTest {
             let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
         }
         
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 0.1, nodeImplementation)
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 0.1, defaultImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 1, nodeImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 1, defaultImplementation)
     }
 }
