@@ -341,12 +341,12 @@ class NodeTests: BaseTest {
         let jsonFixture: JSON = JSON([
             DefaultListResponseKeys.meta: [
                 DefaultPagination.Keys.limit: expectedLimit,
-                DefaultPagination.Keys.next: expectedNext,
+                DefaultPagination.Keys.next: expectedNext.absoluteString,
                 DefaultPagination.Keys.offset: expectedOffset,
-                DefaultPagination.Keys.previous: expectedPrevious,
+                DefaultPagination.Keys.previous: expectedPrevious.absoluteString,
                 DefaultPagination.Keys.totalCount: expectedTotalCount,
             ],
-            DefaultListResponseKeys.results: expectedResults
+            DefaultListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.id : $0.id] })
         ])
         
         [nodeImplementation(jsonFixture), defaultImplementation(jsonFixture)].forEach({ listResponse in
