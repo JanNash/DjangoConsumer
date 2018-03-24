@@ -11,6 +11,7 @@
 
 import XCTest
 import Alamofire
+import SwiftyJSON
 import DjangoConsumer
 
 
@@ -318,6 +319,47 @@ class NodeTests: BaseTest {
     }
     
     func testExtractListResponse() {
-        XCTFail()
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        let method: ResourceHTTPMethod = .get
+        
+        func nodeImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
+            return node.extractListResponse(for: FixtureType.self, with: method, from: json)
+        }
+        
+        func defaultImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
+            return DefaultImplementations._Node_.extractListResponse(node: node, for: FixtureType.self, with: method, from: json)
+        }
+        
+        let expectedLimit: UInt = 100
+        let expectedNext: URL = URL(string: "url/to/next/page")!
+        let expectedOffset: UInt = 10
+        let expectedPrevious: URL = URL(string: "url/to/previous/page")!
+        let expectedTotalCount: UInt = 1000
+        let expectedResults: [FixtureType] = (0..<100).map({ FixtureType(id: "\($0)") })
+        
+        let jsonFixture: JSON = JSON([
+            DefaultListResponseKeys.meta: [
+                DefaultPagination.Keys.limit: expectedLimit,
+                DefaultPagination.Keys.next: expectedNext,
+                DefaultPagination.Keys.offset: expectedOffset,
+                DefaultPagination.Keys.previous: expectedPrevious,
+                DefaultPagination.Keys.totalCount: expectedTotalCount,
+            ],
+            DefaultListResponseKeys.results: expectedResults
+        ])
+        
+        [nodeImplementation(jsonFixture), defaultImplementation(jsonFixture)].forEach({ listResponse in
+            let (pagination, results): (Pagination, [FixtureType]) = listResponse
+            
+            XCTAssertEqual(pagination.limit, expectedLimit)
+            XCTAssertEqual(pagination.next, expectedNext)
+            XCTAssertEqual(pagination.offset, expectedOffset)
+            XCTAssertEqual(pagination.previous, expectedPrevious)
+            XCTAssertEqual(pagination.totalCount, expectedTotalCount)
+            
+            XCTAssertEqual(results.count, expectedResults.count)
+            XCTAssertEqual(results.map({ $0.id }), expectedResults.map({ $0.id }))
+        })
     }
 }
