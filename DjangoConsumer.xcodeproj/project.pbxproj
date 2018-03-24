@@ -61,6 +61,7 @@
 		E912FBEE5C47723A158B745B84A1F870 /* ResourceID+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */; };
 		E973B58AAB02F5CE85A735A60A1E3755 /* DjangoConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */; };
 		EB48A4DF7F2BEB6EC7A3CC321AC6A2ED /* MockNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */; };
+		FA2A372FB05274F82CCF264184DFA785 /* URL+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0329884BE9C2D49B66A81CA93A9A4810 /* URL+Tests.swift */; };
 		FC33B13DEEA289C618CE183525F935BD /* SinglePostableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE7058B6D4EE8561EB98944C87B41A2 /* SinglePostableClient.swift */; };
 		FC4F25BEB54C4DA5946080BA6B970CD2 /* DetailGettable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30985447EB8EE7B4591CBB058C65EB40 /* DetailGettable+OAuth2.swift */; };
 		FFDC762FFA127C9DC88B7A58F1C6A10A /* ListGettable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3544C08905698C9261C19A40538C03 /* ListGettable+OAuth2.swift */; };
@@ -77,6 +78,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0329884BE9C2D49B66A81CA93A9A4810 /* URL+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Tests.swift"; sourceTree = "<group>"; };
 		11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettable.swift; sourceTree = "<group>"; };
 		12FCC406513052467D155E7706FA9ECE /* Pods_DjangoConsumerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettableClient.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				B3F8ECBEF70AE3055686F408EE9D2341 /* RouteTests.swift */,
 				AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */,
 				360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */,
+				0329884BE9C2D49B66A81CA93A9A4810 /* URL+Tests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				8B0DE899983027EA77FB41779D8E2C91 /* RouteTests.swift in Sources */,
 				7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */,
 				63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */,
+				FA2A372FB05274F82CCF264184DFA785 /* URL+Tests.swift in Sources */,
 				B73CBE05F560E05B23944D3CB606BF24 /* XCTestCase (ProgrammerAssertions).swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
