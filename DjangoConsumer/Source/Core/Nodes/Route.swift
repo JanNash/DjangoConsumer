@@ -99,12 +99,13 @@ public extension Route {
 //}
 
 
-// MARK: PATCH
+// MARK: DELETE
 //public extension Route {
 //    public static func detailDELETE<T>(_ t: T.Type, _ rel: String) -> Route where T: DetailDeletable {
 //        return Route(t, .detail, .delete, rel)
 //    }
 //}
+
 
 // MARK: // Internal
 // MARK: Matching function
