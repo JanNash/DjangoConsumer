@@ -154,25 +154,25 @@ public extension DefaultImplementations._Node_ {
     }
     
     public static func absoluteURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
-        return node.baseURL.appendingPathComponent(node.relativeURL(for: resourceType, routeType: routeType, method: method).absoluteString)
+        return node.baseURL + node.relativeURL(for: resourceType, routeType: routeType, method: method)
     }
     
     // IdentifiableResource URLs
     public static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) -> URL {
-        return node.relativeURL(for: T.self, routeType: .detail, method: method).appendingPathComponent(resource.id.string)
+        return node.relativeURL(for: T.self, routeType: .detail, method: method) + resource.id
     }
     
     public static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) -> URL {
-        return node.baseURL.appendingPathComponent(node.relativeURL(for: resource, method: method).absoluteString)
+        return node.baseURL + node.relativeURL(for: resource, method: method)
     }
     
     // ResourceID URLs
     public static func relativeGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
-        return node.relativeURL(for: T.self, routeType: .detail, method: .get).appendingPathComponent(resourceID.string)
+        return node.relativeURL(for: T.self, routeType: .detail, method: .get) + resourceID
     }
     
     public static func absoluteGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
-        return node.baseURL.appendingPathComponent(node.relativeGETURL(for: resourceID).absoluteString)
+        return node.baseURL + node.relativeGETURL(for: resourceID)
     }
 }
 
