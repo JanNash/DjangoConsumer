@@ -60,7 +60,7 @@ private extension DefaultImplementations._ListGettable_ {
         let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: allFilters)
         
         func onSuccess(_ json: JSON) {
-            let (pagination, objects): (Pagination, [T]) = node.extractListResponse(for: T.self, with: method, from: json)
+            let (pagination, objects): (Pagination, [T]) = node.extractPaginatedGETListResponse(for: T.self, from: json)
             let success: GETObjectListSuccess = GETObjectListSuccess(
                 node: node, responsePagination: pagination, offset: offset, limit: limit, filters: allFilters
             )

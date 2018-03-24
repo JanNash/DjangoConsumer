@@ -27,7 +27,9 @@ public protocol Node {
     
     // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
-    func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType]
+    func defaultFilters(for resourceType: FilteredListGettable.Type) -> [FilterType]
+    func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
+    func extractPaginatedGETListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
     
     // Parameter Generation
     func parametersFrom(filters: [FilterType]) -> Parameters
@@ -45,10 +47,6 @@ public protocol Node {
     // ResourceID URLs
     func relativeGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL
     func absoluteGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL
-    
-    // List Response Helpers
-    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod) -> Pagination.Type
-    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod, from json: JSON) -> (Pagination, [T])
 }
 
 
@@ -60,10 +58,18 @@ public struct DefaultListResponseKeys {
 
 
 // MARK: Default Implementations
-// MARK: Filtering
+// MARK: List GET Request Helpers
 public extension Node {
-    func defaultFilters(for objectType: FilteredListGettable.Type) -> [FilterType] {
-        return []
+    func defaultFilters(for resourceType: FilteredListGettable.Type) -> [FilterType] {
+        return DefaultImplementations._Node_.defaultFilters(node: self, for: resourceType)
+    }
+    
+    func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type {
+        return DefaultImplementations._Node_.paginationType(node: self, for: resourceType)
+    }
+    
+    func extractPaginatedGETListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+        return DefaultImplementations._Node_.extractPaginatedGETListResponse(node: self, for: resourceType, from: json)
     }
 }
 
@@ -115,19 +121,23 @@ public extension Node {
 }
 
 
-// MARK: List Response Helpers
-public extension Node {
-    func paginationType<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod) -> Pagination.Type {
-        return DefaultImplementations._Node_.paginationType(node: self, for: resourceType, with: method)
+// MARK: - DefaultImplementations._Node_
+// MARK: List GET Request Helpers
+public extension DefaultImplementations._Node_ {
+    public static func defaultFilters(node: Node, for resourceType: FilteredListGettable.Type) -> [FilterType] {
+        return []
     }
     
-    func extractListResponse<T: ListResource & JSONInitializable>(for resourceType: T.Type, with method: ResourceHTTPMethod, from json: JSON) -> (Pagination, [T]) {
-        return DefaultImplementations._Node_.extractListResponse(node: self, for: resourceType, with: method, from: json)
+    public static func paginationType<T: ListGettable>(node: Node, for resourceType: T.Type) -> Pagination.Type {
+        return DefaultPagination.self
+    }
+    
+    public static func extractPaginatedGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+        return self._extractPaginatedGETListResponse(node: node, for: resourceType, from: json)
     }
 }
 
 
-// MARK: - DefaultImplementations._Node_
 // MARK: Parameter Generation
 public extension DefaultImplementations._Node_ {
     public static func parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
@@ -175,19 +185,18 @@ public extension DefaultImplementations._Node_ {
 }
 
 
-// MARK: List Response Helpers
-public extension DefaultImplementations._Node_ {
-    public static func paginationType<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: ResourceHTTPMethod) -> Pagination.Type {
-        return DefaultPagination.self
-    }
-    
-    public static func extractListResponse<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: ResourceHTTPMethod, from json: JSON) -> (Pagination, [T]) {
-        return self._extractListResponse(node: node, for: resourceType, with: method, from: json)
+// MARK: // Private
+// MARK: List GET Request Helper Implementations
+private extension DefaultImplementations._Node_ {
+    static func _extractPaginatedGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+        let paginationType: Pagination.Type = node.paginationType(for: resourceType)
+        let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])
+        let objects: [T] = json[DefaultListResponseKeys.results].array!.map(T.init)
+        return (pagination, objects)
     }
 }
 
 
-// MARK: // Private
 // MARK: Parameter Generation Implementations
 private extension DefaultImplementations._Node_ {
     static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
@@ -227,16 +236,5 @@ private extension DefaultImplementations._Node_ {
         }
         
         return availableRoutes[0].relativeURL
-    }
-}
-
-
-// MARK: List Response Helper Implementations
-private extension DefaultImplementations._Node_ {
-    static func _extractListResponse<T: ListResource & JSONInitializable>(node: Node, for resourceType: T.Type, with method: ResourceHTTPMethod, from json: JSON) -> (Pagination, [T]) {
-        let paginationType: Pagination.Type = node.paginationType(for: resourceType, with: method)
-        let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])
-        let objects: [T] = json[DefaultListResponseKeys.results].array!.map(T.init)
-        return (pagination, objects)
     }
 }
