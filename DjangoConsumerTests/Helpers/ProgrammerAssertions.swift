@@ -72,8 +72,8 @@ struct ProgrammerAssertions {
     
     // Reset Functions
     static func resetAssert()               { ProgrammerAssertions.assert = ProgrammerAssertions.swiftAssert }
-    static func resetAssertionFailure()     { ProgrammerAssertions.assertionFailure = ProgrammerAssertions.swiftAssertionFailure }
     static func resetPrecondition()         { ProgrammerAssertions.precondition = ProgrammerAssertions.swiftPrecondition }
+    static func resetAssertionFailure()     { ProgrammerAssertions.assertionFailure = ProgrammerAssertions.swiftAssertionFailure }
     static func resetPreconditionFailure()  { ProgrammerAssertions.preconditionFailure = ProgrammerAssertions.swiftPreconditionFailure }
     static func resetFatalError()           { ProgrammerAssertions.fatalError = ProgrammerAssertions.swiftFatalError }
 }
