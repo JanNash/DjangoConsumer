@@ -47,6 +47,7 @@
 		A6254114C15C891EA8B9B955EBD6D3BE /* ifThisIsAThen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */; };
 		A6F8D40582379E615749874293474ABC /* NeedsNoAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82073EF30257A316889E567AAFFC7863 /* NeedsNoAuth.swift */; };
 		AC3E98E7BDF090E898F6B180F0A78EC6 /* DefaultImplementations+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8042D5F51399BB3BA078D848DE1E6C /* DefaultImplementations+OAuth2.swift */; };
+		AC837130DEFCB3695C328F612EC9902F /* ListPostable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1D7BB20461611BE9D4C38E5C9C66A0 /* ListPostable+OAuth2.swift */; };
 		AF0B9F5D0B3ADE02B23829D55976FBE0 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */; };
 		B3E299C9B70F83930F6D0B466E8A32A9 /* MetaResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811758D35E562A601555CA850F6F3A70 /* MetaResource.swift */; };
 		B73CBE05F560E05B23944D3CB606BF24 /* XCTestCase (ProgrammerAssertions).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE17883C12AC6C6DAB5208129AF7BBE /* XCTestCase (ProgrammerAssertions).swift */; };
@@ -94,6 +95,7 @@
 		26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
 		29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostable.swift; sourceTree = "<group>"; };
 		2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableClient.swift; sourceTree = "<group>"; };
+		2C1D7BB20461611BE9D4C38E5C9C66A0 /* ListPostable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListPostable+OAuth2.swift"; sourceTree = "<group>"; };
 		30985447EB8EE7B4591CBB058C65EB40 /* DetailGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailGettable+OAuth2.swift"; sourceTree = "<group>"; };
 		30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ifThisIsAThen.swift; sourceTree = "<group>"; };
 		360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableTests.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				30985447EB8EE7B4591CBB058C65EB40 /* DetailGettable+OAuth2.swift */,
 				8D48821F8FF94B9B7D015E9759E1B67C /* FilteredListGettable+OAuth2.swift */,
 				BD3544C08905698C9261C19A40538C03 /* ListGettable+OAuth2.swift */,
+				2C1D7BB20461611BE9D4C38E5C9C66A0 /* ListPostable+OAuth2.swift */,
 				D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */,
 				F736C83807239B57CC753ED914B53BB3 /* SinglePostable+OAuth2.swift */,
 			);
@@ -697,6 +700,7 @@
 				FFDC762FFA127C9DC88B7A58F1C6A10A /* ListGettable+OAuth2.swift in Sources */,
 				BB90ACBC8821CCCF71AA5B325EE08EE1 /* ListGettable.swift in Sources */,
 				CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */,
+				AC837130DEFCB3695C328F612EC9902F /* ListPostable+OAuth2.swift in Sources */,
 				08C04A5407E7AD2E9F5FFB9C4C213D39 /* ListPostable.swift in Sources */,
 				85DDC752F3F7E6CC82A38B043FC37B92 /* ListPostableClient.swift in Sources */,
 				0547C8FDE085DBE0C6F682C4DB293764 /* ListResource.swift in Sources */,

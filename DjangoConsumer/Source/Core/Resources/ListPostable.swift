@@ -25,8 +25,8 @@ public protocol ListPostable: ListResource, JSONInitializable, ParameterConverti
 
 // MARK: - Collection
 // MARK: where Self.Element: ListPostable & NeedsNoAuth
-public extension Collection where Element: ListPostable & NeedsNoAuth {
-    public func post(to node: Node = Element.defaultNode) {
+public extension Collection where Self.Element: ListPostable & NeedsNoAuth {
+    public func post(to node: Node = Self.Element.defaultNode) {
         DefaultImplementations._ListPostable_.post(self, to: node)
     }
 }
