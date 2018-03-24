@@ -360,6 +360,30 @@ class NodeTests: BaseTest {
         })
     }
     
+    func testExtractPOSTListResponse() {
+        let node: Node = MockNode()
+        typealias FixtureType = MockListPostable
+        
+        func nodeImplementation(_ json: JSON) -> [FixtureType] {
+            return node.extractPOSTListResponse(for: FixtureType.self, from: json)
+        }
+        
+        func defaultImplementation(_ json: JSON) -> [FixtureType] {
+            return DefaultImplementations._Node_.extractPOSTListResponse(node: node, for: FixtureType.self, from: json)
+        }
+        
+        let expectedResults: [FixtureType] = (0..<100).map({ FixtureType(name: "\($0)") })
+        
+        let jsonFixture: JSON = JSON([
+            DefaultListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.name : $0.name] })
+        ])
+        
+        [nodeImplementation(jsonFixture), defaultImplementation(jsonFixture)].forEach({ results in
+            XCTAssertEqual(results.count, expectedResults.count)
+            XCTAssertEqual(results.map({ $0.name }), expectedResults.map({ $0.name }))
+        })
+    }
+    
     func testNoRouteFoundFatalError() {
         let node: Node = MockNode()
         typealias FixtureType = MockListGettable
