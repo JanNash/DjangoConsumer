@@ -42,7 +42,25 @@ public extension DefaultImplementations._ListPostable_ {
 
 // MARK: // Private
 private extension DefaultImplementations._ListPostable_ {
-    static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node) where C.Element == T {
+    static func _post<C: Collection>(_ objects: C, to node: Node) where C.Element: ListPostable {
+        typealias T = C.Element
+        let method: ResourceHTTPMethod = .post
+        let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
         
+        let parameters: Parameters = [DefaultListResponseKeys.results : objects.map({ $0.toParameters() })]
+        
+        func onSuccess(_ json: JSON) {
+            let responseObjects: [T] = node.extractPOSTListResponse(for: T.self, from: json)
+            T.listPostableClients.forEach({ $0.postedObjects(objects, responseObjects: responseObjects, to: node) })
+        }
+        
+        func onFailure(_ error: Error) {
+            T.listPostableClients.forEach({ $0.failedPostingObjects(objects, to: node, with: error) })
+        }
+        
+        node.sessionManager.fireJSONRequest(
+            with: RequestConfiguration(url: url, method: method, parameters: parameters),
+            responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+        )
     }
 }
