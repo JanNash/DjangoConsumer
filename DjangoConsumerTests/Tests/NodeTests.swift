@@ -304,31 +304,28 @@ class NodeTests: BaseTest {
         let node: Node = MockNode()
         typealias FixtureType = MockListGettable
         
-        let nodeImplementation: (ResourceHTTPMethod) -> Pagination.Type = {
-            node.paginationType(for: FixtureType.self, with: $0)
+        let nodeImplementation: () -> Pagination.Type = {
+            node.paginationType(for: FixtureType.self)
         }
         
-        let defaultImplementation: (ResourceHTTPMethod) -> Pagination.Type = {
-            DefaultImplementations._Node_.paginationType(node: node, for: FixtureType.self, with: $0)
+        let defaultImplementation: () -> Pagination.Type = {
+            DefaultImplementations._Node_.paginationType(node: node, for: FixtureType.self)
         }
         
-        ResourceHTTPMethod.all.forEach({
-            XCTAssert(nodeImplementation($0) == DefaultPagination.self)
-            XCTAssert(defaultImplementation($0) == DefaultPagination.self)
-        })
+        XCTAssert(nodeImplementation() == DefaultPagination.self)
+        XCTAssert(defaultImplementation() == DefaultPagination.self)
     }
     
-    func testExtractListResponse() {
+    func testExtractPaginatedGETListResponse() {
         let node: Node = MockNode()
         typealias FixtureType = MockListGettable
-        let method: ResourceHTTPMethod = .get
         
         func nodeImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
-            return node.extractListResponse(for: FixtureType.self, with: method, from: json)
+            return node.extractPaginatedGETListResponse(for: FixtureType.self, from: json)
         }
         
         func defaultImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
-            return DefaultImplementations._Node_.extractListResponse(node: node, for: FixtureType.self, with: method, from: json)
+            return DefaultImplementations._Node_.extractPaginatedGETListResponse(node: node, for: FixtureType.self, from: json)
         }
         
         let expectedLimit: UInt = 100
