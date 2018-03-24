@@ -18,19 +18,28 @@ import DjangoConsumer
 // MARK: // Internal
 // MARK: Struct Declaration
 struct MockListPostable: ListPostable, NeedsNoAuth {
-    // Init
-    init() {}
-    
     // Keys
-    struct Keys {}
+    struct Keys {
+        static let name: String = "name"
+    }
+    
+    // Init
+    init(name: String) {
+        self.name = name
+    }
+    
+    // Variables
+    var name: String
     
     // ListPostable
-    init(json: JSON) {}
+    init(json: JSON) {
+        self.name = json[Keys.name].string!
+    }
     
     static var defaultNode: Node = MockNode.main
     static var listPostableClients: [ListPostableClient] = []
     
     func toParameters() -> Parameters {
-        return [:]
+        return [Keys.name : self.name]
     }
 }
