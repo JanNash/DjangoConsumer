@@ -13,7 +13,6 @@
 		08C04A5407E7AD2E9F5FFB9C4C213D39 /* ListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10799D2B2F94923B9DCF49FCD0327C09 /* ListPostable.swift */; };
 		0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */; };
 		0DA416CBCD82CA7F959DB11E7FCAC7D5 /* IfThisIsAThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */; };
-		1710D23BA1151FCD005E179F9A088D3F /* NeedsOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713AFFDDB83D2E01F86F582D62459F44 /* NeedsOAuth2.swift */; };
 		17A3DC6F5D1547507CEE04A6CEC65797 /* ParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAC30B85576BFA11BC68B797C59B343 /* ParameterConvertible.swift */; };
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
@@ -22,6 +21,7 @@
 		382B523A6651A0ABFF4B3EDE91903E0D /* SessionManager (SessionManagerType).swift in Sources */ = {isa = PBXBuildFile; fileRef = 19227FA82FAB0B4E505BB2D51004EE4A /* SessionManager (SessionManagerType).swift */; };
 		389DB66A12C50B25BB432C7739C9F8FE /* DefaultImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A4663B5A7E8ABD82363BF8C7E8578B /* DefaultImplementations.swift */; };
 		3CE39AA01C15C2A2704A15F85D5499B5 /* OAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155D3DABEF4F0BD3813712D3ED323A5 /* OAuth2Node.swift */; };
+		412BA65941D58BF59DBB057592F2C041 /* NeedsOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B19DB5643F15EFE7A15EF5CA70EFAA /* NeedsOAuth2.swift */; };
 		41F0C90F3824F5746D5EBA92A18F4DE6 /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4483E4F025B67F9A65AFA6C06CE62659 /* BaseTest.swift */; };
 		4B155E6B16321C5A8AD3E02C089A6494 /* FilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */; };
 		4BC680A8052E08B1F48B74344040DA94 /* MockOAuth2CredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */; };
@@ -109,7 +109,7 @@
 		6DB0E8D5513F5112E8ED64C72CD785E2 /* MockDetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDetailGettable.swift; sourceTree = "<group>"; };
 		6F8042D5F51399BB3BA078D848DE1E6C /* DefaultImplementations+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultImplementations+OAuth2.swift"; sourceTree = "<group>"; };
 		712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Constants.swift; sourceTree = "<group>"; };
-		713AFFDDB83D2E01F86F582D62459F44 /* NeedsOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedsOAuth2.swift; sourceTree = "<group>"; };
+		79B19DB5643F15EFE7A15EF5CA70EFAA /* NeedsOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedsOAuth2.swift; sourceTree = "<group>"; };
 		811758D35E562A601555CA850F6F3A70 /* MetaResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaResource.swift; sourceTree = "<group>"; };
 		8155D3DABEF4F0BD3813712D3ED323A5 /* OAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Node.swift; sourceTree = "<group>"; };
 		819AB3015E9718F9E01520BBE47C2578 /* Pods_DjangoConsumer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +193,14 @@
 				9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		1C1C0C8E66D3CFA46D470FDD45A7F013 /* Abstract Base Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				79B19DB5643F15EFE7A15EF5CA70EFAA /* NeedsOAuth2.swift */,
+			);
+			path = "Abstract Base Protocols";
 			sourceTree = "<group>";
 		};
 		27DAB93018D6CE9B049236DCED532777 /* Testing */ = {
@@ -303,10 +311,10 @@
 		BFCD7D5EE775EB93F32441570BB93F24 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1C1C0C8E66D3CFA46D470FDD45A7F013 /* Abstract Base Protocols */,
 				30985447EB8EE7B4591CBB058C65EB40 /* DetailGettable+OAuth2.swift */,
 				8D48821F8FF94B9B7D015E9759E1B67C /* FilteredListGettable+OAuth2.swift */,
 				BD3544C08905698C9261C19A40538C03 /* ListGettable+OAuth2.swift */,
-				713AFFDDB83D2E01F86F582D62459F44 /* NeedsOAuth2.swift */,
 				D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */,
 				F736C83807239B57CC753ED914B53BB3 /* SinglePostable+OAuth2.swift */,
 			);
@@ -694,7 +702,7 @@
 				0547C8FDE085DBE0C6F682C4DB293764 /* ListResource.swift in Sources */,
 				B3E299C9B70F83930F6D0B466E8A32A9 /* MetaResource.swift in Sources */,
 				A6F8D40582379E615749874293474ABC /* NeedsNoAuth.swift in Sources */,
-				1710D23BA1151FCD005E179F9A088D3F /* NeedsOAuth2.swift in Sources */,
+				412BA65941D58BF59DBB057592F2C041 /* NeedsOAuth2.swift in Sources */,
 				3822C625D7D6018BF412869914F1C6F8 /* Node.swift in Sources */,
 				21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */,
 				DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */,
