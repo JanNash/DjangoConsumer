@@ -22,14 +22,6 @@ rvm:
 cache:
   cocoapods: true
   directories:
-    # Specifying only the pods of which the specs of the required 
-    # versions are not contained in the master Specs repo that comes
-    # with osx_image: xcode9.2 . Unfortunately, the cache can't digest
-    # the whole 1.4G master Specs repo :D. When updating to a new 
-    # osx_image that comes with a master Specs repo that contains
-    # the required specs, this can be commented out.
-    - ~/.cocoapods/repos/master/Specs/b/7/8/SwiftDate/4.5.1
-    
     # Same goes for the ruby installation, .rvm has around 800M
     # on my machine, with three installed rubies. When updating
     # to a new osx_image that contains the required ruby version,
