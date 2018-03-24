@@ -15,6 +15,6 @@ import Foundation
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol ListPostableClient {
-    func postedObjects<T: ListPostable>(_ objects: [T], responseObjects: [T], to node: Node)
-    func failedPostingObjects<T: ListPostable>(_ objects: [T], to node: Node, with error: Error)
+    func postedObjects<C: Collection, T: ListPostable>(_ objects: C, responseObjects: [T], to node: Node) where C.Element == T
+    func failedPostingObjects<C: Collection, T: ListPostable>(_ objects: C, to node: Node, with error: Error) where C.Element == T
 }
