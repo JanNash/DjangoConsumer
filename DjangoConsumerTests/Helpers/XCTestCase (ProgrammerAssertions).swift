@@ -64,11 +64,11 @@ private struct _AssertionConfig {
     )
     
     static let preconditionFailure: _AssertionConfig = _AssertionConfig(
-        "preconditionFailure()", { patch in _PA.preconditionFailure = { patch(false, $0, $1, $2) } }, _PA.resetPreconditionFailure
+        "preconditionFailure()", { patch in _PA.preconditionFailure = { patch(false, $0, $1, $2); Swift.fatalError() } }, _PA.resetPreconditionFailure
     )
     
     static let fatalError: _AssertionConfig = _AssertionConfig(
-        "fatalError()", { patch in _PA.fatalError = { patch(false, $0, $1, $2) } }, _PA.resetFatalError
+        "fatalError()", { patch in _PA.fatalError = { patch(false, $0, $1, $2); Swift.fatalError() } }, _PA.resetFatalError
     )
 }
 
