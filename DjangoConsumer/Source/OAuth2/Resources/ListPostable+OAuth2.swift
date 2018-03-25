@@ -15,7 +15,7 @@ import Foundation
 // MARK: // Public
 // MARK: where Self.Element: ListPostable & NeedsOAuth2
 public extension Collection where Self.Element: ListPostable & NeedsOAuth2 {
-    public func post(to node: Node = Element.defaultNode) {
+    public func post(to node: Node = Self.Element.defaultNode) {
         DefaultImplementations._ListPostable_.post(self, to: node)
     }
 }
