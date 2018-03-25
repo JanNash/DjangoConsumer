@@ -48,7 +48,8 @@ private extension DefaultImplementations._SinglePostable_ {
         let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
-            T.singlePostableClients.forEach({ $0.postedObject(singlePostable, responseObject: T.init(json: json), to: node)})
+            let responseObject: T = T.init(json: json)
+            T.singlePostableClients.forEach({ $0.postedObject(singlePostable, responseObject: responseObject, to: node)})
         }
         
         func onFailure(_ error: Error) {
