@@ -25,8 +25,8 @@ public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConv
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
 public extension SinglePostable where Self: NeedsNoAuth {
-    func post(to node: Node? = nil) {
-        DefaultImplementations._SinglePostable_.post(self, to: node ?? Self.defaultNode)
+    func post(to node: Node = Self.defaultNode) {
+        DefaultImplementations._SinglePostable_.post(self, to: node)
     }
 }
 

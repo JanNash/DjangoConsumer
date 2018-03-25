@@ -25,9 +25,9 @@ public protocol ListGettable: ListResource, JSONInitializable {
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
 public extension ListGettable where Self: NeedsNoAuth {
-    static func get(from node: Node? = nil, offset: UInt = 0, limit: UInt = 0) {
+    static func get(from node: Node = Self.defaultNode, offset: UInt = 0, limit: UInt = 0) {
         DefaultImplementations._ListGettable_.get(
-            self, from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false
+            self, from: node, offset: offset, limit: limit, filters: [], addDefaultFilters: false
         )
     }
 }
