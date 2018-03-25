@@ -15,9 +15,9 @@ import Foundation
 // MARK: // Public
 // MARK: where Self: NeedsOAuth2
 public extension FilteredListGettable where Self: NeedsOAuth2 {
-    static func get(from node: OAuth2Node = Self.defaultNode, offset: UInt = 0, limit: UInt = 0, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
+    static func get(from node: OAuth2Node = Self.defaultNode, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
         DefaultImplementations._ListGettable_.get(
-            self, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
+            self, from: node, offset: offset, limit: limit ?? node.defaultLimit(for: self), filters: filters, addDefaultFilters: addDefaultFilters
         )
     }
 }
