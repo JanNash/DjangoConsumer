@@ -18,6 +18,7 @@ public struct DefaultImplementations {
     public struct _DetailGettable_ {}
     public struct _ResourceID_ {}
     public struct _ListGettable_ {}
+    public struct _FilteredListGettable_ {}
     public struct _SinglePostable_ {}
     public struct _SessionManagerType_ {}
     public struct _ListPostable_ {}
