@@ -27,7 +27,7 @@ public protocol ListGettable: ListResource, JSONInitializable {
 public extension ListGettable where Self: NeedsNoAuth {
     static func get(from node: Node = Self.defaultNode, offset: UInt = 0, limit: UInt? = nil) {
         DefaultImplementations._ListGettable_.get(
-            self, from: node, offset: offset, limit: limit ?? node.defaultLimit(for: self), filters: [], addDefaultFilters: false
+            self, from: node, offset: offset, limit: limit, filters: [], addDefaultFilters: false
         )
     }
 }
@@ -35,7 +35,7 @@ public extension ListGettable where Self: NeedsNoAuth {
 
 // MARK: - DefaultImplementations._ListGettable_
 public extension DefaultImplementations._ListGettable_ {
-    public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
+    public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
         self._get(listGettableType, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
@@ -43,11 +43,11 @@ public extension DefaultImplementations._ListGettable_ {
 
 // MARK: // Private
 private extension DefaultImplementations._ListGettable_ {
-    static func _get<T: ListGettable>(_ l: T.Type, from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
+    static func _get<T: ListGettable>(_ l: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
         let method: ResourceHTTPMethod = .get
         let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
         
-        let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: T.self)
+        let limit: UInt = limit ?? node.defaultLimit(for: l)
         
         let allFilters: [FilterType] = {
             if addDefaultFilters, let filteredListGettable = T.self as? FilteredListGettable.Type {
