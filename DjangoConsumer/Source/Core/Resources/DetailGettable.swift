@@ -17,8 +17,7 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DetailGettable: IdentifiableResource {
-    init(json: JSON)
+public protocol DetailGettable: IdentifiableResource, JSONInitializable {
     func gotNewSelf(_ newSelf: Self, from: Node)
     func failedGettingNewSelf(from: Node, with error: Error)
     static var detailGettableClients: [DetailGettableClient] { get set }

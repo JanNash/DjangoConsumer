@@ -18,7 +18,6 @@ import Alamofire_SwiftyJSON
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol FilteredListGettable: ListGettable {
-    init(json: JSON)
     static func get(from node: Node?, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool)
 }
 

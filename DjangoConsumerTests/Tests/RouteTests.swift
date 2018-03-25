@@ -72,6 +72,18 @@ class RouteTests: BaseTest {
         XCTAssert(route.relativeURL == URL(string: relPath)!)
     }
     
+    func testListPostRoute() {
+        typealias FixtureType = MockListPostable
+        let relPath: String = "mocklistpostables"
+        
+        let route: Route = .listPOST(FixtureType.self, relPath)
+        
+        XCTAssert(route.resourceType == FixtureType.self)
+        XCTAssert(route.routeType == .list)
+        XCTAssert(route.method == .post)
+        XCTAssert(route.relativeURL == URL(string: relPath)!)
+    }
+    
     func testSinglePostRoute() {
         typealias FixtureType = MockSinglePostable
         let relPath: String = "mocksinglepostables"
