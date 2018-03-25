@@ -42,6 +42,6 @@ public extension DefaultImplementations._FilteredListGettable_ {
 // MARK: // Private
 private extension DefaultImplementations._FilteredListGettable_ {
     static func _get<T: FilteredListGettable>(_ f: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
-        DefaultImplementations._ListGettable_.get(f, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
+        DefaultImplementations._ListGettable_.get(f, from: node, offset: offset, limit: limit, filters: filters)
     }
 }
