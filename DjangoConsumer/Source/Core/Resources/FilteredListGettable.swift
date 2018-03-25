@@ -17,17 +17,15 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol FilteredListGettable: ListGettable {
-    static func get(from node: Node?, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool)
-}
+public protocol FilteredListGettable: ListGettable {}
 
 
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
 public extension FilteredListGettable where Self: NeedsNoAuth {
-    static func get(from node: Node? = nil, offset: UInt = 0, limit: UInt = 0, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
+    static func get(from node: Node = Self.defaultNode, offset: UInt = 0, limit: UInt = 0, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
         DefaultImplementations._ListGettable_.get(
-            self, from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false
+            self, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
         )
     }
 }
