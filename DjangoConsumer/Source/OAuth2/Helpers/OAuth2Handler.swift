@@ -156,9 +156,7 @@ private struct _TokenResponse {
 // MARK: Lazy Variable Creation
 private extension OAuth2Handler {
     func _createSessionManager() -> SessionManager {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        let sessionManager: SessionManager = SessionManager(configuration: configuration)
+        let sessionManager: SessionManager = .makeDefault()
         sessionManager.retrier = self._weakSelf
         return sessionManager
     }
