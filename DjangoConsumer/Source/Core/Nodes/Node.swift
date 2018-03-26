@@ -38,6 +38,7 @@ public protocol Node {
     func parametersFrom(object: ParameterConvertible) -> Parameters
     
     // List POST Request Helpers
+    func parametersFrom<C: Collection>(listPostables: C) -> Parameters where C.Element == ListPostable
     func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T]
     
     // MetaResource.Type URLs
@@ -58,6 +59,12 @@ public protocol Node {
 public struct DefaultListResponseKeys {
     public static let meta: String = "meta"
     public static let results: String = "results"
+}
+
+
+// MARK: - DefaultListRequestKeys
+public struct DefaultListRequestKeys {
+    public static let objects: String = "objects"
 }
 
 
@@ -100,6 +107,10 @@ public extension Node {
 
 // MARK: List POST Request Helpers
 public extension Node {
+    func parametersFrom<C: Collection>(listPostables: C) -> Parameters where C.Element == ListPostable {
+        return DefaultImplementations._Node_.parametersFrom(node: self, listPostables: listPostables)
+    }
+    
     func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T] {
         return DefaultImplementations._Node_.extractPOSTListResponse(node: self, for: resourceType, from: json)
     }
@@ -176,6 +187,10 @@ public extension DefaultImplementations._Node_ {
 
 // MARK: List POST Request Helpers
 public extension DefaultImplementations._Node_ {
+    public static func parametersFrom<C: Collection>(node: Node, listPostables: C) -> Parameters where C.Element == ListPostable {
+        return [DefaultListRequestKeys.objects : listPostables.map({ $0.toParameters() })]
+    }
+    
     public static func extractPOSTListResponse<T: ListPostable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
         return json[DefaultListResponseKeys.results].array!.map(T.init)
     }
