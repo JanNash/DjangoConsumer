@@ -59,6 +59,7 @@ private extension DefaultImplementations._ResourceID_ {
     static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node) {
         let url: URL = node.absoluteGETURL(for: resourceID)
         let method: ResourceHTTPMethod = .get
+        let encoding: ParameterEncoding = URLEncoding.default
 
         func onSuccess(_ json: JSON) {
             let object: T = T(json: json)
@@ -70,7 +71,7 @@ private extension DefaultImplementations._ResourceID_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method),
+            with: RequestConfiguration(url: url, method: method, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

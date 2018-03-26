@@ -47,6 +47,7 @@ private extension DefaultImplementations._DetailGettable_ {
     static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
         let method: ResourceHTTPMethod = .get
         let url: URL = node.absoluteURL(for: detailGettable, method: method)
+        let encoding: ParameterEncoding = URLEncoding.default
         
         func onSuccess(_ json: JSON) {
             let newSelf: T = T(json: json)
@@ -60,7 +61,7 @@ private extension DefaultImplementations._DetailGettable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method),
+            with: RequestConfiguration(url: url, method: method, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

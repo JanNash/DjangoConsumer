@@ -50,6 +50,8 @@ private extension DefaultImplementations._ListGettable_ {
         let limit: UInt = limit ?? node.defaultLimit(for: l)
         let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
         
+        let encoding: ParameterEncoding = URLEncoding.default
+        
         func onSuccess(_ json: JSON) {
             let (pagination, objects): (Pagination, [T]) = node.extractPaginatedGETListResponse(for: T.self, from: json)
             let success: GETObjectListSuccess = GETObjectListSuccess(
@@ -66,7 +68,7 @@ private extension DefaultImplementations._ListGettable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, parameters: parameters),
+            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

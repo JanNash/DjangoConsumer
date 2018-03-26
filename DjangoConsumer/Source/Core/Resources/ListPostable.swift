@@ -46,8 +46,8 @@ private extension DefaultImplementations._ListPostable_ {
         typealias T = C.Element
         let method: ResourceHTTPMethod = .post
         let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
-        
         let parameters: Parameters = [DefaultListResponseKeys.results : objects.map({ $0.toParameters() })]
+        let encoding: ParameterEncoding = URLEncoding.default
         
         func onSuccess(_ json: JSON) {
             let responseObjects: [T] = node.extractPOSTListResponse(for: T.self, from: json)
@@ -59,7 +59,7 @@ private extension DefaultImplementations._ListPostable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, parameters: parameters),
+            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
