@@ -86,6 +86,25 @@ class NodeTests: BaseTest {
         })
     }
     
+    func testParametersFromParameterConvertible() {
+        let node: Node = MockNode()
+        let object: ParameterConvertible = MockListPostable(name: "Blubb")
+        let expectedParameters: [String : String] = object.toParameters() as! [String : String]
+        
+        let nodeImplementation: (ResourceHTTPMethod) -> [String : String] = {
+            node.parametersFrom(object: object, method: $0) as! [String : String]
+        }
+        
+        let defaultImplementation: (ResourceHTTPMethod) -> [String : String] = {
+            DefaultImplementations._Node_.parametersFrom(node: node, object: object, method: $0) as! [String : String]
+        }
+        
+        ResourceHTTPMethod.all.forEach({
+            XCTAssertEqual(nodeImplementation($0), expectedParameters)
+            XCTAssertEqual(defaultImplementation($0), expectedParameters)
+        })
+    }
+    
     // MetaResource.Type URLs
     func testRoutesAgainstRelativeURLForResourceType() {
         let mockNode: MockNode = MockNode()
