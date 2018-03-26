@@ -19,7 +19,7 @@ import Alamofire
 class StaticLetTests: BaseTest {
     // Node.swift
     func testDefaultListResponseKeys() {
-        typealias FixtureType = DefaultListResponseKeys
+        typealias FixtureType = DefaultImplementations._Node_.ListResponseKeys
         
         XCTAssertEqual(FixtureType.meta, "meta")
         XCTAssertEqual(FixtureType.results, "results")
