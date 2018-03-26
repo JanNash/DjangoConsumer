@@ -18,8 +18,14 @@ import Alamofire
 // MARK: StaticLetTests
 class StaticLetTests: BaseTest {
     // Node.swift
+    func testDefaultListRequestKeys() {
+        typealias FixtureType = DefaultImplementations._Node_.ListRequestKeys
+        
+        XCTAssertEqual(FixtureType.objects, "objects")
+    }
+    
     func testDefaultListResponseKeys() {
-        typealias FixtureType = DefaultListResponseKeys
+        typealias FixtureType = DefaultImplementations._Node_.ListResponseKeys
         
         XCTAssertEqual(FixtureType.meta, "meta")
         XCTAssertEqual(FixtureType.results, "results")
@@ -40,15 +46,6 @@ class StaticLetTests: BaseTest {
     func testOAuth2Constants() {
         typealias FixtureType = OAuth2Constants
         
-        XCTAssertEqual(FixtureType.GrantTypes.password, "password")
-        XCTAssertEqual(FixtureType.GrantTypes.refreshToken, "refresh_token")
-        
-        XCTAssertEqual(FixtureType.HeaderFields.authorization, "Authorization")
-        
-        let fakeToken: String = "Wibbly wobbly, timey wimey"
-        XCTAssertEqual(FixtureType.HeaderValues.basic(fakeToken), "Basic \(fakeToken)")
-        XCTAssertEqual(FixtureType.HeaderValues.bearer(fakeToken), "Bearer \(fakeToken)")
-        
         XCTAssertEqual(FixtureType.JSONKeys.accessToken, "access_token")
         XCTAssertEqual(FixtureType.JSONKeys.refreshToken, "refresh_token")
         XCTAssertEqual(FixtureType.JSONKeys.expiresIn, "expires_in")
@@ -59,7 +56,16 @@ class StaticLetTests: BaseTest {
         XCTAssertEqual(FixtureType.JSONKeys.token, "token")
         XCTAssertEqual(FixtureType.JSONKeys.tokenType, "token_type")
         
+        XCTAssertEqual(FixtureType.GrantTypes.password, "password")
+        XCTAssertEqual(FixtureType.GrantTypes.refreshToken, "refresh_token")
+        
         XCTAssertEqual(FixtureType.Scopes.readWrite, "read write")
+        
+        XCTAssertEqual(FixtureType.HeaderFields.authorization, "Authorization")
+        
+        let fakeToken: String = "Wibbly wobbly, timey wimey"
+        XCTAssertEqual(FixtureType.HeaderValues.basic(fakeToken), "Basic \(fakeToken)")
+        XCTAssertEqual(FixtureType.HeaderValues.bearer(fakeToken), "Bearer \(fakeToken)")
     }
 }
 

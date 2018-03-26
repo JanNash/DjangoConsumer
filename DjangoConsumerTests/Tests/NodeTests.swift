@@ -321,11 +321,11 @@ class NodeTests: BaseTest {
         typealias FixtureType = MockListGettable
         
         func nodeImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
-            return node.extractPaginatedGETListResponse(for: FixtureType.self, from: json)
+            return node.extractGETListResponse(for: FixtureType.self, from: json)
         }
         
         func defaultImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
-            return DefaultImplementations._Node_.extractPaginatedGETListResponse(node: node, for: FixtureType.self, from: json)
+            return DefaultImplementations._Node_.extractGETListResponse(node: node, for: FixtureType.self, from: json)
         }
         
         let expectedLimit: UInt = 100
@@ -336,14 +336,14 @@ class NodeTests: BaseTest {
         let expectedResults: [FixtureType] = (0..<100).map({ FixtureType(id: "\($0)") })
         
         let jsonFixture: JSON = JSON([
-            DefaultListResponseKeys.meta: [
+            DefaultImplementations._Node_.ListResponseKeys.meta: [
                 DefaultPagination.Keys.limit: expectedLimit,
                 DefaultPagination.Keys.next: expectedNext.absoluteString,
                 DefaultPagination.Keys.offset: expectedOffset,
                 DefaultPagination.Keys.previous: expectedPrevious.absoluteString,
                 DefaultPagination.Keys.totalCount: expectedTotalCount,
             ],
-            DefaultListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.id : $0.id] })
+            DefaultImplementations._Node_.ListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.id : $0.id] })
         ])
         
         [nodeImplementation(jsonFixture), defaultImplementation(jsonFixture)].forEach({ listResponse in
@@ -375,7 +375,7 @@ class NodeTests: BaseTest {
         let expectedResults: [FixtureType] = (0..<100).map({ FixtureType(name: "\($0)") })
         
         let jsonFixture: JSON = JSON([
-            DefaultListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.name : $0.name] })
+            DefaultImplementations._Node_.ListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.name : $0.name] })
         ])
         
         [nodeImplementation(jsonFixture), defaultImplementation(jsonFixture)].forEach({ results in

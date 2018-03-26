@@ -53,7 +53,7 @@ private extension DefaultImplementations._ListGettable_ {
         let encoding: ParameterEncoding = URLEncoding.default
         
         func onSuccess(_ json: JSON) {
-            let (pagination, objects): (Pagination, [T]) = node.extractPaginatedGETListResponse(for: T.self, from: json)
+            let (pagination, objects): (Pagination, [T]) = node.extractGETListResponse(for: T.self, from: json)
             let success: GETObjectListSuccess = GETObjectListSuccess(
                 node: node, responsePagination: pagination, offset: offset, limit: limit, filters: filters
             )

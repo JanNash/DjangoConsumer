@@ -62,7 +62,7 @@ private extension DefaultImplementations._ResourceID_ {
         let encoding: ParameterEncoding = URLEncoding.default
 
         func onSuccess(_ json: JSON) {
-            let object: T = T(json: json)
+            let object: T = node.extractSingleObject(for: T.self, method: method, from: json)
             T.detailGettableClients.forEach({ $0.gotObject(object, for: resourceID, from: node)})
         }
         
