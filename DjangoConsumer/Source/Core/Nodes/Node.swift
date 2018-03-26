@@ -160,10 +160,12 @@ public extension Node {
 // MARK: Request/Response Keys
 public extension DefaultImplementations._Node_ {
     public struct ListRequestKeys {
+        private init() {}
         public static let objects: String = "objects"
     }
     
     public struct ListResponseKeys {
+        private init() {}
         public static let meta: String = "meta"
         public static let results: String = "results"
     }
