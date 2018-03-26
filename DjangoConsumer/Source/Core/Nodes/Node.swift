@@ -37,6 +37,9 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
     func parametersFrom(object: ParameterConvertible) -> Parameters
     
+    // Single Object Initialization Helpers
+    func initializeSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T
+    
     // List POST Request Helpers
     func parametersFrom<C: Collection, T: ListPostable>(listPostables: C) -> Parameters where C.Element == T
     func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T]
@@ -88,6 +91,14 @@ public extension Node {
     
     func parametersFrom(object: ParameterConvertible) -> Parameters {
         return DefaultImplementations._Node_.parametersFrom(node: self, object: object)
+    }
+}
+
+
+// MARK: Single Object Initialization Helpers
+public extension Node {
+    func initializeSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
+        return DefaultImplementations._Node_.initializeSingleObject(node: self, for: resourceType, method: method, from: json)
     }
 }
 
@@ -181,6 +192,14 @@ public extension DefaultImplementations._Node_ {
     
     public static func parametersFrom(node: Node, object: ParameterConvertible) -> Parameters {
         return object.toParameters()
+    }
+}
+
+
+// MARK: Single Object Response Helper
+public extension DefaultImplementations._Node_ {
+    public static func initializeSingleObject<T: JSONInitializable>(node: Node, for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
+        return T(json: json)
     }
 }
 
