@@ -42,8 +42,7 @@ public extension DefaultImplementations._ListPostable_ {
 
 // MARK: // Private
 private extension DefaultImplementations._ListPostable_ {
-    static func _post<C: Collection>(_ objects: C, to node: Node) where C.Element: ListPostable {
-        typealias T = C.Element
+    static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node) where C.Element == T {
         let method: ResourceHTTPMethod = .post
         let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
         let parameters: Parameters = node.parametersFrom(listPostables: objects)
