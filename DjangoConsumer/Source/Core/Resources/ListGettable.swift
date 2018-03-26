@@ -25,9 +25,9 @@ public protocol ListGettable: ListResource, JSONInitializable {
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
 public extension ListGettable where Self: NeedsNoAuth {
-    static func get(from node: Node? = nil, offset: UInt = 0, limit: UInt = 0) {
+    static func get(from node: Node = Self.defaultNode, offset: UInt = 0, limit: UInt? = nil) {
         DefaultImplementations._ListGettable_.get(
-            self, from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false
+            self, from: node, offset: offset, limit: limit, filters: []
         )
     }
 }
@@ -35,41 +35,33 @@ public extension ListGettable where Self: NeedsNoAuth {
 
 // MARK: - DefaultImplementations._ListGettable_
 public extension DefaultImplementations._ListGettable_ {
-    public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
-        self._get(listGettableType, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
+    public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType]) {
+        self._get(listGettableType, from: node, offset: offset, limit: limit, filters: filters)
     }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations._ListGettable_ {
-    static func _get<T: ListGettable>(_ l: T.Type, from node: Node, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool) {
+    static func _get<T: ListGettable>(_ l: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType]) {
         let method: ResourceHTTPMethod = .get
         let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
         
-        let limit: UInt = limit > 0 ? limit : node.defaultLimit(for: T.self)
-        
-        let allFilters: [FilterType] = {
-            if addDefaultFilters, let filteredListGettable = T.self as? FilteredListGettable.Type {
-                return filters + node.defaultFilters(for: filteredListGettable)
-            } else {
-                return filters
-            }
-        }()
+        let limit: UInt = limit ?? node.defaultLimit(for: l)
 
-        let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: allFilters)
+        let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
         
         func onSuccess(_ json: JSON) {
             let (pagination, objects): (Pagination, [T]) = node.extractPaginatedGETListResponse(for: T.self, from: json)
             let success: GETObjectListSuccess = GETObjectListSuccess(
-                node: node, responsePagination: pagination, offset: offset, limit: limit, filters: allFilters
+                node: node, responsePagination: pagination, offset: offset, limit: limit, filters: filters
             )
             T.listGettableClients.forEach({ $0.gotObjects(objects: objects, with: success) })
         }
         
         func onFailure(_ error: Error) {
             let failure: GETObjectListFailure = GETObjectListFailure(
-                objectType: T.self, node: node, error: error, offset: offset, limit: limit, filters: allFilters
+                objectType: T.self, node: node, error: error, offset: offset, limit: limit, filters: filters
             )
             T.listGettableClients.forEach({ $0.failedGettingObjects(with: failure) })
         }

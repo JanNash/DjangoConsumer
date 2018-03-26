@@ -27,8 +27,8 @@ public protocol DetailGettable: IdentifiableResource, JSONInitializable {
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
 public extension DetailGettable where Self: NeedsNoAuth {
-    func get(from node: Node? = nil) {
-        DefaultImplementations._DetailGettable_.get(self, from: node ?? Self.defaultNode)
+    func get(from node: Node = Self.defaultNode) {
+        DefaultImplementations._DetailGettable_.get(self, from: node)
     }
 }
 

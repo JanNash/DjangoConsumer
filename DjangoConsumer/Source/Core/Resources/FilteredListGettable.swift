@@ -17,17 +17,32 @@ import Alamofire_SwiftyJSON
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol FilteredListGettable: ListGettable {
-    static func get(from node: Node?, offset: UInt, limit: UInt, filters: [FilterType], addDefaultFilters: Bool)
-}
+public protocol FilteredListGettable: ListGettable {}
 
 
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
 public extension FilteredListGettable where Self: NeedsNoAuth {
-    static func get(from node: Node? = nil, offset: UInt = 0, limit: UInt = 0, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
-        DefaultImplementations._ListGettable_.get(
-            self, from: node ?? self.defaultNode, offset: offset, limit: limit, filters: [], addDefaultFilters: false
+    static func get(from node: Node = Self.defaultNode, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
+        DefaultImplementations._FilteredListGettable_.get(
+            self, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
         )
+    }
+}
+
+
+// MARK: - DefaultImplementations._FilteredListGettable_
+public extension DefaultImplementations._FilteredListGettable_ {
+    public static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
+        self._get(filteredListGettableType, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
+    }
+}
+
+
+// MARK: // Private
+private extension DefaultImplementations._FilteredListGettable_ {
+    static func _get<T: FilteredListGettable>(_ f: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
+        let allFilters: [FilterType] = addDefaultFilters ? (node.defaultFilters(for: f) + filters) : filters
+        DefaultImplementations._ListGettable_.get(f, from: node, offset: offset, limit: limit, filters: allFilters)
     }
 }
