@@ -368,6 +368,7 @@ private extension OAuth2Handler {
             url: self._settings.tokenRevokeURL,
             method: .post,
             parameters: [_C.JSONKeys.token : accessToken],
+            encoding: URLEncoding.default,
             headers: [basicAuthHeader.key : basicAuthHeader.value]
         )
         
