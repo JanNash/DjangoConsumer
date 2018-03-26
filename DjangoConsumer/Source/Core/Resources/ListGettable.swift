@@ -48,7 +48,6 @@ private extension DefaultImplementations._ListGettable_ {
         let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
         
         let limit: UInt = limit ?? node.defaultLimit(for: l)
-
         let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
         
         func onSuccess(_ json: JSON) {
