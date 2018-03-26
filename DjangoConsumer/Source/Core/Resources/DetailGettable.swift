@@ -50,7 +50,7 @@ private extension DefaultImplementations._DetailGettable_ {
         let encoding: ParameterEncoding = URLEncoding.default
         
         func onSuccess(_ json: JSON) {
-            let newSelf: T = node.initializeSingleObject(for: T.self, method: method, from: json)
+            let newSelf: T = node.extractSingleObject(for: T.self, method: method, from: json)
             T.detailGettableClients.forEach({ $0.gotObject(newSelf, for: detailGettable, from: node)})
             detailGettable.gotNewSelf(newSelf, from: node)
         }

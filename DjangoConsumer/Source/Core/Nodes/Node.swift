@@ -37,8 +37,8 @@ public protocol Node {
     func parametersFrom(object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters
     func parametersFrom<C: Collection, T: ListPostable>(listPostables: C) -> Parameters where C.Element == T
     
-    // Single Object Initialization Helpers
-    func initializeSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T
+    // Detail Response Extraction Helpers
+    func extractSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T
     
     // List Response Extraction Helpers
     func extractPaginatedGETListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
@@ -95,10 +95,10 @@ public extension Node {
 }
 
 
-// MARK: Single Object Extraction Helpers
+// MARK: Detail Response Extraction Helpers
 public extension Node {
-    func initializeSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
-        return DefaultImplementations._Node_.initializeSingleObject(node: self, for: resourceType, method: method, from: json)
+    func extractSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
+        return DefaultImplementations._Node_.extractSingleObject(node: self, for: resourceType, method: method, from: json)
     }
 }
 
@@ -196,9 +196,9 @@ public extension DefaultImplementations._Node_ {
 }
 
 
-// MARK: Single Object Response Helper
+// MARK: Detail Response Extraction Helpers
 public extension DefaultImplementations._Node_ {
-    public static func initializeSingleObject<T: JSONInitializable>(node: Node, for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
+    public static func extractSingleObject<T: JSONInitializable>(node: Node, for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
         return T(json: json)
     }
 }
