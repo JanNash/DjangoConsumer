@@ -55,19 +55,6 @@ public protocol Node {
 }
 
 
-// MARK: - DefaultListResponseKeys
-public struct DefaultListResponseKeys {
-    public static let meta: String = "meta"
-    public static let results: String = "results"
-}
-
-
-// MARK: - DefaultListRequestKeys
-public struct DefaultListRequestKeys {
-    public static let objects: String = "objects"
-}
-
-
 // MARK: Default Implementations
 // MARK: List GET Request Helpers
 public extension Node {
@@ -149,6 +136,19 @@ public extension Node {
 
 
 // MARK: - DefaultImplementations._Node_
+// MARK: Request/Response Keys
+public extension DefaultImplementations._Node_ {
+    public struct ListRequestKeys {
+        public static let objects: String = "objects"
+    }
+    
+    public struct ListResponseKeys {
+        public static let meta: String = "meta"
+        public static let results: String = "results"
+    }
+}
+
+
 // MARK: List GET Request Helpers
 public extension DefaultImplementations._Node_ {
     public static func defaultFilters(node: Node, for resourceType: FilteredListGettable.Type) -> [FilterType] {
@@ -188,11 +188,11 @@ public extension DefaultImplementations._Node_ {
 // MARK: List POST Request Helpers
 public extension DefaultImplementations._Node_ {
     public static func parametersFrom<C: Collection>(node: Node, listPostables: C) -> Parameters where C.Element == ListPostable {
-        return [DefaultListRequestKeys.objects : listPostables.map({ $0.toParameters() })]
+        return [ListRequestKeys.objects : listPostables.map({ $0.toParameters() })]
     }
     
     public static func extractPOSTListResponse<T: ListPostable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
-        return json[DefaultListResponseKeys.results].array!.map(T.init)
+        return json[ListResponseKeys.results].array!.map(T.init)
     }
 }
 
@@ -233,8 +233,8 @@ public extension DefaultImplementations._Node_ {
 private extension DefaultImplementations._Node_ {
     static func _extractPaginatedGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = node.paginationType(for: resourceType)
-        let pagination: Pagination = paginationType.init(json: json[DefaultListResponseKeys.meta])
-        let objects: [T] = json[DefaultListResponseKeys.results].array!.map(T.init)
+        let pagination: Pagination = paginationType.init(json: json[ListResponseKeys.meta])
+        let objects: [T] = json[ListResponseKeys.results].array!.map(T.init)
         return (pagination, objects)
     }
 }
