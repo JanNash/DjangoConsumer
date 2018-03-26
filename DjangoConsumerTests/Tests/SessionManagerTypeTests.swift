@@ -17,11 +17,11 @@ import DjangoConsumer
 
 // MARK: // Private
 private let _failingRequestConfig: RequestConfiguration = {
-    RequestConfiguration(url: URL(string: "http://example.com")!, method: .get)
+    RequestConfiguration(url: URL(string: "http://example.com")!, method: .get, encoding: URLEncoding.default)
 }()
 
 private let _succeedingRequestConfig: RequestConfiguration = {
-    RequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, method: .get)
+    RequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, method: .get, encoding: URLEncoding.default)
 }()
 
 private enum _TestError: Error { case foo }
