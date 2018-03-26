@@ -53,7 +53,9 @@ public protocol Node {
     func extractSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T
     
     // List Response Extraction Helpers
-    func extractPaginatedGETListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
+    func extractGETListResponsePagination(with paginationType: Pagination.Type, from json: JSON) -> Pagination
+    func extractGETListResponseObjects<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> [T]
+    func extractGETListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T])
     func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T]
 }
 
@@ -136,8 +138,16 @@ public extension Node {
 
 // MARK: List Response Extraction Helpers
 public extension Node {
-    func extractPaginatedGETListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
-        return DefaultImplementations._Node_.extractPaginatedGETListResponse(node: self, for: resourceType, from: json)
+    func extractGETListResponsePagination(with paginationType: Pagination.Type, from json: JSON) -> Pagination {
+        return DefaultImplementations._Node_.extractGETListResponsePagination(node: self, with: paginationType, from: json)
+    }
+    
+    func extractGETListResponseObjects<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> [T] {
+        return DefaultImplementations._Node_.extractGETListResponseObjects(node: self, for: T.self, from: json)
+    }
+    
+    func extractGETListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+        return DefaultImplementations._Node_.extractGETListResponse(node: self, for: resourceType, from: json)
     }
     
     func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T] {
@@ -237,10 +247,18 @@ public extension DefaultImplementations._Node_ {
 
 // MARK: List Response Extraction Helpers
 public extension DefaultImplementations._Node_ {
-    public static func extractPaginatedGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
-        return self._extractPaginatedGETListResponse(node: node, for: resourceType, from: json)
+    public static func extractGETListResponsePagination(node: Node, with paginationType: Pagination.Type, from json: JSON) -> Pagination {
+        return paginationType.init(json: json[ListResponseKeys.meta])
     }
     
+    public static func extractGETListResponseObjects<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
+        return json[ListResponseKeys.results].array!.map(T.init)
+    }
+    
+    public static func extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+        return self._extractGETListResponse(node: node, for: resourceType, from: json)
+    }
+        
     public static func extractPOSTListResponse<T: ListPostable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
         return json[ListResponseKeys.results].array!.map(T.init)
     }
@@ -293,10 +311,10 @@ private extension DefaultImplementations._Node_ {
 
 // MARK: List Response Extraction Helper Implementations
 private extension DefaultImplementations._Node_ {
-    static func _extractPaginatedGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+    static func _extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = node.paginationType(for: resourceType)
-        let pagination: Pagination = paginationType.init(json: json[ListResponseKeys.meta])
-        let objects: [T] = json[ListResponseKeys.results].array!.map(T.init)
+        let pagination: Pagination = node.extractGETListResponsePagination(with: paginationType, from: json)
+        let objects: [T] = node.extractGETListResponseObjects(for: T.self, from: json)
         return (pagination, objects)
     }
 }
