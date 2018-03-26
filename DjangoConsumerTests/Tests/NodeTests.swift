@@ -105,6 +105,10 @@ class NodeTests: BaseTest {
         })
     }
     
+    func testParametersFromListPostables() {
+        
+    }
+    
     // MetaResource.Type URLs
     func testRoutesAgainstRelativeURLForResourceType() {
         let mockNode: MockNode = MockNode()
@@ -319,6 +323,10 @@ class NodeTests: BaseTest {
     }
     
     // List Response Helpers
+    func testExtractSingleObject() {
+        
+    }
+    
     func testDefaultPaginationType() {
         let node: Node = MockNode()
         typealias FixtureType = MockListGettable
@@ -333,6 +341,14 @@ class NodeTests: BaseTest {
         
         XCTAssert(nodeImplementation() == DefaultPagination.self)
         XCTAssert(defaultImplementation() == DefaultPagination.self)
+    }
+    
+    func testExtractGETListResponsePagination() {
+        
+    }
+    
+    func testExtractGETListResponseObjects() {
+        
     }
     
     func testExtractPaginatedGETListResponse() {
