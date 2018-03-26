@@ -46,7 +46,7 @@ private extension DefaultImplementations._ListPostable_ {
         typealias T = C.Element
         let method: ResourceHTTPMethod = .post
         let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
-        let parameters: Parameters = [DefaultListResponseKeys.results : objects.map({ $0.toParameters() })]
+        let parameters: Parameters = node.parametersFrom(listPostables: objects)
         let encoding: ParameterEncoding = URLEncoding.default
         
         func onSuccess(_ json: JSON) {
