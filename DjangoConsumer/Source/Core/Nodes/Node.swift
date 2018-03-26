@@ -35,6 +35,7 @@ public protocol Node {
     func parametersFrom(filters: [FilterType]) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
+    func parametersFrom(object: ParameterConvertible) -> Parameters
     
     // List POST Request Helpers
     func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T]
@@ -89,6 +90,10 @@ public extension Node {
     
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
         return DefaultImplementations._Node_.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
+    }
+    
+    func parametersFrom(object: ParameterConvertible) -> Parameters {
+        return DefaultImplementations._Node_.parametersFrom(node: self, object: object)
     }
 }
 
@@ -161,6 +166,10 @@ public extension DefaultImplementations._Node_ {
     
     public static func parametersFrom(node: Node, filters: [FilterType]) -> Parameters {
         return filters.reduce(into: [:], { $0[$1.stringKey] = $1.value })
+    }
+    
+    public static func parametersFrom(node: Node, object: ParameterConvertible) -> Parameters {
+        return object.toParameters()
     }
 }
 
