@@ -14,12 +14,13 @@ import Foundation
 
 // MARK: // Public
 public struct DefaultImplementations {
-    public struct _DetailGettable_ {}
-    public struct _FilteredListGettable_ {}
-    public struct _ListGettable_ {}
-    public struct _ListPostable_ {}
-    public struct _Node_ {}
-    public struct _ResourceID_ {}
-    public struct _SessionManagerType_ {}
-    public struct _SinglePostable_ {}
+    private init() {}
+    public struct _DetailGettable_          { private init() {} }
+    public struct _FilteredListGettable_    { private init() {} }
+    public struct _ListGettable_            { private init() {} }
+    public struct _ListPostable_            { private init() {} }
+    public struct _Node_                    { private init() {} }
+    public struct _ResourceID_              { private init() {} }
+    public struct _SessionManagerType_      { private init() {} }
+    public struct _SinglePostable_          { private init() {} }
 }

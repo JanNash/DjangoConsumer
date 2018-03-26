@@ -28,6 +28,7 @@ public protocol Pagination: JSONInitializable {
 public struct DefaultPagination: Pagination {
     // Keys
     public struct Keys {
+        private init() {}
         public static let limit: String = "limit"
         public static let next: String = "next"
         public static let offset: String = "offset"
