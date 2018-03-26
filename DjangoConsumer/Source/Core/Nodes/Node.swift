@@ -35,7 +35,7 @@ public protocol Node {
     func parametersFrom(filters: [FilterType]) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
-    func parametersFrom(object: ParameterConvertible) -> Parameters
+    func parametersFrom(object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters
     
     // Single Object Initialization Helpers
     func initializeSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T
@@ -89,8 +89,8 @@ public extension Node {
         return DefaultImplementations._Node_.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
     }
     
-    func parametersFrom(object: ParameterConvertible) -> Parameters {
-        return DefaultImplementations._Node_.parametersFrom(node: self, object: object)
+    func parametersFrom(object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters {
+        return DefaultImplementations._Node_.parametersFrom(node: self, object: object, method: method)
     }
 }
 
@@ -190,7 +190,7 @@ public extension DefaultImplementations._Node_ {
         return self._parametersFrom(node: node, offset: offset, limit: limit, filters: filters)
     }
     
-    public static func parametersFrom(node: Node, object: ParameterConvertible) -> Parameters {
+    public static func parametersFrom(node: Node, object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters {
         return object.toParameters()
     }
 }
