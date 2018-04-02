@@ -13,10 +13,10 @@ rvm:
   # # each run because it's not pre-installed on the current 
   # # osx_image.  Instead, rvm is set to use .ruby-version 
   # # and .ruby-gemset inside the before_install step.
-  - 2.4.2
+  # - 2.4.2
   # # This should be commented in to update the ruby version 
   # # in the cache to the required one.
-  # - 2.5.0
+  - 2.5.0
 
 cache:
   cocoapods: true
@@ -41,6 +41,7 @@ before_install:
 install:
   - gem install bundler
   - bundle install
+  - pod install
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
