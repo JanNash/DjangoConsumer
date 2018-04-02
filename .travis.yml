@@ -37,11 +37,10 @@ cache:
 
 before_install:
   - rvm use 2.5.0@DjangoConsumer --create
+  
+install:
   - gem install bundler
-  # # Comment this is whenever the requirements in the Gemfile
-  # # have changed. It can be removed as soon as the .ruby-version
-  # # is included in the current osx_image.
-  # - bundle install
+  - bundle install
 
 script:
   - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty
