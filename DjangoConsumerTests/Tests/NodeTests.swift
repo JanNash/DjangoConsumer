@@ -17,10 +17,78 @@ import DjangoConsumer
 
 // MARK: // Internal
 class NodeTests: BaseTest {
-    // Filtering
+    // Routes
+    func testNoRouteFoundFatalError() {
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        let routeType: RouteType = .list
+        let method: ResourceHTTPMethod = .get
+        
+        (node as! MockNode).routes = []
+        
+        let expectedMessage: String =
+            "[DjangoConsumer.Node] No Route registered in '\(node)' for type " +
+        "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
+        
+        let nodeImplementation: () -> Void = {
+            let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        let defaultImplementation: () -> Void = {
+            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, nodeImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, defaultImplementation)
+    }
+    
+    func testMultipleRoutesFoundFatalError() {
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        let routeType: RouteType = .list
+        let method: ResourceHTTPMethod = .get
+        
+        (node as! MockNode).routes = [
+            .listGET(FixtureType.self, "a"),
+            .listGET(FixtureType.self, "b")
+        ]
+        
+        let expectedMessage: String =
+            "[DjangoConsumer.Node] Multiple Routes registered in '\(node)' for type " +
+        "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
+        
+        let nodeImplementation: () -> Void = {
+            let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        let defaultImplementation: () -> Void = {
+            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
+        }
+        
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, nodeImplementation)
+        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, defaultImplementation)
+    }
+    
+    // List GET Request Helpers
     func testDefaultFilters() {
         let node: Node = MockNode()
         XCTAssert(node.defaultFilters(for: MockFilteredListGettable.self).isEmpty)
+    }
+    
+    func testPaginationType() {
+        let node: Node = MockNode()
+        typealias FixtureType = MockListGettable
+        
+        let nodeImplementation: () -> Pagination.Type = {
+            node.paginationType(for: FixtureType.self)
+        }
+        
+        let defaultImplementation: () -> Pagination.Type = {
+            DefaultImplementations._Node_.paginationType(node: node, for: FixtureType.self)
+        }
+        
+        XCTAssert(nodeImplementation() == DefaultPagination.self)
+        XCTAssert(defaultImplementation() == DefaultPagination.self)
     }
     
     // Parameter Generation
@@ -109,6 +177,7 @@ class NodeTests: BaseTest {
         
     }
     
+    // URLs
     // MetaResource.Type URLs
     func testRoutesAgainstRelativeURLForResourceType() {
         let mockNode: MockNode = MockNode()
@@ -322,27 +391,13 @@ class NodeTests: BaseTest {
         .forEach(testAbsoluteGETURL)
     }
     
-    // List Response Helpers
+    // Response Extraction
+    // Detail Response Extraction Helpers
     func testExtractSingleObject() {
         
     }
     
-    func testDefaultPaginationType() {
-        let node: Node = MockNode()
-        typealias FixtureType = MockListGettable
-        
-        let nodeImplementation: () -> Pagination.Type = {
-            node.paginationType(for: FixtureType.self)
-        }
-        
-        let defaultImplementation: () -> Pagination.Type = {
-            DefaultImplementations._Node_.paginationType(node: node, for: FixtureType.self)
-        }
-        
-        XCTAssert(nodeImplementation() == DefaultPagination.self)
-        XCTAssert(defaultImplementation() == DefaultPagination.self)
-    }
-    
+    // List Response Extraction Helpers
     func testExtractGETListResponsePagination() {
         
     }
@@ -351,7 +406,7 @@ class NodeTests: BaseTest {
         
     }
     
-    func testExtractPaginatedGETListResponse() {
+    func testExtractGETListResponse() {
         let node: Node = MockNode()
         typealias FixtureType = MockListGettable
         
@@ -417,56 +472,5 @@ class NodeTests: BaseTest {
             XCTAssertEqual(results.count, expectedResults.count)
             XCTAssertEqual(results.map({ $0.name }), expectedResults.map({ $0.name }))
         })
-    }
-    
-    func testNoRouteFoundFatalError() {
-        let node: Node = MockNode()
-        typealias FixtureType = MockListGettable
-        let routeType: RouteType = .list
-        let method: ResourceHTTPMethod = .get
-        
-        (node as! MockNode).routes = []
-        
-        let expectedMessage: String =
-            "[DjangoConsumer.Node] No Route registered in '\(node)' for type " +
-            "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
-        
-        let nodeImplementation: () -> Void = {
-            let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
-        }
-        
-        let defaultImplementation: () -> Void = {
-            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
-        }
-        
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, nodeImplementation)
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, defaultImplementation)
-    }
-    
-    func testMultipleRoutesFoundFatalError() {
-        let node: Node = MockNode()
-        typealias FixtureType = MockListGettable
-        let routeType: RouteType = .list
-        let method: ResourceHTTPMethod = .get
-        
-        (node as! MockNode).routes = [
-            .listGET(FixtureType.self, "a"),
-            .listGET(FixtureType.self, "b")
-        ]
-        
-        let expectedMessage: String =
-            "[DjangoConsumer.Node] Multiple Routes registered in '\(node)' for type " +
-            "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
-        
-        let nodeImplementation: () -> Void = {
-            let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
-        }
-        
-        let defaultImplementation: () -> Void = {
-            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
-        }
-        
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, nodeImplementation)
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, defaultImplementation)
     }
 }
