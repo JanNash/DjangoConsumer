@@ -6,25 +6,29 @@ osx_image: xcode9.3beta
 xcode_sdk: iphonesimulator11.3
 
 rvm:
-  # # Pinning rvm ruby to a version that is already installed 
-  # # on the current osx_image, so the default 
-  # # $ rvm use $(< .ruby-version) --install --binary --fuzzy
-  # # doesn't lead to the .ruby-version being installed on 
-  # # each run because it's not pre-installed on the current 
-  # # osx_image.  Instead, rvm is set to use .ruby-version 
-  # # and .ruby-gemset inside the before_install step.
-  # - 2.4.2
-  # # This should be commented in to update the ruby version 
-  # # in the cache to the required one.
+  # # The required ruby-version, which is also declared in 
+  # # .ruby-version. This should only be commented in when
+  # # when recreating the cache, i.e. when the cache was 
+  # # deleted or when the version changes.
   - 2.5.0
-
+  # # Unfortunately, the rvm directive is executed *before* 
+  # # the cache is loaded. To avoid an unnecessary installation 
+  # # of the above version, we explicitly tell rvm to use a 
+  # # version which is pre-installed on the current osx_image.
+  # # In before_install (when the cache is loaded), we tell 
+  # # rvm the actual version and gemset we want to use.
+  # #
+  # # We have to do this explicitly here, else, travis will
+  # # infer the version from .ruby-version, which would lead
+  # # to an unnecessary installation as well.
+  # - 2.4.2
+  
 cache:
   cocoapods: true
   directories:
-    # Caching the ruby installation, since .rvm has around 800M
-    # on my machine, with three installed rubies. When updating
-    # to a new osx_image that includes the required ruby version,
-    # this can be commented out.
+    # # Caching the ruby which is required in .ruby-version.
+    # # This can be removed as soon as the version is
+    # # is pre-installed on the current osx_image.
     - ~/.rvm/rubies/ruby-2.5.0
     - ~/.rvm/gems/ruby-2.5.0
     
