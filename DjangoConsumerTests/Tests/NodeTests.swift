@@ -324,7 +324,7 @@ class NodeTests: BaseTest {
         ].map({ routeAndRType in
             (
                 routeAndRType.0(routeAndRType.1),
-                (0..<1000).map({ routeAndRType.1.init(id: ResourceID("\($0)")) })
+                (0..<100).map({ routeAndRType.1.init(id: ResourceID("\($0)")) })
             )
         })
         
@@ -366,7 +366,7 @@ class NodeTests: BaseTest {
         ].map({ routeAndRType in
             (
                 routeAndRType.0(routeAndRType.1),
-                (0..<1000).map({ routeAndRType.1.init(id: ResourceID("\($0)")) })
+                (0..<100).map({ routeAndRType.1.init(id: ResourceID("\($0)")) })
             )
         })
         
@@ -409,7 +409,7 @@ class NodeTests: BaseTest {
         ].map({ routeAndRType in
             (
                 routeAndRType.0(routeAndRType.1),
-                (0..<1000).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id })
+                (0..<100).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id })
             )
         })
         
@@ -447,7 +447,7 @@ class NodeTests: BaseTest {
         ].map({ routeAndRType in
             (
                 routeAndRType.0(routeAndRType.1),
-                (0..<1000).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id })
+                (0..<100).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id })
             )
         })
         
