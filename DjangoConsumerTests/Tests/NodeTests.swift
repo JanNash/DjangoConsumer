@@ -17,6 +17,8 @@ import DjangoConsumer
 
 // MARK: // Internal
 class NodeTests: BaseTest {
+    typealias Dflt = DefaultImplementations._Node_
+    
     // Routes
     func testNoRouteFoundFatalError() {
         let node: Node = MockNode()
@@ -35,11 +37,12 @@ class NodeTests: BaseTest {
         }
         
         let defaultImplementation: () -> Void = {
-            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
+            let _: URL = Dflt.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
         }
         
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, nodeImplementation)
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, defaultImplementation)
+        [nodeImplementation, defaultImplementation].forEach({
+            self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, $0)
+        })
     }
     
     func testMultipleRoutesFoundFatalError() {
@@ -62,17 +65,30 @@ class NodeTests: BaseTest {
         }
         
         let defaultImplementation: () -> Void = {
-            let _: URL = DefaultImplementations._Node_.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
+            let _: URL = Dflt.relativeURL(node: node, for: FixtureType.self, routeType: routeType, method: method)
         }
         
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, nodeImplementation)
-        self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, defaultImplementation)
+        [nodeImplementation, defaultImplementation].forEach({
+            self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 5, $0)
+        })
     }
     
     // List GET Request Helpers
     func testDefaultFilters() {
         let node: Node = MockNode()
-        XCTAssert(node.defaultFilters(for: MockFilteredListGettable.self).isEmpty)
+        typealias FixtureType = MockFilteredListGettable
+        
+        let nodeImplementation: () -> [FilterType] = {
+            node.defaultFilters(for: FixtureType.self)
+        }
+        
+        let defaultImplementation: () -> [FilterType] = {
+            Dflt.defaultFilters(node: node, for: FixtureType.self)
+        }
+        
+        [nodeImplementation, defaultImplementation].map({ $0() }).forEach({
+            XCTAssert($0.isEmpty)
+        })
     }
     
     func testPaginationType() {
@@ -84,7 +100,7 @@ class NodeTests: BaseTest {
         }
         
         let defaultImplementation: () -> Pagination.Type = {
-            DefaultImplementations._Node_.paginationType(node: node, for: FixtureType.self)
+            Dflt.paginationType(node: node, for: FixtureType.self)
         }
         
         [nodeImplementation, defaultImplementation].map({ $0() }).forEach({
@@ -122,7 +138,7 @@ class NodeTests: BaseTest {
         }
         
         let defaultImplementation: () -> Parameters = {
-            DefaultImplementations._Node_.parametersFrom(node: node, offset: expectedOffset, limit: expectedLimit)
+            Dflt.parametersFrom(node: node, offset: expectedOffset, limit: expectedLimit)
         }
         
         [nodeImplementation, defaultImplementation].map({ $0() }).forEach({
@@ -144,7 +160,7 @@ class NodeTests: BaseTest {
         }
         
         let defaultImplementation: () -> Parameters = {
-            DefaultImplementations._Node_.parametersFrom(node: node, offset: expectedOffset, limit: expectedLimit, filters: filters)
+            Dflt.parametersFrom(node: node, offset: expectedOffset, limit: expectedLimit, filters: filters)
         }
         
         [nodeImplementation, defaultImplementation].map({ $0() }).forEach({
@@ -165,7 +181,7 @@ class NodeTests: BaseTest {
         }
         
         let defaultImplementation: (ResourceHTTPMethod) -> [String : String] = {
-            DefaultImplementations._Node_.parametersFrom(node: node, object: object, method: $0) as! [String : String]
+            Dflt.parametersFrom(node: node, object: object, method: $0) as! [String : String]
         }
         
         ResourceHTTPMethod.all.forEach({ method in
@@ -198,14 +214,20 @@ class NodeTests: BaseTest {
         
         mockNode.routes = routes
         
-        let testNodeAndDefaultImplementation: (Route) -> Void = {
-            let relURL: URL = $0.relativeURL
-            typealias Dflt = DefaultImplementations._Node_
-            XCTAssertEqual(relURL, Dflt.relativeURL(node: node, for: $0.resourceType, routeType: $0.routeType, method: $0.method))
-            XCTAssertEqual(relURL, node.relativeURL(for: $0.resourceType, routeType: $0.routeType, method: $0.method))
+        let nodeImplementation: (Route) -> URL = {
+            node.relativeURL(for: $0.resourceType, routeType: $0.routeType, method: $0.method)
         }
         
-        routes.forEach(testNodeAndDefaultImplementation)
+        let defaultImplementation: (Route) -> URL = {
+            Dflt.relativeURL(node: node, for: $0.resourceType, routeType: $0.routeType, method: $0.method)
+        }
+        
+        routes.forEach({ route in
+            let expectedURL: URL = route.relativeURL
+            [nodeImplementation, defaultImplementation].map({ $0(route) }).forEach({
+                XCTAssertEqual($0, expectedURL)
+            })
+        })
     }
     
     func testRoutesAgainstAbsoluteURLForResourceType() {
@@ -225,16 +247,22 @@ class NodeTests: BaseTest {
         
         mockNode.routes = routes
         
-        let baseURL: URL = node.baseURL
-        
-        let testNodeAndDefaultImplementation: (Route) -> Void = {
-            let expectedURL: URL = baseURL + $0.relativeURL
-            typealias Dflt = DefaultImplementations._Node_
-            XCTAssertEqual(expectedURL, Dflt.absoluteURL(node: node, for: $0.resourceType, routeType: $0.routeType, method: $0.method))
-            XCTAssertEqual(expectedURL, node.absoluteURL(for: $0.resourceType, routeType: $0.routeType, method: $0.method))
+        let nodeImplementation: (Route) -> URL = {
+            node.absoluteURL(for: $0.resourceType, routeType: $0.routeType, method: $0.method)
         }
         
-        routes.forEach(testNodeAndDefaultImplementation)
+        let defaultImplementation: (Route) -> URL = {
+            Dflt.absoluteURL(node: node, for: $0.resourceType, routeType: $0.routeType, method: $0.method)
+        }
+        
+        let baseURL: URL = node.baseURL
+        
+        routes.forEach({ route in
+            let expectedURL: URL = baseURL + route.relativeURL
+            [nodeImplementation, defaultImplementation].map({ $0(route) }).forEach({
+                XCTAssertEqual($0, expectedURL)
+            })
+        })
     }
 
     // IdentifiableResource URLs
