@@ -474,7 +474,30 @@ class NodeTests: BaseTest {
     // Response Extraction
     // Detail Response Extraction Helpers
     func testExtractSingleObject() {
+        func nodeImplementation<T: JSONInitializable>(_ node: Node, _ resourceType: T.Type, _ method: ResourceHTTPMethod, _ json: JSON) -> T {
+            return node.extractSingleObject(for: resourceType, method: method, from: json)
+        }
         
+        func defaultImplementation<T: JSONInitializable>(_ node: Node, _ resourceType: T.Type, _ method: ResourceHTTPMethod, _ json: JSON) -> T {
+            return Dflt.extractSingleObject(node: node, for: resourceType, method: method, from: json)
+        }
+        
+        let node: Node = MockNode()
+        let fixtureType = MockListGettable.self
+        let jsonFixturesAndExpectedObjects = (0..<100)
+            .map({ JSON([fixtureType.Keys.name : "\($0)"]) })
+            .map({ ($0, fixtureType.init(json: $0)) })
+        
+        jsonFixturesAndExpectedObjects.forEach({ jsonFixtureAndExpectedObject in
+            let (jsonFixture, expectedObject) = jsonFixtureAndExpectedObject
+            ResourceHTTPMethod.all.forEach({ method in
+                [nodeImplementation, defaultImplementation].map({
+                    $0(node, fixtureType, method, jsonFixture)
+                }).forEach({
+                    XCTAssertEqual($0, expectedObject)
+                })
+            })
+        })
     }
     
     // List Response Extraction Helpers
