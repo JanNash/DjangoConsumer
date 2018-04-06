@@ -271,9 +271,9 @@ class NodeTests: BaseTest {
         
         let allRoutesAndObjects = [
             ({ Route.detailGET($0, "mockdetailgettables") }, MockDetailGettable.self),
-//            ({ Route.detailPUT($0, "mockdetailputtables") }, MockDetailPuttable.self),
-//            ({ Route.detailPATCH($0, "mockdetailpatchables") }, MockDetailPatchable.self),
-//            ({ Route.detailDELETE($0, "mockdetaildeletables") }, MockDetailDeletable.self),
+            //({ Route.detailPUT($0, "mockdetailputtables") }, MockDetailPuttable.self),
+            //({ Route.detailPATCH($0, "mockdetailpatchables") }, MockDetailPatchable.self),
+            //({ Route.detailDELETE($0, "mockdetaildeletables") }, MockDetailDeletable.self),
         ].map({ routeAndRType in
             (
                 routeAndRType.0(routeAndRType.1),
@@ -311,9 +311,9 @@ class NodeTests: BaseTest {
         
         let allRoutesAndObjects = [
             ({ Route.detailGET($0, "mockdetailgettables") }, MockDetailGettable.self),
-//            ({ Route.detailPUT($0, "mockdetailputtables") }, MockDetailPuttable.self),
-//            ({ Route.detailPATCH($0, "mockdetailpatchables") }, MockDetailPatchable.self),
-//            ({ Route.detailDELETE($0, "mockdetaildeletables") }, MockDetailDeletable.self),
+            //({ Route.detailPUT($0, "mockdetailputtables") }, MockDetailPuttable.self),
+            //({ Route.detailPATCH($0, "mockdetailpatchables") }, MockDetailPatchable.self),
+            //({ Route.detailDELETE($0, "mockdetaildeletables") }, MockDetailDeletable.self),
         ].map({ routeAndRType in
             (
                 routeAndRType.0(routeAndRType.1),
