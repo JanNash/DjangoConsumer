@@ -74,7 +74,7 @@ class SessionManagerTypeTests: BaseTest {
             responseHandling: responseHandling
         )
         
-        self.waitForExpectations(timeout: 1)
+        self.waitForExpectations(timeout: 10)
     }
     
     func testSessionManagerTypeDefaultImplementations() {
@@ -99,7 +99,7 @@ class SessionManagerTypeTests: BaseTest {
         
         sessionManager.fireJSONRequest(with: _failingRequestConfig, responseHandling: responseHandling)
         
-        self.waitForExpectations(timeout: 1)
+        self.waitForExpectations(timeout: 10)
     }
 }
 
@@ -132,7 +132,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         sessionManager.fireJSONRequest(with: _failingRequestConfig, responseHandling: responseHandling)
         
-        self.waitForExpectations(timeout: 1)
+        self.waitForExpectations(timeout: 10)
     }
     
     func testAFSessionManagerFireJSONRequestWithSucceedingRequestConfig() {
@@ -149,7 +149,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         sessionManager.fireJSONRequest(with: _succeedingRequestConfig, responseHandling: responseHandling)
         
-        self.waitForExpectations(timeout: 1)
+        self.waitForExpectations(timeout: 10)
     }
 }
 
@@ -173,7 +173,7 @@ class TestSessionDelegateTests: BaseTest {
         
         sessionDelegate[fakeTask] = fakeRequest
         
-        self.waitForExpectations(timeout: 1)
+        self.waitForExpectations(timeout: 10)
     }
     
     func testTestSessionDelegateSubscriptGetter() {
@@ -247,6 +247,6 @@ class TestSessionManagerTests: BaseTest {
         
         sessionManager.handleJSONResponse(for: expectedRequest, with: responseHandling)
         
-        self.waitForExpectations(timeout: 1)
+        self.waitForExpectations(timeout: 10)
     }
 }
