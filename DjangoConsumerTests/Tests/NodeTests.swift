@@ -19,6 +19,7 @@ import DjangoConsumer
 class NodeTests: BaseTest {
     typealias Dflt = DefaultImplementations._Node_
     typealias PaginationKeys = DefaultPagination.Keys
+    typealias ListRequestKeys = Dflt.ListRequestKeys
     typealias ListResponseKeys = Dflt.ListResponseKeys
     
     // Routes
@@ -210,7 +211,25 @@ class NodeTests: BaseTest {
     }
     
     func testParametersFromListPostables() {
+        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> [String : [[String : String]]] where C.Element: ListPostable {
+            return node.parametersFrom(listPostables: listPostables) as! [String : [[String : String]]]
+        }
         
+        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> [String : [[String : String]]] where C.Element: ListPostable {
+            return Dflt.parametersFrom(node: node, listPostables: listPostables) as! [String : [[String : String]]]
+        }
+        
+        let node: Node = MockNode()
+        let objects: [MockListPostable] = (0..<100).map({ MockListPostable(name: "\($0)") })
+        let expectedParameters: [String : [[String : String]]] = [
+            ListRequestKeys.objects: objects.compactMap({ $0.toParameters() as? [String : String] })
+        ]
+        
+        [nodeImplementation, defaultImplementation].map({
+            $0(node, objects)
+        }).forEach({
+            XCTAssertEqual($0, expectedParameters)
+        })
     }
     
     // URLs
