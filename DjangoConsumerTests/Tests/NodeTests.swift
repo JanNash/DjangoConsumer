@@ -441,35 +441,39 @@ class NodeTests: BaseTest {
     
     func testExtractGETListResponse() {
         let node: Node = MockNode()
+        
+        func nodeImplementation<T: ListGettable>(_ resourceType: T.Type, _ json: JSON) -> (Pagination, [T]) {
+            return node.extractGETListResponse(for: resourceType, from: json)
+        }
+        
+        func defaultImplementation<T: ListGettable>(_ resourceType: T.Type, _ json: JSON) -> (Pagination, [T]) {
+            return Dflt.extractGETListResponse(node: node, for: resourceType, from: json)
+        }
+        
         typealias FixtureType = MockListGettable
-        
-        func nodeImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
-            return node.extractGETListResponse(for: FixtureType.self, from: json)
-        }
-        
-        func defaultImplementation(_ json: JSON) -> (Pagination, [FixtureType]) {
-            return DefaultImplementations._Node_.extractGETListResponse(node: node, for: FixtureType.self, from: json)
-        }
+        typealias ListResponseKeys = Dflt.ListResponseKeys
+        typealias PaginationKeys = DefaultPagination.Keys
         
         let expectedLimit: UInt = 100
         let expectedNext: URL = URL(string: "url/to/next/page")!
         let expectedOffset: UInt = 10
         let expectedPrevious: URL = URL(string: "url/to/previous/page")!
         let expectedTotalCount: UInt = 1000
-        let expectedResults: [FixtureType] = (0..<100).map({ FixtureType(id: "\($0)") })
+        let expectedResults: [FixtureType] = (0..<100).map({ FixtureType(name: "\($0)") })
+        
         
         let jsonFixture: JSON = JSON([
-            DefaultImplementations._Node_.ListResponseKeys.meta: [
-                DefaultPagination.Keys.limit: expectedLimit,
-                DefaultPagination.Keys.next: expectedNext.absoluteString,
-                DefaultPagination.Keys.offset: expectedOffset,
-                DefaultPagination.Keys.previous: expectedPrevious.absoluteString,
-                DefaultPagination.Keys.totalCount: expectedTotalCount,
+            ListResponseKeys.meta: [
+                PaginationKeys.limit: expectedLimit,
+                PaginationKeys.next: expectedNext.absoluteString,
+                PaginationKeys.offset: expectedOffset,
+                PaginationKeys.previous: expectedPrevious.absoluteString,
+                PaginationKeys.totalCount: expectedTotalCount,
             ],
-            DefaultImplementations._Node_.ListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.id : $0.id] })
+            ListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.name : $0.name] })
         ])
         
-        [nodeImplementation(jsonFixture), defaultImplementation(jsonFixture)].forEach({ listResponse in
+        [nodeImplementation, defaultImplementation].map({ $0(FixtureType.self, jsonFixture) }).forEach({ listResponse in
             let (pagination, results): (Pagination, [FixtureType]) = listResponse
             
             XCTAssertEqual(pagination.limit, expectedLimit)
@@ -478,8 +482,7 @@ class NodeTests: BaseTest {
             XCTAssertEqual(pagination.previous, expectedPrevious)
             XCTAssertEqual(pagination.totalCount, expectedTotalCount)
             
-            XCTAssertEqual(results.count, expectedResults.count)
-            XCTAssertEqual(results.map({ $0.id }), expectedResults.map({ $0.id }))
+            XCTAssertEqual(results, expectedResults)
         })
     }
     
