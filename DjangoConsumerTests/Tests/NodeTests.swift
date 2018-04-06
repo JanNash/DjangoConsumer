@@ -502,7 +502,43 @@ class NodeTests: BaseTest {
     
     // List Response Extraction Helpers
     func testExtractGETListResponsePagination() {
+        func nodeImplementation<T: Pagination>(_ node: Node, _ paginationType: T.Type, _ json: JSON) -> Pagination {
+            return node.extractGETListResponsePagination(with: paginationType, from: json)
+        }
         
+        func defaultImplementation<T: Pagination>(_ node: Node, _ paginationType: T.Type, _ json: JSON) -> Pagination {
+            return Dflt.extractGETListResponsePagination(node: node, with: paginationType, from: json)
+        }
+        
+        let node: Node = MockNode()
+        
+        let paginationType = DefaultPagination.self
+        
+        let expectedLimit: UInt = 100
+        let expectedNext: URL = URL(string: "url/to/next/page")!
+        let expectedOffset: UInt = 10
+        let expectedPrevious: URL = URL(string: "url/to/previous/page")!
+        let expectedTotalCount: UInt = 1000
+        
+        let jsonFixture: JSON = JSON([
+            ListResponseKeys.meta: [
+                PaginationKeys.limit: expectedLimit,
+                PaginationKeys.next: expectedNext.absoluteString,
+                PaginationKeys.offset: expectedOffset,
+                PaginationKeys.previous: expectedPrevious.absoluteString,
+                PaginationKeys.totalCount: expectedTotalCount,
+            ]
+        ])
+        
+        [nodeImplementation, defaultImplementation].map({
+            $0(node, paginationType, jsonFixture)
+        }).forEach({ pagination in
+            XCTAssertEqual(pagination.limit, expectedLimit)
+            XCTAssertEqual(pagination.next, expectedNext)
+            XCTAssertEqual(pagination.offset, expectedOffset)
+            XCTAssertEqual(pagination.previous, expectedPrevious)
+            XCTAssertEqual(pagination.totalCount, expectedTotalCount)
+        })
     }
     
     func testExtractGETListResponseObjects() {
