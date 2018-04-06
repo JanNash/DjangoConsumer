@@ -351,34 +351,39 @@ class NodeTests: BaseTest {
     
     // ResourceID URLs
     func testRoutesAgainstRelativeGETURLForResourceID() {
-        // Setup
         let node: Node = MockNode()
         
-        let detailGettableRoute: Route = .detailGET(MockDetailGettable.self, "mockdetailgettables")
+        let allRoutesAndResourceIDs = [
+            ({ Route.detailGET($0, "mockdetailgettables") }, MockDetailGettable.self),
+        ].map({ routeAndRType in
+            (
+                routeAndRType.0(routeAndRType.1),
+                (0..<1000).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id })
+            )
+        })
         
-        (node as! MockNode).routes = [detailGettableRoute]
+        (node as! MockNode).routes = allRoutesAndResourceIDs.map({ $0.0 })
         
-        // Test Helper
-        func resourceIDsAndExpectedURLs<T: DetailGettable>(expectedRoute: Route, resourceIDs: [ResourceID<T>]) -> [(ResourceID<T>, URL)] {
-            return resourceIDs.map({ ($0, expectedRoute.relativeURL + $0.string) })
+        func nodeImplementation<T: DetailGettable>(_ resourceID: ResourceID<T>) -> URL {
+            return node.relativeGETURL(for: resourceID)
         }
         
-        // Test Function
-        func testRelativeGETURL<T: DetailGettable>(_ resourceID: ResourceID<T>, _ expectedURL: URL) {
-            XCTAssertEqual(node.relativeGETURL(for: resourceID), expectedURL)
-            XCTAssertEqual(DefaultImplementations._Node_.relativeGETURL(node: node, for: resourceID), expectedURL)
+        func defaultImplementation<T: DetailGettable>(_ resourceID: ResourceID<T>) -> URL {
+            return Dflt.relativeGETURL(node: node, for: resourceID)
         }
         
-        // Fixtures
-        let detailGettableIDs: [ResourceID<MockDetailGettable>] = (0..<1000).map({ ResourceID("\($0)") })
-        
-        // Test Run
-        [
-            (detailGettableRoute, detailGettableIDs),
-        ]
-        .map(resourceIDsAndExpectedURLs)
-        .reduce([], +)
-        .forEach(testRelativeGETURL)
+        allRoutesAndResourceIDs.forEach({ routeAndResourceIDs in
+            let route: Route = routeAndResourceIDs.0
+            let resourceIDs: [ResourceID] = routeAndResourceIDs.1
+            let listURL: URL = route.relativeURL
+            
+            resourceIDs.forEach({ resourceID in
+                let expectedURL: URL = listURL + resourceID.string
+                [nodeImplementation, defaultImplementation].map({ $0(resourceID) }).forEach({
+                    XCTAssertEqual($0, expectedURL)
+                })
+            })
+        })
     }
     
     func testRoutesAgainstAbsoluteGETURLForResourceID() {
