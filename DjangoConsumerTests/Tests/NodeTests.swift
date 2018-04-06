@@ -307,49 +307,46 @@ class NodeTests: BaseTest {
     }
     
     func testRoutesAgainstAbsoluteURLForIdentifiableResource() {
-        // Setup
         let node: Node = MockNode()
         
-        let detailGettableRoute: Route = .detailGET(MockDetailGettable.self, "mockdetailgettables")
-//        let detailPuttableRoute: Route = .detailPUT(MockDetailPuttable.self, "mockdetailputtables")
-//        let detailPatchableRoute: Route = .detailPATCH(MockDetailPatchable.self, "mockdetailpatchables")
-//        let detailDeletableRoute: Route = .detailDELETE(MockDetailDeletable.self, "mockdetaildeletables")
+        let allRoutesAndObjects = [
+            ({ Route.detailGET($0, "mockdetailgettables") }, MockDetailGettable.self),
+//            ({ Route.detailPUT($0, "mockdetailputtables") }, MockDetailPuttable.self),
+//            ({ Route.detailPATCH($0, "mockdetailpatchables") }, MockDetailPatchable.self),
+//            ({ Route.detailDELETE($0, "mockdetaildeletables") }, MockDetailDeletable.self),
+        ].map({ routeAndRType in
+            (
+                routeAndRType.0(routeAndRType.1),
+                (0..<1000).map({ routeAndRType.1.init(id: ResourceID("\($0)")) })
+            )
+        })
         
-        (node as! MockNode).routes = [
-            detailGettableRoute,
-//            detailPuttableRoute,
-//            detailPatchableRoute,
-//            detailDeletableRoute
-        ]
+        (node as! MockNode).routes = allRoutesAndObjects.map({ $0.0 })
         
-        // Test Helper
+        func nodeImplementation<T: IdentifiableResource>(_ resource: T, method: ResourceHTTPMethod) -> URL {
+            return node.absoluteURL(for: resource, method: method)
+        }
+        
+        func defaultImplementation<T: IdentifiableResource>(_ resource: T, method: ResourceHTTPMethod) -> URL {
+            return Dflt.absoluteURL(node: node, for: resource, method: method)
+        }
+        
         let baseURL: URL = node.baseURL
-        func objectsMethodsAndExpectedURLs<T: IdentifiableResource>(expectedRoute: Route, objects: [T]) -> [(T, ResourceHTTPMethod, URL)] {
-            return objects.map({ ($0, expectedRoute.method, baseURL + expectedRoute.relativeURL + $0.id.string) })
-        }
         
-        // Test Function
-        func testAbsoluteURL<T: IdentifiableResource>(_ resource: T, _ method: ResourceHTTPMethod, _ expectedURL: URL) {
-            XCTAssertEqual(node.absoluteURL(for: resource, method: method), expectedURL)
-            XCTAssertEqual(DefaultImplementations._Node_.absoluteURL(node: node, for: resource, method: method), expectedURL)
-        }
-        
-        // Fixtures
-        let detailGettables: [MockDetailGettable] = (0..<1000).map({ MockDetailGettable(id: ResourceID("\($0)")) })
-//        let detailPuttables: [MockDetailPuttable] = (0..<1000).map({ MockDetailPuttable(id: ResourceID("\($0)")) })
-//        let detailPatchables: [MockDetailPatchable] = (0..<1000).map({ MockDetailPatchable(id: ResourceID("\($0)")) })
-//        let detailDeletables: [MockDetailDeletable] = (0..<1000).map({ MockDetailDeletable(id: ResourceID("\($0)")) })
-        
-        // Test Run
-        [
-            (detailGettableRoute, detailGettables),
-//            (detailPuttableRoute, detailPuttables),
-//            (detailPatchableRoute, detailPatchables),
-//            (detailDeletableRoute, detailDeletables),
-        ]
-        .map(objectsMethodsAndExpectedURLs)
-        .reduce([], +)
-        .forEach(testAbsoluteURL)
+        allRoutesAndObjects.forEach({ routeAndObjects in
+            let route: Route = routeAndObjects.0
+            let objects = routeAndObjects.1
+            let method: ResourceHTTPMethod = route.method
+            let listURL: URL = baseURL + route.relativeURL
+            
+            objects.forEach({ object in
+                let expectedURL: URL = listURL + object.id.string
+                [nodeImplementation, defaultImplementation].map({ $0(object, method) }).forEach({
+                    XCTAssertEqual($0, expectedURL)
+                })
+            })
+        })
+
     }
     
     // ResourceID URLs
