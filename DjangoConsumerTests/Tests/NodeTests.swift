@@ -87,8 +87,9 @@ class NodeTests: BaseTest {
             DefaultImplementations._Node_.paginationType(node: node, for: FixtureType.self)
         }
         
-        XCTAssert(nodeImplementation() == DefaultPagination.self)
-        XCTAssert(defaultImplementation() == DefaultPagination.self)
+        [nodeImplementation, defaultImplementation].map({ $0() }).forEach({
+            XCTAssert($0 == DefaultPagination.self)
+        })
     }
     
     // Parameter Generation
@@ -167,9 +168,10 @@ class NodeTests: BaseTest {
             DefaultImplementations._Node_.parametersFrom(node: node, object: object, method: $0) as! [String : String]
         }
         
-        ResourceHTTPMethod.all.forEach({
-            XCTAssertEqual(nodeImplementation($0), expectedParameters)
-            XCTAssertEqual(defaultImplementation($0), expectedParameters)
+        ResourceHTTPMethod.all.forEach({ method in
+            [nodeImplementation, defaultImplementation].map({ $0(method) }).forEach({
+                XCTAssertEqual($0, expectedParameters)
+            })
         })
     }
     
