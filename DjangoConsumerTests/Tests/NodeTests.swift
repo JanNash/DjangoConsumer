@@ -202,9 +202,9 @@ class NodeTests: BaseTest {
             .map({ MockListPostable(name: "\($0)") })
             .map({ ($0, $0.toParameters() as! [String : String]) })
         
-        ResourceHTTPMethod.all.forEach({ method in
-            objectsAndExpectedParameters.forEach({ objectAndExpectedParameters in
-                let (object, expectedParameters) = objectAndExpectedParameters
+        objectsAndExpectedParameters.forEach({ objectAndExpectedParameters in
+            let (object, expectedParameters) = objectAndExpectedParameters
+            ResourceHTTPMethod.all.forEach({ method in
                 [nodeImplementation, defaultImplementation].map({
                     $0(node, object, method)
                 }).forEach({
