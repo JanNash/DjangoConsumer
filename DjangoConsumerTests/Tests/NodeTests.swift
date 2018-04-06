@@ -387,35 +387,41 @@ class NodeTests: BaseTest {
     }
     
     func testRoutesAgainstAbsoluteGETURLForResourceID() {
-        // Setup
         let node: Node = MockNode()
         
-        let detailGettableRoute: Route = .detailGET(MockDetailGettable.self, "mockdetailgettables")
+        let allRoutesAndResourceIDs = [
+            ({ Route.detailGET($0, "mockdetailgettables") }, MockDetailGettable.self),
+        ].map({ routeAndRType in
+            (
+                routeAndRType.0(routeAndRType.1),
+                (0..<1000).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id })
+            )
+        })
         
-        (node as! MockNode).routes = [detailGettableRoute]
+        (node as! MockNode).routes = allRoutesAndResourceIDs.map({ $0.0 })
         
-        // Test Helper
+        func nodeImplementation<T: DetailGettable>(_ resourceID: ResourceID<T>) -> URL {
+            return node.absoluteGETURL(for: resourceID)
+        }
+        
+        func defaultImplementation<T: DetailGettable>(_ resourceID: ResourceID<T>) -> URL {
+            return Dflt.absoluteGETURL(node: node, for: resourceID)
+        }
+        
         let baseURL: URL = node.baseURL
-        func resourceIDsAndExpectedURLs<T: DetailGettable>(expectedRoute: Route, resourceIDs: [ResourceID<T>]) -> [(ResourceID<T>, URL)] {
-            return resourceIDs.map({ ($0, baseURL + expectedRoute.relativeURL + $0.string) })
-        }
         
-        // Test Function
-        func testAbsoluteGETURL<T: DetailGettable>(_ resourceID: ResourceID<T>, _ expectedURL: URL) {
-            XCTAssertEqual(node.absoluteGETURL(for: resourceID), expectedURL)
-            XCTAssertEqual(DefaultImplementations._Node_.absoluteGETURL(node: node, for: resourceID), expectedURL)
-        }
-        
-        // Fixtures
-        let detailGettableIDs: [ResourceID<MockDetailGettable>] = (0..<1000).map({ ResourceID("\($0)") })
-        
-        // Test Run
-        [
-            (detailGettableRoute, detailGettableIDs),
-        ]
-        .map(resourceIDsAndExpectedURLs)
-        .reduce([], +)
-        .forEach(testAbsoluteGETURL)
+        allRoutesAndResourceIDs.forEach({ routeAndResourceIDs in
+            let route: Route = routeAndResourceIDs.0
+            let resourceIDs: [ResourceID] = routeAndResourceIDs.1
+            let listURL: URL = baseURL + route.relativeURL
+            
+            resourceIDs.forEach({ resourceID in
+                let expectedURL: URL = listURL + resourceID.string
+                [nodeImplementation, defaultImplementation].map({ $0(resourceID) }).forEach({
+                    XCTAssertEqual($0, expectedURL)
+                })
+            })
+        })
     }
     
     // Response Extraction
