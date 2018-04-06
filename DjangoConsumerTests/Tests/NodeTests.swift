@@ -542,7 +542,27 @@ class NodeTests: BaseTest {
     }
     
     func testExtractGETListResponseObjects() {
+        func nodeImplementation<T: ListGettable>(_ node: Node, _ resourceType: T.Type, _ json: JSON) -> [T] {
+            return node.extractGETListResponseObjects(for: resourceType, from: json)
+        }
         
+        func defaultImplementation<T: ListGettable>(_ node: Node, _ resourceType: T.Type, _ json: JSON) -> [T] {
+            return Dflt.extractGETListResponseObjects(node: node, for: resourceType, from: json)
+        }
+        
+        let node: Node = MockNode()
+        let fixtureType = MockListGettable.self
+        let expectedResults = (0..<100).map({ fixtureType.init(name: "\($0)") })
+        
+        let jsonFixture: JSON = JSON([
+            ListResponseKeys.results: expectedResults.map({ [fixtureType.Keys.name : $0.name] })
+        ])
+        
+        [nodeImplementation, defaultImplementation].map({
+            $0(node, fixtureType, jsonFixture)
+        }).forEach({
+            XCTAssertEqual($0, expectedResults)
+        })
     }
     
     func testExtractGETListResponse() {
