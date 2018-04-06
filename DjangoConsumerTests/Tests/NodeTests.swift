@@ -488,25 +488,25 @@ class NodeTests: BaseTest {
     
     func testExtractPOSTListResponse() {
         let node: Node = MockNode()
+        
+        func nodeImplementation<T: ListPostable>(_ resourceType: T.Type, _ json: JSON) -> [T] {
+            return node.extractPOSTListResponse(for: resourceType, from: json)
+        }
+        
+        func defaultImplementation<T: ListPostable>(_ resourceType: T.Type, _ json: JSON) -> [T] {
+            return Dflt.extractPOSTListResponse(node: node, for: resourceType, from: json)
+        }
+        
         typealias FixtureType = MockListPostable
-        
-        func nodeImplementation(_ json: JSON) -> [FixtureType] {
-            return node.extractPOSTListResponse(for: FixtureType.self, from: json)
-        }
-        
-        func defaultImplementation(_ json: JSON) -> [FixtureType] {
-            return DefaultImplementations._Node_.extractPOSTListResponse(node: node, for: FixtureType.self, from: json)
-        }
         
         let expectedResults: [FixtureType] = (0..<100).map({ FixtureType(name: "\($0)") })
         
         let jsonFixture: JSON = JSON([
-            DefaultImplementations._Node_.ListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.name : $0.name] })
+            Dflt.ListResponseKeys.results: expectedResults.map({ [FixtureType.Keys.name : $0.name] })
         ])
         
-        [nodeImplementation(jsonFixture), defaultImplementation(jsonFixture)].forEach({ results in
-            XCTAssertEqual(results.count, expectedResults.count)
-            XCTAssertEqual(results.map({ $0.name }), expectedResults.map({ $0.name }))
+        [nodeImplementation, defaultImplementation].map({ $0(FixtureType.self, jsonFixture) }).forEach({
+            XCTAssertEqual($0, expectedResults)
         })
     }
 }
