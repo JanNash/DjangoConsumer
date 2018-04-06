@@ -28,7 +28,7 @@ class NodeTests: BaseTest {
         
         let expectedMessage: String =
             "[DjangoConsumer.Node] No Route registered in '\(node)' for type " +
-        "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
+            "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
         
         let nodeImplementation: () -> Void = {
             let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
@@ -55,7 +55,7 @@ class NodeTests: BaseTest {
         
         let expectedMessage: String =
             "[DjangoConsumer.Node] Multiple Routes registered in '\(node)' for type " +
-        "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
+            "'\(FixtureType.self)', routeType '\(routeType.rawValue)', method: '\(method)'"
         
         let nodeImplementation: () -> Void = {
             let _: URL = node.relativeURL(for: FixtureType.self, routeType: routeType, method: method)
