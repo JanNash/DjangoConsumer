@@ -39,7 +39,7 @@ private typealias _TestCase = () -> Void
 // MARK: _AssertionConfig
 private struct _AssertionConfig {
     // Private Init
-    private init(_ functionName: String, _ patchFunction: @escaping _PatchFunction, _ resetFunction: @escaping _ResetFunction) {
+    private init(functionName: String, patchFunction: @escaping _PatchFunction, resetFunction: @escaping _ResetFunction) {
         self.functionName = functionName
         self.patchFunction = patchFunction
         self.resetFunction = resetFunction
@@ -52,23 +52,33 @@ private struct _AssertionConfig {
     
     // Predefinded Instances
     static let assert: _AssertionConfig = _AssertionConfig(
-        "assert()", { _PA.assert = $0 }, _PA.resetAssert
+        functionName: "assert()",
+        patchFunction: { _PA.assert = $0 },
+        resetFunction: { _PA.assert = nil }
     )
     
     static let precondition: _AssertionConfig = _AssertionConfig(
-        "precondition()", { _PA.precondition = $0 }, _PA.resetPrecondition
+        functionName: "precondition()",
+        patchFunction: { _PA.precondition = $0 },
+        resetFunction: { _PA.precondition = nil }
     )
     
     static let assertionFailure: _AssertionConfig = _AssertionConfig(
-        "assertionFailure()", { patch in _PA.assertionFailure = { patch(false, $0, $1, $2) } }, _PA.resetAssertionFailure
+        functionName: "assertionFailure()",
+        patchFunction: { patch in _PA.assertionFailure = { patch({ false }, $0, $1, $2) } },
+        resetFunction: { _PA.assertionFailure = nil }
     )
     
     static let preconditionFailure: _AssertionConfig = _AssertionConfig(
-        "preconditionFailure()", { patch in _PA.preconditionFailure = { patch(false, $0, $1, $2); Swift.fatalError() } }, _PA.resetPreconditionFailure
+        functionName: "preconditionFailure()",
+        patchFunction: { patch in _PA.preconditionFailure = { patch({ false }, $0, $1, $2); Swift.fatalError() } },
+        resetFunction: { _PA.preconditionFailure = nil }
     )
     
     static let fatalError: _AssertionConfig = _AssertionConfig(
-        "fatalError()", { patch in _PA.fatalError = { patch(false, $0, $1, $2); Swift.fatalError() } }, _PA.resetFatalError
+        functionName: "fatalError()",
+        patchFunction: { patch in _PA.fatalError = { patch({ false }, $0, $1, $2); Swift.fatalError() } },
+        resetFunction: { _PA.fatalError = nil }
     )
 }
 
@@ -103,13 +113,14 @@ private extension XCTestCase {
         let runForever: () -> Never = { repeat { RunLoop.main.run() } while (true) }
         
         assertionConfig.patchFunction({
-            condition, message, _, _ in
+            conditionClosure, messageClosure, _, _ in
             
-            guard condition == false else {
+            guard conditionClosure() == false else {
                 XCTFail("'\(assertionFunctionName)' was called with a truthy condition")
                 runForever()
             }
             
+            let message: String = messageClosure()
             guard message == expectedMessage else {
                 if let expectedMessage: String = expectedMessage {
                     XCTFail("'\(assertionFunctionName)' was called with message: \"\(message)\". Expected message '\(expectedMessage)'")
