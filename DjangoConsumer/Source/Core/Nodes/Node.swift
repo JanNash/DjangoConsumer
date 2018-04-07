@@ -37,6 +37,7 @@ public protocol Node {
     func parametersFrom(object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters
     func parametersFrom<C: Collection, T: ListPostable>(listPostables: C) -> Parameters where C.Element == T
     
+    // URLs
     // MetaResource.Type URLs
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
@@ -49,6 +50,7 @@ public protocol Node {
     func relativeGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL
     func absoluteGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL
     
+    // Response Extraction
     // Detail Response Extraction Helpers
     func extractSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T
     

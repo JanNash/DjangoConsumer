@@ -17,7 +17,7 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockListPostable: ListPostable, NeedsNoAuth {
+struct MockListPostable: ListPostable, NeedsNoAuth, Equatable {
     // Keys
     struct Keys {
         static let name: String = "name"
