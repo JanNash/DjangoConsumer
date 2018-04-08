@@ -32,6 +32,7 @@
 		54A78382368FF0E90AD7B21F2D72AECE /* Pods_DjangoConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819AB3015E9718F9E01520BBE47C2578 /* Pods_DjangoConsumer.framework */; };
 		557530DE6AA3CD51D0D406B18EF0DABA /* TestSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EB7F381805CFF4A86233A76671B8D0 /* TestSessionManager.swift */; };
 		559570D272D07D3CF7E94DBFA6DB21FD /* ListResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513451832F739885AEEFD0A136C1E487 /* ListResource.swift */; };
+		597E585549AC07F2721C0C4EAA547AD9 /* JSONResponseHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1418A5FD322DC94B0AC3CC103950D6 /* JSONResponseHandling.swift */; };
 		5C7CF472BE5AF63CFB64BBA3F5AEF571 /* MockListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */; };
 		61E1C2AC4302B33EBCB97629AB24FDB9 /* Filtering.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCABED60A49E36A9DA841027DED6ADCA /* Filtering.swift */; };
 		63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */; };
@@ -53,6 +54,7 @@
 		AF0B9F5D0B3ADE02B23829D55976FBE0 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */; };
 		B3E299C9B70F83930F6D0B466E8A32A9 /* MetaResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811758D35E562A601555CA850F6F3A70 /* MetaResource.swift */; };
 		B73CBE05F560E05B23944D3CB606BF24 /* XCTestCase (ProgrammerAssertions).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE17883C12AC6C6DAB5208129AF7BBE /* XCTestCase (ProgrammerAssertions).swift */; };
+		B864A24236758D0B0083F77463EDFB9C /* MockError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DB7968015EB7E3781878767546331 /* MockError.swift */; };
 		BB90ACBC8821CCCF71AA5B325EE08EE1 /* ListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */; };
 		BB9E9E198AA0DF30DE9DB78BE451676A /* RequestConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF1E64C5A45BDCEA84AD875DEB79C0E /* RequestConfiguration.swift */; };
 		C08E100FB76F18C2A3CA876F366B829C /* DetailGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */; };
@@ -60,6 +62,7 @@
 		C2CAADB5DC9BAED7FC72034D9BF514C6 /* ProgrammerAssertionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC8A6EA7E897357E049FC4F25C818A /* ProgrammerAssertionTests.swift */; };
 		C5252E609C992D95A9FDC45D386332A4 /* MockSinglePostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48CB71CB329ABC9596AAAE3BD0F001B /* MockSinglePostable.swift */; };
 		C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */; };
+		C84D5420B7EF03E3E2408817D980BFFB /* JSONResponseHandlingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDE5DD6F3905711D9BD82731F1D21D /* JSONResponseHandlingTests.swift */; };
 		CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */; };
 		D2FE9A8DDB7430BC3D23ED3ACCB16451 /* ResourceHTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1719B1D80A631D2E321D72C0E4C4F /* ResourceHTTPMethod.swift */; };
 		D3A15BBA45BD33768284AB591283DF91 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */; };
@@ -96,6 +99,7 @@
 		19227FA82FAB0B4E505BB2D51004EE4A /* SessionManager (SessionManagerType).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager (SessionManagerType).swift"; sourceTree = "<group>"; };
 		1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettable.swift; sourceTree = "<group>"; };
 		1DAC30B85576BFA11BC68B797C59B343 /* ParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterConvertible.swift; sourceTree = "<group>"; };
+		256DB7968015EB7E3781878767546331 /* MockError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockError.swift; sourceTree = "<group>"; };
 		26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
 		29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostable.swift; sourceTree = "<group>"; };
 		2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableClient.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 		82073EF30257A316889E567AAFFC7863 /* NeedsNoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedsNoAuth.swift; sourceTree = "<group>"; };
 		85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFilteredListGettable.swift; sourceTree = "<group>"; };
 		8D48821F8FF94B9B7D015E9759E1B67C /* FilteredListGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilteredListGettable+OAuth2.swift"; sourceTree = "<group>"; };
+		8F1418A5FD322DC94B0AC3CC103950D6 /* JSONResponseHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONResponseHandling.swift; sourceTree = "<group>"; };
 		8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettable.swift; sourceTree = "<group>"; };
 		9BC1719B1D80A631D2E321D72C0E4C4F /* ResourceHTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceHTTPMethod.swift; sourceTree = "<group>"; };
 		9CE17883C12AC6C6DAB5208129AF7BBE /* XCTestCase (ProgrammerAssertions).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase (ProgrammerAssertions).swift"; sourceTree = "<group>"; };
@@ -149,6 +154,7 @@
 		CCABED60A49E36A9DA841027DED6ADCA /* Filtering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filtering.swift; sourceTree = "<group>"; };
 		CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourceID+OAuth2.swift"; sourceTree = "<group>"; };
+		D7EDE5DD6F3905711D9BD82731F1D21D /* JSONResponseHandlingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONResponseHandlingTests.swift; sourceTree = "<group>"; };
 		DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.debug.xcconfig"; sourceTree = "<group>"; };
 		E42A43B5F7E093D4575CAE0BC56AE2E0 /* DjangoConsumerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoConsumerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,6 +202,7 @@
 			children = (
 				EB7871959FAC921F93CAE3FF4755A26F /* Clients */,
 				895DB36ABB6A3C23D828F69E3FB8473F /* Models */,
+				256DB7968015EB7E3781878767546331 /* MockError.swift */,
 				B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */,
 				6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */,
 				9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */,
@@ -258,6 +265,7 @@
 		7C5B6F589037A216E9B0C45D253A4E57 /* SessionManagerType */ = {
 			isa = PBXGroup;
 			children = (
+				8F1418A5FD322DC94B0AC3CC103950D6 /* JSONResponseHandling.swift */,
 				CBF1E64C5A45BDCEA84AD875DEB79C0E /* RequestConfiguration.swift */,
 				3EA7E85FD88DAC1D72D6549171E90C35 /* SessionManagerType.swift */,
 			);
@@ -317,6 +325,7 @@
 				4483E4F025B67F9A65AFA6C06CE62659 /* BaseTest.swift */,
 				B1A44C16B8D6687CDE60BBFE0BF196EA /* ConstantsTests.swift */,
 				EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */,
+				D7EDE5DD6F3905711D9BD82731F1D21D /* JSONResponseHandlingTests.swift */,
 				CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */,
 				58FC8A6EA7E897357E049FC4F25C818A /* ProgrammerAssertionTests.swift */,
 				0E6CD3C518ED40B5A25471AFD142FE15 /* RequestConfigurationTests.swift */,
@@ -714,6 +723,7 @@
 				4B155E6B16321C5A8AD3E02C089A6494 /* FilteredListGettable.swift in Sources */,
 				61E1C2AC4302B33EBCB97629AB24FDB9 /* Filtering.swift in Sources */,
 				85F678709D3A9DE7B8D9D6A653A13EE4 /* JSONInitializable.swift in Sources */,
+				597E585549AC07F2721C0C4EAA547AD9 /* JSONResponseHandling.swift in Sources */,
 				FFDC762FFA127C9DC88B7A58F1C6A10A /* ListGettable+OAuth2.swift in Sources */,
 				BB90ACBC8821CCCF71AA5B325EE08EE1 /* ListGettable.swift in Sources */,
 				CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */,
@@ -754,7 +764,9 @@
 				41F0C90F3824F5746D5EBA92A18F4DE6 /* BaseTest.swift in Sources */,
 				925F54394059330D583A19AFF5EDBF5C /* ConstantsTests.swift in Sources */,
 				0DA416CBCD82CA7F959DB11E7FCAC7D5 /* IfThisIsAThenTests.swift in Sources */,
+				C84D5420B7EF03E3E2408817D980BFFB /* JSONResponseHandlingTests.swift in Sources */,
 				A15CA844385233097AC5B68BC7E2B4EA /* MockDetailGettable.swift in Sources */,
+				B864A24236758D0B0083F77463EDFB9C /* MockError.swift in Sources */,
 				0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */,
 				5C7CF472BE5AF63CFB64BBA3F5AEF571 /* MockListGettable.swift in Sources */,
 				9DA5BB4FC7FEEB550E67149B48FEEC79 /* MockListGettableClient.swift in Sources */,

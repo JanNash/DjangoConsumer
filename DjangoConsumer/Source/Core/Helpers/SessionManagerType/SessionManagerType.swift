@@ -11,36 +11,9 @@
 
 import Foundation
 import Alamofire
-import SwiftyJSON
-import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
-// MARK: - JSONResponseHandling
-public struct JSONResponseHandling {
-    // Inits
-    public init(onSuccess: @escaping (JSON) -> Void, onFailure: @escaping (Error) -> Void) {
-        self.onSuccess = onSuccess
-        self.onFailure = onFailure
-    }
-    
-    // Public Variables
-    public var onSuccess: (JSON) -> Void
-    public var onFailure: (Error) -> Void
-    
-    // Handle Response
-    func handleResponse(_ response: DataResponse<JSON>) {
-        switch response.result {
-        case let .success(result):
-            self.onSuccess(result)
-        case let .failure(error):
-            self.onFailure(error)
-        }
-    }
-}
-
-
-// MARK: - SessionManagerType
 public protocol SessionManagerType: class {
     func request(with cfg: RequestConfiguration) -> DataRequest
     func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling)
