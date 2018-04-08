@@ -14,5 +14,5 @@ import Foundation
 
 // MARK: // Public
 public extension DefaultImplementations {
-    public struct _OAuth2Node_ { private init() {} }
+    public enum _OAuth2Node_ {}
 }

@@ -161,13 +161,11 @@ public extension Node {
 // MARK: - DefaultImplementations._Node_
 // MARK: Request/Response Keys
 public extension DefaultImplementations._Node_ {
-    public struct ListRequestKeys {
-        private init() {}
+    public enum ListRequestKeys {
         public static let objects: String = "objects"
     }
     
-    public struct ListResponseKeys {
-        private init() {}
+    public enum ListResponseKeys {
         public static let meta: String = "meta"
         public static let results: String = "results"
     }

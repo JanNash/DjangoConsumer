@@ -13,11 +13,8 @@ import Foundation
 
 
 // MARK: // Public
-public struct OAuth2Constants {
-    private init() {}
-    
-    public struct JSONKeys {
-        private init() {}
+public enum OAuth2Constants {
+    public enum JSONKeys {
         public static let accessToken: String   = "access_token"
         public static let refreshToken: String  = "refresh_token"
         public static let expiresIn: String     = "expires_in"
@@ -29,24 +26,20 @@ public struct OAuth2Constants {
         public static let tokenType: String     = "token_type"
     }
     
-    public struct GrantTypes {
-        private init() {}
+    public enum GrantTypes {
         public static let password: String      = "password"
         public static let refreshToken: String  = "refresh_token"
     }
     
-    public struct Scopes {
-        private init() {}
+    public enum Scopes {
         public static let readWrite: String     = "read write"
     }
     
-    public struct HeaderFields {
-        private init() {}
+    public enum HeaderFields {
         public static let authorization: String = "Authorization"
     }
     
-    public struct HeaderValues {
-        private init() {}
+    public enum HeaderValues {
         public static func basic(_ appSecret: String) -> String    { return "Basic \(appSecret)" }
         public static func bearer(_ accessToken: String) -> String { return "Bearer \(accessToken)" }
     }
