@@ -13,9 +13,7 @@ import XCTest
 import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
-import DjangoConsumer
-
-
+@testable import DjangoConsumer
 
 
 // MARK: // Internal
@@ -48,5 +46,31 @@ class JSONResponseHandlingTests: BaseTest {
         responseHandling.onFailure(MockError.foo)
         
         self.waitForExpectations(timeout: 10)
+    }
+    
+    func testHandleSuccessResponse() {
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected onSuccess closure that was passed into init to be called"
+        )
+        
+        let expectedJSON: JSON = JSON(["foo" : "bar"])
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { json in
+                XCTAssertEqual(json, expectedJSON)
+                expectation.fulfill()
+            },
+            onFailure: { _ in XCTFail("onFailure closure that was passed into init shouldn't be called") }
+        )
+        
+        let mockResponse: DataResponse<JSON> = DataResponse(request: nil, response: nil, data: nil, result: .success(expectedJSON))
+        
+        responseHandling.handleResponse(mockResponse)
+        
+        self.waitForExpectations(timeout: 10)
+    }
+    
+    func testHandleFailureResponse() {
+        
     }
 }
