@@ -71,6 +71,24 @@ class JSONResponseHandlingTests: BaseTest {
     }
     
     func testHandleFailureResponse() {
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected onFailure closure that was passed into init to be called"
+        )
         
+        let expectedError: MockError = .foo
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in XCTFail("onSuccess closure that was passed into init shouldn't be called") },
+            onFailure: { error in
+                XCTAssertEqual(error as? MockError, expectedError)
+                expectation.fulfill()
+            }
+        )
+        
+        let mockResponse: DataResponse<JSON> = DataResponse(request: nil, response: nil, data: nil, result: .failure(expectedError))
+        
+        responseHandling.handleResponse(mockResponse)
+        
+        self.waitForExpectations(timeout: 10)
     }
 }
