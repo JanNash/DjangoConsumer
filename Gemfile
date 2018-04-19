@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods'
-gem 'synx'
-gem 'xcpretty'
+gem 'cocoapods', '1.5.0'
+gem 'synx', '0.2.1'
+gem 'xcpretty', '0.2.8'

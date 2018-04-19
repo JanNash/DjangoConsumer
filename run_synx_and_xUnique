@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -e
+
+__dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "${__dir}"
+
 
 # # # # # # # # # # # # # # # # # # # # #
 # Load projectname from .projectname file
@@ -18,4 +23,3 @@ PROJECTNAME=$(head -n 1 .projectname)
 ./scripts/run_xUnique "$PROJECTNAME"
 #
 # # # # # # #
-
