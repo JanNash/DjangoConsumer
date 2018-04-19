@@ -2,7 +2,7 @@ language: objective-c
 
 xcode_workspace: DjangoConsumer.xcworkspace
 xcode_scheme: DjangoConsumer
-osx_image: xcode9.3beta
+osx_image: xcode9.3
 xcode_sdk: iphonesimulator11.3
 
 rvm:
@@ -10,7 +10,7 @@ rvm:
   # # .ruby-version. This should only be commented in when
   # # recreating the cache, i.e. when the cache was deleted 
   # # or when the version changes.
-  # - 2.5.0
+  # - 2.5.1
   # # Unfortunately, the rvm directive is executed *before* 
   # # the cache is loaded. To avoid an unnecessary installation 
   # # of the above version, we explicitly tell rvm to use a 
@@ -29,18 +29,18 @@ cache:
     # # Caching the ruby which is required in .ruby-version.
     # # This can be removed as soon as the required version 
     # # is pre-installed on the current osx_image.
-    - ~/.rvm/rubies/ruby-2.5.0
-    - ~/.rvm/gems/ruby-2.5.0
+    - ~/.rvm/rubies/ruby-2.5.1
+    - ~/.rvm/gems/ruby-2.5.1
     
     # Using the default bundler cache directive (like the 
     # cocoapods directive above) does not work because it caches 
     # '/Users/travis/build/JanNash/DjangoConsumer/vendor/bundle',
     # which is not the location where the gemset is going to
     # be installed.
-    - ~/.rvm/gems/ruby-2.5.0@DjangoConsumer/
+    - ~/.rvm/gems/ruby-2.5.1@DjangoConsumer/
 
 before_install:
-  - rvm use 2.5.0@DjangoConsumer --create
+  - rvm use 2.5.1@DjangoConsumer --create
   
 install:
   - gem install bundler

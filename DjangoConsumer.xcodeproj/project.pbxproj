@@ -515,7 +515,6 @@
 				D9664A50E69F1F1EF071552ED835791D /* Frameworks */,
 				5FE30DDCA1A42FAB52F4282BD5BDA32B /* Headers */,
 				4E6976EE91433E468A5C5D54689589F6 /* Resources */,
-				6961A878FD034199F9ED7E1945E475B9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -535,7 +534,6 @@
 				987AC579050A9CB1D542D1EBEB47119B /* Frameworks */,
 				2426E120826F17EFDA61BBCDAA4B608B /* Resources */,
 				59C6B059BE0462ABE14F97E7A9EAF91E /* [CP] Embed Pods Frameworks */,
-				9AE488817DE7999C15D5F13E0B69391C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -644,21 +642,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6961A878FD034199F9ED7E1945E475B9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9388E81B22105ABE06CFCEBFACED66E7 /* [Custom] Generate Warnings from TODOs/FIXMEs/etc */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -672,21 +655,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "KEYWORDS=\"\\/\\/ ERROR:|\\/\\/ WARNING:|\\/\\/ TODO:|\\/\\/ FIXME:|\\/\\/ \\?\\?\\?:|\\/\\/ \\!\\!\\!:\"\nfind \"${SRCROOT}/DjangoConsumer/\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"\n";
-		};
-		9AE488817DE7999C15D5F13E0B69391C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		AE1EF5735CA29168084903264B19A5F5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

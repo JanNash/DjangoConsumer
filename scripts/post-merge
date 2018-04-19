@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # # # # # # # # # # # # # # # # # # # # #
 # Load projectname from .projectname file
 PROJECTNAME=$(head -n 1 .projectname)
