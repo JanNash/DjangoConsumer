@@ -44,7 +44,10 @@ private extension DefaultImplementations._SinglePostable_ {
     static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
         let method: ResourceHTTPMethod = .post
         let url: URL = node.absoluteURL(for: T.self, routeType: .detail, method: method)
-        let parameters: Parameters = node.parametersFrom(object: singlePostable, method: method)
+        let parameters: Parameters = node
+            .parametersFrom(object: singlePostable, method: method)
+            .merging(additionalParameters, uniquingKeysWith: { _, r in r })
+        
         let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
@@ -57,7 +60,7 @@ private extension DefaultImplementations._SinglePostable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
+            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding, headers: additionalHeaders),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
