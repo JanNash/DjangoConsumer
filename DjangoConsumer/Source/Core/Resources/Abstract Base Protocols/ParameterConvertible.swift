@@ -15,5 +15,5 @@ import Alamofire
 
 // MARK: // Public
 public protocol ParameterConvertible {
-    func toParameters() -> Parameters
+    func toParameters(for method: ResourceHTTPMethod) -> Parameters
 }
