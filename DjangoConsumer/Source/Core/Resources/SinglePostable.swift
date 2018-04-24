@@ -25,26 +25,29 @@ public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConv
 // MARK: Default Implementations
 // MARK: where Self: NeedsNoAuth
 public extension SinglePostable where Self: NeedsNoAuth {
-    func post(to node: Node = Self.defaultNode) {
-        DefaultImplementations._SinglePostable_.post(self, to: node)
+    func post(to node: Node = Self.defaultNode, additionalHeaders: HTTPHeaders = [:], additionalParameters: Parameters = [:]) {
+        DefaultImplementations._SinglePostable_.post(self, to: node, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
 }
 
 
 // MARK: - DefaultImplementations._SinglePostable_
 public extension DefaultImplementations._SinglePostable_ {
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node) {
-        self._post(singlePostable, to: node)
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+        self._post(singlePostable, to: node, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations._SinglePostable_ {
-    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node) {
+    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
         let method: ResourceHTTPMethod = .post
         let url: URL = node.absoluteURL(for: T.self, routeType: .detail, method: method)
-        let parameters: Parameters = node.parametersFrom(object: singlePostable, method: method)
+        let parameters: Parameters = node
+            .parametersFrom(object: singlePostable, method: method)
+            .merging(additionalParameters, uniquingKeysWith: { _, r in r })
+        
         let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
@@ -57,7 +60,7 @@ private extension DefaultImplementations._SinglePostable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
+            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding, headers: additionalHeaders),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
