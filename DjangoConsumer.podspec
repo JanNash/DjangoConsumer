@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name = "DjangoConsumer"
-  s.version = "0.3.0"
+  s.version = "0.4.0"
   s.summary = "A Swift framework trying to make swiftly consuming a Django Rest Framework API quite effortless."
   s.description = <<-DESC 
                   DjangoConsumer (or DC?) is a small assemblage of protocols and structs that should be useful
