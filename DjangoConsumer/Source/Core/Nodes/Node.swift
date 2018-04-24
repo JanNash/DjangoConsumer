@@ -199,11 +199,11 @@ public extension DefaultImplementations._Node_ {
     }
     
     public static func parametersFrom(node: Node, object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters {
-        return object.toParameters()
+        return object.toParameters(for: method)
     }
     
     public static func parametersFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Parameters where C.Element == T {
-        return [ListRequestKeys.objects : listPostables.map({ $0.toParameters() })]
+        return [ListRequestKeys.objects : listPostables.map({ $0.toParameters(for: .post) })]
     }
 }
 

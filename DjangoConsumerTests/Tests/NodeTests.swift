@@ -198,13 +198,14 @@ class NodeTests: BaseTest {
         }
         
         let node: Node = MockNode()
-        let objectsAndExpectedParameters: [(ParameterConvertible, [String : String])] = (1..<100)
+        let objectsAndExpectedParametersForMethod: [(ParameterConvertible, (ResourceHTTPMethod) -> [String : String])] = (1..<100)
             .map({ MockListPostable(name: "\($0)") })
-            .map({ ($0, $0.toParameters() as! [String : String]) })
+            .map({ object in (object, { object.toParameters(for: $0) as! [String : String] }) })
         
-        objectsAndExpectedParameters.forEach({ objectAndExpectedParameters in
-            let (object, expectedParameters) = objectAndExpectedParameters
+        objectsAndExpectedParametersForMethod.forEach({ objectAndExpectedParametersForMethod in
+            let (object, expectedParametersForMethod) = objectAndExpectedParametersForMethod
             ResourceHTTPMethod.all.forEach({ method in
+                let expectedParameters: [String : String] = expectedParametersForMethod(method)
                 [nodeImplementation, defaultImplementation].map({
                     $0(node, object, method)
                 }).forEach({
@@ -226,7 +227,7 @@ class NodeTests: BaseTest {
         let node: Node = MockNode()
         let objects: [MockListPostable] = (0..<100).map({ MockListPostable(name: "\($0)") })
         let expectedParameters: [String : [[String : String]]] = [
-            ListRequestKeys.objects: objects.map({ $0.toParameters() as! [String : String] })
+            ListRequestKeys.objects: objects.map({ $0.toParameters(for: .post) as! [String : String] })
         ]
         
         [nodeImplementation, defaultImplementation].map({
