@@ -22,6 +22,7 @@ public protocol OAuth2NodeAuthenticationClient {
     func endedAuthentication(for node: OAuth2Node)
 }
 
+
 // MARK: - OAuth2Node
 // MARK: Protocol Declaration
 public protocol OAuth2Node: Node {
