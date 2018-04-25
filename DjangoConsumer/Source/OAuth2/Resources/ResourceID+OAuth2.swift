@@ -15,7 +15,19 @@ import Foundation
 // MARK: // Public
 // MARK: where T: DetailGettable & NeedsOAuth2
 public extension ResourceID where T: DetailGettable & NeedsOAuth2 {
-    func get(from node: OAuth2Node = T.defaultNode) {
-        DefaultImplementations._ResourceID_.getResource(withID: self, from: node)
+    func get(from node: OAuth2Node = T.defaultNode, needsAuthentication: Bool = true) {
+        self._get(from: node, needsAuthentication: needsAuthentication)
+    }
+}
+
+
+// MARK: // Private
+private extension ResourceID where T: DetailGettable & NeedsOAuth2 {
+    func _get(from node: OAuth2Node, needsAuthentication: Bool) {
+        if needsAuthentication {
+            DefaultImplementations._ResourceID_.getResource(withID: self, from: node, via: node.oauth2Handler.authenticatedSessionManager)
+        } else {
+            DefaultImplementations._ResourceID_.getResource(withID: self, from: node, via: node.sessionManager)
+        }
     }
 }
