@@ -35,17 +35,17 @@ class RouteTests: BaseTest {
     
     func testRouteMatchesListGET() {
         typealias FixtureType = MockListGettable
-        XCTAssert(Route.matches(FixtureType.self, .list, .get)(Route.listGET(FixtureType.self, "a")))
+        XCTAssert(Route.matches(FixtureType.self, .listGET)(Route.listGET(FixtureType.self, "a")))
     }
     
     func testRouteMatchesDetailGET() {
         typealias FixtureType = MockDetailGettable
-        XCTAssert(Route.matches(FixtureType.self, .detail, .get)(Route.detailGET(FixtureType.self, "a")))
+        XCTAssert(Route.matches(FixtureType.self, .detailGET)(Route.detailGET(FixtureType.self, "a")))
     }
     
     func testRouteMatchesSinglePOST() {
         typealias FixtureType = MockSinglePostable
-        XCTAssert(Route.matches(FixtureType.self, .detail, .post)(Route.singlePOST(FixtureType.self, "a")))
+        XCTAssert(Route.matches(FixtureType.self, .singlePOST)(Route.singlePOST(FixtureType.self, "a")))
     }
     
     func testListGETRoute() {
@@ -55,8 +55,7 @@ class RouteTests: BaseTest {
         let route: Route = .listGET(FixtureType.self, relPath)
         
         XCTAssert(route.resourceType == FixtureType.self)
-        XCTAssert(route.routeType == .list)
-        XCTAssert(route.method == .get)
+        XCTAssert(route.routeType == .listGET)
         XCTAssert(route.relativeURL == URL(string: relPath)!)
     }
     
@@ -67,8 +66,7 @@ class RouteTests: BaseTest {
         let route: Route = .detailGET(FixtureType.self, relPath)
         
         XCTAssert(route.resourceType == FixtureType.self)
-        XCTAssert(route.routeType == .detail)
-        XCTAssert(route.method == .get)
+        XCTAssert(route.routeType == .detailGET)
         XCTAssert(route.relativeURL == URL(string: relPath)!)
     }
     
@@ -79,8 +77,7 @@ class RouteTests: BaseTest {
         let route: Route = .listPOST(FixtureType.self, relPath)
         
         XCTAssert(route.resourceType == FixtureType.self)
-        XCTAssert(route.routeType == .list)
-        XCTAssert(route.method == .post)
+        XCTAssert(route.routeType == .listPOST)
         XCTAssert(route.relativeURL == URL(string: relPath)!)
     }
     
@@ -91,8 +88,7 @@ class RouteTests: BaseTest {
         let route: Route = .singlePOST(FixtureType.self, relPath)
         
         XCTAssert(route.resourceType == FixtureType.self)
-        XCTAssert(route.routeType == .detail)
-        XCTAssert(route.method == .post)
+        XCTAssert(route.routeType == .singlePOST)
         XCTAssert(route.relativeURL == URL(string: relPath)!)
     }
 }
