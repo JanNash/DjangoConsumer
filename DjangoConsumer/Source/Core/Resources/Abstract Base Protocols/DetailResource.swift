@@ -36,7 +36,11 @@ public enum IdentifiableResourceError: Error {
 // MARK: - ResourceID
 // MARK: Struct Declaration
 public struct ResourceID<T: DetailResource> {
-    public init(_ string: String) { self.string = string }
+    public init?(_ string: String) {
+        guard !string.isEmpty else { return nil }
+        self.string = string
+    }
+    
     public private(set) var string: String
 }
 
