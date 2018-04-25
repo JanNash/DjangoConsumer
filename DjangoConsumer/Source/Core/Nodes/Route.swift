@@ -16,9 +16,18 @@ import SwiftyJSON
 
 // MARK: // Public
 // MARK: - RouteType
-public enum RouteType: String {
-    case detail = "detail"
-    case list = "list"
+public struct RouteType {
+    enum Numerus {
+        case detail, list
+    }
+    
+    private init(_ numerus: Numerus, _ method: ResourceHTTPMethod) {
+        self.numerus = numerus
+        self.method = method
+    }
+    
+    var numerus: Numerus
+    var method: ResourceHTTPMethod
 }
 
 
