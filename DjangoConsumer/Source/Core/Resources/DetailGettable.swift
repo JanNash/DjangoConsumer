@@ -28,15 +28,15 @@ public protocol DetailGettable: IdentifiableResource, JSONInitializable {
 // MARK: where Self: NeedsNoAuth
 public extension DetailGettable where Self: NeedsNoAuth {
     func get(from node: Node = Self.defaultNode) {
-        DefaultImplementations._DetailGettable_.get(self, from: node)
+        DefaultImplementations._DetailGettable_.get(self, from: node, via: node.sessionManager)
     }
 }
 
 
 // MARK: - DefaultImplementations._DetailGettable_
 public extension DefaultImplementations._DetailGettable_ {
-    public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
-        self._get(detailGettable, from: node)
+    public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
+        self._get(detailGettable, from: node, via: sessionManager)
     }
 }
 
@@ -44,7 +44,7 @@ public extension DefaultImplementations._DetailGettable_ {
 // MARK: // Private
 // MARK: GET function Implementation
 private extension DefaultImplementations._DetailGettable_ {
-    static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
+    static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
         let routeType: RouteType.Detail = .detailGET
         let method: ResourceHTTPMethod = routeType.method
         let encoding: ParameterEncoding = URLEncoding.default
@@ -63,7 +63,7 @@ private extension DefaultImplementations._DetailGettable_ {
                 detailGettable.gotNewSelf(newSelf, from: node)
             }
             
-            node.sessionManager.fireJSONRequest(
+            sessionManager.fireJSONRequest(
                 with: RequestConfiguration(url: url, method: method, encoding: encoding),
                 responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
             )

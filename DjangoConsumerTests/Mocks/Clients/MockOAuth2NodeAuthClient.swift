@@ -33,7 +33,7 @@ class MockOAuth2NodeAuthClient: OAuth2NodeAuthenticationClient {
         self.refreshedAuthentication_(node)
     }
     
-    func failedRefreshingAuthenticaiton(for node: OAuth2Node, with error: Error) {
+    func failedRefreshingAuthentication(for node: OAuth2Node, with error: Error) {
         self.failedRefreshingAuthentication_(node, error)
     }
     

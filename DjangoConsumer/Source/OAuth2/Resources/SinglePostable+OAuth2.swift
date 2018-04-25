@@ -16,7 +16,23 @@ import Alamofire
 // MARK: // Public
 // MARK: where Self: NeedsOAuth2
 public extension SinglePostable where Self: NeedsOAuth2 {
-    func post(to node: OAuth2Node = Self.defaultNode) {
-        DefaultImplementations._SinglePostable_.post(self, to: node, additionalHeaders: [:], additionalParameters: [:])
+    func post(to node: OAuth2Node = Self.defaultNode, needsAuthentication: Bool = true) {
+        self._post(to: node, needsAuthentication: needsAuthentication)
+    }
+}
+
+
+// MARK: // Private
+private extension SinglePostable where Self: NeedsOAuth2 {
+    func _post(to node: OAuth2Node, needsAuthentication: Bool) {
+        if needsAuthentication {
+            DefaultImplementations._SinglePostable_.post(
+                self, to: node, via: node.oauth2Handler.authenticatedSessionManager, additionalHeaders: [:], additionalParameters: [:]
+            )
+        } else {
+            DefaultImplementations._SinglePostable_.post(
+                self, to: node, via: node.sessionManager, additionalHeaders: [:], additionalParameters: [:]
+            )
+        }
     }
 }

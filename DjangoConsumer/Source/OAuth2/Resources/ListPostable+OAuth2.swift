@@ -15,7 +15,19 @@ import Foundation
 // MARK: // Public
 // MARK: where Self.Element: ListPostable & NeedsOAuth2
 public extension Collection where Self.Element: ListPostable & NeedsOAuth2 {
-    public func post(to node: Node = Self.Element.defaultNode) {
-        DefaultImplementations._ListPostable_.post(self, to: node)
+    public func post(to node: OAuth2Node = Self.Element.defaultNode, needsAuthentication: Bool = true) {
+        self._post(to: node, needsAuthentication: needsAuthentication)
+    }
+}
+
+
+// MARK: // Private
+private extension Collection where Self.Element: ListPostable & NeedsOAuth2 {
+    func _post(to node: OAuth2Node, needsAuthentication: Bool) {
+        if needsAuthentication {
+            DefaultImplementations._ListPostable_.post(self, to: node, via: node.oauth2Handler.authenticatedSessionManager)
+        } else {
+            DefaultImplementations._ListPostable_.post(self, to: node, via: node.sessionManager)
+        }
     }
 }

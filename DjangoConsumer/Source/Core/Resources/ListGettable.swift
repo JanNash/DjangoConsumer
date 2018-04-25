@@ -27,7 +27,7 @@ public protocol ListGettable: ListResource, JSONInitializable {
 public extension ListGettable where Self: NeedsNoAuth {
     static func get(from node: Node = Self.defaultNode, offset: UInt = 0, limit: UInt? = nil) {
         DefaultImplementations._ListGettable_.get(
-            self, from: node, offset: offset, limit: limit, filters: []
+            self, from: node, via: node.sessionManager, offset: offset, limit: limit, filters: []
         )
     }
 }
@@ -35,15 +35,15 @@ public extension ListGettable where Self: NeedsNoAuth {
 
 // MARK: - DefaultImplementations._ListGettable_
 public extension DefaultImplementations._ListGettable_ {
-    public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType]) {
-        self._get(listGettableType, from: node, offset: offset, limit: limit, filters: filters)
+    public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType]) {
+        self._get(listGettableType, from: node, via: sessionManager, offset: offset, limit: limit, filters: filters)
     }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations._ListGettable_ {
-    static func _get<T: ListGettable>(_ l: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType]) {
+    static func _get<T: ListGettable>(_ l: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType]) {
         let routeType: RouteType.List = .listGET
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
@@ -67,7 +67,7 @@ private extension DefaultImplementations._ListGettable_ {
             T.listGettableClients.forEach({ $0.failedGettingObjects(with: failure) })
         }
         
-        node.sessionManager.fireJSONRequest(
+        sessionManager.fireJSONRequest(
             with: RequestConfiguration(url: url, method: routeType.method, parameters: parameters, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )

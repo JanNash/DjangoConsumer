@@ -27,22 +27,22 @@ public protocol ListPostable: ListResource, JSONInitializable, ParameterConverti
 // MARK: where Self.Element: ListPostable & NeedsNoAuth
 public extension Collection where Self.Element: ListPostable & NeedsNoAuth {
     public func post(to node: Node = Self.Element.defaultNode) {
-        DefaultImplementations._ListPostable_.post(self, to: node)
+        DefaultImplementations._ListPostable_.post(self, to: node, via: node.sessionManager)
     }
 }
 
 
 // MARK: - DefaultImplementations._ListPostable_
 public extension DefaultImplementations._ListPostable_ {
-    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node) where C.Element == T {
-        self._post(objects, to: node)
+    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType) where C.Element == T {
+        self._post(objects, to: node, via: sessionManager)
     }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations._ListPostable_ {
-    static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node) where C.Element == T {
+    static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType) where C.Element == T {
         let routeType: RouteType.List = .listPOST
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         let parameters: Parameters = node.parametersFrom(listPostables: objects)
@@ -57,7 +57,7 @@ private extension DefaultImplementations._ListPostable_ {
             T.listPostableClients.forEach({ $0.failedPostingObjects(objects, to: node, with: error) })
         }
         
-        node.sessionManager.fireJSONRequest(
+        sessionManager.fireJSONRequest(
             with: RequestConfiguration(url: url, method: routeType.method, parameters: parameters, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )

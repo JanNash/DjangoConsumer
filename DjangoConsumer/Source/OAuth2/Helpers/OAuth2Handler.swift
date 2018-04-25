@@ -59,17 +59,22 @@ enum OAuth2Error: Error {
 open class OAuth2Handler: RequestAdapter, RequestRetrier {
     // Init
     public init(settings: OAuth2Settings, credentialStore: OAuth2CredentialStore) {
-        self._settings = settings
-        self._credentialStore = credentialStore
+        self.settings = settings
+        self.credentialStore = credentialStore
     }
     
+    // Overridable Readonly Lazy Variables
+    open private(set) lazy var authenticatedSessionManager: SessionManagerType = self._createAuthenticatedSessionManager()
+    
+    // Public Variables
+    public var settings: OAuth2Settings
+    public var credentialStore: OAuth2CredentialStore
+    
     // Private Lazy Variables
-    private lazy var _sessionManager: SessionManagerType = self._createSessionManager()
+    private lazy var _authRequestSessionManager: SessionManagerType = self._createAuthRequestSessionManager()
     private lazy var _weakSelf: _Weak = { _Weak(self) }()
     
     // Private Variables
-    private var _settings: OAuth2Settings
-    private var _credentialStore: OAuth2CredentialStore
     private var _requestsToRetry: [RequestRetryCompletion] = []
     private var _lock: NSLock = NSLock()
     private var _isRefreshing: Bool = false
@@ -107,9 +112,8 @@ private typealias _C = OAuth2Constants
 
 
 // MARK: - _WrappedRequestRetrier
-// This wrapper class is needed because a OAuth2Handler assigns itself as the retrier
-// for its own sessionManager. Without the wrapper, this would create a strong reference cycle.
-private class _Weak: RequestRetrier {
+// This wrapper class is needed to prevent strong reference cycles.
+private class _Weak: RequestAdapter, RequestRetrier {
     // Init
     init(_ handler: OAuth2Handler) {
         self._handler = handler
@@ -117,6 +121,11 @@ private class _Weak: RequestRetrier {
     
     // Weak Variables
     private weak var _handler: OAuth2Handler?
+    
+    // RequestAdapter
+    func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+        return try self._handler?.adapt(urlRequest) ?? urlRequest
+    }
     
     // RequestRetrier
     func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
@@ -155,7 +164,14 @@ private struct _TokenResponse {
 // MARK: - OAuth2Handler
 // MARK: Lazy Variable Creation
 private extension OAuth2Handler {
-    func _createSessionManager() -> SessionManager {
+    func _createAuthenticatedSessionManager() -> SessionManagerType {
+        let sessionManager: SessionManager = .makeDefault()
+        sessionManager.retrier = self._weakSelf
+        sessionManager.adapter = self._weakSelf
+        return sessionManager
+    }
+    
+    func _createAuthRequestSessionManager() -> SessionManagerType {
         let sessionManager: SessionManager = .makeDefault()
         sessionManager.retrier = self._weakSelf
         return sessionManager
@@ -181,11 +197,11 @@ private extension OAuth2Handler {
     // Storing them somewhere as state is less expensive but adds more variables that have
     // to be synchronized and updated in auth requests in order to avoid possible race conditions.
     func _basicAuthHeader() -> _Header {
-        return (_C.HeaderFields.authorization, _C.HeaderValues.basic(self._settings.appSecret))
+        return (_C.HeaderFields.authorization, _C.HeaderValues.basic(self.settings.appSecret))
     }
     
     func _bearerAuthHeader() -> _Header? {
-        guard let accessToken: String = self._credentialStore.accessToken else { return nil }
+        guard let accessToken: String = self.credentialStore.accessToken else { return nil }
         return (_C.HeaderFields.authorization, _C.HeaderValues.bearer(accessToken))
     }
 }
@@ -203,9 +219,9 @@ private extension OAuth2Handler/*: RequestRetrier*/ {
         
         switch url {
         // TODO: Implement client callbacks
-        case self._settings.tokenRequestURL: break
-        case self._settings.tokenRefreshURL: break
-        case self._settings.tokenRevokeURL: break
+        case self.settings.tokenRequestURL: break
+        case self.settings.tokenRefreshURL: break
+        case self.settings.tokenRevokeURL: break
         default:
             break
         }
@@ -246,7 +262,7 @@ private extension OAuth2Handler {
         guard !self._isRequesting else { return }
         self._isRequesting = true
         
-        let url: URL = self._settings.tokenRequestURL
+        let url: URL = self.settings.tokenRequestURL
         let parameters: [String : Any] = [
             _C.JSONKeys.grantType : _C.GrantTypes.password,
             _C.JSONKeys.scope : _C.Scopes.readWrite,
@@ -271,12 +287,12 @@ private extension OAuth2Handler {
         guard !self._isRefreshing else { return }
         self._isRefreshing = true
         
-        guard let refreshToken: String = self._credentialStore.refreshToken else {
+        guard let refreshToken: String = self.credentialStore.refreshToken else {
             failure(OAuth2Error.noRefreshToken)
             return
         }
         
-        let url: URL = self._settings.tokenRefreshURL
+        let url: URL = self.settings.tokenRefreshURL
         let parameters: [String : Any] = [
             _C.JSONKeys.refreshToken: refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
@@ -315,7 +331,7 @@ private extension OAuth2Handler {
             )
         }()
         
-        self._sessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
+        self._authRequestSessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
     }
     
     func _handleSuccessfulTokenRequest(json: JSON, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
@@ -343,7 +359,7 @@ private extension OAuth2Handler {
     }
     
     func _updateCredentialStore(with tokenResponse: _TokenResponse) {
-        self._credentialStore.updateWith(
+        self.credentialStore.updateWith(
             accessToken: tokenResponse.accessToken,
             refreshToken: tokenResponse.refreshToken,
             expiryDate: tokenResponse.expiryDate,
@@ -357,7 +373,7 @@ private extension OAuth2Handler {
 // MARK: Token Revoke Implementation
 private extension OAuth2Handler {
     func _revokeTokens() {
-        guard let accessToken: String = self._credentialStore.accessToken else {
+        guard let accessToken: String = self.credentialStore.accessToken else {
             // ???: Should the credentialStore be cleared here?
             return
         }
@@ -365,7 +381,7 @@ private extension OAuth2Handler {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
         let cfg: RequestConfiguration = RequestConfiguration(
-            url: self._settings.tokenRevokeURL,
+            url: self.settings.tokenRevokeURL,
             method: .post,
             parameters: [_C.JSONKeys.token : accessToken],
             encoding: URLEncoding.default,
@@ -377,10 +393,10 @@ private extension OAuth2Handler {
             onFailure: { _ in }
         )
         
-        self._sessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
+        self._authRequestSessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
         // instead of waiting for the request to receive a response. Is it though?
-        self._credentialStore.clear()
+        self.credentialStore.clear()
     }
 }

@@ -49,7 +49,7 @@ public struct ResourceID<T: DetailResource> {
 // MARK: where T: DetailGettable & NeedsNoAuth
 public extension ResourceID where T: DetailGettable & NeedsNoAuth {
     func get(from node: Node = T.defaultNode) {
-        DefaultImplementations._ResourceID_.getResource(withID: self, from: node)
+        DefaultImplementations._ResourceID_.getResource(withID: self, from: node, via: node.sessionManager)
     }
 }
 
@@ -57,8 +57,8 @@ public extension ResourceID where T: DetailGettable & NeedsNoAuth {
 // MARK: - DefaultImplementations._ResourceID_
 // MARK: where T: DetailGettable
 public extension DefaultImplementations._ResourceID_ {
-    public static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node) {
-        self._getResource(withID: resourceID, from: node)
+    public static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
+        self._getResource(withID: resourceID, from: node, via: sessionManager)
     }
 }
 
@@ -66,7 +66,7 @@ public extension DefaultImplementations._ResourceID_ {
 // MARK: // Private
 // MARK: where T: DetailGettable
 private extension DefaultImplementations._ResourceID_ {
-    static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node) {
+    static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
         let url: URL = node.absoluteGETURL(for: resourceID)
         let method: ResourceHTTPMethod = .get
         let encoding: ParameterEncoding = URLEncoding.default
@@ -80,7 +80,7 @@ private extension DefaultImplementations._ResourceID_ {
             T.detailGettableClients.forEach({ $0.failedGettingObject(for: resourceID, from: node, with: error) })
         }
         
-        node.sessionManager.fireJSONRequest(
+        sessionManager.fireJSONRequest(
             with: RequestConfiguration(url: url, method: method, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )

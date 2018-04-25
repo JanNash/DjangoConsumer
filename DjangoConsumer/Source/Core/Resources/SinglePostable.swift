@@ -26,22 +26,22 @@ public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConv
 // MARK: where Self: NeedsNoAuth
 public extension SinglePostable where Self: NeedsNoAuth {
     func post(to node: Node = Self.defaultNode) {
-        DefaultImplementations._SinglePostable_.post(self, to: node, additionalHeaders: [:], additionalParameters: [:])
+        DefaultImplementations._SinglePostable_.post(self, to: node, via: node.sessionManager, additionalHeaders: [:], additionalParameters: [:])
     }
 }
 
 
 // MARK: - DefaultImplementations._SinglePostable_
 public extension DefaultImplementations._SinglePostable_ {
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
-        self._post(singlePostable, to: node, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+        self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations._SinglePostable_ {
-    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
         let routeType: RouteType.Detail = .singlePOST
         let method: ResourceHTTPMethod = routeType.method
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
@@ -60,7 +60,7 @@ private extension DefaultImplementations._SinglePostable_ {
             T.singlePostableClients.forEach({ $0.failedPostingObject(singlePostable, to: node, with: error) })
         }
         
-        node.sessionManager.fireJSONRequest(
+        sessionManager.fireJSONRequest(
             with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding, headers: additionalHeaders),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )

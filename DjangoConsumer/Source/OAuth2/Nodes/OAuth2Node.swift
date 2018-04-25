@@ -18,9 +18,10 @@ public protocol OAuth2NodeAuthenticationClient {
     func authenticated(node: OAuth2Node)
     func failedAuthenticating(node: OAuth2Node, with error: Error)
     func refreshedAuthentication(for node: OAuth2Node)
-    func failedRefreshingAuthenticaiton(for node: OAuth2Node, with error: Error)
+    func failedRefreshingAuthentication(for node: OAuth2Node, with error: Error)
     func endedAuthentication(for node: OAuth2Node)
 }
+
 
 // MARK: - OAuth2Node
 // MARK: Protocol Declaration
@@ -79,7 +80,7 @@ private extension DefaultImplementations._OAuth2Node_ {
         node.oauth2Handler.refreshTokens(
             success: { node.oauth2Clients.forEach({ $0.refreshedAuthentication(for: node) }) },
             failure: { error in
-                node.oauth2Clients.forEach({ $0.failedRefreshingAuthenticaiton(for: node, with: error) })
+                node.oauth2Clients.forEach({ $0.failedRefreshingAuthentication(for: node, with: error) })
             }
         )
     }
