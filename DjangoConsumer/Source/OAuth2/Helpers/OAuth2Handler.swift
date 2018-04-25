@@ -107,9 +107,8 @@ private typealias _C = OAuth2Constants
 
 
 // MARK: - _WrappedRequestRetrier
-// This wrapper class is needed because a OAuth2Handler assigns itself as the retrier
-// for its own sessionManager. Without the wrapper, this would create a strong reference cycle.
-private class _Weak: RequestRetrier {
+// This wrapper class is needed to prevent strong reference cycles.
+private class _Weak: RequestAdapter, RequestRetrier {
     // Init
     init(_ handler: OAuth2Handler) {
         self._handler = handler
@@ -117,6 +116,11 @@ private class _Weak: RequestRetrier {
     
     // Weak Variables
     private weak var _handler: OAuth2Handler?
+    
+    // RequestAdapter
+    func adapt(_ urlRequest: URLRequest) throws -> URLRequest {
+        return try self._handler?.adapt(urlRequest) ?? urlRequest
+    }
     
     // RequestRetrier
     func should(_ manager: SessionManager, retry request: Request, with error: Error, completion: @escaping RequestRetryCompletion) {
