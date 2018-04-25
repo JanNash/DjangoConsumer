@@ -17,11 +17,15 @@ import SwiftyJSON
 // MARK: // Public
 // MARK: - RouteType
 public class RouteType: Equatable {
-    public class List: RouteType {}
-    public class Detail: RouteType {}
+    // Subclasses
+    final public class List: RouteType {}
+    final public class Detail: RouteType {}
     
+    // Init
     init(_ method: ResourceHTTPMethod) { self.method = method }
-    var method: ResourceHTTPMethod
+    
+    // Variables
+    private(set) var method: ResourceHTTPMethod
     
     // ListRoutes
     static let listGET: List = List(.get)
@@ -34,6 +38,7 @@ public class RouteType: Equatable {
     static let detailPATCH: Detail = Detail(.patch)
     static let detailDELETE: Detail = Detail(.delete)
     
+    // Equatable Implementation
     public static func == (_ lhs: RouteType, _ rhs: RouteType) -> Bool {
         return type(of: lhs) == type(of: rhs) && lhs.method == rhs.method
     }
