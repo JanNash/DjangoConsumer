@@ -16,35 +16,27 @@ import SwiftyJSON
 
 // MARK: // Public
 // MARK: - RouteType
-public struct RouteType: Equatable {
-    enum Numerus {
-        case detail, list
-    }
+public class RouteType: Equatable {
+    public class List: RouteType {}
+    public class Detail: RouteType {}
     
-    private init(_ numerus: Numerus, _ method: ResourceHTTPMethod) {
-        self.numerus = numerus
-        self.method = method
-    }
-    
-    var numerus: Numerus
+    init(_ method: ResourceHTTPMethod) { self.method = method }
     var method: ResourceHTTPMethod
     
-    // GET
-    static let listGET: RouteType = RouteType(.list, .get)
-    static let detailGET: RouteType = RouteType(.detail, .get)
+    // ListRoutes
+    static let listGET: List = List(.get)
+    static let listPOST: List = List(.post)
     
-    // POST
-    static let listPOST: RouteType = RouteType(.list, .post)
-    static let singlePOST: RouteType = RouteType(.detail, .post)
+    // DetailRoutes
+    static let detailGET: Detail = Detail(.get)
+    static let singlePOST: Detail = Detail(.post)
+    static let detailPUT: Detail = Detail(.put)
+    static let detailPATCH: Detail = Detail(.patch)
+    static let detailDELETE: Detail = Detail(.delete)
     
-    // PUT
-    static let detailPUT: RouteType = RouteType(.detail, .put)
-    
-    // PATCH
-    static let detailPATCH: RouteType = RouteType(.detail, .patch)
-    
-    // DELETE
-    static let detailDELETE: RouteType = RouteType(.detail, .delete)
+    public static func == (_ lhs: RouteType, _ rhs: RouteType) -> Bool {
+        return type(of: lhs) == type(of: rhs) && lhs.method == rhs.method
+    }
 }
 
 
@@ -77,7 +69,7 @@ extension Route: Equatable {
 // MARK: Hashable
 extension Route: Hashable {
     public var hashValue: Int {
-        return "\(self.resourceType)-\(self.routeType.numerus)-\(self.routeType.method)".hashValue
+        return "\(self.resourceType)-\(type(of: self.routeType))-\(self.routeType.method)".hashValue
     }
 }
 
