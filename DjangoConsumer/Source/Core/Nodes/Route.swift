@@ -28,6 +28,23 @@ public struct RouteType: Equatable {
     
     var numerus: Numerus
     var method: ResourceHTTPMethod
+    
+    // GET
+    static let listGET: RouteType = RouteType(.list, .get)
+    static let detailGET: RouteType = RouteType(.detail, .get)
+    
+    // POST
+    static let listPOST: RouteType = RouteType(.list, .post)
+    static let singlePOST: RouteType = RouteType(.detail, .post)
+    
+    // PUT
+    static let detailPUT: RouteType = RouteType(.detail, .put)
+    
+    // PATCH
+    static let detailPATCH: RouteType = RouteType(.detail, .patch)
+    
+    // DELETE
+    static let detailDELETE: RouteType = RouteType(.detail, .delete)
 }
 
 
