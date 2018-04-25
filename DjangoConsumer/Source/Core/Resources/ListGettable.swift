@@ -44,8 +44,8 @@ public extension DefaultImplementations._ListGettable_ {
 // MARK: // Private
 private extension DefaultImplementations._ListGettable_ {
     static func _get<T: ListGettable>(_ l: T.Type, from node: Node, offset: UInt, limit: UInt?, filters: [FilterType]) {
-        let method: ResourceHTTPMethod = .get
-        let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
+        let routeType: RouteType.List = .listGET
+        let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
         let limit: UInt = limit ?? node.defaultLimit(for: l)
         let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
@@ -68,7 +68,7 @@ private extension DefaultImplementations._ListGettable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
+            with: RequestConfiguration(url: url, method: routeType.method, parameters: parameters, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

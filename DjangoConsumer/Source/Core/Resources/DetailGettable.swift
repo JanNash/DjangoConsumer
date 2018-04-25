@@ -45,7 +45,8 @@ public extension DefaultImplementations._DetailGettable_ {
 // MARK: GET function Implementation
 private extension DefaultImplementations._DetailGettable_ {
     static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
-        let method: ResourceHTTPMethod = .get
+        let routeType: RouteType.Detail = .detailGET
+        let method: ResourceHTTPMethod = routeType.method
         let encoding: ParameterEncoding = URLEncoding.default
         
         func onFailure(_ error: Error) {
@@ -54,7 +55,7 @@ private extension DefaultImplementations._DetailGettable_ {
         }
         
         do {
-            let url: URL = try node.absoluteURL(for: detailGettable, method: method)
+            let url: URL = try node.absoluteURL(for: detailGettable, routeType: routeType)
             
             func onSuccess(_ json: JSON) {
                 let newSelf: T = node.extractSingleObject(for: T.self, method: method, from: json)

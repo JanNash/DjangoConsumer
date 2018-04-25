@@ -42,8 +42,9 @@ public extension DefaultImplementations._SinglePostable_ {
 // MARK: // Private
 private extension DefaultImplementations._SinglePostable_ {
     static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
-        let method: ResourceHTTPMethod = .post
-        let url: URL = node.absoluteURL(for: T.self, routeType: .detail, method: method)
+        let routeType: RouteType.Detail = .singlePOST
+        let method: ResourceHTTPMethod = routeType.method
+        let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         let parameters: Parameters = node
             .parametersFrom(object: singlePostable, method: method)
             .merging(additionalParameters, uniquingKeysWith: { _, r in r })

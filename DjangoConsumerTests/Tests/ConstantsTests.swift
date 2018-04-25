@@ -72,14 +72,6 @@ class StaticLetTests: BaseTest {
 
 // MARK: EnumTests
 class EnumTests: BaseTest {
-    // Route.swift
-    func testRouteType() {
-        typealias FixtureType = RouteType
-        
-        XCTAssertEqual(FixtureType.detail.rawValue, "detail")
-        XCTAssertEqual(FixtureType.list.rawValue, "list")
-    }
-    
     // Filtering.swift
     func testFilterKey() {
         typealias FixtureType = FilterKey<Any>.DefaultFilterKeys

@@ -43,8 +43,8 @@ public extension DefaultImplementations._ListPostable_ {
 // MARK: // Private
 private extension DefaultImplementations._ListPostable_ {
     static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node) where C.Element == T {
-        let method: ResourceHTTPMethod = .post
-        let url: URL = node.absoluteURL(for: T.self, routeType: .list, method: method)
+        let routeType: RouteType.List = .listPOST
+        let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         let parameters: Parameters = node.parametersFrom(listPostables: objects)
         let encoding: ParameterEncoding = URLEncoding.default
         
@@ -58,7 +58,7 @@ private extension DefaultImplementations._ListPostable_ {
         }
         
         node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding),
+            with: RequestConfiguration(url: url, method: routeType.method, parameters: parameters, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

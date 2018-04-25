@@ -39,12 +39,12 @@ public protocol Node {
     
     // URLs
     // MetaResource.Type URLs
-    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
-    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
+    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType) -> URL
+    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType) -> URL
     
     // IdentifiableResource URLs
-    func relativeURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) throws -> URL
-    func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) throws -> URL
+    func relativeURL<T: IdentifiableResource>(for resource: T, routeType: RouteType.Detail) throws -> URL
+    func absoluteURL<T: IdentifiableResource>(for resource: T, routeType: RouteType.Detail) throws -> URL
     
     // ResourceID URLs
     func relativeGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL
@@ -102,21 +102,21 @@ public extension Node {
 // MARK: Request URL Helpers
 public extension Node {
     // MetaResource.Type URLs
-    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
-        return DefaultImplementations._Node_.relativeURL(node: self, for: resourceType, routeType: routeType, method: method)
+    func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+        return DefaultImplementations._Node_.relativeURL(node: self, for: resourceType, routeType: routeType)
     }
     
-    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
-        return DefaultImplementations._Node_.absoluteURL(node: self, for: resourceType, routeType: routeType, method: method)
+    func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+        return DefaultImplementations._Node_.absoluteURL(node: self, for: resourceType, routeType: routeType)
     }
     
     // IdentifiableResource URLs
-    func relativeURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) throws -> URL {
-        return try DefaultImplementations._Node_.relativeURL(node: self, for: resource, method: method)
+    func relativeURL<T: IdentifiableResource>(for resource: T, routeType: RouteType.Detail) throws -> URL {
+        return try DefaultImplementations._Node_.relativeURL(node: self, for: resource, routeType: routeType)
     }
     
-    func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) throws -> URL {
-        return try DefaultImplementations._Node_.absoluteURL(node: self, for: resource, method: method)
+    func absoluteURL<T: IdentifiableResource>(for resource: T, routeType: RouteType.Detail) throws -> URL {
+        return try DefaultImplementations._Node_.absoluteURL(node: self, for: resource, routeType: routeType)
     }
     
     // ResourceID URLs
@@ -211,27 +211,27 @@ public extension DefaultImplementations._Node_ {
 // MARK: Request URL Helpers
 public extension DefaultImplementations._Node_ {
     // MetaResource.Type URLs
-    public static func relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
-        return self._relativeURL(node: node, for: resourceType, routeType: routeType, method: method)
+    public static func relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+        return self._relativeURL(node: node, for: resourceType, routeType: routeType)
     }
     
-    public static func absoluteURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
-        return node.baseURL + node.relativeURL(for: resourceType, routeType: routeType, method: method)
+    public static func absoluteURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+        return node.baseURL + node.relativeURL(for: resourceType, routeType: routeType)
     }
     
     // IdentifiableResource URLs
-    public static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) throws -> URL {
+    public static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, routeType: RouteType.Detail) throws -> URL {
         guard let resourceID: ResourceID<T> = resource.id else { throw IdentifiableResourceError.hasNoID }
-        return node.relativeURL(for: T.self, routeType: .detail, method: method) + resourceID
+        return node.relativeURL(for: T.self, routeType: routeType) + resourceID
     }
     
-    public static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) throws -> URL {
-        return try node.baseURL + node.relativeURL(for: resource, method: method)
+    public static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, routeType: RouteType.Detail) throws -> URL {
+        return try node.baseURL + node.relativeURL(for: resource, routeType: routeType)
     }
     
     // ResourceID URLs
     public static func relativeGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
-        return node.relativeURL(for: T.self, routeType: .detail, method: .get) + resourceID
+        return node.relativeURL(for: T.self, routeType: .detailGET) + resourceID
     }
     
     public static func absoluteGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
@@ -290,20 +290,20 @@ private extension DefaultImplementations._Node_ {
 
 // MARK: Request URL Helper Implementations
 private extension DefaultImplementations._Node_ {
-    static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL {
-        let availableRoutes: [Route] = node.routes.filter(Route.matches(resourceType, routeType, method))
+    static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+        let availableRoutes: [Route] = node.routes.filter(Route.matches(resourceType, routeType))
         
         guard availableRoutes.count > 0 else {
             fatalError(
                 "[DjangoConsumer.Node] No Route registered in '\(node)' for type " +
-                "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
+                "'\(resourceType)', routeType '\(routeType)'"
             )
         }
         
         guard availableRoutes.count == 1 else {
             fatalError(
                 "[DjangoConsumer.Node] Multiple Routes registered in '\(node)' for type " +
-                "'\(resourceType)', routeType '\(routeType.rawValue)', method: '\(method)'"
+                "'\(resourceType)', routeType '\(routeType)'"
             )
         }
         
