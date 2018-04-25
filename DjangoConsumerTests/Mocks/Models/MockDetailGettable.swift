@@ -27,7 +27,7 @@ struct MockDetailGettable: DetailGettable, NeedsNoAuth {
     }
     
     // Init
-    init(id: ID) {
+    init(id: ID?) {
         self.id = id
     }
     
