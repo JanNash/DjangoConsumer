@@ -16,7 +16,7 @@ import SwiftyJSON
 
 // MARK: // Public
 // MARK: - RouteType
-public struct RouteType {
+public struct RouteType: Equatable {
     enum Numerus {
         case detail, list
     }
