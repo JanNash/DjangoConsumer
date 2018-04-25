@@ -15,6 +15,15 @@ import XCTest
 
 // MARK: // Internal
 class RouteTests: BaseTest {
+    func testRouteTypeInit() {
+        typealias FixtureType = RouteType
+        
+        ResourceHTTPMethod.all.forEach({
+            let routeType: RouteType = RouteType($0)
+            XCTAssertEqual(routeType.method, $0)
+        })
+    }
+    
     func testRouteEquatability1() {
         typealias FixtureType = MockListGettable
         XCTAssertEqual(Route.listGET(FixtureType.self, "a"), Route.listGET(FixtureType.self, "b"))
