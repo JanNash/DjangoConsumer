@@ -21,8 +21,8 @@ public class RouteType: Equatable {
     final public class List: RouteType {}
     final public class Detail: RouteType {}
     
-    // Fileprivate Init
-    fileprivate init(_ method: ResourceHTTPMethod) { self.method = method }
+    // Init
+    init(_ method: ResourceHTTPMethod) { self.method = method }
     
     // Variables
     private(set) var method: ResourceHTTPMethod
