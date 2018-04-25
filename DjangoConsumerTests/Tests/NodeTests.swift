@@ -308,11 +308,11 @@ class NodeTests: BaseTest {
     // IdentifiableResource URLs
     func testRoutesAgainstRelativeURLForIdentifiableResource() {
         func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) -> URL {
-            return node.relativeURL(for: resource, method: method)
+            return try! node.relativeURL(for: resource, method: method)
         }
         
         func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) -> URL {
-            return Dflt.relativeURL(node: node, for: resource, method: method)
+            return try! Dflt.relativeURL(node: node, for: resource, method: method)
         }
         
         let node: Node = MockNode()
@@ -338,7 +338,7 @@ class NodeTests: BaseTest {
             let listURL: URL = route.relativeURL
             
             objects.forEach({ object in
-                let expectedURL: URL = listURL + object.id.string
+                let expectedURL: URL = listURL + object.id!.string
                 [nodeImplementation, defaultImplementation].map({
                     $0(node, object, method)
                 }).forEach({
@@ -348,13 +348,40 @@ class NodeTests: BaseTest {
         })
     }
     
+    func testRoutesAgainstRelativeURLForIdentifiableResourceThrows() {
+        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) throws -> URL {
+            return try node.relativeURL(for: resource, method: method)
+        }
+        
+        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) throws -> URL {
+            return try Dflt.relativeURL(node: node, for: resource, method: method)
+        }
+        
+        typealias FixtureType = MockDetailGettable
+        let node: Node = MockNode()
+        
+        (node as! MockNode).routes = [
+            .detailGET(FixtureType.self, "mockdetailgettables")
+        ]
+        
+        let resource: FixtureType = FixtureType(id: nil)
+        
+        try! [nodeImplementation, defaultImplementation]
+            .map({ impl in return { try impl(node, resource, .get) } })
+            .forEach({
+            XCTAssertThrowsError(try $0()) { error in
+                XCTAssertEqual(error as? IdentifiableResourceError, .hasNoID)
+            }
+        })
+    }
+    
     func testRoutesAgainstAbsoluteURLForIdentifiableResource() {
         func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) -> URL {
-            return node.absoluteURL(for: resource, method: method)
+            return try! node.absoluteURL(for: resource, method: method)
         }
         
         func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) -> URL {
-            return Dflt.absoluteURL(node: node, for: resource, method: method)
+            return try! Dflt.absoluteURL(node: node, for: resource, method: method)
         }
         
         let node: Node = MockNode()
@@ -382,7 +409,7 @@ class NodeTests: BaseTest {
             let listURL: URL = baseURL + route.relativeURL
             
             objects.forEach({ object in
-                let expectedURL: URL = listURL + object.id.string
+                let expectedURL: URL = listURL + object.id!.string
                 [nodeImplementation, defaultImplementation].map({
                     $0(node, object, method)
                 }).forEach({
@@ -390,7 +417,33 @@ class NodeTests: BaseTest {
                 })
             })
         })
-
+    }
+    
+    func testRoutesAgainstAbsoluteURLForIdentifiableResourceThrows() {
+        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) throws -> URL {
+            return try node.absoluteURL(for: resource, method: method)
+        }
+        
+        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) throws -> URL {
+            return try Dflt.absoluteURL(node: node, for: resource, method: method)
+        }
+        
+        typealias FixtureType = MockDetailGettable
+        let node: Node = MockNode()
+        
+        (node as! MockNode).routes = [
+            .detailGET(FixtureType.self, "mockdetailgettables")
+        ]
+        
+        let resource: FixtureType = FixtureType(id: nil)
+        
+        try! [nodeImplementation, defaultImplementation]
+            .map({ impl in return { try impl(node, resource, .get) } })
+            .forEach({
+                XCTAssertThrowsError(try $0()) { error in
+                    XCTAssertEqual(error as? IdentifiableResourceError, .hasNoID)
+                }
+            })
     }
     
     // ResourceID URLs
@@ -410,7 +463,7 @@ class NodeTests: BaseTest {
         ].map({ routeAndRType in
             (
                 routeAndRType.0(routeAndRType.1),
-                (0..<100).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id })
+                (0..<100).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id! })
             )
         })
         
@@ -448,7 +501,7 @@ class NodeTests: BaseTest {
         ].map({ routeAndRType in
             (
                 routeAndRType.0(routeAndRType.1),
-                (0..<100).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id })
+                (0..<100).map({ routeAndRType.1.init(id: ResourceID("\($0)")).id! })
             )
         })
         

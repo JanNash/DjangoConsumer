@@ -18,25 +18,28 @@ import DjangoConsumer
 // MARK: // Internal
 // MARK: Struct Declaration
 struct MockDetailGettable: DetailGettable, NeedsNoAuth {
+    // ID typealias
+    typealias ID = ResourceID<MockDetailGettable>
+    
     // Keys
     struct Keys {
         static let id: String = "id"
     }
     
     // Init
-    init(id: ResourceID<MockDetailGettable>) {
+    init(id: ID?) {
         self.id = id
     }
     
     // SinglePostable
     init(json: JSON) {
-        self.id = ResourceID(json[Keys.id].string!)
+        self.id = ID(json[Keys.id].string!)
     }
+    
+    var id: ID?
     
     static var defaultNode: Node = MockNode.main
     static var detailGettableClients: [DetailGettableClient] = []
-    
-    var id: ResourceID<MockDetailGettable>
     
     func gotNewSelf(_ newSelf: MockDetailGettable, from: Node) {}
     func failedGettingNewSelf(from: Node, with error: Error) {}

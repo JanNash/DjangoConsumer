@@ -43,8 +43,8 @@ public protocol Node {
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType, method: ResourceHTTPMethod) -> URL
     
     // IdentifiableResource URLs
-    func relativeURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL
-    func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL
+    func relativeURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) throws -> URL
+    func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) throws -> URL
     
     // ResourceID URLs
     func relativeGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL
@@ -111,12 +111,12 @@ public extension Node {
     }
     
     // IdentifiableResource URLs
-    func relativeURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL {
-        return DefaultImplementations._Node_.relativeURL(node: self, for: resource, method: method)
+    func relativeURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) throws -> URL {
+        return try DefaultImplementations._Node_.relativeURL(node: self, for: resource, method: method)
     }
     
-    func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) -> URL {
-        return DefaultImplementations._Node_.absoluteURL(node: self, for: resource, method: method)
+    func absoluteURL<T: IdentifiableResource>(for resource: T, method: ResourceHTTPMethod) throws -> URL {
+        return try DefaultImplementations._Node_.absoluteURL(node: self, for: resource, method: method)
     }
     
     // ResourceID URLs
@@ -220,12 +220,13 @@ public extension DefaultImplementations._Node_ {
     }
     
     // IdentifiableResource URLs
-    public static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) -> URL {
-        return node.relativeURL(for: T.self, routeType: .detail, method: method) + resource.id
+    public static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) throws -> URL {
+        guard let resourceID: ResourceID<T> = resource.id else { throw IdentifiableResourceError.hasNoID }
+        return node.relativeURL(for: T.self, routeType: .detail, method: method) + resourceID
     }
     
-    public static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) -> URL {
-        return node.baseURL + node.relativeURL(for: resource, method: method)
+    public static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, method: ResourceHTTPMethod) throws -> URL {
+        return try node.baseURL + node.relativeURL(for: resource, method: method)
     }
     
     // ResourceID URLs

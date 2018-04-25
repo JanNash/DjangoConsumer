@@ -31,7 +31,7 @@ class URLPlusTests: BaseTest {
     
     func testURLPlusResourceID() {
         let a: URL = URL(string: "http://example.com")!
-        let b: ResourceID<MockDetailGettable> = ResourceID("1")
+        let b: ResourceID<MockDetailGettable> = ResourceID("1")!
         
         XCTAssertEqual(a + b, a.appendingPathComponent(b.string))
     }

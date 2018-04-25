@@ -23,14 +23,24 @@ public protocol DetailResource: MetaResource {}
 // MARK: - IdentifiableResource
 // ???: Does this have to be a refinement of DetailResource
 public protocol IdentifiableResource: DetailResource {
-    var id: ResourceID<Self> { get }
+    var id: ResourceID<Self>? { get }
+}
+
+
+// MARK: - IdentifiableResourceError
+public enum IdentifiableResourceError: Error {
+    case hasNoID
 }
 
 
 // MARK: - ResourceID
 // MARK: Struct Declaration
 public struct ResourceID<T: DetailResource> {
-    public init(_ string: String) { self.string = string }
+    public init?(_ string: String) {
+        guard !string.isEmpty else { return nil }
+        self.string = string
+    }
+    
     public private(set) var string: String
 }
 
