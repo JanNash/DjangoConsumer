@@ -12,7 +12,7 @@
 import XCTest
 import Alamofire
 import SwiftyJSON
-import DjangoConsumer
+@testable import DjangoConsumer
 
 
 // MARK: // Internal
@@ -24,45 +24,43 @@ class NodeTests: BaseTest {
     
     // Routes
     func testNoRouteFoundFatalError() {
-        func nodeImplementation<T: MetaResource>(_ node: Node, _ resourceType: T.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> () -> Void {
-            return { let _: URL = node.relativeURL(for: resourceType, routeType: routeType, method: method) }
+        func nodeImplementation<T: MetaResource>(_ node: Node, _ resourceType: T.Type, _ routeType: RouteType) -> () -> Void {
+            return { let _: URL = node.relativeURL(for: resourceType, routeType: routeType) }
         }
         
-        func defaultImplementation<T: MetaResource>(_ node: Node, _ resourceType: T.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> () -> Void {
-            return { let _: URL = Dflt.relativeURL(node: node, for: resourceType, routeType: routeType, method: method) }
+        func defaultImplementation<T: MetaResource>(_ node: Node, _ resourceType: T.Type, _ routeType: RouteType) -> () -> Void {
+            return { let _: URL = Dflt.relativeURL(node: node, for: resourceType, routeType: routeType) }
         }
         
         let node: Node = MockNode()
         let fixtureType = MockListGettable.self
-        let routeType: RouteType = .list
-        let method: ResourceHTTPMethod = .get
+        let routeType: RouteType = .listGET
         
         (node as! MockNode).routes = []
         
         let expectedMessage: String =
             "[DjangoConsumer.Node] No Route registered in '\(node)' for type " +
-            "'\(fixtureType)', routeType '\(routeType.rawValue)', method: '\(method)'"
+            "'\(fixtureType)', routeType '\(routeType)'"
         
         [nodeImplementation, defaultImplementation].map({
-            $0(node, fixtureType, routeType, method)
+            $0(node, fixtureType, routeType)
         }).forEach({
             self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 10, $0)
         })
     }
     
     func testMultipleRoutesFoundFatalError() {
-        func nodeImplementation<T: MetaResource>(_ node: Node, _ resourceType: T.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> () -> Void {
-            return { let _: URL = node.relativeURL(for: resourceType, routeType: routeType, method: method) }
+        func nodeImplementation<T: MetaResource>(_ node: Node, _ resourceType: T.Type, _ routeType: RouteType) -> () -> Void {
+            return { let _: URL = node.relativeURL(for: resourceType, routeType: routeType) }
         }
         
-        func defaultImplementation<T: MetaResource>(_ node: Node, _ resourceType: T.Type, _ routeType: RouteType, _ method: ResourceHTTPMethod) -> () -> Void {
-            return { let _: URL = Dflt.relativeURL(node: node, for: resourceType, routeType: routeType, method: method) }
+        func defaultImplementation<T: MetaResource>(_ node: Node, _ resourceType: T.Type, _ routeType: RouteType) -> () -> Void {
+            return { let _: URL = Dflt.relativeURL(node: node, for: resourceType, routeType: routeType) }
         }
         
         let node: Node = MockNode()
         let fixtureType = MockListGettable.self
-        let routeType: RouteType = .list
-        let method: ResourceHTTPMethod = .get
+        let routeType: RouteType = .listGET
         
         (node as! MockNode).routes = [
             .listGET(fixtureType, "a"),
@@ -71,10 +69,10 @@ class NodeTests: BaseTest {
         
         let expectedMessage: String =
             "[DjangoConsumer.Node] Multiple Routes registered in '\(node)' for type " +
-            "'\(fixtureType)', routeType '\(routeType.rawValue)', method: '\(method)'"
+            "'\(fixtureType)', routeType '\(routeType)'"
         
         [nodeImplementation, defaultImplementation].map({
-            $0(node, fixtureType, routeType, method)
+            $0(node, fixtureType, routeType)
         }).forEach({
             self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 10, $0)
         })
@@ -241,11 +239,11 @@ class NodeTests: BaseTest {
     // MetaResource.Type URLs
     func testRoutesAgainstRelativeURLForResourceType() {
         func nodeImplementation(_ node: Node, _ route: Route) -> URL {
-            return node.relativeURL(for: route.resourceType, routeType: route.routeType, method: route.method)
+            return node.relativeURL(for: route.resourceType, routeType: route.routeType)
         }
         
         func defaultImplementation(_ node: Node, _ route: Route) -> URL {
-            return Dflt.relativeURL(node: node, for: route.resourceType, routeType: route.routeType, method: route.method)
+            return Dflt.relativeURL(node: node, for: route.resourceType, routeType: route.routeType)
         }
         
         let node: Node = MockNode()
@@ -273,11 +271,11 @@ class NodeTests: BaseTest {
     
     func testRoutesAgainstAbsoluteURLForResourceType() {
         func nodeImplementation(_ node: Node, _ route: Route) -> URL {
-            return node.absoluteURL(for: route.resourceType, routeType: route.routeType, method: route.method)
+            return node.absoluteURL(for: route.resourceType, routeType: route.routeType)
         }
         
         func defaultImplementation(_ node: Node, _ route: Route) -> URL {
-            return Dflt.absoluteURL(node: node, for: route.resourceType, routeType: route.routeType, method: route.method)
+            return Dflt.absoluteURL(node: node, for: route.resourceType, routeType: route.routeType)
         }
         
         let node: Node = MockNode()
@@ -307,12 +305,12 @@ class NodeTests: BaseTest {
 
     // IdentifiableResource URLs
     func testRoutesAgainstRelativeURLForIdentifiableResource() {
-        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) -> URL {
-            return try! node.relativeURL(for: resource, method: method)
+        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, routeType: RouteType.Detail) -> URL {
+            return try! node.relativeURL(for: resource, routeType: routeType)
         }
         
-        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) -> URL {
-            return try! Dflt.relativeURL(node: node, for: resource, method: method)
+        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, routeType: RouteType.Detail) -> URL {
+            return try! Dflt.relativeURL(node: node, for: resource, routeType: routeType)
         }
         
         let node: Node = MockNode()
@@ -334,13 +332,13 @@ class NodeTests: BaseTest {
         allRoutesAndObjects.forEach({ routeAndObjects in
             let route: Route = routeAndObjects.0
             let objects = routeAndObjects.1
-            let method: ResourceHTTPMethod = route.method
+            let routeType: RouteType.Detail = route.routeType as! RouteType.Detail
             let listURL: URL = route.relativeURL
             
             objects.forEach({ object in
                 let expectedURL: URL = listURL + object.id!.string
                 [nodeImplementation, defaultImplementation].map({
-                    $0(node, object, method)
+                    $0(node, object, routeType)
                 }).forEach({
                     XCTAssertEqual($0, expectedURL)
                 })
@@ -349,25 +347,24 @@ class NodeTests: BaseTest {
     }
     
     func testRoutesAgainstRelativeURLForIdentifiableResourceThrows() {
-        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) throws -> URL {
-            return try node.relativeURL(for: resource, method: method)
+        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, routeType: RouteType.Detail) throws -> URL {
+            return try node.relativeURL(for: resource, routeType: routeType)
         }
         
-        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) throws -> URL {
-            return try Dflt.relativeURL(node: node, for: resource, method: method)
+        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, routeType: RouteType.Detail) throws -> URL {
+            return try Dflt.relativeURL(node: node, for: resource, routeType: routeType)
         }
         
         typealias FixtureType = MockDetailGettable
         let node: Node = MockNode()
-        
-        (node as! MockNode).routes = [
-            .detailGET(FixtureType.self, "mockdetailgettables")
-        ]
-        
+        let route: Route = .detailGET(FixtureType.self, "mockdetailgettables")
+        let routeType: RouteType.Detail = route.routeType as! RouteType.Detail
         let resource: FixtureType = FixtureType(id: nil)
         
+        (node as! MockNode).routes = [route]
+        
         try! [nodeImplementation, defaultImplementation]
-            .map({ impl in return { try impl(node, resource, .get) } })
+            .map({ impl in return { try impl(node, resource, routeType) } })
             .forEach({
             XCTAssertThrowsError(try $0()) { error in
                 XCTAssertEqual(error as? IdentifiableResourceError, .hasNoID)
@@ -376,12 +373,12 @@ class NodeTests: BaseTest {
     }
     
     func testRoutesAgainstAbsoluteURLForIdentifiableResource() {
-        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) -> URL {
-            return try! node.absoluteURL(for: resource, method: method)
+        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, routeType: RouteType.Detail) -> URL {
+            return try! node.absoluteURL(for: resource, routeType: routeType)
         }
         
-        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) -> URL {
-            return try! Dflt.absoluteURL(node: node, for: resource, method: method)
+        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, routeType: RouteType.Detail) -> URL {
+            return try! Dflt.absoluteURL(node: node, for: resource, routeType: routeType)
         }
         
         let node: Node = MockNode()
@@ -405,13 +402,13 @@ class NodeTests: BaseTest {
         allRoutesAndObjects.forEach({ routeAndObjects in
             let route: Route = routeAndObjects.0
             let objects = routeAndObjects.1
-            let method: ResourceHTTPMethod = route.method
+            let routeType: RouteType.Detail = route.routeType as! RouteType.Detail
             let listURL: URL = baseURL + route.relativeURL
             
             objects.forEach({ object in
                 let expectedURL: URL = listURL + object.id!.string
                 [nodeImplementation, defaultImplementation].map({
-                    $0(node, object, method)
+                    $0(node, object, routeType)
                 }).forEach({
                     XCTAssertEqual($0, expectedURL)
                 })
@@ -420,25 +417,24 @@ class NodeTests: BaseTest {
     }
     
     func testRoutesAgainstAbsoluteURLForIdentifiableResourceThrows() {
-        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) throws -> URL {
-            return try node.absoluteURL(for: resource, method: method)
+        func nodeImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, routeType: RouteType.Detail) throws -> URL {
+            return try node.absoluteURL(for: resource, routeType: routeType)
         }
         
-        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, method: ResourceHTTPMethod) throws -> URL {
-            return try Dflt.absoluteURL(node: node, for: resource, method: method)
+        func defaultImplementation<T: IdentifiableResource>(_ node: Node, _ resource: T, routeType: RouteType.Detail) throws -> URL {
+            return try Dflt.absoluteURL(node: node, for: resource, routeType: routeType)
         }
         
         typealias FixtureType = MockDetailGettable
         let node: Node = MockNode()
-        
-        (node as! MockNode).routes = [
-            .detailGET(FixtureType.self, "mockdetailgettables")
-        ]
-        
+        let route: Route = .detailGET(FixtureType.self, "mockdetailgettables")
+        let routeType: RouteType.Detail = route.routeType as! RouteType.Detail
         let resource: FixtureType = FixtureType(id: nil)
         
+        (node as! MockNode).routes = [route]
+        
         try! [nodeImplementation, defaultImplementation]
-            .map({ impl in return { try impl(node, resource, .get) } })
+            .map({ impl in return { try impl(node, resource, routeType) } })
             .forEach({
                 XCTAssertThrowsError(try $0()) { error in
                     XCTAssertEqual(error as? IdentifiableResourceError, .hasNoID)
