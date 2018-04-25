@@ -27,6 +27,12 @@ public protocol IdentifiableResource: DetailResource {
 }
 
 
+// MARK: - IdentifiableResourceError
+public enum IdentifiableResourceError: Error {
+    case hasNoID
+}
+
+
 // MARK: - ResourceID
 // MARK: Struct Declaration
 public struct ResourceID<T: DetailResource> {
