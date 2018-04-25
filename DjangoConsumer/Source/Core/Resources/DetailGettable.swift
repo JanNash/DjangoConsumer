@@ -46,23 +46,28 @@ public extension DefaultImplementations._DetailGettable_ {
 private extension DefaultImplementations._DetailGettable_ {
     static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node) {
         let method: ResourceHTTPMethod = .get
-        let url: URL = node.absoluteURL(for: detailGettable, method: method)
         let encoding: ParameterEncoding = URLEncoding.default
-        
-        func onSuccess(_ json: JSON) {
-            let newSelf: T = node.extractSingleObject(for: T.self, method: method, from: json)
-            T.detailGettableClients.forEach({ $0.gotObject(newSelf, for: detailGettable, from: node)})
-            detailGettable.gotNewSelf(newSelf, from: node)
-        }
         
         func onFailure(_ error: Error) {
             T.detailGettableClients.forEach({ $0.failedGettingObject(for: detailGettable, from: node, with: error) })
             detailGettable.failedGettingNewSelf(from: node, with: error)
         }
         
-        node.sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, encoding: encoding),
-            responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
-        )
+        do {
+            let url: URL = try node.absoluteURL(for: detailGettable, method: method)
+            
+            func onSuccess(_ json: JSON) {
+                let newSelf: T = node.extractSingleObject(for: T.self, method: method, from: json)
+                T.detailGettableClients.forEach({ $0.gotObject(newSelf, for: detailGettable, from: node)})
+                detailGettable.gotNewSelf(newSelf, from: node)
+            }
+            
+            node.sessionManager.fireJSONRequest(
+                with: RequestConfiguration(url: url, method: method, encoding: encoding),
+                responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
+            )
+        } catch {
+            onFailure(error)
+        }
     }
 }
