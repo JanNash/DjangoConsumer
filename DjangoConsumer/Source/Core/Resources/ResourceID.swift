@@ -9,7 +9,6 @@
 //  at the root of this repository.
 //
 
-import Foundation
 import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON

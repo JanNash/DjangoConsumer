@@ -9,9 +9,6 @@
 //  at the root of this repository.
 //
 
-import Foundation
-import Alamofire
-
 
 // MARK: // Public
 // MARK: - ListGettableOAuth2
