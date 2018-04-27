@@ -16,16 +16,23 @@ import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
+// MARK: - ListGettable
 // MARK: Protocol Declaration
 public protocol ListGettable: ListResource, JSONInitializable {
     static var listGettableClients: [ListGettableClient] { get set }
 }
 
 
+// MARK: - ListGettableNoAuth
+// MARK: Protocol Declaration
+public protocol ListGettableNoAuth: ListGettable {
+    static var listGETdefaultNode: Node { get }
+}
+
+
 // MARK: Default Implementations
-// MARK: where Self: NeedsNoAuth
-public extension ListGettable where Self: NeedsNoAuth {
-    static func get(from node: Node = Self.defaultNode, offset: UInt = 0, limit: UInt? = nil) {
+public extension ListGettableNoAuth {
+    static func get(from node: Node = Self.listGETdefaultNode, offset: UInt = 0, limit: UInt? = nil) {
         DefaultImplementations._ListGettable_.get(
             self, from: node, via: node.sessionManager, offset: offset, limit: limit, filters: []
         )
