@@ -16,17 +16,26 @@ import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
+// MARK: - SinglePostable
 // MARK: Protocol Declaration
 public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConvertible {
     static var singlePostableClients: [SinglePostableClient] { get set }
 }
 
 
+// MARK: - SinglePostableNoAuth
+// MARK: Protocol Declaration
+public protocol SinglePostableNoAuth: SinglePostable {
+    static var singlePOSTdefaultNode: Node { get }
+}
+
+
 // MARK: Default Implementations
-// MARK: where Self: NeedsNoAuth
-public extension SinglePostable where Self: NeedsNoAuth {
-    func post(to node: Node = Self.defaultNode) {
-        DefaultImplementations._SinglePostable_.post(self, to: node, via: node.sessionManager, additionalHeaders: [:], additionalParameters: [:])
+public extension SinglePostableNoAuth {
+    func post(to node: Node = Self.singlePOSTdefaultNode) {
+        DefaultImplementations._SinglePostable_.post(
+            self, to: node, via: node.sessionManager, additionalHeaders: [:], additionalParameters: [:]
+        )
     }
 }
 

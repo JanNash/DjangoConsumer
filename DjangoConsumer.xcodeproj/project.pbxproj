@@ -44,7 +44,6 @@
 		87E7444A70F7D003157530A3017A53C4 /* SessionManager (makeDefault).swift in Sources */ = {isa = PBXBuildFile; fileRef = F551E4C07509B8D4F303FA00AF46FA0B /* SessionManager (makeDefault).swift */; };
 		8B0DE899983027EA77FB41779D8E2C91 /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F8ECBEF70AE3055686F408EE9D2341 /* RouteTests.swift */; };
 		925F54394059330D583A19AFF5EDBF5C /* ConstantsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A44C16B8D6687CDE60BBFE0BF196EA /* ConstantsTests.swift */; };
-		99D46C6B74849127CA26E2909DE50695 /* SinglePostable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F736C83807239B57CC753ED914B53BB3 /* SinglePostable+OAuth2.swift */; };
 		9CF5BF8C1D4B2E3CF19B2D0E3F0C8A66 /* ListGettableOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF116532C90A067B3CC20F5C8A94DE7 /* ListGettableOAuth2.swift */; };
 		9DA5BB4FC7FEEB550E67149B48FEEC79 /* MockListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */; };
 		9F959BF0B75FAB192D1BB574B290A901 /* MockOAuth2NodeAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFC17C86ABB1FBF8CD6F23A5E50FFB2 /* MockOAuth2NodeAuthClient.swift */; };
@@ -66,6 +65,7 @@
 		CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */; };
 		D2FE9A8DDB7430BC3D23ED3ACCB16451 /* ResourceHTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1719B1D80A631D2E321D72C0E4C4F /* ResourceHTTPMethod.swift */; };
 		D3A15BBA45BD33768284AB591283DF91 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */; };
+		D661C1B34275A7B8B23FFCB6F474F74F /* SinglePostableOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3230A51D478D0559F6661391A7D480D4 /* SinglePostableOAuth2.swift */; };
 		DDD9978C68BD524AEE5197A62C355177 /* ListPostableOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B29A0DCF7058D57A3CFFD5E7E7CFFCA /* ListPostableOAuth2.swift */; };
 		DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */; };
 		E5C8B248786E1A850FB33FAE3B144448 /* DetailGettableOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785A29BBFA49A7B8DC5C714CE70E0A39 /* DetailGettableOAuth2.swift */; };
@@ -104,6 +104,7 @@
 		29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostable.swift; sourceTree = "<group>"; };
 		2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableClient.swift; sourceTree = "<group>"; };
 		30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ifThisIsAThen.swift; sourceTree = "<group>"; };
+		3230A51D478D0559F6661391A7D480D4 /* SinglePostableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableOAuth2.swift; sourceTree = "<group>"; };
 		360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableTests.swift; sourceTree = "<group>"; };
 		3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListPostable.swift; sourceTree = "<group>"; };
 		3EA7E85FD88DAC1D72D6549171E90C35 /* SessionManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerType.swift; sourceTree = "<group>"; };
@@ -161,7 +162,6 @@
 		EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IfThisIsAThenTests.swift; sourceTree = "<group>"; };
 		EBE7058B6D4EE8561EB98944C87B41A2 /* SinglePostableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableClient.swift; sourceTree = "<group>"; };
 		F551E4C07509B8D4F303FA00AF46FA0B /* SessionManager (makeDefault).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager (makeDefault).swift"; sourceTree = "<group>"; };
-		F736C83807239B57CC753ED914B53BB3 /* SinglePostable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SinglePostable+OAuth2.swift"; sourceTree = "<group>"; };
 		F7BD87442954669861AF7F33B9E12CCE /* DetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -346,7 +346,7 @@
 				ABF116532C90A067B3CC20F5C8A94DE7 /* ListGettableOAuth2.swift */,
 				9B29A0DCF7058D57A3CFFD5E7E7CFFCA /* ListPostableOAuth2.swift */,
 				D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */,
-				F736C83807239B57CC753ED914B53BB3 /* SinglePostable+OAuth2.swift */,
+				3230A51D478D0559F6661391A7D480D4 /* SinglePostableOAuth2.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -716,9 +716,9 @@
 				382B523A6651A0ABFF4B3EDE91903E0D /* SessionManager (SessionManagerType).swift in Sources */,
 				87E7444A70F7D003157530A3017A53C4 /* SessionManager (makeDefault).swift in Sources */,
 				F2D52BCC26A8DE44265AB5DC5B5ACBF8 /* SessionManagerType.swift in Sources */,
-				99D46C6B74849127CA26E2909DE50695 /* SinglePostable+OAuth2.swift in Sources */,
 				36FB7694D0EC516AB7CD007226092BF4 /* SinglePostable.swift in Sources */,
 				FC33B13DEEA289C618CE183525F935BD /* SinglePostableClient.swift in Sources */,
+				D661C1B34275A7B8B23FFCB6F474F74F /* SinglePostableOAuth2.swift in Sources */,
 				557530DE6AA3CD51D0D406B18EF0DABA /* TestSessionManager.swift in Sources */,
 				04E15EBD5C49531B6D58F88D9DCAED68 /* URL+.swift in Sources */,
 				A6254114C15C891EA8B9B955EBD6D3BE /* ifThisIsAThen.swift in Sources */,
