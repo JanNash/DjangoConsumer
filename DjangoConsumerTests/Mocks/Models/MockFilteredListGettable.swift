@@ -16,7 +16,7 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockFilteredListGettable: FilteredListGettable, NeedsNoAuth {
+struct MockFilteredListGettable: FilteredListGettableNoAuth {
     // Init
     init(id: String, date: Date, name: String) {
         self.id = id
@@ -39,6 +39,6 @@ struct MockFilteredListGettable: FilteredListGettable, NeedsNoAuth {
         self.name = json[Keys.name].string!
     }
     
-    static var defaultNode: Node = MockNode.main
+    static var listGETdefaultNode: Node = MockNode.main
     static var listGettableClients: [ListGettableClient] = []
 }
