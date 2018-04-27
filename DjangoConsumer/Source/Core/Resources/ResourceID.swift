@@ -28,9 +28,9 @@ public struct ResourceID<T: DetailResource> {
 
 
 // MARK: Default Implementations
-// MARK: where T: DetailGettable & NeedsNoAuth
-public extension ResourceID where T: DetailGettable & NeedsNoAuth {
-    func get(from node: Node = T.defaultNode) {
+// MARK: where T: DetailGettableNoAuth
+public extension ResourceID where T: DetailGettableNoAuth {
+    func get(from node: Node = T.detailGETdefaultNode) {
         DefaultImplementations._ResourceID_.getResource(withID: self, from: node, via: node.sessionManager)
     }
 }
