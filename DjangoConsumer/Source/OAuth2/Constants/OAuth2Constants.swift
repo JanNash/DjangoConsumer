@@ -9,8 +9,6 @@
 //  at the root of this repository.
 //
 
-import Foundation
-
 
 // MARK: // Public
 public enum OAuth2Constants {

@@ -9,8 +9,6 @@
 //  at the root of this repository.
 //
 
-import Foundation
-
 
 // MARK: // Public
 public func ifT<O, T, R>(his object: O, isA: T.Type, then closure: ((T) -> R)?) -> R? {

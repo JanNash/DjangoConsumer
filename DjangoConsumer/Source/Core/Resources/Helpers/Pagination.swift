@@ -9,7 +9,6 @@
 //  at the root of this repository.
 //
 
-import Foundation
 import SwiftyJSON
 
 
