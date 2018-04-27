@@ -1,5 +1,5 @@
 //
-//  FilteredListGettable.swift
+//  FilteredListGettableNoAuth.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 18.01.18.
@@ -16,14 +16,19 @@ import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
+// MARK: - FilteredListGettable
 // MARK: Protocol Declaration
 public protocol FilteredListGettable: ListGettable {}
 
 
+// MARK: Protocol Declaration
+// MARK: - FilteredListGettableNoAuth
+public protocol FilteredListGettableNoAuth: FilteredListGettable, ListGettableNoAuth {}
+
+
 // MARK: Default Implementations
-// MARK: where Self: NeedsNoAuth
-public extension FilteredListGettable where Self: NeedsNoAuth {
-    static func get(from node: Node = Self.defaultNode, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
+public extension FilteredListGettableNoAuth {
+    static func get(from node: Node = Self.listGETdefaultNode, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
         DefaultImplementations._FilteredListGettable_.get(
             self, from: node, via: node.sessionManager, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
         )

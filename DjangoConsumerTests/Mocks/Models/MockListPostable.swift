@@ -17,7 +17,7 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockListPostable: ListPostable, NeedsNoAuth, Equatable {
+struct MockListPostable: ListPostableNoAuth, Equatable {
     // Keys
     struct Keys {
         static let name: String = "name"
@@ -36,7 +36,7 @@ struct MockListPostable: ListPostable, NeedsNoAuth, Equatable {
         self.name = json[Keys.name].string!
     }
     
-    static var defaultNode: Node = MockNode.main
+    static var listPOSTdefaultNode: Node = MockNode.main
     static var listPostableClients: [ListPostableClient] = []
     
     func toParameters(for method: ResourceHTTPMethod) -> Parameters {

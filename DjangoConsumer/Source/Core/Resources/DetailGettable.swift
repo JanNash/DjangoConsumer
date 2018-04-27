@@ -24,10 +24,16 @@ public protocol DetailGettable: IdentifiableResource, JSONInitializable {
 }
 
 
+// MARK: - DetailGettableNoAuth
+// MARK: Protocol Declaration
+public protocol DetailGettableNoAuth: DetailGettable {
+    static var detailGETdefaultNode: Node { get }
+}
+
+
 // MARK: Default Implementations
-// MARK: where Self: NeedsNoAuth
-public extension DetailGettable where Self: NeedsNoAuth {
-    func get(from node: Node = Self.defaultNode) {
+public extension DetailGettableNoAuth {
+    func get(from node: Node = Self.detailGETdefaultNode) {
         DefaultImplementations._DetailGettable_.get(self, from: node, via: node.sessionManager)
     }
 }

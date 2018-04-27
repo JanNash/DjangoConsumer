@@ -16,7 +16,7 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockListGettable: ListGettable, NeedsNoAuth, Equatable {
+struct MockListGettable: ListGettableNoAuth, Equatable {
     // Init
     init(name: String) {
         self.name = name
@@ -35,6 +35,6 @@ struct MockListGettable: ListGettable, NeedsNoAuth, Equatable {
         self.name = json[Keys.name].string!
     }
     
-    static var defaultNode: Node = MockNode.main
+    static var listGETdefaultNode: Node = MockNode.main
     static var listGettableClients: [ListGettableClient] = []
 }

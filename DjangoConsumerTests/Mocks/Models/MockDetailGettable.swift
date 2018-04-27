@@ -17,7 +17,7 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockDetailGettable: DetailGettable, NeedsNoAuth {
+struct MockDetailGettable: DetailGettableNoAuth {
     // ID typealias
     typealias ID = ResourceID<MockDetailGettable>
     
@@ -38,7 +38,7 @@ struct MockDetailGettable: DetailGettable, NeedsNoAuth {
     
     var id: ID?
     
-    static var defaultNode: Node = MockNode.main
+    static var detailGETdefaultNode: Node = MockNode.main
     static var detailGettableClients: [DetailGettableClient] = []
     
     func gotNewSelf(_ newSelf: MockDetailGettable, from: Node) {}
