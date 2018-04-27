@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04E15EBD5C49531B6D58F88D9DCAED68 /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A486C0DB729A213E98D9E0A63958A103 /* URL+.swift */; };
 		05626D9614EBC5610F00EEA49A6D2AB8 /* DjangoConsumer.h in Headers */ = {isa = PBXBuildFile; fileRef = 562929C331A4A24D4775B847847831A8 /* DjangoConsumer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		07B3DAB1B7891B66E16FB5D2BABBE6C7 /* FilteredListGettableOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A903C29149B4C75236BB35FB865E47AA /* FilteredListGettableOAuth2.swift */; };
 		08C04A5407E7AD2E9F5FFB9C4C213D39 /* ListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10799D2B2F94923B9DCF49FCD0327C09 /* ListPostable.swift */; };
 		0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */; };
 		0DA416CBCD82CA7F959DB11E7FCAC7D5 /* IfThisIsAThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */; };
@@ -59,7 +60,6 @@
 		BB90ACBC8821CCCF71AA5B325EE08EE1 /* ListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */; };
 		BB9E9E198AA0DF30DE9DB78BE451676A /* RequestConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF1E64C5A45BDCEA84AD875DEB79C0E /* RequestConfiguration.swift */; };
 		C08E100FB76F18C2A3CA876F366B829C /* DetailGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */; };
-		C20C3921D7D8C68E60F4F75BA98824AC /* FilteredListGettable+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D48821F8FF94B9B7D015E9759E1B67C /* FilteredListGettable+OAuth2.swift */; };
 		C2CAADB5DC9BAED7FC72034D9BF514C6 /* ProgrammerAssertionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC8A6EA7E897357E049FC4F25C818A /* ProgrammerAssertionTests.swift */; };
 		C5252E609C992D95A9FDC45D386332A4 /* MockSinglePostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48CB71CB329ABC9596AAAE3BD0F001B /* MockSinglePostable.swift */; };
 		C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */; };
@@ -128,7 +128,6 @@
 		819AB3015E9718F9E01520BBE47C2578 /* Pods_DjangoConsumer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjangoConsumer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82073EF30257A316889E567AAFFC7863 /* NeedsNoAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedsNoAuth.swift; sourceTree = "<group>"; };
 		85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFilteredListGettable.swift; sourceTree = "<group>"; };
-		8D48821F8FF94B9B7D015E9759E1B67C /* FilteredListGettable+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilteredListGettable+OAuth2.swift"; sourceTree = "<group>"; };
 		8F1418A5FD322DC94B0AC3CC103950D6 /* JSONResponseHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONResponseHandling.swift; sourceTree = "<group>"; };
 		8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettable.swift; sourceTree = "<group>"; };
 		9BC1719B1D80A631D2E321D72C0E4C4F /* ResourceHTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceHTTPMethod.swift; sourceTree = "<group>"; };
@@ -139,6 +138,7 @@
 		9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Handler.swift; sourceTree = "<group>"; };
 		A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		A486C0DB729A213E98D9E0A63958A103 /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
+		A903C29149B4C75236BB35FB865E47AA /* FilteredListGettableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettableOAuth2.swift; sourceTree = "<group>"; };
 		ABF116532C90A067B3CC20F5C8A94DE7 /* ListGettableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableOAuth2.swift; sourceTree = "<group>"; };
 		AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTypeTests.swift; sourceTree = "<group>"; };
 		B0F46D70D2BD8876043FC104CC697A2D /* MockNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNode.swift; sourceTree = "<group>"; };
@@ -342,7 +342,7 @@
 			children = (
 				1C1C0C8E66D3CFA46D470FDD45A7F013 /* Abstract Base Protocols */,
 				30985447EB8EE7B4591CBB058C65EB40 /* DetailGettable+OAuth2.swift */,
-				8D48821F8FF94B9B7D015E9759E1B67C /* FilteredListGettable+OAuth2.swift */,
+				A903C29149B4C75236BB35FB865E47AA /* FilteredListGettableOAuth2.swift */,
 				ABF116532C90A067B3CC20F5C8A94DE7 /* ListGettableOAuth2.swift */,
 				2C1D7BB20461611BE9D4C38E5C9C66A0 /* ListPostable+OAuth2.swift */,
 				D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */,
@@ -687,8 +687,8 @@
 				508AC24843E7B90D7FA9B8FEA7AF5674 /* DetailGettable.swift in Sources */,
 				C08E100FB76F18C2A3CA876F366B829C /* DetailGettableClient.swift in Sources */,
 				53053E79B66DAC293E0BF186F3D35B86 /* DetailResource.swift in Sources */,
-				C20C3921D7D8C68E60F4F75BA98824AC /* FilteredListGettable+OAuth2.swift in Sources */,
 				4B155E6B16321C5A8AD3E02C089A6494 /* FilteredListGettable.swift in Sources */,
+				07B3DAB1B7891B66E16FB5D2BABBE6C7 /* FilteredListGettableOAuth2.swift in Sources */,
 				61E1C2AC4302B33EBCB97629AB24FDB9 /* Filtering.swift in Sources */,
 				85F678709D3A9DE7B8D9D6A653A13EE4 /* JSONInitializable.swift in Sources */,
 				597E585549AC07F2721C0C4EAA547AD9 /* JSONResponseHandling.swift in Sources */,
