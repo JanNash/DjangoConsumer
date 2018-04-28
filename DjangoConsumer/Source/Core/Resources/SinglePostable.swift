@@ -25,15 +25,15 @@ public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConv
 // MARK: - SinglePostableNoAuth
 // MARK: Protocol Declaration
 public protocol SinglePostableNoAuth: SinglePostable {
-    static var singlePOSTdefaultNode: Node { get }
+    static var defaultNoAuthNode: NoAuthNode { get }
 }
 
 
 // MARK: Default Implementations
 public extension SinglePostableNoAuth {
-    func post(to node: Node = Self.singlePOSTdefaultNode) {
+    func post(to node: NoAuthNode = Self.defaultNoAuthNode) {
         DefaultImplementations._SinglePostable_.post(
-            self, to: node, via: node.sessionManager, additionalHeaders: [:], additionalParameters: [:]
+            self, to: node, via: node.sessionManagerNoAuth, additionalHeaders: [:], additionalParameters: [:]
         )
     }
 }

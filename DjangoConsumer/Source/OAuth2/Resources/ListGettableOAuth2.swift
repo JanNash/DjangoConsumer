@@ -14,15 +14,15 @@
 // MARK: - ListGettableOAuth2
 // MARK: Protocol Declaration
 public protocol ListGettableOAuth2: ListGettable {
-    static var listGETdefaultNode: OAuth2Node { get }
+    static var defaultOAuth2Node: OAuth2Node { get }
 }
 
 
 // MARK: Default Implementations
 public extension ListGettableOAuth2 {
-    static func get(from node: OAuth2Node = Self.listGETdefaultNode, offset: UInt = 0, limit: UInt? = nil) {
+    static func get(from node: OAuth2Node = Self.defaultOAuth2Node, offset: UInt = 0, limit: UInt? = nil) {
         DefaultImplementations._ListGettable_.get(
-            self, from: node, via: node.oauth2Handler.authenticatedSessionManager, offset: offset, limit: limit, filters: []
+            self, from: node, via: node.sessionManagerOAuth2, offset: offset, limit: limit, filters: []
         )
     }
 }

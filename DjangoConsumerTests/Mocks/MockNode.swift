@@ -15,22 +15,22 @@ import DjangoConsumer
 
 
 // MARK: // Internal
-// MARK: Node Convenience Extension
-extension Node {
+// MARK: NoAuthNode Convenience Extension
+extension NoAuthNode {
     var testDelegate: TestSessionDelegate? {
-        return (self.sessionManager as? TestSessionManager)?.testDelegate
+        return (self.sessionManagerNoAuth as? TestSessionManager)?.testDelegate
     }
 }
 
 
 // MARK: - MockNode
-class MockNode: Node {
+class MockNode: NoAuthNode {
     // Singleton
     static let main: MockNode = MockNode()
     
     // Node Conformance
     // SessionManager
-    var sessionManager: SessionManagerType = TestSessionManager()
+    var sessionManagerNoAuth: SessionManagerType = TestSessionManager()
     
     // Base URL
     var baseURL: URL = URL(string: "http://localhost:8080")!

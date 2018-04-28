@@ -27,9 +27,9 @@ public protocol FilteredListGettableNoAuth: FilteredListGettable, ListGettableNo
 
 // MARK: Default Implementations
 public extension FilteredListGettableNoAuth {
-    static func get(from node: Node = Self.listGETdefaultNode, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
+    static func get(from node: NoAuthNode = Self.defaultNoAuthNode, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
         DefaultImplementations._FilteredListGettable_.get(
-            self, from: node, via: node.sessionManager, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
+            self, from: node, via: node.sessionManagerNoAuth, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
         )
     }
 }
