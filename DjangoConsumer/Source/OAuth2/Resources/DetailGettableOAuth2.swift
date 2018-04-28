@@ -13,13 +13,13 @@
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol DetailGettableOAuth2: DetailGettable {
-    static var detailGETdefaultNode: OAuth2Node { get }
+    static var defaultOAuth2Node: OAuth2Node { get }
 }
 
 
 // MARK: Default Implementations
 public extension DetailGettableOAuth2 {
-    func get(from node: OAuth2Node = Self.detailGETdefaultNode) {
+    func get(from node: OAuth2Node = Self.defaultOAuth2Node) {
         DefaultImplementations._DetailGettable_.get(self, from: node, via: node.oauth2Handler.authenticatedSessionManager)
     }
 }

@@ -14,14 +14,14 @@
 // MARK: - ListPostableOAuth2
 // MARK: Protocol Declaration
 public protocol ListPostableOAuth2: ListPostable {
-    static var listPOSTdefaultNode: OAuth2Node { get }
+    static var defaultOAuth2Node: OAuth2Node { get }
 }
 
 
 // MARK: - Collection
 // MARK: where Self.Element: ListPostableOAuth2
 public extension Collection where Self.Element: ListPostableOAuth2 {
-    public func post(to node: OAuth2Node = Self.Element.listPOSTdefaultNode) {
+    public func post(to node: OAuth2Node = Self.Element.defaultOAuth2Node) {
         DefaultImplementations._ListPostable_.post(self, to: node, via: node.oauth2Handler.authenticatedSessionManager)
     }
 }

@@ -13,13 +13,13 @@
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol SinglePostableOAuth2: SinglePostable {
-    static var singlePOSTdefaultNode: OAuth2Node { get }
+    static var defaultOAuth2Node: OAuth2Node { get }
 }
 
 
 // MARK: Default Implementations
 public extension SinglePostableOAuth2 {
-    func post(to node: OAuth2Node = Self.singlePOSTdefaultNode) {
+    func post(to node: OAuth2Node = Self.defaultOAuth2Node) {
         DefaultImplementations._SinglePostable_.post(
             self, to: node, via: node.oauth2Handler.authenticatedSessionManager, additionalHeaders: [:], additionalParameters: [:]
         )
