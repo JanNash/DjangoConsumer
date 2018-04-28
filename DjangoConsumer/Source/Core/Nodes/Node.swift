@@ -15,9 +15,6 @@ import SwiftyJSON
 
 // MARK: // Public
 public protocol Node {
-    // SessionManager
-    var sessionManager: SessionManagerType { get }
-    
     // Basic Setup
     var baseURL: URL { get }
     

@@ -24,8 +24,9 @@ public protocol OAuth2NodeAuthenticationClient {
 // MARK: - OAuth2Node
 // MARK: Protocol Declaration
 public protocol OAuth2Node: Node {
-    var oauth2Clients: [OAuth2NodeAuthenticationClient] { get }
+    var sessionManagerOAuth2: SessionManagerType { get }
     var oauth2Handler: OAuth2Handler { get }
+    var oauth2Clients: [OAuth2NodeAuthenticationClient] { get }
 }
 
 

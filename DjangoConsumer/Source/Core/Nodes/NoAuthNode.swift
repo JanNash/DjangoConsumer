@@ -13,5 +13,5 @@
 // MARK: // Public
 // MARK: Protocol Declaration
 public protocol NoAuthNode: Node {
-    
+    var sessionManagerNoAuth: SessionManagerType { get }
 }
