@@ -216,6 +216,14 @@
 			path = Mocks;
 			sourceTree = "<group>";
 		};
+		1C1C0C8E66D3CFA46D470FDD45A7F013 /* Abstract Base Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				4BB06EE93AFBF285CC430D979EB3DB79 /* NeedsOAuth2Node.swift */,
+			);
+			path = "Abstract Base Protocols";
+			sourceTree = "<group>";
+		};
 		27DAB93018D6CE9B049236DCED532777 /* Testing */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,14 +479,6 @@
 				6331C6F2052A8B5FAA17CBBBCCCDE651 /* Info.plist */,
 			);
 			path = DjangoConsumerTests;
-			sourceTree = "<group>";
-		};
-		1C1C0C8E66D3CFA46D470FDD45A7F013 /* Abstract Base Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				4BB06EE93AFBF285CC430D979EB3DB79 /* NeedsOAuth2Node.swift */,
-			);
-			path = "Abstract Base Protocols";
 			sourceTree = "<group>";
 		};
 		F4216A7EEF6B1AE6943EEFD7A45D1EFA /* Nodes */ = {
