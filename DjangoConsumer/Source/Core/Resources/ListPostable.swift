@@ -25,14 +25,14 @@ public protocol ListPostable: ListResource, JSONInitializable, ParameterConverti
 // MARK: - ListPostableNoAuth
 // MARK: Protocol Declaration
 public protocol ListPostableNoAuth: ListPostable {
-    static var listPOSTdefaultNode: NoAuthNode { get }
+    static var defaultNoAuthNode: NoAuthNode { get }
 }
 
 
 // MARK: - Collection
 // MARK: where Self.Element: ListPostableNoAuth
 public extension Collection where Self.Element: ListPostableNoAuth {
-    public func post(to node: NoAuthNode = Self.Element.listPOSTdefaultNode) {
+    public func post(to node: NoAuthNode = Self.Element.defaultNoAuthNode) {
         DefaultImplementations._ListPostable_.post(self, to: node, via: node.sessionManagerNoAuth)
     }
 }
