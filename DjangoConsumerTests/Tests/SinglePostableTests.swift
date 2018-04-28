@@ -23,7 +23,7 @@ class SinglePostableTests: BaseTest {
     override func setUp() {
         super.setUp()
         
-        let node: MockNode = _FixtureType.singlePOSTdefaultNode as! MockNode
+        let node: MockNode = _FixtureType.defaultNoAuthNode as! MockNode
         node.routes = []
         node.testDelegate?.receivedDataRequest = nil
         node.testDelegate?.mockJSONResponse = nil
@@ -31,7 +31,7 @@ class SinglePostableTests: BaseTest {
     
     // Tests
     func testSinglePostableDefaultNodeUsed() {
-        let expectedNode: MockNode = _FixtureType.singlePOSTdefaultNode as! MockNode
+        let expectedNode: MockNode = _FixtureType.defaultNoAuthNode as! MockNode
         
         expectedNode.routes = [
             .singlePOST(_FixtureType.self, "singlepostables")
