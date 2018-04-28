@@ -15,6 +15,14 @@ import DjangoConsumer
 
 
 // MARK: // Internal
+// MARK: OAuth2Node Convenience Extension
+extension OAuth2Node {
+    var testDelegate: TestSessionDelegate? {
+        return (self.sessionManagerOAuth2 as? TestSessionManager)?.testDelegate
+    }
+}
+
+
 // MARK: Class Declaration
 class MockOAuth2Node: OAuth2Node {
     // Singleton
@@ -22,7 +30,7 @@ class MockOAuth2Node: OAuth2Node {
     
     // Node Conformance
     // SessionManager
-    let sessionManager: SessionManagerType = TestSessionManager()
+    let sessionManagerOAuth2: SessionManagerType = TestSessionManager()
     
     // Base URL
     var baseURL: URL = URL(string: "http://localhost:8080")!

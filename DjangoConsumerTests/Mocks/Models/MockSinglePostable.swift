@@ -17,7 +17,7 @@ import DjangoConsumer
 
 // MARK: // Internal
 // MARK: Struct Declaration
-struct MockSinglePostable: SinglePostableNoAuth {
+struct MockSinglePostable: SinglePostableNoAuth {    
     // Init
     init() {}
     
@@ -27,7 +27,7 @@ struct MockSinglePostable: SinglePostableNoAuth {
     // SinglePostable
     init(json: JSON) {}
     
-    static var singlePOSTdefaultNode: Node = MockNode.main
+    static var singlePOSTdefaultNode: NoAuthNode = MockNode.main
     static var singlePostableClients: [SinglePostableClient] = []
     
     func toParameters(for method: ResourceHTTPMethod) -> Parameters {

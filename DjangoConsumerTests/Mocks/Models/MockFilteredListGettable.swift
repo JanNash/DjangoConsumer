@@ -39,6 +39,6 @@ struct MockFilteredListGettable: FilteredListGettableNoAuth {
         self.name = json[Keys.name].string!
     }
     
-    static var listGETdefaultNode: Node = MockNode.main
+    static var listGETdefaultNode: NoAuthNode = MockNode.main
     static var listGettableClients: [ListGettableClient] = []
 }

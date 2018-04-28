@@ -36,7 +36,7 @@ struct MockListPostable: ListPostableNoAuth, Equatable {
         self.name = json[Keys.name].string!
     }
     
-    static var listPOSTdefaultNode: Node = MockNode.main
+    static var listPOSTdefaultNode: NoAuthNode = MockNode.main
     static var listPostableClients: [ListPostableClient] = []
     
     func toParameters(for method: ResourceHTTPMethod) -> Parameters {

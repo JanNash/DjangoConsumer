@@ -38,7 +38,7 @@ struct MockDetailGettable: DetailGettableNoAuth {
     
     var id: ID?
     
-    static var detailGETdefaultNode: Node = MockNode.main
+    static var detailGETdefaultNode: NoAuthNode = MockNode.main
     static var detailGettableClients: [DetailGettableClient] = []
     
     func gotNewSelf(_ newSelf: MockDetailGettable, from: Node) {}
