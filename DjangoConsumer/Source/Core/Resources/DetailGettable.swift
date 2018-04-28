@@ -31,13 +31,17 @@ public protocol DetailGettableNoAuth: DetailGettable, NeedsNoAuthNode {}
 // MARK: Default Implementations
 public extension DetailGettableNoAuth {
     func get(from node: NoAuthNode = Self.defaultNoAuthNode) {
-        DefaultImplementations.DetailGettable.get(self, from: node, via: node.sessionManagerNoAuth)
+        DefaultImplementations.DetailGettable.get(self, from: node)
     }
 }
 
 
 // MARK: - DefaultImplementations.DetailGettable
 public extension DefaultImplementations.DetailGettable {
+    public static func get<T: DetailGettable>(_ detailGettable: T, from node: NoAuthNode) {
+        self.get(detailGettable, from: node, via: node.sessionManagerNoAuth)
+    }
+    
     public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
         self._get(detailGettable, from: node, via: sessionManager)
     }
