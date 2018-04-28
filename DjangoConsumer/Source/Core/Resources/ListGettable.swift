@@ -25,15 +25,15 @@ public protocol ListGettable: ListResource, JSONInitializable {
 // MARK: - ListGettableNoAuth
 // MARK: Protocol Declaration
 public protocol ListGettableNoAuth: ListGettable {
-    static var listGETdefaultNode: Node { get }
+    static var listGETdefaultNode: NoAuthNode { get }
 }
 
 
 // MARK: Default Implementations
 public extension ListGettableNoAuth {
-    static func get(from node: Node = Self.listGETdefaultNode, offset: UInt = 0, limit: UInt? = nil) {
+    static func get(from node: NoAuthNode = Self.listGETdefaultNode, offset: UInt = 0, limit: UInt? = nil) {
         DefaultImplementations._ListGettable_.get(
-            self, from: node, via: node.sessionManager, offset: offset, limit: limit, filters: []
+            self, from: node, via: node.sessionManagerNoAuth, offset: offset, limit: limit, filters: []
         )
     }
 }
