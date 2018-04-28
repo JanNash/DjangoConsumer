@@ -22,7 +22,7 @@ public protocol FilteredListGettable: ListGettable {}
 
 // MARK: Protocol Declaration
 // MARK: - FilteredListGettableNoAuth
-public protocol FilteredListGettableNoAuth: FilteredListGettable, ListGettableNoAuth {}
+public protocol FilteredListGettableNoAuth: FilteredListGettable, NeedsNoAuthNode {}
 
 
 // MARK: Default Implementations

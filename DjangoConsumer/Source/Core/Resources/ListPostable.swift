@@ -24,9 +24,7 @@ public protocol ListPostable: ListResource, JSONInitializable, ParameterConverti
 
 // MARK: - ListPostableNoAuth
 // MARK: Protocol Declaration
-public protocol ListPostableNoAuth: ListPostable {
-    static var defaultNoAuthNode: NoAuthNode { get }
-}
+public protocol ListPostableNoAuth: ListPostable, NeedsNoAuthNode {}
 
 
 // MARK: - Collection

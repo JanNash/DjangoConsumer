@@ -25,9 +25,7 @@ public protocol DetailGettable: IdentifiableResource, JSONInitializable {
 
 // MARK: - DetailGettableNoAuth
 // MARK: Protocol Declaration
-public protocol DetailGettableNoAuth: DetailGettable {
-    static var defaultNoAuthNode: NoAuthNode { get }
-}
+public protocol DetailGettableNoAuth: DetailGettable, NeedsNoAuthNode {}
 
 
 // MARK: Default Implementations

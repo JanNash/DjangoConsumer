@@ -24,9 +24,7 @@ public protocol ListGettable: ListResource, JSONInitializable {
 
 // MARK: - ListGettableNoAuth
 // MARK: Protocol Declaration
-public protocol ListGettableNoAuth: ListGettable {
-    static var defaultNoAuthNode: NoAuthNode { get }
-}
+public protocol ListGettableNoAuth: ListGettable, NeedsNoAuthNode {}
 
 
 // MARK: Default Implementations

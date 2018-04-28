@@ -24,9 +24,7 @@ public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConv
 
 // MARK: - SinglePostableNoAuth
 // MARK: Protocol Declaration
-public protocol SinglePostableNoAuth: SinglePostable {
-    static var defaultNoAuthNode: NoAuthNode { get }
-}
+public protocol SinglePostableNoAuth: SinglePostable, NeedsNoAuthNode {}
 
 
 // MARK: Default Implementations
