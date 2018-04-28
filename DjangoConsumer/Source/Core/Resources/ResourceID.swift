@@ -30,7 +30,7 @@ public struct ResourceID<T: DetailResource> {
 // MARK: where T: DetailGettableNoAuth
 public extension ResourceID where T: DetailGettableNoAuth {
     func get(from node: NoAuthNode = T.defaultNoAuthNode) {
-        DefaultImplementations.ResourceID.getResource(withID: self, from: node, via: node.sessionManagerNoAuth)
+        DefaultImplementations.ResourceID.getResource(withID: self, from: node)
     }
 }
 
@@ -38,6 +38,10 @@ public extension ResourceID where T: DetailGettableNoAuth {
 // MARK: - DefaultImplementations.ResourceID
 // MARK: where T: DetailGettable
 public extension DefaultImplementations.ResourceID {
+    public static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: NoAuthNode) {
+        self.getResource(withID: resourceID, from: node, via: node.sessionManagerNoAuth)
+    }
+    
     public static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
         self._getResource(withID: resourceID, from: node, via: sessionManager)
     }
