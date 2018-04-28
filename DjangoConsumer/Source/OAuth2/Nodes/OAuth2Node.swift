@@ -33,7 +33,7 @@ public protocol OAuth2Node: Node {
 // MARK: SessionManager
 public extension OAuth2Node {
     public var sessionManagerOAuth2: SessionManagerType {
-        return DefaultImplementations._OAuth2Node_.sessionManagerOAuth2(node: self)
+        return DefaultImplementations.OAuth2Node.sessionManagerOAuth2(node: self)
     }
 }
 
@@ -41,22 +41,22 @@ public extension OAuth2Node {
 // MARK: Authentication Forwarding
 public extension OAuth2Node {
     public func authenticate(username: String, password: String) {
-        DefaultImplementations._OAuth2Node_.authenticate(node: self, username: username, password: password)
+        DefaultImplementations.OAuth2Node.authenticate(node: self, username: username, password: password)
     }
     
     public func refreshAuthentication() {
-        DefaultImplementations._OAuth2Node_.refreshAuthentication(node: self)
+        DefaultImplementations.OAuth2Node.refreshAuthentication(node: self)
     }
     
     public func endAuthentication() {
-        DefaultImplementations._OAuth2Node_.endAuthentication(node: self)
+        DefaultImplementations.OAuth2Node.endAuthentication(node: self)
     }
 }
 
 
-// MARK: - DefaultImplementations._OAuth2Node_
+// MARK: - DefaultImplementations.OAuth2Node
 // MARK: SessionManager
-public extension DefaultImplementations._OAuth2Node_ {
+public extension DefaultImplementations.OAuth2Node {
     public static func sessionManagerOAuth2(node: OAuth2Node) -> SessionManagerType {
         return node.oauth2Handler.authenticatedSessionManager
     }
@@ -64,7 +64,7 @@ public extension DefaultImplementations._OAuth2Node_ {
 
 
 // MARK: Authentication Forwarding
-public extension DefaultImplementations._OAuth2Node_ {
+public extension DefaultImplementations.OAuth2Node {
     public static func authenticate(node: OAuth2Node, username: String, password: String) {
         self._authenticate(node: node, username: username, password: password)
     }
@@ -80,7 +80,7 @@ public extension DefaultImplementations._OAuth2Node_ {
 
 
 // MARK: // Private
-private extension DefaultImplementations._OAuth2Node_ {
+private extension DefaultImplementations.OAuth2Node {
     static func _authenticate(node: OAuth2Node, username: String, password: String) {
         node.oauth2Handler.requestTokens(
             username: username,

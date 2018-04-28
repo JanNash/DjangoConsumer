@@ -22,21 +22,25 @@ public protocol FilteredListGettable: ListGettable {}
 
 // MARK: Protocol Declaration
 // MARK: - FilteredListGettableNoAuth
-public protocol FilteredListGettableNoAuth: FilteredListGettable, ListGettableNoAuth {}
+public protocol FilteredListGettableNoAuth: FilteredListGettable, NeedsNoAuthNode {}
 
 
 // MARK: Default Implementations
 public extension FilteredListGettableNoAuth {
     static func get(from node: NoAuthNode = Self.defaultNoAuthNode, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
-        DefaultImplementations._FilteredListGettable_.get(
-            self, from: node, via: node.sessionManagerNoAuth, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
+        DefaultImplementations.FilteredListGettable.get(
+            self, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
         )
     }
 }
 
 
-// MARK: - DefaultImplementations._FilteredListGettable_
-public extension DefaultImplementations._FilteredListGettable_ {
+// MARK: - DefaultImplementations.FilteredListGettable
+public extension DefaultImplementations.FilteredListGettable {
+    public static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: NoAuthNode, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
+        self.get(filteredListGettableType, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
+    }
+    
     public static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
         self._get(filteredListGettableType, from: node, via: sessionManager, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
@@ -44,9 +48,9 @@ public extension DefaultImplementations._FilteredListGettable_ {
 
 
 // MARK: // Private
-private extension DefaultImplementations._FilteredListGettable_ {
+private extension DefaultImplementations.FilteredListGettable {
     static func _get<T: FilteredListGettable>(_ f: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
         let allFilters: [FilterType] = addDefaultFilters ? (node.defaultFilters(for: f) + filters) : filters
-        DefaultImplementations._ListGettable_.get(f, from: node, via: sessionManager, offset: offset, limit: limit, filters: allFilters)
+        DefaultImplementations.ListGettable.get(f, from: node, via: sessionManager, offset: offset, limit: limit, filters: allFilters)
     }
 }

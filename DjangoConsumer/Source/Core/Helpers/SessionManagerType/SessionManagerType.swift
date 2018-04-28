@@ -22,13 +22,13 @@ public protocol SessionManagerType: class {
 // MARK: Convenience Default Implementation
 public extension SessionManagerType {
     func fireJSONRequest(with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
-        DefaultImplementations._SessionManagerType_.fireJSONRequest(via: self, with: cfg, responseHandling: responseHandling)
+        DefaultImplementations.SessionManagerType.fireJSONRequest(via: self, with: cfg, responseHandling: responseHandling)
     }
 }
 
 
-// MARK: - DefaultImplementations._SessionManagerType_
-public extension DefaultImplementations._SessionManagerType_ {
+// MARK: - DefaultImplementations.SessionManagerType
+public extension DefaultImplementations.SessionManagerType {
     static func fireJSONRequest(via sessionManager: SessionManagerType, with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
         sessionManager.handleJSONResponse(for: sessionManager.request(with: cfg), with: responseHandling)
     }

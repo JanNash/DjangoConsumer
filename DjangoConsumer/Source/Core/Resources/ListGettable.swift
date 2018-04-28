@@ -24,23 +24,23 @@ public protocol ListGettable: ListResource, JSONInitializable {
 
 // MARK: - ListGettableNoAuth
 // MARK: Protocol Declaration
-public protocol ListGettableNoAuth: ListGettable {
-    static var defaultNoAuthNode: NoAuthNode { get }
-}
+public protocol ListGettableNoAuth: ListGettable, NeedsNoAuthNode {}
 
 
 // MARK: Default Implementations
 public extension ListGettableNoAuth {
     static func get(from node: NoAuthNode = Self.defaultNoAuthNode, offset: UInt = 0, limit: UInt? = nil) {
-        DefaultImplementations._ListGettable_.get(
-            self, from: node, via: node.sessionManagerNoAuth, offset: offset, limit: limit, filters: []
-        )
+        DefaultImplementations.ListGettable.get(self, from: node, offset: offset, limit: limit, filters: [])
     }
 }
 
 
-// MARK: - DefaultImplementations._ListGettable_
-public extension DefaultImplementations._ListGettable_ {
+// MARK: - DefaultImplementations.ListGettable
+public extension DefaultImplementations.ListGettable {
+    public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: NoAuthNode, offset: UInt, limit: UInt?, filters: [FilterType]) {
+        self.get(listGettableType, from: node, via: node.sessionManagerNoAuth, offset: offset, limit: limit, filters: filters)
+    }
+    
     public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType]) {
         self._get(listGettableType, from: node, via: sessionManager, offset: offset, limit: limit, filters: filters)
     }
@@ -48,7 +48,7 @@ public extension DefaultImplementations._ListGettable_ {
 
 
 // MARK: // Private
-private extension DefaultImplementations._ListGettable_ {
+private extension DefaultImplementations.ListGettable {
     static func _get<T: ListGettable>(_ l: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType]) {
         let routeType: RouteType.List = .listGET
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)

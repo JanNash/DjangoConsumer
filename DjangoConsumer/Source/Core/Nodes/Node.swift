@@ -62,11 +62,11 @@ public protocol Node {
 // MARK: List GET Request Helpers
 public extension Node {
     func defaultFilters(for resourceType: FilteredListGettable.Type) -> [FilterType] {
-        return DefaultImplementations._Node_.defaultFilters(node: self, for: resourceType)
+        return DefaultImplementations.Node.defaultFilters(node: self, for: resourceType)
     }
     
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type {
-        return DefaultImplementations._Node_.paginationType(node: self, for: resourceType)
+        return DefaultImplementations.Node.paginationType(node: self, for: resourceType)
     }
 }
 
@@ -74,23 +74,23 @@ public extension Node {
 // MARK: Parameter Generation
 public extension Node {
     func parametersFrom(filters: [FilterType]) -> Parameters {
-        return DefaultImplementations._Node_.parametersFrom(node: self, filters: filters)
+        return DefaultImplementations.Node.parametersFrom(node: self, filters: filters)
     }
     
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters {
-        return DefaultImplementations._Node_.parametersFrom(node: self, offset: offset, limit: limit)
+        return DefaultImplementations.Node.parametersFrom(node: self, offset: offset, limit: limit)
     }
     
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
-        return DefaultImplementations._Node_.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
+        return DefaultImplementations.Node.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
     }
     
     func parametersFrom(object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters {
-        return DefaultImplementations._Node_.parametersFrom(node: self, object: object, method: method)
+        return DefaultImplementations.Node.parametersFrom(node: self, object: object, method: method)
     }
     
     func parametersFrom<C: Collection, T: ListPostable>(listPostables: C) -> Parameters where C.Element == T {
-        return DefaultImplementations._Node_.parametersFrom(node: self, listPostables: listPostables)
+        return DefaultImplementations.Node.parametersFrom(node: self, listPostables: listPostables)
     }
 }
 
@@ -99,29 +99,29 @@ public extension Node {
 public extension Node {
     // MetaResource.Type URLs
     func relativeURL(for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
-        return DefaultImplementations._Node_.relativeURL(node: self, for: resourceType, routeType: routeType)
+        return DefaultImplementations.Node.relativeURL(node: self, for: resourceType, routeType: routeType)
     }
     
     func absoluteURL(for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
-        return DefaultImplementations._Node_.absoluteURL(node: self, for: resourceType, routeType: routeType)
+        return DefaultImplementations.Node.absoluteURL(node: self, for: resourceType, routeType: routeType)
     }
     
     // IdentifiableResource URLs
     func relativeURL<T: IdentifiableResource>(for resource: T, routeType: RouteType.Detail) throws -> URL {
-        return try DefaultImplementations._Node_.relativeURL(node: self, for: resource, routeType: routeType)
+        return try DefaultImplementations.Node.relativeURL(node: self, for: resource, routeType: routeType)
     }
     
     func absoluteURL<T: IdentifiableResource>(for resource: T, routeType: RouteType.Detail) throws -> URL {
-        return try DefaultImplementations._Node_.absoluteURL(node: self, for: resource, routeType: routeType)
+        return try DefaultImplementations.Node.absoluteURL(node: self, for: resource, routeType: routeType)
     }
     
     // ResourceID URLs
     func relativeGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL {
-        return DefaultImplementations._Node_.relativeGETURL(node: self, for: resourceID)
+        return DefaultImplementations.Node.relativeGETURL(node: self, for: resourceID)
     }
     
     func absoluteGETURL<T: DetailGettable>(for resourceID: ResourceID<T>) -> URL {
-        return DefaultImplementations._Node_.absoluteGETURL(node: self, for: resourceID)
+        return DefaultImplementations.Node.absoluteGETURL(node: self, for: resourceID)
     }
 }
 
@@ -129,7 +129,7 @@ public extension Node {
 // MARK: Detail Response Extraction Helpers
 public extension Node {
     func extractSingleObject<T: JSONInitializable>(for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
-        return DefaultImplementations._Node_.extractSingleObject(node: self, for: resourceType, method: method, from: json)
+        return DefaultImplementations.Node.extractSingleObject(node: self, for: resourceType, method: method, from: json)
     }
 }
 
@@ -137,26 +137,26 @@ public extension Node {
 // MARK: List Response Extraction Helpers
 public extension Node {
     func extractGETListResponsePagination(with paginationType: Pagination.Type, from json: JSON) -> Pagination {
-        return DefaultImplementations._Node_.extractGETListResponsePagination(node: self, with: paginationType, from: json)
+        return DefaultImplementations.Node.extractGETListResponsePagination(node: self, with: paginationType, from: json)
     }
     
     func extractGETListResponseObjects<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> [T] {
-        return DefaultImplementations._Node_.extractGETListResponseObjects(node: self, for: T.self, from: json)
+        return DefaultImplementations.Node.extractGETListResponseObjects(node: self, for: T.self, from: json)
     }
     
     func extractGETListResponse<T: ListGettable>(for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
-        return DefaultImplementations._Node_.extractGETListResponse(node: self, for: resourceType, from: json)
+        return DefaultImplementations.Node.extractGETListResponse(node: self, for: resourceType, from: json)
     }
     
     func extractPOSTListResponse<T: ListPostable>(for resourceType: T.Type, from json: JSON) -> [T] {
-        return DefaultImplementations._Node_.extractPOSTListResponse(node: self, for: resourceType, from: json)
+        return DefaultImplementations.Node.extractPOSTListResponse(node: self, for: resourceType, from: json)
     }
 }
 
 
-// MARK: - DefaultImplementations._Node_
+// MARK: - DefaultImplementations.Node
 // MARK: Request/Response Keys
-public extension DefaultImplementations._Node_ {
+public extension DefaultImplementations.Node {
     public enum ListRequestKeys {
         public static let objects: String = "objects"
     }
@@ -169,7 +169,7 @@ public extension DefaultImplementations._Node_ {
 
 
 // MARK: List GET Request Helpers
-public extension DefaultImplementations._Node_ {
+public extension DefaultImplementations.Node {
     public static func defaultFilters(node: Node, for resourceType: FilteredListGettable.Type) -> [FilterType] {
         return []
     }
@@ -181,7 +181,7 @@ public extension DefaultImplementations._Node_ {
 
 
 // MARK: Parameter Generation
-public extension DefaultImplementations._Node_ {
+public extension DefaultImplementations.Node {
     public static func parametersFrom(node: Node, filters: [FilterType]) -> Parameters {
         return filters.reduce(into: [:], { $0[$1.stringKey] = $1.value })
     }
@@ -205,7 +205,7 @@ public extension DefaultImplementations._Node_ {
 
 
 // MARK: Request URL Helpers
-public extension DefaultImplementations._Node_ {
+public extension DefaultImplementations.Node {
     // MetaResource.Type URLs
     public static func relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
         return self._relativeURL(node: node, for: resourceType, routeType: routeType)
@@ -237,7 +237,7 @@ public extension DefaultImplementations._Node_ {
 
 
 // MARK: Detail Response Extraction Helpers
-public extension DefaultImplementations._Node_ {
+public extension DefaultImplementations.Node {
     public static func extractSingleObject<T: JSONInitializable>(node: Node, for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
         return T(json: json)
     }
@@ -245,7 +245,7 @@ public extension DefaultImplementations._Node_ {
 
 
 // MARK: List Response Extraction Helpers
-public extension DefaultImplementations._Node_ {
+public extension DefaultImplementations.Node {
     public static func extractGETListResponsePagination(node: Node, with paginationType: Pagination.Type, from json: JSON) -> Pagination {
         return paginationType.init(json: json[ListResponseKeys.meta])
     }
@@ -266,7 +266,7 @@ public extension DefaultImplementations._Node_ {
 
 // MARK: // Private
 // MARK: Parameter Generation Implementations
-private extension DefaultImplementations._Node_ {
+private extension DefaultImplementations.Node {
     static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
         var parameters: Parameters = [:]
         let writeToParameters: (String, Any) -> Void = { parameters[$0] = $1 }
@@ -285,7 +285,7 @@ private extension DefaultImplementations._Node_ {
 
 
 // MARK: Request URL Helper Implementations
-private extension DefaultImplementations._Node_ {
+private extension DefaultImplementations.Node {
     static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
         let availableRoutes: [Route] = node.routes.filter(Route.matches(resourceType, routeType))
         
@@ -309,7 +309,7 @@ private extension DefaultImplementations._Node_ {
 
 
 // MARK: List Response Extraction Helper Implementations
-private extension DefaultImplementations._Node_ {
+private extension DefaultImplementations.Node {
     static func _extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = node.paginationType(for: resourceType)
         let pagination: Pagination = node.extractGETListResponsePagination(with: paginationType, from: json)

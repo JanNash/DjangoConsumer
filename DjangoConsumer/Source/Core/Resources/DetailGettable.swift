@@ -25,21 +25,23 @@ public protocol DetailGettable: IdentifiableResource, JSONInitializable {
 
 // MARK: - DetailGettableNoAuth
 // MARK: Protocol Declaration
-public protocol DetailGettableNoAuth: DetailGettable {
-    static var defaultNoAuthNode: NoAuthNode { get }
-}
+public protocol DetailGettableNoAuth: DetailGettable, NeedsNoAuthNode {}
 
 
 // MARK: Default Implementations
 public extension DetailGettableNoAuth {
     func get(from node: NoAuthNode = Self.defaultNoAuthNode) {
-        DefaultImplementations._DetailGettable_.get(self, from: node, via: node.sessionManagerNoAuth)
+        DefaultImplementations.DetailGettable.get(self, from: node)
     }
 }
 
 
-// MARK: - DefaultImplementations._DetailGettable_
-public extension DefaultImplementations._DetailGettable_ {
+// MARK: - DefaultImplementations.DetailGettable
+public extension DefaultImplementations.DetailGettable {
+    public static func get<T: DetailGettable>(_ detailGettable: T, from node: NoAuthNode) {
+        self.get(detailGettable, from: node, via: node.sessionManagerNoAuth)
+    }
+    
     public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
         self._get(detailGettable, from: node, via: sessionManager)
     }
@@ -48,7 +50,7 @@ public extension DefaultImplementations._DetailGettable_ {
 
 // MARK: // Private
 // MARK: GET function Implementation
-private extension DefaultImplementations._DetailGettable_ {
+private extension DefaultImplementations.DetailGettable {
     static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
         let routeType: RouteType.Detail = .detailGET
         let method: ResourceHTTPMethod = routeType.method

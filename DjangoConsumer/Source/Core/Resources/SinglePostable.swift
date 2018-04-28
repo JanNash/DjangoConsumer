@@ -24,23 +24,25 @@ public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConv
 
 // MARK: - SinglePostableNoAuth
 // MARK: Protocol Declaration
-public protocol SinglePostableNoAuth: SinglePostable {
-    static var defaultNoAuthNode: NoAuthNode { get }
-}
+public protocol SinglePostableNoAuth: SinglePostable, NeedsNoAuthNode {}
 
 
 // MARK: Default Implementations
 public extension SinglePostableNoAuth {
     func post(to node: NoAuthNode = Self.defaultNoAuthNode) {
-        DefaultImplementations._SinglePostable_.post(
+        DefaultImplementations.SinglePostable.post(
             self, to: node, via: node.sessionManagerNoAuth, additionalHeaders: [:], additionalParameters: [:]
         )
     }
 }
 
 
-// MARK: - DefaultImplementations._SinglePostable_
-public extension DefaultImplementations._SinglePostable_ {
+// MARK: - DefaultImplementations.SinglePostable
+public extension DefaultImplementations.SinglePostable {
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+        self.post(singlePostable, to: node, via: node.sessionManagerNoAuth, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
+    }
+    
     public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
         self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
@@ -48,7 +50,7 @@ public extension DefaultImplementations._SinglePostable_ {
 
 
 // MARK: // Private
-private extension DefaultImplementations._SinglePostable_ {
+private extension DefaultImplementations.SinglePostable {
     static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
         let routeType: RouteType.Detail = .singlePOST
         let method: ResourceHTTPMethod = routeType.method

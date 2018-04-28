@@ -24,22 +24,24 @@ public protocol ListPostable: ListResource, JSONInitializable, ParameterConverti
 
 // MARK: - ListPostableNoAuth
 // MARK: Protocol Declaration
-public protocol ListPostableNoAuth: ListPostable {
-    static var defaultNoAuthNode: NoAuthNode { get }
-}
+public protocol ListPostableNoAuth: ListPostable, NeedsNoAuthNode {}
 
 
 // MARK: - Collection
 // MARK: where Self.Element: ListPostableNoAuth
 public extension Collection where Self.Element: ListPostableNoAuth {
     public func post(to node: NoAuthNode = Self.Element.defaultNoAuthNode) {
-        DefaultImplementations._ListPostable_.post(self, to: node, via: node.sessionManagerNoAuth)
+        DefaultImplementations.ListPostable.post(self, to: node)
     }
 }
 
 
-// MARK: - DefaultImplementations._ListPostable_
-public extension DefaultImplementations._ListPostable_ {
+// MARK: - DefaultImplementations.ListPostable
+public extension DefaultImplementations.ListPostable {
+    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: NoAuthNode) where C.Element == T {
+        self.post(objects, to: node, via: node.sessionManagerNoAuth)
+    }
+    
     public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType) where C.Element == T {
         self._post(objects, to: node, via: sessionManager)
     }
@@ -47,7 +49,7 @@ public extension DefaultImplementations._ListPostable_ {
 
 
 // MARK: // Private
-private extension DefaultImplementations._ListPostable_ {
+private extension DefaultImplementations.ListPostable {
     static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType) where C.Element == T {
         let routeType: RouteType.List = .listPOST
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
