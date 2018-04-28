@@ -18,7 +18,7 @@ public protocol FilteredListGettableOAuth2: FilteredListGettable, ListGettableOA
 // MARK: Default Implementations
 public extension FilteredListGettableOAuth2 {
     static func get(from node: OAuth2Node = Self.defaultOAuth2Node, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
-        DefaultImplementations._FilteredListGettable_.get(
+        DefaultImplementations.FilteredListGettable.get(
             self, from: node, via: node.sessionManagerOAuth2, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
         )
     }

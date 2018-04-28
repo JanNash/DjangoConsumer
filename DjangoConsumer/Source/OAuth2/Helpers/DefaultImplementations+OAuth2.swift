@@ -12,5 +12,5 @@
 
 // MARK: // Public
 public extension DefaultImplementations {
-    public enum _OAuth2Node_ {}
+    public enum OAuth2Node {}
 }

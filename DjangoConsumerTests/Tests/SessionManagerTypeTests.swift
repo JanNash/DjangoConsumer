@@ -68,7 +68,7 @@ class SessionManagerTypeTests: BaseTest {
             onFailure: { _ in onFailureExpectation.fulfill() }
         )
         
-        DefaultImplementations._SessionManagerType_.fireJSONRequest(
+        DefaultImplementations.SessionManagerType.fireJSONRequest(
             via: sessionManager,
             with: _failingRequestConfig,
             responseHandling: responseHandling

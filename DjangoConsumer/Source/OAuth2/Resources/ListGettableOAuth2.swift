@@ -21,7 +21,7 @@ public protocol ListGettableOAuth2: ListGettable {
 // MARK: Default Implementations
 public extension ListGettableOAuth2 {
     static func get(from node: OAuth2Node = Self.defaultOAuth2Node, offset: UInt = 0, limit: UInt? = nil) {
-        DefaultImplementations._ListGettable_.get(
+        DefaultImplementations.ListGettable.get(
             self, from: node, via: node.sessionManagerOAuth2, offset: offset, limit: limit, filters: []
         )
     }

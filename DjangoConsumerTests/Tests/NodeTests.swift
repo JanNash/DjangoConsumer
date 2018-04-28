@@ -17,7 +17,7 @@ import SwiftyJSON
 
 // MARK: // Internal
 class NodeTests: BaseTest {
-    typealias Dflt = DefaultImplementations._Node_
+    typealias Dflt = DefaultImplementations.Node
     typealias PaginationKeys = DefaultPagination.Keys
     typealias ListRequestKeys = Dflt.ListRequestKeys
     typealias ListResponseKeys = Dflt.ListResponseKeys

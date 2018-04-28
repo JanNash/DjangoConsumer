@@ -30,14 +30,14 @@ public struct ResourceID<T: DetailResource> {
 // MARK: where T: DetailGettableNoAuth
 public extension ResourceID where T: DetailGettableNoAuth {
     func get(from node: NoAuthNode = T.defaultNoAuthNode) {
-        DefaultImplementations._ResourceID_.getResource(withID: self, from: node, via: node.sessionManagerNoAuth)
+        DefaultImplementations.ResourceID.getResource(withID: self, from: node, via: node.sessionManagerNoAuth)
     }
 }
 
 
-// MARK: - DefaultImplementations._ResourceID_
+// MARK: - DefaultImplementations.ResourceID
 // MARK: where T: DetailGettable
-public extension DefaultImplementations._ResourceID_ {
+public extension DefaultImplementations.ResourceID {
     public static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
         self._getResource(withID: resourceID, from: node, via: sessionManager)
     }
@@ -46,7 +46,7 @@ public extension DefaultImplementations._ResourceID_ {
 
 // MARK: // Private
 // MARK: where T: DetailGettable
-private extension DefaultImplementations._ResourceID_ {
+private extension DefaultImplementations.ResourceID {
     static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
         let url: URL = node.absoluteGETURL(for: resourceID)
         let method: ResourceHTTPMethod = .get

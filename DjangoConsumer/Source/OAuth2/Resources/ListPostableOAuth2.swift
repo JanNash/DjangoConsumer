@@ -22,6 +22,6 @@ public protocol ListPostableOAuth2: ListPostable {
 // MARK: where Self.Element: ListPostableOAuth2
 public extension Collection where Self.Element: ListPostableOAuth2 {
     public func post(to node: OAuth2Node = Self.Element.defaultOAuth2Node) {
-        DefaultImplementations._ListPostable_.post(self, to: node, via: node.sessionManagerOAuth2)
+        DefaultImplementations.ListPostable.post(self, to: node, via: node.sessionManagerOAuth2)
     }
 }
