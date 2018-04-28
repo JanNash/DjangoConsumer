@@ -12,7 +12,7 @@
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol FilteredListGettableOAuth2: FilteredListGettable, ListGettableOAuth2 {}
+public protocol FilteredListGettableOAuth2: FilteredListGettable, NeedsOAuth2Node {}
 
 
 // MARK: Default Implementations

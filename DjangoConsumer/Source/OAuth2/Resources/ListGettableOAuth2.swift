@@ -11,11 +11,8 @@
 
 
 // MARK: // Public
-// MARK: - ListGettableOAuth2
 // MARK: Protocol Declaration
-public protocol ListGettableOAuth2: ListGettable {
-    static var defaultOAuth2Node: OAuth2Node { get }
-}
+public protocol ListGettableOAuth2: ListGettable, NeedsOAuth2Node {}
 
 
 // MARK: Default Implementations

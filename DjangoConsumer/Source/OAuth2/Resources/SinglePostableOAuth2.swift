@@ -12,9 +12,7 @@
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol SinglePostableOAuth2: SinglePostable {
-    static var defaultOAuth2Node: OAuth2Node { get }
-}
+public protocol SinglePostableOAuth2: SinglePostable, NeedsOAuth2Node {}
 
 
 // MARK: Default Implementations

@@ -12,9 +12,7 @@
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol DetailGettableOAuth2: DetailGettable {
-    static var defaultOAuth2Node: OAuth2Node { get }
-}
+public protocol DetailGettableOAuth2: DetailGettable, NeedsOAuth2Node {}
 
 
 // MARK: Default Implementations

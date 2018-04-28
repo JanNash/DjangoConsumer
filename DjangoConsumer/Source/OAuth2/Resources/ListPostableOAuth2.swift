@@ -13,9 +13,7 @@
 // MARK: // Public
 // MARK: - ListPostableOAuth2
 // MARK: Protocol Declaration
-public protocol ListPostableOAuth2: ListPostable {
-    static var defaultOAuth2Node: OAuth2Node { get }
-}
+public protocol ListPostableOAuth2: ListPostable, NeedsOAuth2Node {}
 
 
 // MARK: - Collection
