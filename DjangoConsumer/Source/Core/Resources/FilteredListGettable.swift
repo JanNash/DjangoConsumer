@@ -29,7 +29,7 @@ public protocol FilteredListGettableNoAuth: FilteredListGettable, NeedsNoAuthNod
 public extension FilteredListGettableNoAuth {
     static func get(from node: NoAuthNode = Self.defaultNoAuthNode, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
         DefaultImplementations.FilteredListGettable.get(
-            self, from: node, via: node.sessionManagerNoAuth, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
+            self, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
         )
     }
 }
@@ -37,6 +37,10 @@ public extension FilteredListGettableNoAuth {
 
 // MARK: - DefaultImplementations.FilteredListGettable
 public extension DefaultImplementations.FilteredListGettable {
+    public static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: NoAuthNode, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
+        self.get(filteredListGettableType, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
+    }
+    
     public static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
         self._get(filteredListGettableType, from: node, via: sessionManager, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }

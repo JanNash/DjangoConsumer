@@ -11,6 +11,7 @@
 
 
 // MARK: // Public
+// MARK: - FilteredListGettableOAuth2
 // MARK: Protocol Declaration
 public protocol FilteredListGettableOAuth2: FilteredListGettable, NeedsOAuth2Node {}
 
@@ -19,7 +20,15 @@ public protocol FilteredListGettableOAuth2: FilteredListGettable, NeedsOAuth2Nod
 public extension FilteredListGettableOAuth2 {
     static func get(from node: OAuth2Node = Self.defaultOAuth2Node, offset: UInt = 0, limit: UInt? = nil, filters: [FilterType] = [], addDefaultFilters: Bool = true) {
         DefaultImplementations.FilteredListGettable.get(
-            self, from: node, via: node.sessionManagerOAuth2, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
+            self, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters
         )
+    }
+}
+
+
+// MARK: - DefaultImplementations.FilteredListGettable
+public extension DefaultImplementations.FilteredListGettable {
+    public static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: OAuth2Node, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
+        self.get(filteredListGettableType, from: node, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }
