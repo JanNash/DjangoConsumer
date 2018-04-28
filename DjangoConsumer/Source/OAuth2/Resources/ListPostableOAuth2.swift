@@ -23,3 +23,11 @@ public extension Collection where Self.Element: ListPostableOAuth2 {
         DefaultImplementations.ListPostable.post(self, to: node, via: node.sessionManagerOAuth2)
     }
 }
+
+
+// MARK: - DefaultImplementations.ListPostable
+public extension DefaultImplementations.ListPostable {
+    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: OAuth2Node) where C.Element == T {
+        self.post(objects, to: node, via: node.sessionManagerOAuth2)
+    }
+}

@@ -31,13 +31,17 @@ public protocol ListPostableNoAuth: ListPostable, NeedsNoAuthNode {}
 // MARK: where Self.Element: ListPostableNoAuth
 public extension Collection where Self.Element: ListPostableNoAuth {
     public func post(to node: NoAuthNode = Self.Element.defaultNoAuthNode) {
-        DefaultImplementations.ListPostable.post(self, to: node, via: node.sessionManagerNoAuth)
+        DefaultImplementations.ListPostable.post(self, to: node)
     }
 }
 
 
 // MARK: - DefaultImplementations.ListPostable
 public extension DefaultImplementations.ListPostable {
+    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: NoAuthNode) where C.Element == T {
+        self.post(objects, to: node, via: node.sessionManagerNoAuth)
+    }
+    
     public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType) where C.Element == T {
         self._post(objects, to: node, via: sessionManager)
     }
