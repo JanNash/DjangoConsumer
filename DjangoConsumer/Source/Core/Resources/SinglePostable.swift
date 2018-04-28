@@ -39,6 +39,10 @@ public extension SinglePostableNoAuth {
 
 // MARK: - DefaultImplementations.SinglePostable
 public extension DefaultImplementations.SinglePostable {
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+        self.post(singlePostable, to: node, via: node.sessionManagerNoAuth, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
+    }
+    
     public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
         self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
