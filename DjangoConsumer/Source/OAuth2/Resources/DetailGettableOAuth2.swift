@@ -20,6 +20,6 @@ public protocol DetailGettableOAuth2: DetailGettable {
 // MARK: Default Implementations
 public extension DetailGettableOAuth2 {
     func get(from node: OAuth2Node = Self.defaultOAuth2Node) {
-        DefaultImplementations._DetailGettable_.get(self, from: node, via: node.oauth2Handler.authenticatedSessionManager)
+        DefaultImplementations._DetailGettable_.get(self, from: node, via: node.sessionManagerOAuth2)
     }
 }

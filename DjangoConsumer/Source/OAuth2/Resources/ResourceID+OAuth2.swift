@@ -14,6 +14,6 @@
 // MARK: where T: DetailGettableOAuth2
 public extension ResourceID where T: DetailGettableOAuth2 {
     func get(from node: OAuth2Node = T.defaultOAuth2Node) {
-        DefaultImplementations._ResourceID_.getResource(withID: self, from: node, via: node.oauth2Handler.authenticatedSessionManager)
+        DefaultImplementations._ResourceID_.getResource(withID: self, from: node, via: node.sessionManagerOAuth2)
     }
 }

@@ -21,7 +21,7 @@ public protocol SinglePostableOAuth2: SinglePostable {
 public extension SinglePostableOAuth2 {
     func post(to node: OAuth2Node = Self.defaultOAuth2Node) {
         DefaultImplementations._SinglePostable_.post(
-            self, to: node, via: node.oauth2Handler.authenticatedSessionManager, additionalHeaders: [:], additionalParameters: [:]
+            self, to: node, via: node.sessionManagerOAuth2, additionalHeaders: [:], additionalParameters: [:]
         )
     }
 }

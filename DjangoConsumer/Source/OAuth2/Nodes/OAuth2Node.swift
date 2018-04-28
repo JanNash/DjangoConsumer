@@ -30,6 +30,14 @@ public protocol OAuth2Node: Node {
 }
 
 
+// MARK: SessionManager
+public extension OAuth2Node {
+    public var sessionManagerOAuth2: SessionManagerType {
+        return DefaultImplementations._OAuth2Node_.sessionManagerOAuth2(node: self)
+    }
+}
+
+
 // MARK: Authentication Forwarding
 public extension OAuth2Node {
     public func authenticate(username: String, password: String) {
@@ -47,6 +55,15 @@ public extension OAuth2Node {
 
 
 // MARK: - DefaultImplementations._OAuth2Node_
+// MARK: SessionManager
+public extension DefaultImplementations._OAuth2Node_ {
+    public static func sessionManagerOAuth2(node: OAuth2Node) -> SessionManagerType {
+        return node.oauth2Handler.authenticatedSessionManager
+    }
+}
+
+
+// MARK: Authentication Forwarding
 public extension DefaultImplementations._OAuth2Node_ {
     public static func authenticate(node: OAuth2Node, username: String, password: String) {
         self._authenticate(node: node, username: username, password: password)
