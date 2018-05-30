@@ -19,10 +19,17 @@ public protocol JSONConvertible: CustomStringConvertible {
 }
 
 
-// MARK: Default Implementations
-// MARK: CustomStringConvertible
+// MARK: CustomStringConvertible Default Implementation
 extension JSONConvertible/*: CustomStringConvertible*/ {
     public var description: String {
-        return "\(type(of: self))(\(JSONValue.dict(self.jsonDict()).description)"
+        return DefaultImplementations.JSONConvertible.description(for: self)
+    }
+}
+
+
+// MARK: - DefaultImplementations.JSONConvertible
+extension DefaultImplementations.JSONConvertible {
+    public static func description(for jsonConvertible: JSONConvertible) -> String {
+        return "\(type(of: jsonConvertible))(\(JSONValue.dict(jsonConvertible.jsonDict()).description)"
     }
 }
