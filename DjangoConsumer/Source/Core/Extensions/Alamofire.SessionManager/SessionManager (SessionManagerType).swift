@@ -16,13 +16,21 @@ import Alamofire
 // MARK: SessionManagerType
 extension Alamofire.SessionManager: SessionManagerType {
     public func request(with cfg: RequestConfiguration) -> DataRequest {
-        return self
-            .request(cfg.url, method: cfg.method.toHTTPMethod(), parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
-            .validate(statusCode: cfg.acceptableStatusCodes)
-            .validate(contentType: cfg.acceptableContentTypes)
+        return self._request(with: cfg)
     }
     
     public func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling) {
         request.responseSwiftyJSON(completionHandler: responseHandling.handleResponse)
+    }
+}
+
+
+// MARK: // Private
+private extension Alamofire.SessionManager {
+    func _request(with cfg: RequestConfiguration) -> DataRequest {
+        return self
+            .request(cfg.url, method: cfg.method.toHTTPMethod(), parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
+            .validate(statusCode: cfg.acceptableStatusCodes)
+            .validate(contentType: cfg.acceptableContentTypes)
     }
 }
