@@ -38,7 +38,6 @@ extension Numeric where Self: BinaryFloatingPoint {
 }
 
 extension Float: JSONValueConvertible {}
-extension Float80: JSONValueConvertible {}
 extension Double: JSONValueConvertible {}
 extension CGFloat: JSONValueConvertible {}
 
@@ -92,7 +91,6 @@ private extension Optional/*: JSONValueConvertible*/ where Wrapped: JSONValueCon
             switch Wrapped.self {
             case _ as Bool.Type:    return .bool(nil)
             case _ as Float.Type:   return .float(nil as Float?)
-            case _ as Float80.Type: return .float(nil as Float80?)
             case _ as Double.Type:  return .float(nil as Double?)
             case _ as CGFloat.Type: return .float(nil as CGFloat?)
             case _ as Int.Type:     return .int(nil as Int?)
