@@ -56,9 +56,9 @@ public extension JSONValue {
 
 
 // MARK: Struct Declaration
-public struct JSONValue {
+public struct JSONValue: Equatable {
     // ValueType
-    indirect enum ValueType {
+    indirect enum ValueType: Equatable {
         case null
         case bool(Bool?)
         case int(Int?)

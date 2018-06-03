@@ -14,7 +14,7 @@ import Foundation
 
 // MARK: // Public
 // MARK: Struct Declaration
-public struct JSONDict {
+public struct JSONDict: Equatable {
     // Public Init
     public init(_ dict: [String: JSONValueConvertible]) {
         self.dict = dict.mapValues({ $0.toJSONValue() })
