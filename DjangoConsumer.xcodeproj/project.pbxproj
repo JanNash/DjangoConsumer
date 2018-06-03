@@ -13,7 +13,6 @@
 		08C04A5407E7AD2E9F5FFB9C4C213D39 /* ListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10799D2B2F94923B9DCF49FCD0327C09 /* ListPostable.swift */; };
 		0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */; };
 		0DA416CBCD82CA7F959DB11E7FCAC7D5 /* IfThisIsAThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */; };
-		17A3DC6F5D1547507CEE04A6CEC65797 /* ParameterConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAC30B85576BFA11BC68B797C59B343 /* ParameterConvertible.swift */; };
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
 		22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
@@ -108,7 +107,6 @@
 		132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettableClient.swift; sourceTree = "<group>"; };
 		19227FA82FAB0B4E505BB2D51004EE4A /* SessionManager (SessionManagerType).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager (SessionManagerType).swift"; sourceTree = "<group>"; };
 		1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettable.swift; sourceTree = "<group>"; };
-		1DAC30B85576BFA11BC68B797C59B343 /* ParameterConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterConvertible.swift; sourceTree = "<group>"; };
 		256DB7968015EB7E3781878767546331 /* MockError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockError.swift; sourceTree = "<group>"; };
 		26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
 		29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostable.swift; sourceTree = "<group>"; };
@@ -337,7 +335,6 @@
 				513451832F739885AEEFD0A136C1E487 /* ListResource.swift */,
 				811758D35E562A601555CA850F6F3A70 /* MetaResource.swift */,
 				3C0A96D1631F452A8B955CB4DC53BE45 /* NeedsNoAuthNode.swift */,
-				1DAC30B85576BFA11BC68B797C59B343 /* ParameterConvertible.swift */,
 			);
 			path = "Abstract Base Protocols";
 			sourceTree = "<group>";
@@ -759,7 +756,6 @@
 				DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */,
 				3CE39AA01C15C2A2704A15F85D5499B5 /* OAuth2Node.swift in Sources */,
 				23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */,
-				17A3DC6F5D1547507CEE04A6CEC65797 /* ParameterConvertible.swift in Sources */,
 				6F88632AF116A6692DCF6A2152FAE897 /* ProgrammerAssertions.swift in Sources */,
 				BB9E9E198AA0DF30DE9DB78BE451676A /* RequestConfiguration.swift in Sources */,
 				AB6AD6B6401785C0AE767729876F8066 /* RequestPayload.swift in Sources */,

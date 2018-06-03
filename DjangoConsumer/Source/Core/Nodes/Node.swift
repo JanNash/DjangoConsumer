@@ -32,7 +32,7 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> JSONDict
     
     // Request Payload Generation
-    func payloadFrom(object: ParameterConvertible, method: ResourceHTTPMethod) -> RequestPayload
+    func payloadFrom(object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload
     func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> RequestPayload where C.Element == T
     
     // URLs

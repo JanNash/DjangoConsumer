@@ -17,7 +17,7 @@ import Alamofire_SwiftyJSON
 // MARK: // Public
 // MARK: - SinglePostable
 // MARK: Protocol Declaration
-public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConvertible {
+public protocol SinglePostable: DetailResource, JSONInitializable, RequestPayloadConvertible {
     static var singlePostableClients: [SinglePostableClient] { get set }
 }
 
