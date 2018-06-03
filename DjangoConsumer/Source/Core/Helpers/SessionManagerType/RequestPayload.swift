@@ -14,9 +14,10 @@ import Foundation
 
 // MARK: // Public
 // MARK: -
-public enum RequestPayload: Equatable {
+public indirect enum RequestPayload: Equatable {
     case json(JSONDict)
     case multipart([FormData])
+    case nested(String, [RequestPayload])
 }
 
 
