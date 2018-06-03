@@ -71,10 +71,10 @@ public extension Node {
 }
 
 
-// MARK: Parameter Generation
+// MARK: Payload Generation
 public extension Node {
-    func parametersFrom(filters: [FilterType]) -> Parameters {
-        return DefaultImplementations.Node.parametersFrom(node: self, filters: filters)
+    func payloadFrom(filters: [FilterType]) -> RequestPayload {
+        return DefaultImplementations.Node.payloadFrom(node: self, filters: filters)
     }
     
     func parametersFrom(offset: UInt, limit: UInt) -> Parameters {
@@ -182,8 +182,8 @@ public extension DefaultImplementations.Node {
 
 // MARK: Parameter Generation
 public extension DefaultImplementations.Node {
-    public static func parametersFrom(node: Node, filters: [FilterType]) -> Parameters {
-        return filters.reduce(into: [:], { $0[$1.stringKey] = $1.value })
+    public static func payloadFrom(node: Node, filters: [FilterType]) -> RequestPayload {
+        return .json(JSONDict(filters.mapToDict({ ($0.stringKey, $0.value) })))
     }
     
     public static func parametersFrom(node: Node, offset: UInt, limit: UInt) -> Parameters {
