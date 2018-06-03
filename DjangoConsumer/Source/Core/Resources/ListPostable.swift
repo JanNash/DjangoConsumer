@@ -17,7 +17,7 @@ import Alamofire_SwiftyJSON
 // MARK: // Public
 // MARK: - ListPostable
 // MARK: Protocol Declaration
-public protocol ListPostable: ListResource, JSONInitializable, ParameterConvertible {
+public protocol ListPostable: ListResource, JSONInitializable, RequestPayloadConvertible {
     static var listPostableClients: [ListPostableClient] { get set }
 }
 

@@ -21,16 +21,6 @@ public indirect enum RequestPayload: Equatable {
 }
 
 
-//extension Array: RequestPayloadConvertible where Element: RequestPayloadConvertible {
-//    public func toPayload(for method: ResourceHTTPMethod) -> RequestPayload {
-//        let payloads: [RequestPayload] = self.map({ $0.toPayload(for: method) })
-//        if payloads.contains(.multipart) {
-//
-//        }
-//    }
-//}
-
-
 // MARK: - Array where Element == (String, RequestPayload)
 extension Array where Element == (String, RequestPayload) {
     public static func == (lhs: [Element], rhs: [Element]) -> Bool {

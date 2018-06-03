@@ -95,7 +95,7 @@ public extension Node {
         return DefaultImplementations.Node.payloadFrom(node: self, object: object, method: method)
     }
     
-    func parametersFrom<C: Collection, T: ListPostable>(listPostables: C) -> RequestPayload where C.Element == T {
+    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> RequestPayload where C.Element == T {
         return DefaultImplementations.Node.payloadFrom(node: self, listPostables: listPostables)
     }
 }
@@ -209,7 +209,7 @@ public extension DefaultImplementations.Node {
     }
     
     public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> RequestPayload where C.Element == T {
-        return .nested(ListRequestKeys.objects, listPostables.map({ $0.toParameters(for: .post) }))
+        return .nested(ListRequestKeys.objects, listPostables.map({ node.payloadFrom(object: $0, method: .post) }))
     }
 }
 
