@@ -39,11 +39,11 @@ public extension SinglePostableNoAuth {
 
 // MARK: - DefaultImplementations.SinglePostable
 public extension DefaultImplementations.SinglePostable {
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: JSONDict) {
         self.post(singlePostable, to: node, via: node.sessionManagerNoAuth, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
     
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: JSONDict) {
         self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
 }
@@ -51,13 +51,21 @@ public extension DefaultImplementations.SinglePostable {
 
 // MARK: // Private
 private extension DefaultImplementations.SinglePostable {
-    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: JSONDict) {
         let routeType: RouteType.Detail = .singlePOST
         let method: ResourceHTTPMethod = routeType.method
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
-        let parameters: Parameters = node
-            .parametersFrom(object: singlePostable, method: method)
-            .merging(additionalParameters, uniquingKeysWith: { _, r in r })
+        
+        let payload: RequestPayload = node.payloadFrom(object: singlePostable, method: method)
+        
+        switch payload {
+        case .json(var value):
+            value.dict.merge(additionalParameters.dict, uniquingKeysWith: { _, r in r})
+        case .multipart(var value):
+            value.append(.json(additionalParameters))
+        case .nested(_, var value):
+            value.append(.json(additionalParameters))
+        }
         
         let encoding: ParameterEncoding = JSONEncoding.default
         
@@ -71,7 +79,7 @@ private extension DefaultImplementations.SinglePostable {
         }
         
         sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding, headers: additionalHeaders),
+            with: RequestConfiguration(url: url, method: method, payload: payload, encoding: encoding, headers: additionalHeaders),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

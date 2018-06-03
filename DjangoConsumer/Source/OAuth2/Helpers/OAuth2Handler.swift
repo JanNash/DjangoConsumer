@@ -262,16 +262,16 @@ private extension OAuth2Handler {
         self._isRequesting = true
         
         let url: URL = self.settings.tokenRequestURL
-        let parameters: [String : Any] = [
+        let payload: RequestPayload = .json([
             _C.JSONKeys.grantType : _C.GrantTypes.password,
             _C.JSONKeys.scope : _C.Scopes.readWrite,
             _C.JSONKeys.username : username,
             _C.JSONKeys.password : password
-        ]
+        ])
         
         self.__requestAndSaveTokens(
             url: url,
-            parameters: parameters,
+            payload: payload,
             updateStatus: { self._isRequesting = false },
             success: success,
             failure: failure
@@ -292,14 +292,14 @@ private extension OAuth2Handler {
         }
         
         let url: URL = self.settings.tokenRefreshURL
-        let parameters: [String : Any] = [
+        let payload: RequestPayload = .json([
             _C.JSONKeys.refreshToken: refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
-        ]
+        ])
         
         self.__requestAndSaveTokens(
             url: url,
-            parameters: parameters,
+            payload: payload,
             updateStatus: { self._isRefreshing = false },
             success: success,
             failure: failure
@@ -310,14 +310,14 @@ private extension OAuth2Handler {
 
 // MARK: Common Token Request Functionality
 private extension OAuth2Handler {
-    func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    func __requestAndSaveTokens(url: URL, payload: RequestPayload, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
         let cfg: RequestConfiguration = {
             RequestConfiguration(
                 url: url,
                 method: .post,
-                parameters: parameters,
+                payload: payload,
                 encoding: URLEncoding.default,
                 headers: [basicAuthHeader.key : basicAuthHeader.value]
             )
@@ -382,7 +382,7 @@ private extension OAuth2Handler {
         let cfg: RequestConfiguration = RequestConfiguration(
             url: self.settings.tokenRevokeURL,
             method: .post,
-            parameters: [_C.JSONKeys.token : accessToken],
+            payload: .json([_C.JSONKeys.token : accessToken]),
             encoding: URLEncoding.default,
             headers: [basicAuthHeader.key : basicAuthHeader.value]
         )

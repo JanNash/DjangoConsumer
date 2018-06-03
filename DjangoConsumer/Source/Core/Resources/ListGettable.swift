@@ -54,7 +54,7 @@ private extension DefaultImplementations.ListGettable {
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
         let limit: UInt = limit ?? node.defaultLimit(for: l)
-        let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
+        let parameters: JSONDict = node.parametersFrom(offset: offset, limit: limit, filters: filters)
         
         let encoding: ParameterEncoding = URLEncoding.default
         
@@ -74,7 +74,7 @@ private extension DefaultImplementations.ListGettable {
         }
         
         sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: routeType.method, parameters: parameters, encoding: encoding),
+            with: RequestConfiguration(url: url, method: routeType.method, payload: .json(parameters), encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
