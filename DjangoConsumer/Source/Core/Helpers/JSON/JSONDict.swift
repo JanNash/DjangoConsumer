@@ -21,7 +21,7 @@ public struct JSONDict: Equatable {
     }
     
     // Value
-    let dict: [String: JSONValue]
+    var dict: [String: JSONValue]
 }
 
 
