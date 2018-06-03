@@ -21,8 +21,12 @@ public extension JSONValue {
         return ._bool(bool)
     }
     
-    public static func int<T>(_ int: T?) -> JSONValue where T: BinaryInteger {
+    public static func int<T>(_ int: T?) -> JSONValue where T: SignedInteger {
         return ._int(int)
+    }
+    
+    public static func uInt<T>(_ int: T?) -> JSONValue where T: UnsignedInteger {
+        return ._uInt(int)
     }
     
     public static func float<T>(_ float: T?) -> JSONValue where T: BinaryFloatingPoint {
@@ -57,8 +61,9 @@ public struct JSONValue {
     indirect enum ValueType {
         case null
         case bool(Bool?)
-        case int(Any?)
-        case float(Any?)
+        case int(Int?)
+        case uInt(UInt?)
+        case float(Double?)
         case string(String?)
         case array([JSONValue]?)
         case dict(JSONDict?)
@@ -99,8 +104,18 @@ private extension JSONValue {
         return JSONValue(.bool(bool))
     }
     
-    static func _int<T: BinaryInteger>(_ int: T?) -> JSONValue {
-        return JSONValue(.int(int))
+    static func _int<T>(_ int: T?) -> JSONValue where T: SignedInteger {
+        guard let int: T = int else {
+            return JSONValue(.int(nil))
+        }
+        return JSONValue(.int(Int(int)))
+    }
+    
+    static func _uInt<T>(_ uInt: T?) -> JSONValue where T: UnsignedInteger {
+        guard let uInt: T = uInt else {
+            return JSONValue(.uInt(nil))
+        }
+        return JSONValue(.uInt(UInt(uInt)))
     }
     
     static func _float<T>(_ float: Optional<T>) -> JSONValue where T: BinaryFloatingPoint {
@@ -109,7 +124,19 @@ private extension JSONValue {
                 return JSONValue(.float(nil))
             }
         }
-        return JSONValue(.float(float))
+        
+        var double: Double?
+        if let f: Float = float as? Float {
+            double = Double(f)
+        } else if let f32: Float32 = float as? Float32 {
+            double = Double(f32)
+        } else if let f64: Float64 = float as? Float64 {
+            double = Double(f64)
+        } else if let cg: CGFloat = float as? CGFloat {
+            double = Double(cg)
+        }
+        
+        return JSONValue(.float(double))
     }
     
     static func _string(_ string: String?) -> JSONValue {
@@ -138,6 +165,7 @@ private extension JSONValue {
         case .null:                 return nil
         case .bool(let value):      return value
         case .int(let value):       return value
+        case .uInt(let value):      return value
         case .float(let value):     return value
         case .string(let value):    return value
         case .array(let value):     return value?.map(JSONValue.unwrap)
@@ -155,6 +183,7 @@ private extension JSONValue/*: CustomStringConvertible*/ {
         case .null:                 return ".null"
         case .bool(let value):      return ".bool(\(self._describeValue(value)))"
         case .int(let value):       return ".int(\(self._describeValue(value)))"
+        case .uInt(let value):      return ".uInt(\(self._describeValue(value)))"
         case .float(let value):     return ".float(\(self._describeValue(value)))"
         case .string(let value):    return ".string(\(self._describeValue(value)))"
         case .array(let value):     return ".array(\(self._describeValue(value)))"

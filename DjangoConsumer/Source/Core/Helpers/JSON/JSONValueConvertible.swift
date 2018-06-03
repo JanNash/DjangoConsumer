@@ -43,7 +43,7 @@ extension CGFloat: JSONValueConvertible {}
 
 
 // MARK: Int
-extension Numeric where Self: BinaryInteger {
+extension BinaryInteger where Self: SignedInteger {
     public func toJSONValue() -> JSONValue { return .int(self) }
 }
 
@@ -52,6 +52,11 @@ extension Int8: JSONValueConvertible {}
 extension Int16: JSONValueConvertible {}
 extension Int32: JSONValueConvertible {}
 extension Int64: JSONValueConvertible {}
+
+extension BinaryInteger where Self: UnsignedInteger {
+    public func toJSONValue() -> JSONValue { return .uInt(self) }
+}
+
 extension UInt: JSONValueConvertible {}
 extension UInt8: JSONValueConvertible {}
 extension UInt16: JSONValueConvertible {}
@@ -98,11 +103,11 @@ private extension Optional/*: JSONValueConvertible*/ where Wrapped: JSONValueCon
             case _ as Int16.Type:   return .int(nil as Int16?)
             case _ as Int32.Type:   return .int(nil as Int32?)
             case _ as Int64.Type:   return .int(nil as Int64?)
-            case _ as UInt.Type:    return .int(nil as UInt?)
-            case _ as UInt8.Type:   return .int(nil as UInt8?)
-            case _ as UInt16.Type:  return .int(nil as UInt16?)
-            case _ as UInt32.Type:  return .int(nil as UInt32?)
-            case _ as UInt64.Type:  return .int(nil as UInt64?)
+            case _ as UInt.Type:    return .uInt(nil as UInt?)
+            case _ as UInt8.Type:   return .uInt(nil as UInt8?)
+            case _ as UInt16.Type:  return .uInt(nil as UInt16?)
+            case _ as UInt32.Type:  return .uInt(nil as UInt32?)
+            case _ as UInt64.Type:  return .uInt(nil as UInt64?)
             case _ as String.Type:  return .string(nil)
             default:                return .null
             }
