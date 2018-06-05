@@ -91,7 +91,7 @@ extension JSONValue: CustomStringConvertible {
 // MARK: // Internal
 // MARK: Interface
 extension JSONValue {
-    static func unwrap(_ jsonValue: JSONValue) -> Any? {
+    static func unwrap(_ jsonValue: JSONValue) -> Any {
         return self._unwrap(jsonValue)
     }
 }
@@ -160,17 +160,19 @@ private extension JSONValue {
         return .dict(jsonConvertible?.jsonDict())
     }
     
-    static func _unwrap(_ jsonValue: JSONValue) -> Any? {
-        switch jsonValue.typedValue {
-        case .null:                 return nil
-        case .bool(let value):      return value
-        case .int(let value):       return value
-        case .uInt(let value):      return value
-        case .float(let value):     return value
-        case .string(let value):    return value
-        case .array(let value):     return value?.map(JSONValue.unwrap)
-        case .dict(let value):      return value?.unwrap()
-        }
+    static func _unwrap(_ jsonValue: JSONValue) -> Any {
+        return {
+            switch jsonValue.typedValue {
+            case .null:                 return nil
+            case .bool(let value):      return value
+            case .int(let value):       return value
+            case .uInt(let value):      return value
+            case .float(let value):     return value
+            case .string(let value):    return value
+            case .array(let value):     return value?.map(JSONValue.unwrap)
+            case .dict(let value):      return value?.unwrap()
+            }
+        }() ?? NSNull() as Any
     }
 }
 

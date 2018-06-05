@@ -51,7 +51,7 @@ extension JSONDict: JSONValueConvertible {
 // MARK: // Internal
 // MARK: Interface
 extension JSONDict {
-    func unwrap() -> [String: Any?] {
+    func unwrap() -> [String: Any] {
         return self.dict.mapValues(JSONValue.unwrap)
     }
 }
