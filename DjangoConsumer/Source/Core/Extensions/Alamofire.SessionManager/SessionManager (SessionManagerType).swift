@@ -31,17 +31,34 @@ extension Alamofire.SessionManager: SessionManagerType {
 
 // MARK: // Private
 private extension Alamofire.SessionManager {
-    func _request(with cfg: GETRequestConfiguration) -> DataRequest {
-        return self
-            .request(cfg.url, method: .get, parameters: [:] /*cfg.parameters*/, encoding: cfg.encoding, headers: cfg.headers)
-            .validate(statusCode: cfg.acceptableStatusCodes)
-            .validate(contentType: cfg.acceptableContentTypes)
+    func _createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
+        completion(.created(
+            self.request(cfg.url, method: .get, parameters: cfg.parameters.unwrap(), encoding: cfg.encoding, headers: cfg.headers)
+                .validate(statusCode: cfg.acceptableStatusCodes)
+                .validate(contentType: cfg.acceptableContentTypes)
+        ))
     }
     
-    func _request(with cfg: POSTRequestConfiguration) -> DataRequest {
-        return self
-            .request(cfg.url, method: .post, parameters: [:] /*cfg.parameters*/, encoding: cfg.encoding, headers: cfg.headers)
-            .validate(statusCode: cfg.acceptableStatusCodes)
-            .validate(contentType: cfg.acceptableContentTypes)
+    func _createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
+        let (isMultipart, parameters): (Bool, [String: Data]) = cfg.payload.unwrap()
+        
+        if isMultipart {
+            self.upload(multipartFormData: { multipartFormData in
+                parameters.forEach({ multipartFormData.append($0.value, withName: $0.key) })
+            }, to: cfg.url, method: .post, headers: cfg.headers, encodingCompletion: {
+                switch $0 {
+                case .success(request: let request, streamingFromDisk: _, streamFileURL: _):
+                    completion(.created(request))
+                case .failure(let error):
+                    completion(.failed(error))
+                }
+            })
+        } else {
+            completion(.created(
+                self.request(cfg.url, method: .post, parameters: parameters, encoding: cfg.encoding, headers: cfg.headers)
+                    .validate(statusCode: cfg.acceptableStatusCodes)
+                    .validate(contentType: cfg.acceptableContentTypes)
+            ))
+        }
     }
 }
