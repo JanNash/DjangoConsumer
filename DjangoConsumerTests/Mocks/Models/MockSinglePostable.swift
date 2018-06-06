@@ -30,7 +30,7 @@ struct MockSinglePostable: SinglePostableNoAuth {
     static let defaultNoAuthNode: NoAuthNode = MockNode.main
     static var singlePostableClients: [SinglePostableClient] = []
     
-    func toParameters(for method: ResourceHTTPMethod) -> Parameters {
-        return [:]
+    func toPayload(for method: ResourceHTTPMethod) -> RequestPayload {
+        return .json([:])
     }
 }
