@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import Alamofire
 
 
 // MARK: // Public
@@ -51,7 +52,7 @@ extension JSONDict: JSONValueConvertible {
 // MARK: // Internal
 // MARK: Interface
 extension JSONDict {
-    func unwrap() -> [String: Any] {
+    func unwrap() -> Parameters {
         return self.dict.mapValues(JSONValue.unwrap)
     }
 }
