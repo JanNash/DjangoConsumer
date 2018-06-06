@@ -14,22 +14,31 @@ import Alamofire
 
 // MARK: // Public
 public protocol SessionManagerType: class {
-    func request(with cfg: RequestConfiguration) -> DataRequest
+    func request(with cfg: GETRequestConfiguration) -> DataRequest
+    func request(with cfg: POSTRequestConfiguration) -> DataRequest
     func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling)
 }
 
 
 // MARK: Convenience Default Implementation
 public extension SessionManagerType {
-    func fireRequest(with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
-        DefaultImplementations.SessionManagerType.fireJSONRequest(via: self, with: cfg, responseHandling: responseHandling)
+    func fireRequest(with cfg: GETRequestConfiguration, responseHandling: JSONResponseHandling) {
+        DefaultImplementations.SessionManagerType.fireRequest(via: self, with: cfg, responseHandling: responseHandling)
+    }
+    
+    func fireRequest(with cfg: POSTRequestConfiguration, responseHandling: JSONResponseHandling) {
+        DefaultImplementations.SessionManagerType.fireRequest(via: self, with: cfg, responseHandling: responseHandling)
     }
 }
 
 
 // MARK: - DefaultImplementations.SessionManagerType
 public extension DefaultImplementations.SessionManagerType {
-    static func fireRequest(via sessionManager: SessionManagerType, with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
+    static func fireRequest(via sessionManager: SessionManagerType, with cfg: GETRequestConfiguration, responseHandling: JSONResponseHandling) {
+        sessionManager.handleJSONResponse(for: sessionManager.request(with: cfg), with: responseHandling)
+    }
+    
+    static func fireRequest(via sessionManager: SessionManagerType, with cfg: POSTRequestConfiguration, responseHandling: JSONResponseHandling) {
         sessionManager.handleJSONResponse(for: sessionManager.request(with: cfg), with: responseHandling)
     }
 }

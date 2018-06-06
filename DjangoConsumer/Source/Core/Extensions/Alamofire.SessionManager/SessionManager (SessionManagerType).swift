@@ -15,7 +15,11 @@ import Alamofire
 // MARK: // Public
 // MARK: SessionManagerType
 extension Alamofire.SessionManager: SessionManagerType {
-    public func request(with cfg: RequestConfiguration) -> DataRequest {
+    public func request(with cfg: GETRequestConfiguration) -> DataRequest {
+        return self._request(with: cfg)
+    }
+    
+    public func request(with cfg: POSTRequestConfiguration) -> DataRequest {
         return self._request(with: cfg)
     }
     
@@ -27,9 +31,16 @@ extension Alamofire.SessionManager: SessionManagerType {
 
 // MARK: // Private
 private extension Alamofire.SessionManager {
-    func _request(with cfg: RequestConfiguration) -> DataRequest {
+    func _request(with cfg: GETRequestConfiguration) -> DataRequest {
         return self
-            .request(cfg.url, method: cfg.method.toHTTPMethod(), parameters: cfg.parameters, encoding: cfg.encoding, headers: cfg.headers)
+            .request(cfg.url, method: .get, parameters: [:] /*cfg.parameters*/, encoding: cfg.encoding, headers: cfg.headers)
+            .validate(statusCode: cfg.acceptableStatusCodes)
+            .validate(contentType: cfg.acceptableContentTypes)
+    }
+    
+    func _request(with cfg: POSTRequestConfiguration) -> DataRequest {
+        return self
+            .request(cfg.url, method: .post, parameters: [:] /*cfg.parameters*/, encoding: cfg.encoding, headers: cfg.headers)
             .validate(statusCode: cfg.acceptableStatusCodes)
             .validate(contentType: cfg.acceptableContentTypes)
     }
