@@ -120,11 +120,11 @@ class NodeTests: BaseTest {
     // Parameter Generation
     func testParametersFromFilters() {
         func nodeImplementation(_ node: Node, _ filters: [FilterType]) -> Parameters {
-            return node.parametersFrom(filters: filters)
+            return node.parametersFrom(filters: filters).unwrap()
         }
         
         func defaultImplementation(_ node: Node, _ filters: [FilterType]) -> Parameters {
-            return Dflt.parametersFrom(node: node, filters: filters)
+            return Dflt.parametersFrom(node: node, filters: filters).unwrap()
         }
         
         let node: Node = MockNode()
@@ -141,11 +141,11 @@ class NodeTests: BaseTest {
     
     func testParametersFromOffsetAndLimit() {
         func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Parameters {
-            return node.parametersFrom(offset: offset, limit: limit)
+            return node.parametersFrom(offset: offset, limit: limit).unwrap()
         }
         
         func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Parameters {
-            return Dflt.parametersFrom(node: node, offset: offset, limit: limit)
+            return Dflt.parametersFrom(node: node, offset: offset, limit: limit).unwrap()
         }
         
         let node: Node = MockNode()
@@ -163,11 +163,11 @@ class NodeTests: BaseTest {
     
     func testParametersFromOffsetAndLimitAndFilters() {
         func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Parameters {
-            return node.parametersFrom(offset: offset, limit: limit, filters: filters)
+            return node.parametersFrom(offset: offset, limit: limit, filters: filters).unwrap()
         }
         
         func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Parameters {
-            return Dflt.parametersFrom(node: node, offset: offset, limit: limit, filters: filters)
+            return Dflt.parametersFrom(node: node, offset: offset, limit: limit, filters: filters).unwrap()
         }
         
         let node: Node = MockNode()
