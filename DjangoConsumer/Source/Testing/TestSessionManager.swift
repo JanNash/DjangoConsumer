@@ -42,11 +42,11 @@ public class TestSessionManager {
 
 // MARK: SessionManagerType
 extension TestSessionManager: SessionManagerType {
-    public func createRequest(with cfg: POSTRequestConfiguration, completion: (RequestCreationResult) -> Void) {
+    public func createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
         self._AF_sessionManager.createRequest(with: cfg, completion: completion)
     }
     
-    public func createRequest(with cfg: GETRequestConfiguration, completion: (RequestCreationResult) -> Void) {
+    public func createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
         self._AF_sessionManager.createRequest(with: cfg, completion: completion)
     }
     

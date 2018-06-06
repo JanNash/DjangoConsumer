@@ -22,8 +22,8 @@ public enum RequestCreationResult {
 
 // MARK: -
 public protocol SessionManagerType: class {
-    func createRequest(with cfg: GETRequestConfiguration, completion: (RequestCreationResult) -> Void)
-    func createRequest(with cfg: POSTRequestConfiguration, completion: (RequestCreationResult) -> Void)
+    func createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void)
+    func createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void)
     func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling)
 }
 
