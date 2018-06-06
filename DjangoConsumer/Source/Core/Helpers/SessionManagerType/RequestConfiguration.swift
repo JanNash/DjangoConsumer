@@ -33,3 +33,43 @@ public struct RequestConfiguration {
     public var acceptableStatusCodes: [Int]
     public var acceptableContentTypes: [String]
 }
+
+
+// MARK: - GETRequestConfiguration
+public struct GETRequestConfiguration {
+    public init(url: URL, parameters: JSONDict = [:], encoding: ParameterEncoding, headers: HTTPHeaders = [:], acceptableStatusCodes: [Int] = Array(200..<300), acceptableContentTypes: [String] = ["*/*"]) {
+        self.url = url
+        self.parameters = parameters
+        self.encoding = encoding
+        self.headers = headers
+        self.acceptableStatusCodes = acceptableStatusCodes
+        self.acceptableContentTypes = acceptableContentTypes
+    }
+    
+    public var url: URL
+    public var parameters: JSONDict
+    public var encoding: ParameterEncoding
+    public var headers: HTTPHeaders
+    public var acceptableStatusCodes: [Int]
+    public var acceptableContentTypes: [String]
+}
+
+
+// MARK: - POSTRequestConfiguration
+public struct POSTRequestConfiguration {
+    public init(url: URL, payload: RequestPayload? = nil, encoding: ParameterEncoding, headers: HTTPHeaders = [:], acceptableStatusCodes: [Int] = Array(200..<300), acceptableContentTypes: [String] = ["*/*"]) {
+        self.url = url
+        self.payload = payload
+        self.encoding = encoding
+        self.headers = headers
+        self.acceptableStatusCodes = acceptableStatusCodes
+        self.acceptableContentTypes = acceptableContentTypes
+    }
+    
+    public var url: URL
+    public var payload: RequestPayload?
+    public var encoding: ParameterEncoding
+    public var headers: HTTPHeaders
+    public var acceptableStatusCodes: [Int]
+    public var acceptableContentTypes: [String]
+}
