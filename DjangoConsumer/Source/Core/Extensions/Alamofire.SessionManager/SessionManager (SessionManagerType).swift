@@ -15,11 +15,11 @@ import Alamofire
 // MARK: // Public
 // MARK: SessionManagerType
 extension Alamofire.SessionManager: SessionManagerType {
-    public func request(with cfg: GETRequestConfiguration) -> DataRequest {
+    public func createRequest(with cfg: GETRequestConfiguration) -> DataRequest {
         return self._request(with: cfg)
     }
     
-    public func request(with cfg: POSTRequestConfiguration) -> DataRequest {
+    public func createRequest(with cfg: POSTRequestConfiguration) -> DataRequest {
         return self._request(with: cfg)
     }
     
