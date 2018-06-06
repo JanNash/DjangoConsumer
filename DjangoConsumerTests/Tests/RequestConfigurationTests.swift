@@ -34,7 +34,7 @@ class RequestConfigurationTests: BaseTest {
         XCTAssertEqual(cfg.url, expectedURL)
         XCTAssertEqual(cfg.method, expectedMethod)
         XCTAssert(cfg.encoding is URLEncoding)
-        XCTAssert(cfg.parameters.isEmpty)
+        XCTAssertNil(cfg.payload)
         XCTAssertEqual(cfg.headers, expectedHeaders)
         XCTAssertEqual(cfg.acceptableStatusCodes, expectedAcceptableStatusCodes)
         XCTAssertEqual(cfg.acceptableContentTypes, expectedAcceptableContentTypes)
@@ -44,7 +44,7 @@ class RequestConfigurationTests: BaseTest {
         let expectedURL: URL = URL(string: "http://example.com")!
         let expectedMethod: ResourceHTTPMethod = .get
         let expectedEncoding: ParameterEncoding = JSONEncoding.default
-        let expectedParameters: [String : String] = ["foo": "bar"]
+        let expectedPayload: RequestPayload = .json(["foo": "bar"])
         let expectedHeaders: HTTPHeaders = ["Alice": "Bob"]
         let expectedAcceptableStatusCodes: [Int] = Array(200..<300)
         let expectedAcceptableContentTypes: [String] = ["bla/blu"]
@@ -52,7 +52,7 @@ class RequestConfigurationTests: BaseTest {
         let cfg: RequestConfiguration = RequestConfiguration(
             url: expectedURL,
             method: expectedMethod,
-            parameters: expectedParameters,
+            payload: expectedPayload,
             encoding: expectedEncoding,
             headers: expectedHeaders,
             acceptableStatusCodes: expectedAcceptableStatusCodes,
@@ -62,7 +62,7 @@ class RequestConfigurationTests: BaseTest {
         XCTAssertEqual(cfg.url, expectedURL)
         XCTAssertEqual(cfg.method, expectedMethod)
         XCTAssert(cfg.encoding is JSONEncoding)
-        XCTAssertEqual(cfg.parameters as? [String : String], expectedParameters)
+        XCTAssertEqual(cfg.payload, expectedPayload)
         XCTAssertEqual(cfg.headers, expectedHeaders)
         XCTAssertEqual(cfg.acceptableStatusCodes, expectedAcceptableStatusCodes)
         XCTAssertEqual(cfg.acceptableContentTypes, expectedAcceptableContentTypes)
