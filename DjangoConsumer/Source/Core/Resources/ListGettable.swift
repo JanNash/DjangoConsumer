@@ -74,7 +74,7 @@ private extension DefaultImplementations.ListGettable {
         }
         
         sessionManager.fireRequest(
-            with: RequestConfiguration(url: url, method: routeType.method, payload: .json(parameters), encoding: encoding),
+            with: GETRequestConfiguration(url: url, parameters: parameters, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

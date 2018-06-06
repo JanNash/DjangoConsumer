@@ -313,10 +313,9 @@ private extension OAuth2Handler {
     func __requestAndSaveTokens(url: URL, payload: RequestPayload, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
-        let cfg: RequestConfiguration = {
-            RequestConfiguration(
+        let cfg: POSTRequestConfiguration = {
+            POSTRequestConfiguration(
                 url: url,
-                method: .post,
                 payload: payload,
                 encoding: URLEncoding.default,
                 headers: [basicAuthHeader.key : basicAuthHeader.value]
@@ -379,9 +378,8 @@ private extension OAuth2Handler {
         
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
-        let cfg: RequestConfiguration = RequestConfiguration(
+        let cfg: POSTRequestConfiguration = POSTRequestConfiguration(
             url: self.settings.tokenRevokeURL,
-            method: .post,
             payload: .json([_C.JSONKeys.token : accessToken]),
             encoding: URLEncoding.default,
             headers: [basicAuthHeader.key : basicAuthHeader.value]

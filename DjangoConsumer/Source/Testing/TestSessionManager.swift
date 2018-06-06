@@ -42,7 +42,11 @@ public class TestSessionManager {
 
 // MARK: SessionManagerType
 extension TestSessionManager: SessionManagerType {
-    public func request(with cfg: RequestConfiguration) -> DataRequest {
+    public func request(with cfg: GETRequestConfiguration) -> DataRequest {
+        return self._AF_sessionManager.request(with: cfg)
+    }
+    
+    public func request(with cfg: POSTRequestConfiguration) -> DataRequest {
         return self._AF_sessionManager.request(with: cfg)
     }
     
