@@ -65,7 +65,7 @@ private extension DefaultImplementations.ListPostable {
             T.listPostableClients.forEach({ $0.failedPostingObjects(objects, to: node, with: error) })
         }
         
-        sessionManager.fireJSONRequest(
+        sessionManager.fireRequest(
             with: RequestConfiguration(url: url, method: routeType.method, payload: payload, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )

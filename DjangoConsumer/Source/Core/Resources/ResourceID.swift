@@ -65,7 +65,7 @@ private extension DefaultImplementations.ResourceID {
             T.detailGettableClients.forEach({ $0.failedGettingObject(for: resourceID, from: node, with: error) })
         }
         
-        sessionManager.fireJSONRequest(
+        sessionManager.fireRequest(
             with: RequestConfiguration(url: url, method: method, encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )

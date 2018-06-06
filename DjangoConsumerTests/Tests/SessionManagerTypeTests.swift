@@ -68,7 +68,7 @@ class SessionManagerTypeTests: BaseTest {
             onFailure: { _ in onFailureExpectation.fulfill() }
         )
         
-        DefaultImplementations.SessionManagerType.fireJSONRequest(
+        DefaultImplementations.SessionManagerType.fireRequest(
             via: sessionManager,
             with: _failingRequestConfig,
             responseHandling: responseHandling
@@ -97,7 +97,7 @@ class SessionManagerTypeTests: BaseTest {
             onFailure: { _ in onFailureExpectation.fulfill() }
         )
         
-        sessionManager.fireJSONRequest(with: _failingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _failingRequestConfig, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }
@@ -130,7 +130,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
             onFailure: { _ in expectation.fulfill() }
         )
         
-        sessionManager.fireJSONRequest(with: _failingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _failingRequestConfig, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }
@@ -147,7 +147,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
             onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
         )
         
-        sessionManager.fireJSONRequest(with: _succeedingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _succeedingRequestConfig, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }

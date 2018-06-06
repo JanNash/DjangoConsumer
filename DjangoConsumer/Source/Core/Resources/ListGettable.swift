@@ -73,7 +73,7 @@ private extension DefaultImplementations.ListGettable {
             T.listGettableClients.forEach({ $0.failedGettingObjects(with: failure) })
         }
         
-        sessionManager.fireJSONRequest(
+        sessionManager.fireRequest(
             with: RequestConfiguration(url: url, method: routeType.method, payload: .json(parameters), encoding: encoding),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )

@@ -78,7 +78,7 @@ private extension DefaultImplementations.SinglePostable {
             T.singlePostableClients.forEach({ $0.failedPostingObject(singlePostable, to: node, with: error) })
         }
         
-        sessionManager.fireJSONRequest(
+        sessionManager.fireRequest(
             with: RequestConfiguration(url: url, method: method, payload: payload, encoding: encoding, headers: additionalHeaders),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )

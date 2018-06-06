@@ -330,7 +330,7 @@ private extension OAuth2Handler {
             )
         }()
         
-        self._authRequestSessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
+        self._authRequestSessionManager.fireRequest(with: cfg, responseHandling: responseHandling)
     }
     
     func _handleSuccessfulTokenRequest(json: JSON, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
@@ -392,7 +392,7 @@ private extension OAuth2Handler {
             onFailure: { _ in }
         )
         
-        self._authRequestSessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
+        self._authRequestSessionManager.fireRequest(with: cfg, responseHandling: responseHandling)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
         // instead of waiting for the request to receive a response. Is it though?

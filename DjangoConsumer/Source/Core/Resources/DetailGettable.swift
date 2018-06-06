@@ -70,7 +70,7 @@ private extension DefaultImplementations.DetailGettable {
                 detailGettable.gotNewSelf(newSelf, from: node)
             }
             
-            sessionManager.fireJSONRequest(
+            sessionManager.fireRequest(
                 with: RequestConfiguration(url: url, method: method, encoding: encoding),
                 responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
             )
