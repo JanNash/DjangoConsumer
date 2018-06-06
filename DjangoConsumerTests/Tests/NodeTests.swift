@@ -186,52 +186,50 @@ class NodeTests: BaseTest {
         })
     }
     
-    func testParametersFromParameterConvertible() {
-        func nodeImplementation(_ node: Node, _ object: ParameterConvertible, _ method: ResourceHTTPMethod) -> [String : String] {
-            return node.parametersFrom(object: object, method: method) as! [String : String]
+    func testPayloadFromRequestPayloadConvertible() {
+        func nodeImplementation(_ node: Node, _ object: RequestPayloadConvertible, _ method: ResourceHTTPMethod) -> RequestPayload {
+            return node.payloadFrom(object: object, method: method)
         }
         
-        func defaultImplementation(_ node: Node, _ object: ParameterConvertible, _ method: ResourceHTTPMethod) -> [String : String] {
-            return Dflt.parametersFrom(node: node, object: object, method: method) as! [String : String]
+        func defaultImplementation(_ node: Node, _ object: RequestPayloadConvertible, _ method: ResourceHTTPMethod) -> RequestPayload {
+            return Dflt.payloadFrom(node: node, object: object, method: method)
         }
         
         let node: Node = MockNode()
-        let objectsAndExpectedParametersForMethod: [(ParameterConvertible, (ResourceHTTPMethod) -> [String : String])] = (1..<100)
+        let objectsAndExpectedPayloadForMethod: [(RequestPayloadConvertible, (ResourceHTTPMethod) -> RequestPayload)] = (1..<100)
             .map({ MockListPostable(name: "\($0)") })
-            .map({ object in (object, { object.toParameters(for: $0) as! [String : String] }) })
+            .map({ object in (object, { object.toPayload(for: $0) }) })
         
-        objectsAndExpectedParametersForMethod.forEach({ objectAndExpectedParametersForMethod in
-            let (object, expectedParametersForMethod) = objectAndExpectedParametersForMethod
+        objectsAndExpectedPayloadForMethod.forEach({ objectAndExpectedPayloadForMethod in
+            let (object, expectedPayloadForMethod) = objectAndExpectedPayloadForMethod
             ResourceHTTPMethod.all.forEach({ method in
-                let expectedParameters: [String : String] = expectedParametersForMethod(method)
+                let expectedPayload: RequestPayload = expectedPayloadForMethod(method)
                 [nodeImplementation, defaultImplementation].map({
                     $0(node, object, method)
                 }).forEach({
-                    XCTAssertEqual($0, expectedParameters)
+                    XCTAssertEqual($0, expectedPayload)
                 })
             })
         })
     }
     
     func testParametersFromListPostables() {
-        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> [String : [[String : String]]] where C.Element: ListPostable {
-            return node.parametersFrom(listPostables: listPostables) as! [String : [[String : String]]]
+        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> RequestPayload where C.Element: ListPostable {
+            return node.payloadFrom(listPostables: listPostables)
         }
         
-        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> [String : [[String : String]]] where C.Element: ListPostable {
-            return Dflt.parametersFrom(node: node, listPostables: listPostables) as! [String : [[String : String]]]
+        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> RequestPayload where C.Element: ListPostable {
+            return Dflt.payloadFrom(node: node, listPostables: listPostables)
         }
         
         let node: Node = MockNode()
         let objects: [MockListPostable] = (0..<100).map({ MockListPostable(name: "\($0)") })
-        let expectedParameters: [String : [[String : String]]] = [
-            ListRequestKeys.objects: objects.map({ $0.toParameters(for: .post) as! [String : String] })
-        ]
+        let expectedPayload: RequestPayload = .nested(ListRequestKeys.objects, objects.map({ $0.toPayload(for: .post) }))
         
         [nodeImplementation, defaultImplementation].map({
             $0(node, objects)
         }).forEach({
-            XCTAssertEqual($0, expectedParameters)
+            XCTAssertEqual($0, expectedPayload)
         })
     }
     
