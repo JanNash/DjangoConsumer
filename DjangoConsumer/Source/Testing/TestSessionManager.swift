@@ -42,12 +42,12 @@ public class TestSessionManager {
 
 // MARK: SessionManagerType
 extension TestSessionManager: SessionManagerType {
-    public func createRequest(with cfg: GETRequestConfiguration) -> DataRequest {
-        return self._AF_sessionManager.createRequest(with: cfg)
+    public func createRequest(with cfg: POSTRequestConfiguration, completion: (RequestCreationResult) -> Void) {
+        self._AF_sessionManager.createRequest(with: cfg, completion: completion)
     }
     
-    public func createRequest(with cfg: POSTRequestConfiguration) -> DataRequest {
-        return self._AF_sessionManager.createRequest(with: cfg)
+    public func createRequest(with cfg: GETRequestConfiguration, completion: (RequestCreationResult) -> Void) {
+        self._AF_sessionManager.createRequest(with: cfg, completion: completion)
     }
     
     public func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling) {
