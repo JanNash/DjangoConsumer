@@ -43,15 +43,15 @@ private extension Alamofire.SessionManager {
         let payload: UnwrappedRequestPayload = cfg.payload.unwrap()
         
         switch payload {
-        case .json(let payloadValue):
+        case .parameters(let payloadValue):
             completion(.created(
-                self.request(cfg.url, method: .post, parameters: payloadValue.unwrap(), encoding: cfg.encoding, headers: cfg.headers)
+                self.request(cfg.url, method: .post, parameters: payloadValue, encoding: cfg.encoding, headers: cfg.headers)
                     .validate(statusCode: cfg.acceptableStatusCodes)
                     .validate(contentType: cfg.acceptableContentTypes)
                 ))
         case .multipart(let payloadValue):
             self.upload(multipartFormData: { multipartFormData in
-                payloadValue.forEach({ multipartFormData.append($0.value, withName: $0.key) })
+                payloadValue.forEach({ multipartFormData.append($0.value.0, withName: $0.key, mimeType: $0.value.1.rawValue) })
             }, to: cfg.url, method: .post, headers: cfg.headers, encodingCompletion: {
                 switch $0 {
                 case .success(request: let request, streamingFromDisk: _, streamFileURL: _):

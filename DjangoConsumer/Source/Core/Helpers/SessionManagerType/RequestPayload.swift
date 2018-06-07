@@ -10,9 +10,31 @@
 //
 
 import Foundation
+import Alamofire
 
 
 // MARK: // Public
+// MARK: -
+public typealias MultipartDict = [String: (Data, MimeType)]
+
+
+// MARK: -
+public enum UnwrappedRequestPayload {
+    case parameters(Parameters)
+    case multipart(MultipartDict)
+}
+
+
+// MARK: -
+extension RequestPayload {
+    public typealias UnwrappingStrategy = (RequestPayload)
+    
+    func unwrap() -> UnwrappedRequestPayload {
+        return self._unwrap()
+    }
+}
+
+
 // MARK: -
 public indirect enum RequestPayload: Equatable {
     case json(JSONDict)
@@ -23,7 +45,101 @@ public indirect enum RequestPayload: Equatable {
 
 // MARK: - Array where Element == (String, RequestPayload)
 extension Array where Element == (String, RequestPayload) {
-    public static func == (lhs: [Element], rhs: [Element]) -> Bool {
+    public static func == (_ lhs: [Element], _ rhs: [Element]) -> Bool {
+        return self._equals(lhs, rhs)
+    }
+}
+
+
+// MARK: -
+extension FormData {
+    public func unwrap() -> [String: Data] {
+        return self._unwrap()
+    }
+}
+
+
+// MARK: -
+//extension Collection where Element == FormData {
+//    public func unwrap() -> [String: Data] {
+//        return self.map({ $0.unwrap() })
+//    }
+//}
+
+
+// MARK: -
+public enum FormData: Equatable {
+    case json(JSONDict)
+    case image(key: String, image: UIImage, mimeType: MimeType.Image)
+    case nested([(String, RequestPayload)])
+    
+    public static func == (lhs: FormData, rhs: FormData) -> Bool {
+        return self._equals(lhs, rhs)
+    }
+}
+
+
+// MARK: -
+public enum MimeType: String {
+    case applicationJSON = "application/json"
+    case imageJPEG = "image/jpeg"
+    case imagePNG = "image/png"
+    
+    public enum Application: Equatable {
+        case json
+    }
+    
+    public enum Image: Equatable {
+        case jpeg(compressionQuality: CGFloat)
+        case png
+    }
+}
+
+
+// MARK: // Private
+// MARK: -
+private extension RequestPayload {
+    func _unwrap() -> UnwrappedRequestPayload {
+        var resultParameters: Parameters = [:]
+        var resultMultipart: MultipartDict = [:]
+        
+        switch self {
+        case .json(let jsonDict):
+            return .parameters(jsonDict.unwrap())
+        case .multipart(let formDataArray):
+            formDataArray.forEach({
+                switch $0 {
+                case .json(let jsonDict):
+                    let unwrappedJSONDict: [String: Any] = jsonDict.unwrap()
+                    resultParameters.merge(unwrappedJSONDict, uniquingKeysWith: { _, r in r })
+                    
+                case .image(key: let key, image: let image, mimeType: let mimeType):
+                    switch mimeType {
+                    case .jpeg(compressionQuality: let compressionQuality):
+                        resultMultipart[key] = (UIImageJPEGRepresentation(image, compressionQuality)!, .imageJPEG)
+                    case .png:
+                        resultMultipart[key] = (UIImagePNGRepresentation(image)!, .imagePNG)
+                    }
+                case .nested(_/*let keyedPayloadArray*/):
+                    break
+                }
+            })
+        case .nested(_, _/*let key, let payload*/):
+            break
+        }
+        
+        if resultMultipart.isEmpty {
+            return .parameters(resultParameters)
+        }
+        
+        return .multipart(resultMultipart)
+    }
+}
+
+
+// MARK: - Array where Element == (String, RequestPayload)
+private extension Array where Element == (String, RequestPayload) {
+    static func _equals(_ lhs: [Element], _ rhs: [Element]) -> Bool {
         guard lhs.count == rhs.count else { return false }
         for (i, lElement) in lhs.enumerated() {
             guard lElement == rhs[i] else {
@@ -36,12 +152,8 @@ extension Array where Element == (String, RequestPayload) {
 
 
 // MARK: -
-public enum FormData: Equatable {
-    case json(JSONDict)
-    case image(key: String, image: UIImage, mimeType: MimeType.Image)
-    case nested([(String, RequestPayload)])
-    
-    public static func == (lhs: FormData, rhs: FormData) -> Bool {
+private extension FormData {
+    static func _equals(_ lhs: FormData, _ rhs: FormData) -> Bool {
         switch (lhs, rhs) {
         case (.json(let l), .json(let r)):      return l == r
         case (.image(let l), .image(let r)):    return l == r
@@ -49,17 +161,45 @@ public enum FormData: Equatable {
         default:                                return false
         }
     }
-}
-
-
-// MARK: -
-public enum MimeType {
-    public enum Application: Equatable {
-        case json
+    
+    func _unwrap() -> [String: Data] {
+//        switch formData {
+//        case .json(let value):
+//            result.merge(value.unwrap(), uniquingKeysWith: { _, r in r })
+//        case .image(key: let key, image: let image, mimeType: let mimeType):
+//            result[key] = {
+//                switch mimeType {
+//                case .jpeg(let compressionQuality):
+//                    return UIImageJPEGRepresentation(image, compressionQuality)
+//                case .png:
+//                    return UIImagePNGRepresentation(image)
+//                }
+//            }()
+//        case .nested(let value):
+//            result.merge(value.mapToDict({ parsePayload($0) }), uniquingKeysWith: { _, r in r})
+//        }
+        return [:]
     }
     
-    public enum Image: Equatable {
-        case jpeg
-        case png
-    }
+    //    public func parseMultipart(_ formData: [FormData]) -> Parameters {
+    //        var result: Parameters = [:]
+    //        for fd in formData {
+    //            switch fd {
+    //            case .json(let value):
+    //                result.merge(value.unwrap(), uniquingKeysWith: { _, r in r })
+    //            case .image(key: let key, image: let image, mimeType: let mimeType):
+    //                result[key] = {
+    //                    switch mimeType {
+    //                    case .jpeg(let compressionQuality):
+    //                        return UIImageJPEGRepresentation(image, compressionQuality)
+    //                    case .png:
+    //                        return UIImagePNGRepresentation(image)
+    //                    }
+    //                }()
+    //            case .nested(let value):
+    //                result.merge(value.mapToDict({ parsePayload($0) }), uniquingKeysWith: { _, r in r})
+    //            }
+    //        }
+    //        return result
+    //    }
 }
