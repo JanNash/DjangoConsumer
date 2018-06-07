@@ -165,34 +165,35 @@ private extension RequestPayload {
             resultMultipart.merge(multipartDict, uniquingKeysWith: { _, r in r })
         }
         
-        func _unwrap(_ requestPayload: RequestPayload) -> UnwrappedRequestPayload {
+        func mergeFormData(_ formDataArray: [FormData], prefixKey: String?) {
+            formDataArray.forEach({
+                switch $0 {
+                case .json(let jsonDict):
+                    mergeParameters(jsonDict.unwrap())
+                    if let dict: MultipartDict = convertJSONDictToMultipartDict(jsonDict, prefixKey: prefixKey) {
+                        mergeMultipart(dict)
+                    }
+                case .image(let key, let image, let mimeType):
+                    resultMultipart[key] = encodeImage(image, mimeType: mimeType)
+                case .nested(let keyedPayloadArray):
+                    keyedPayloadArray.forEach({ _merge($0.1, prefixKey: $0.0) })
+                }
+            })
+        }
+        
+        func _merge(_ requestPayload: RequestPayload, prefixKey: String?) {
             switch requestPayload {
             case .json(let jsonDict):
-                return .parameters(jsonDict.unwrap())
+                let unwrappedDict: Parameters = jsonDict.unwrap()
+                if let prefixKey: String = prefixKey {
+                    mergeParameters([prefixKey: unwrappedDict])
+                } else {
+                    mergeParameters(unwrappedDict)
+                }
             case .multipart(let formDataArray):
-                formDataArray.forEach({
-                    switch $0 {
-                    case .json(let jsonDict):
-                        mergeParameters(jsonDict.unwrap())
-                        if let dict: MultipartDict = convertJSONDictToMultipartDict(jsonDict, prefixKey: nil) {
-                            mergeMultipart(dict)
-                        }
-                    case .image(let key, let image, let mimeType):
-                        resultMultipart[key] = encodeImage(image, mimeType: mimeType)
-                    case .nested(let keyedPayloadArray):
-                        keyedPayloadArray.forEach({
-                            switch $0.1 {
-                            case .
-                                resultParameters[$0.0] = value.unwrap()
-                            case .multipart(let value):
-                                resultMultipart[$0.0] =
-                            }
-                        })
-                        break
-                    }
-                })
-            case .nested(_, _/*let key, let payload*/):
-                break
+                mergeFormData(formDataArray, prefixKey: prefixKey)
+            case .nested(let key, let payloads):
+                payloads.forEach({ _merge($0, prefixKey: key) })
             }
         }
         
