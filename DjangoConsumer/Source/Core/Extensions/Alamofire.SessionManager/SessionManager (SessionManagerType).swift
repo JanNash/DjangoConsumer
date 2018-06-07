@@ -40,11 +40,18 @@ private extension Alamofire.SessionManager {
     }
     
     func _createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
-        let (isMultipart, parameters): (Bool, [String: Data]) = cfg.payload.unwrap()
+        let payload: UnwrappedRequestPayload = cfg.payload.unwrap()
         
-        if isMultipart {
+        switch payload {
+        case .json(let payloadValue):
+            completion(.created(
+                self.request(cfg.url, method: .post, parameters: payloadValue.unwrap(), encoding: cfg.encoding, headers: cfg.headers)
+                    .validate(statusCode: cfg.acceptableStatusCodes)
+                    .validate(contentType: cfg.acceptableContentTypes)
+                ))
+        case .multipart(let payloadValue):
             self.upload(multipartFormData: { multipartFormData in
-                parameters.forEach({ multipartFormData.append($0.value, withName: $0.key) })
+                payloadValue.forEach({ multipartFormData.append($0.value, withName: $0.key) })
             }, to: cfg.url, method: .post, headers: cfg.headers, encodingCompletion: {
                 switch $0 {
                 case .success(request: let request, streamingFromDisk: _, streamFileURL: _):
@@ -53,12 +60,6 @@ private extension Alamofire.SessionManager {
                     completion(.failed(error))
                 }
             })
-        } else {
-            completion(.created(
-                self.request(cfg.url, method: .post, parameters: parameters, encoding: cfg.encoding, headers: cfg.headers)
-                    .validate(statusCode: cfg.acceptableStatusCodes)
-                    .validate(contentType: cfg.acceptableContentTypes)
-            ))
         }
     }
 }
