@@ -149,10 +149,32 @@ private extension RequestPayload {
     }
     
     func _convertJSONArrayToMultipartDict(_ jsonArray: [JSONValue], prefixKey: String) -> MultipartDict {
-        return jsonArray
-            .map({ $0.toData() })
-            .enumerated()
-            .mapToDict({ (self._encodeIndexedKey(key: prefixKey, index: $0.offset), ($0.element, .applicationJSON)) })
+        var result: MultipartDict = [:]
+        
+        jsonArray.enumerated().forEach({
+            let innerPrefixKey: String = self._encodeIndexedKey(key: prefixKey, index: $0.offset)
+            let value: JSONValue = $0.element
+            switch value.typedValue {
+            case .dict(let dict):
+                if let dict: JSONDict = dict {
+                    let multipart: MultipartDict = self._convertJSONDictToMultipartDict(dict, prefixKey: innerPrefixKey)
+                    self._mergeMultipart(multipart, toMultipart: &result)
+                } else {
+                    result[innerPrefixKey] = (jsonNullData, .applicationJSON)
+                }
+            case .array(let array):
+                if let array: [JSONValue] = array {
+                    let multipart: MultipartDict = self._convertJSONArrayToMultipartDict(array, prefixKey: innerPrefixKey)
+                    self._mergeMultipart(multipart, toMultipart: &result)
+                } else {
+                    result[innerPrefixKey] = (jsonNullData, .applicationJSON)
+                }
+            default:
+                result[innerPrefixKey] = (value.toData(), .applicationJSON)
+            }
+        })
+        
+        return result
     }
     
     func _mergeParameters(_ parameters: Parameters, prefixKey: String?, toParameters resultParameters: inout Parameters) {
