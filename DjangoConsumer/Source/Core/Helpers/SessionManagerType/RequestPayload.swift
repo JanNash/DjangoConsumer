@@ -97,105 +97,110 @@ public enum MimeType: String {
 
 
 // MARK: // Private
+private let jsonNullData: Data = try! JSONSerialization.data(withJSONObject: NSNull())
+
 // MARK: -
 private extension RequestPayload {
-    func _unwrap() -> UnwrappedRequestPayload {
-        func encodeIndexedKey(key: String, index: Int) -> String {
-            return key + "[\(index)]"
+    func _encodeIndexedKey(key: String, index: Int) -> String {
+        return key + "[\(index)]"
+    }
+    
+    func _encodeNestedKeys(outerKey: String?, innerKey: String) -> String {
+        guard let outerKey: String = outerKey else { return innerKey }
+        return outerKey + "." + innerKey
+    }
+    
+    func _encodeImage(_ image: UIImage, mimeType: MimeType.Image) -> (Data, MimeType) {
+        switch mimeType {
+        case .jpeg(let compressionQuality):
+            return (UIImageJPEGRepresentation(image, compressionQuality)!, .imageJPEG)
+        case .png:
+            return (UIImagePNGRepresentation(image)!, .imagePNG)
         }
+    }
+    
+    func _convertJSONDictToMultipartDict(_ jsonDict: JSONDict, prefixKey: String?) -> MultipartDict {
+        var result: MultipartDict = [:]
         
-        func encodeNestedKeys(outerKey: String?, innerKey: String) -> String {
-            guard let outerKey: String = outerKey else { return innerKey }
-            return outerKey + "." + innerKey
-        }
-        
-        func encodeImage(_ image: UIImage, mimeType: MimeType.Image) -> (Data, MimeType) {
-            switch mimeType {
-            case .jpeg(let compressionQuality):
-                return (UIImageJPEGRepresentation(image, compressionQuality)!, .imageJPEG)
-            case .png:
-                return (UIImagePNGRepresentation(image)!, .imagePNG)
-            }
-        }
-        
-        let jsonNullData: Data = try! JSONSerialization.data(withJSONObject: NSNull())
-        
-        func convertJSONDictToMultipartDict(_ jsonDict: JSONDict?, prefixKey: String?) -> MultipartDict? {
-            guard let jsonDict: JSONDict = jsonDict else { return nil }
+        jsonDict.dict.forEach({ key, value in
+            let innerPrefixKey: String = _encodeNestedKeys(outerKey: prefixKey, innerKey: key)
             
-            var result: MultipartDict = [:]
-            jsonDict.dict.forEach({ key, value in
-                let innerPrefixKey: String = encodeNestedKeys(outerKey: prefixKey, innerKey: key)
-                
-                switch value.typedValue {
-                case .dict(let dict):
-                    if let innerDict: MultipartDict = convertJSONDictToMultipartDict(dict, prefixKey: innerPrefixKey) {
-                        result.merge(innerDict, uniquingKeysWith: { _, r in r })
-                    } else {
-                        result[innerPrefixKey] = (jsonNullData, .applicationJSON)
-                    }
-                case .array(let array):
-                    if let innerDict: MultipartDict = convertJSONArrayToMultipartDict(array, prefixKey: innerPrefixKey) {
-                        result.merge(innerDict, uniquingKeysWith: { _, r in r })
-                    } else {
-                        result[innerPrefixKey] = (jsonNullData, .applicationJSON)
-                    }
-                default:
-                    result[innerPrefixKey] = (value.toData(), .applicationJSON)
+            switch value.typedValue {
+            case .dict(let dict):
+                if let dict: JSONDict = dict {
+                    let multipart: MultipartDict = self._convertJSONDictToMultipartDict(dict, prefixKey: innerPrefixKey)
+                    self._mergeMultipart(multipart, toMultipart: &result)
+                } else {
+                    result[innerPrefixKey] = (jsonNullData, .applicationJSON)
                 }
+            case .array(let array):
+                if let array: [JSONValue] = array {
+                    let multipart: MultipartDict = self._convertJSONArrayToMultipartDict(array, prefixKey: innerPrefixKey)
+                    self._mergeMultipart(multipart, toMultipart: &result)
+                } else {
+                    result[innerPrefixKey] = (jsonNullData, .applicationJSON)
+                }
+            default:
+                result[innerPrefixKey] = (value.toData(), .applicationJSON)
+            }
+        })
+        
+        return result
+    }
+    
+    func _convertJSONArrayToMultipartDict(_ jsonArray: [JSONValue], prefixKey: String) -> MultipartDict {
+        return jsonArray
+            .map({ $0.toData() })
+            .enumerated()
+            .mapToDict({ (self._encodeIndexedKey(key: prefixKey, index: $0.offset), ($0.element, .applicationJSON)) })
+    }
+    
+    func _mergeParameters(_ parameters: Parameters, prefixKey: String?, toParameters resultParameters: inout Parameters) {
+        if let key: String = prefixKey {
+            resultParameters[key] = parameters
+        } else {
+            resultParameters.merge(parameters, uniquingKeysWith: { _, r in r })
+        }
+    }
+    
+    func _mergeMultipart(_ multipartDict: MultipartDict, toMultipart resultMultipart: inout MultipartDict) {
+        resultMultipart.merge(multipartDict, uniquingKeysWith: { _, r in r })
+    }
+    
+    func _mergeFormData(_ formData: FormData, prefixKey: String?, toParameters parameters: inout Parameters, toMultipart multipart: inout MultipartDict) {
+        switch formData {
+        case .json(let jsonDict):
+            self._mergeParameters(jsonDict.unwrap(), prefixKey: prefixKey, toParameters: &parameters)
+            self._mergeMultipart(self._convertJSONDictToMultipartDict(jsonDict, prefixKey: prefixKey), toMultipart: &multipart)
+        case .image(let key, let image, let mimeType):
+            multipart[key] = _encodeImage(image, mimeType: mimeType)
+        case .nested(let keyedPayloadArray):
+            keyedPayloadArray.forEach({
+                let innerPrefixKey: String = self._encodeNestedKeys(outerKey: prefixKey, innerKey: $0.0)
+                self._mergeRequestPayload($0.1, prefixKey: innerPrefixKey, toParameters: &parameters, toMultipart: &multipart)
             })
-            return result
         }
-        
-        func convertJSONArrayToMultipartDict(_ jsonArray: [JSONValue]?, prefixKey: String) -> MultipartDict? {
-            return jsonArray?
-                .map({ $0.toData() })
-                .enumerated()
-                .mapToDict({ (encodeIndexedKey(key: prefixKey, index: $0.offset), ($0.element, .applicationJSON)) })
+    }
+    
+    func _mergeRequestPayload(_ requestPayload: RequestPayload, prefixKey: String?, toParameters parameters: inout Parameters, toMultipart multipart: inout MultipartDict) {
+        switch requestPayload {
+        case .json(let jsonDict):
+            self._mergeParameters(jsonDict.unwrap(), prefixKey: prefixKey, toParameters: &parameters)
+        case .multipart(let formDataArray):
+            formDataArray.forEach({ self._mergeFormData($0, prefixKey: prefixKey, toParameters: &parameters, toMultipart: &multipart) })
+        case .nested(let key, let payloads):
+            let innerPrefixKey: String = self._encodeNestedKeys(outerKey: prefixKey, innerKey: key)
+            payloads.forEach({
+                self._mergeRequestPayload($0, prefixKey: innerPrefixKey, toParameters: &parameters, toMultipart: &multipart)
+            })
         }
-        
+    }
+    
+    func _unwrap() -> UnwrappedRequestPayload {
         var resultParameters: Parameters = [:]
         var resultMultipart: MultipartDict = [:]
         
-        func mergeParameters(_ parameters: Parameters) {
-            resultParameters.merge(parameters, uniquingKeysWith: { _, r in r })
-        }
-        
-        func mergeMultipart(_ multipartDict: MultipartDict) {
-            resultMultipart.merge(multipartDict, uniquingKeysWith: { _, r in r })
-        }
-        
-        func mergeFormData(_ formDataArray: [FormData], prefixKey: String?) {
-            formDataArray.forEach({
-                switch $0 {
-                case .json(let jsonDict):
-                    mergeParameters(jsonDict.unwrap())
-                    if let dict: MultipartDict = convertJSONDictToMultipartDict(jsonDict, prefixKey: prefixKey) {
-                        mergeMultipart(dict)
-                    }
-                case .image(let key, let image, let mimeType):
-                    resultMultipart[key] = encodeImage(image, mimeType: mimeType)
-                case .nested(let keyedPayloadArray):
-                    keyedPayloadArray.forEach({ _merge($0.1, prefixKey: $0.0) })
-                }
-            })
-        }
-        
-        func _merge(_ requestPayload: RequestPayload, prefixKey: String?) {
-            switch requestPayload {
-            case .json(let jsonDict):
-                let unwrappedDict: Parameters = jsonDict.unwrap()
-                if let prefixKey: String = prefixKey {
-                    mergeParameters([prefixKey: unwrappedDict])
-                } else {
-                    mergeParameters(unwrappedDict)
-                }
-            case .multipart(let formDataArray):
-                mergeFormData(formDataArray, prefixKey: prefixKey)
-            case .nested(let key, let payloads):
-                payloads.forEach({ _merge($0, prefixKey: key) })
-            }
-        }
+        self._mergeRequestPayload(self, prefixKey: nil, toParameters: &resultParameters, toMultipart: &resultMultipart)
         
         return resultMultipart.isEmpty ? .parameters(resultParameters) : .multipart(resultMultipart)
     }
