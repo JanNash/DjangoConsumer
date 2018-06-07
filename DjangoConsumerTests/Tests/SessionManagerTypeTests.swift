@@ -16,12 +16,12 @@ import DjangoConsumer
 
 
 // MARK: // Private
-private let _failingRequestConfig: RequestConfiguration = {
-    RequestConfiguration(url: URL(string: "http://example.com")!, method: .get, encoding: URLEncoding.default)
+private let _failingRequestConfig: GETRequestConfiguration = {
+    GETRequestConfiguration(url: URL(string: "http://example.com")!, encoding: URLEncoding.default)
 }()
 
-private let _succeedingRequestConfig: RequestConfiguration = {
-    RequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, method: .get, encoding: URLEncoding.default)
+private let _succeedingRequestConfig: GETRequestConfiguration = {
+    GETRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, encoding: URLEncoding.default)
 }()
 
 private enum _TestError: Error { case foo }
@@ -36,9 +36,14 @@ class SessionManagerTypeTests: BaseTest {
         
         private var _AF_sessionManager: SessionManager = SessionManager()
         
-        func request(with cfg: RequestConfiguration) -> DataRequest {
+        func createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
             self.requestWithCFGCalled?()
-            return self._AF_sessionManager.request(with: cfg)
+            self._AF_sessionManager.createRequest(with: cfg, completion: completion)
+        }
+        
+        func createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
+            self.requestWithCFGCalled?()
+            self._AF_sessionManager.createRequest(with: cfg, completion: completion)
         }
         
         func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling) {
@@ -169,9 +174,15 @@ class TestSessionDelegateTests: BaseTest {
         }
         
         let fakeTask: URLSessionTask = URLSessionTask()
-        let fakeRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
-        
-        sessionDelegate[fakeTask] = fakeRequest
+        sessionManager.createRequest(with: _failingRequestConfig) {
+            switch $0 {
+            case .failed(let error):
+                XCTFail("Request creation failed with error \(error)")
+            case .created(let request):
+                sessionDelegate[fakeTask] = request
+            }
+            
+        }
         
         self.waitForExpectations(timeout: 10)
     }
@@ -180,12 +191,23 @@ class TestSessionDelegateTests: BaseTest {
         let sessionManager: SessionManagerType = SessionManager()
         let sessionDelegate: TestSessionDelegate = TestSessionDelegate()
         
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected sessionManager.createRequest completion to be called"
+        )
+        
         let fakeTask: URLSessionTask = URLSessionTask()
-        let fakeRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
+        sessionManager.createRequest(with: _failingRequestConfig) {
+            switch $0 {
+            case .failed(let error):
+                XCTFail("Request creation failed with error \(error)")
+            case .created(let request):
+                sessionDelegate[fakeTask] = request
+                XCTAssertNil(sessionDelegate[fakeTask])
+            }
+            expectation.fulfill()
+        }
         
-        sessionDelegate[fakeTask] = fakeRequest
-        
-        XCTAssertNil(sessionDelegate[fakeTask])
+        self.waitForExpectations(timeout: 10)
     }
 }
 
@@ -206,47 +228,58 @@ class TestSessionManagerTests: BaseTest {
             expectation.fulfill()
         }
         
-        let expectedRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
+        sessionManager.createRequest(with: _failingRequestConfig) {
+            switch $0 {
+            case .failed(let error):
+                XCTFail("Request creation failed with error \(error)")
+            case .created(let request):
+                XCTAssert(request === receivedRequest)
+            }
+        }
         
-        self.waitForExpectations(timeout: 01, handler: { _ in
-            XCTAssert(receivedRequest === expectedRequest)
-        })
+        self.waitForExpectations(timeout: 10)
     }
     
     func testTestSessionManagerHandleJSONResponse() {
         let sessionManager: TestSessionManager = TestSessionManager()
-        
+
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected sessionManager.testDelegate.mockJSONResponse to be called"
         )
-        
-        let expectedRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
-        
-        // This funny pattern is used because functions can't be tested for equality
-        // and JSONResponseHandling is a struct, so it's quite impossible to make
-        // it conform to Equatable, which is fine, because I deem it also quite unnecessary.
-        var onSuccessCalled: Bool = false
-        var onFailureCalled: Bool = false
-        
-        let responseHandling: JSONResponseHandling = JSONResponseHandling(
-            onSuccess: { _ in onSuccessCalled = true },
-            onFailure: { _ in onFailureCalled = true }
-        )
-        
-        sessionManager.testDelegate.mockJSONResponse = { req, resp in
-            XCTAssert(req === expectedRequest)
-            
-            resp.onSuccess(JSON())
-            XCTAssertTrue(onSuccessCalled)
-            
-            resp.onFailure(_TestError.foo)
-            XCTAssertTrue(onFailureCalled)
-            
-            expectation.fulfill()
+
+        sessionManager.createRequest(with: _failingRequestConfig) {
+            switch $0 {
+            case .failed(let error):
+                XCTFail("Request creation failed with error \(error)")
+            case .created(let request):
+                // This funny pattern is used because functions can't be tested for equality
+                // and JSONResponseHandling is a struct, so it's quite impossible to make
+                // it conform to Equatable, which is fine, because I deem it also quite unnecessary.
+                
+                var onSuccessCalled: Bool = false
+                var onFailureCalled: Bool = false
+
+                let responseHandling: JSONResponseHandling = JSONResponseHandling(
+                    onSuccess: { _ in onSuccessCalled = true },
+                    onFailure: { _ in onFailureCalled = true }
+                )
+
+                sessionManager.testDelegate.mockJSONResponse = { req, resp in
+                    XCTAssert(req === request)
+
+                    resp.onSuccess(JSON())
+                    XCTAssertTrue(onSuccessCalled)
+
+                    resp.onFailure(_TestError.foo)
+                    XCTAssertTrue(onFailureCalled)
+
+                    expectation.fulfill()
+                }
+
+                sessionManager.handleJSONResponse(for: request, with: responseHandling)
+            }
         }
-        
-        sessionManager.handleJSONResponse(for: expectedRequest, with: responseHandling)
-        
+            
         self.waitForExpectations(timeout: 10)
     }
 }
