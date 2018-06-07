@@ -52,6 +52,10 @@ public extension JSONValue {
     public static func dict(_ jsonConvertible: JSONConvertible?) -> JSONValue {
         return ._dict(jsonConvertible)
     }
+    
+    public func toData() -> Data {
+        return try! JSONSerialization.data(withJSONObject: JSONValue.unwrap(self))
+    }
 }
 
 
