@@ -51,7 +51,16 @@ private extension Alamofire.SessionManager {
                 ))
         case .multipart(let payloadValue):
             self.upload(multipartFormData: { multipartFormData in
-                payloadValue.forEach({ multipartFormData.append($0.value.0, withName: $0.key, mimeType: $0.value.1.rawValue) })
+                // ???: Is it possible to encode a whole JSON object (i.e. dictionary) into one body part?
+                // ???: Is this hack correct or should we pass in application/json as mimeType for single jsonValues?
+                payloadValue.forEach({
+                    switch $0.value.1 {
+                    case .applicationJSON:
+                        multipartFormData.append($0.value.0, withName: $0.key)
+                    default:
+                        multipartFormData.append($0.value.0, withName: $0.key, mimeType: $0.value.1.rawValue)
+                    }
+                })
             }, to: cfg.url, method: .post, headers: cfg.headers, encodingCompletion: {
                 switch $0 {
                 case .success(request: let request, streamingFromDisk: _, streamFileURL: _):
