@@ -43,17 +43,17 @@ private extension Alamofire.SessionManager {
         let payload: UnwrappedRequestPayload = cfg.payload.unwrap()
         
         switch payload {
-        case .parameters(let payloadValue):
+        case .parameters(let parameters):
             completion(.created(
-                self.request(cfg.url, method: .post, parameters: payloadValue, encoding: cfg.encoding, headers: cfg.headers)
+                self.request(cfg.url, method: .post, parameters: parameters, encoding: cfg.encoding, headers: cfg.headers)
                     .validate(statusCode: cfg.acceptableStatusCodes)
                     .validate(contentType: cfg.acceptableContentTypes)
                 ))
-        case .multipart(let payloadValue):
+        case .multipart(let multipartDictionary):
             self.upload(multipartFormData: { multipartFormData in
                 // ???: Is it possible to encode a whole JSON object (i.e. dictionary) into one body part?
                 // ???: Is this hack correct or should we pass in application/json as mimeType for single jsonValues?
-                payloadValue.forEach({
+                multipartDictionary.forEach({
                     switch $0.value.1 {
                     case .applicationJSON:
                         multipartFormData.append($0.value.0, withName: $0.key)
