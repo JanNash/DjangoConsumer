@@ -105,13 +105,15 @@ private func += <K, V>(_ lhs: inout Dictionary<K, V>, _ rhs: Dictionary<K, V>) {
 
 // MARK: -
 private extension RequestPayload {
-    func _encodeIndexedKey(key: String, index: Int) -> String {
-        return key + "[\(index)]"
+    func _encodeIndexedKey(outerKey: String) -> (Int) -> String {
+        return { outerKey + "[\($0)]" }
     }
     
-    func _encodeNestedKeys(outerKey: String?, innerKey: String) -> String {
-        guard let outerKey: String = outerKey else { return innerKey }
-        return outerKey + "." + innerKey
+    func _encodeNestedKeys(outerKey: String?) -> (String) -> String {
+        return { innerKey in
+            guard let outerKey: String = outerKey else { return innerKey }
+            return outerKey + "." + innerKey
+        }
     }
     
     func _encodeImage(_ image: UIImage, mimeType: MimeType.Image) -> (Data, MimeType) {
@@ -142,32 +144,24 @@ private extension RequestPayload {
         }
     }
     
-    func _multipartDict(from jsonDict: JSONDict, outerKey: String?) -> MultipartDict {
+    func _multipartDict<Key>(from array: [(Key, JSONValue)], concatenateKeys: (Key) -> String) -> MultipartDict {
         var result: MultipartDict = [:]
-        
-        jsonDict.dict.forEach({ key, value in
-            self._mergeJSONValue(
-                value,
-                toMultipart: &result,
-                outerKey: self._encodeNestedKeys(outerKey: outerKey, innerKey: key)
-            )
-        })
-        
+        array.forEach({ self._mergeJSONValue($0.1, toMultipart: &result, outerKey: concatenateKeys($0.0)) })
         return result
     }
     
+    func _multipartDict(from jsonDict: JSONDict, outerKey: String?) -> MultipartDict {
+        return self._multipartDict(
+            from: jsonDict.dict.map({ $0 }),
+            concatenateKeys: self._encodeNestedKeys(outerKey: outerKey)
+        )
+    }
+    
     func _multipartDict(from jsonArray: [JSONValue], outerKey: String) -> MultipartDict {
-        var result: MultipartDict = [:]
-        
-        jsonArray.enumerated().forEach({
-            self._mergeJSONValue(
-                $0.element,
-                toMultipart: &result,
-                outerKey: self._encodeIndexedKey(key: outerKey, index: $0.offset)
-            )
-        })
-        
-        return result
+        return self._multipartDict(
+            from: jsonArray.enumerated().map({ ($0.offset, $0.element) }),
+            concatenateKeys: self._encodeIndexedKey(outerKey: outerKey)
+        )
     }
     
     func _mergeJSONDict(_ jsonDict: JSONDict, outerKey: String?, toParameters parameters: inout Parameters, toMultipart multipart: inout MultipartDict) {
@@ -191,13 +185,14 @@ private extension RequestPayload {
                 toMultipart: &multipart
             )
         case .image(let key, let image, let mimeType):
-            let innerKey: String = self._encodeNestedKeys(outerKey: outerKey, innerKey: key)
-            multipart[innerKey] = self._encodeImage(image, mimeType: mimeType)
+            let concatenateKeys: (String) -> String = self._encodeNestedKeys(outerKey: outerKey)
+            multipart[concatenateKeys(key)] = self._encodeImage(image, mimeType: mimeType)
         case .nested(let keyedPayloadArray):
+            let concatenateKeys: (String) -> String = self._encodeNestedKeys(outerKey: outerKey)
             keyedPayloadArray.forEach({
                 self._mergeRequestPayload(
                     $0.1,
-                    outerKey: self._encodeNestedKeys(outerKey: outerKey, innerKey: $0.0),
+                    outerKey: concatenateKeys($0.0),
                     toParameters: &parameters,
                     toMultipart: &multipart
                 )
@@ -214,7 +209,7 @@ private extension RequestPayload {
                 self._mergeFormData($0, outerKey: outerKey, toParameters: &parameters, toMultipart: &multipart)
             })
         case .nested(let key, let payloads):
-            let innerKey: String = self._encodeNestedKeys(outerKey: outerKey, innerKey: key)
+            let innerKey: String = self._encodeNestedKeys(outerKey: outerKey)(key)
             payloads.forEach({
                 self._mergeRequestPayload($0, outerKey: innerKey, toParameters: &parameters, toMultipart: &multipart)
             })
