@@ -97,7 +97,11 @@ public enum MimeType: String {
 
 
 // MARK: // Private
-private let jsonNullData: Data = try! JSONSerialization.data(withJSONObject: NSNull())
+private let jsonNullData: (Data, MimeType) = ("null".data(using: .utf8)!, .applicationJSON)
+
+private func += <K, V>(_ lhs: inout Dictionary<K, V>, _ rhs: Dictionary<K, V>) {
+    return lhs.merge(rhs, uniquingKeysWith: { _, r in r })
+}
 
 // MARK: -
 private extension RequestPayload {
@@ -123,24 +127,22 @@ private extension RequestPayload {
         switch value.typedValue {
         case .dict(let dict):
             if let dict: JSONDict = dict {
-                let innerMultipart: MultipartDict = self._convertJSONDictToMultipartDict(dict, prefixKey: prefixKey)
-                self._mergeMultipart(innerMultipart, toMultipart: &multipart)
+                multipart += self._multipartDict(from: dict, prefixKey: prefixKey)
             } else {
-                multipart[prefixKey] = (jsonNullData, .applicationJSON)
+                multipart[prefixKey] = jsonNullData
             }
         case .array(let array):
             if let array: [JSONValue] = array {
-                let innerMultipart: MultipartDict = self._convertJSONArrayToMultipartDict(array, prefixKey: prefixKey)
-                self._mergeMultipart(innerMultipart, toMultipart: &multipart)
+                multipart += self._multipartDict(from: array, prefixKey: prefixKey)
             } else {
-                multipart[prefixKey] = (jsonNullData, .applicationJSON)
+                multipart[prefixKey] = jsonNullData
             }
         default:
             multipart[prefixKey] = (value.toData(), .applicationJSON)
         }
     }
     
-    func _convertJSONDictToMultipartDict(_ jsonDict: JSONDict, prefixKey: String?) -> MultipartDict {
+    func _multipartDict(from jsonDict: JSONDict, prefixKey: String?) -> MultipartDict {
         var result: MultipartDict = [:]
         
         jsonDict.dict.forEach({ key, value in
@@ -151,7 +153,7 @@ private extension RequestPayload {
         return result
     }
     
-    func _convertJSONArrayToMultipartDict(_ jsonArray: [JSONValue], prefixKey: String) -> MultipartDict {
+    func _multipartDict(from jsonArray: [JSONValue], prefixKey: String) -> MultipartDict {
         var result: MultipartDict = [:]
         
         jsonArray.enumerated().forEach({
@@ -162,21 +164,15 @@ private extension RequestPayload {
         return result
     }
     
-    func _mergeParameters(_ parameters: Parameters, prefixKey: String?, toParameters resultParameters: inout Parameters) {
-        if let key: String = prefixKey {
-            resultParameters[key] = parameters
-        } else {
-            resultParameters.merge(parameters, uniquingKeysWith: { _, r in r })
-        }
-    }
-    
-    func _mergeMultipart(_ multipartDict: MultipartDict, toMultipart resultMultipart: inout MultipartDict) {
-        resultMultipart.merge(multipartDict, uniquingKeysWith: { _, r in r })
-    }
-    
     func _mergeJSONDict(_ jsonDict: JSONDict, prefixKey: String?, toParameters parameters: inout Parameters, toMultipart multipart: inout MultipartDict) {
-        self._mergeParameters(jsonDict.unwrap(), prefixKey: prefixKey, toParameters: &parameters)
-        self._mergeMultipart(self._convertJSONDictToMultipartDict(jsonDict, prefixKey: prefixKey), toMultipart: &multipart)
+        let unwrappedJSONDict: Parameters = jsonDict.unwrap()
+        if let key: String = prefixKey {
+            parameters[key] = unwrappedJSONDict
+        } else {
+            parameters += unwrappedJSONDict
+        }
+        
+        multipart += self._multipartDict(from: jsonDict, prefixKey: prefixKey)
     }
     
     func _mergeFormData(_ formData: FormData, prefixKey: String?, toParameters parameters: inout Parameters, toMultipart multipart: inout MultipartDict) {
