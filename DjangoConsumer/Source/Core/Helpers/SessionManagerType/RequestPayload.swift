@@ -187,13 +187,13 @@ private extension RequestPayload {
         case .nested(let keyedPayloadArray):
             let concatenateKeys: (String) -> String = self._encodeNestedKeys(outerKey: outerKey)
             keyedPayloadArray.forEach({
-                self._mergeRequestPayload($0.1, outerKey: concatenateKeys($0.0), to: &parametersAndMultipart)
+                $0.1._merge(to: &parametersAndMultipart, outerKey: concatenateKeys($0.0))
             })
         }
     }
     
-    func _mergeRequestPayload(_ requestPayload: RequestPayload, outerKey: String?, to parametersAndMultipart: inout (Parameters, MultipartDict)) {
-        switch requestPayload {
+    func _merge(to parametersAndMultipart: inout (Parameters, MultipartDict), outerKey: String?) {
+        switch self {
         case .json(let jsonDict):
             self._mergeJSONDict(jsonDict, outerKey: outerKey, to: &parametersAndMultipart)
         case .multipart(let formDataArray):
@@ -203,14 +203,14 @@ private extension RequestPayload {
         case .nested(let key, let payloads):
             let innerKey: String = self._encodeNestedKeys(outerKey: outerKey)(key)
             payloads.forEach({
-                self._mergeRequestPayload($0, outerKey: innerKey, to: &parametersAndMultipart)
+                $0._merge(to: &parametersAndMultipart, outerKey: innerKey)
             })
         }
     }
     
     func _unwrap() -> UnwrappedRequestPayload {
         var result: (Parameters, MultipartDict) = ([:], [:])
-        self._mergeRequestPayload(self, outerKey: nil, to: &result)
+        self._merge(to: &result, outerKey: nil)
         return result.1.isEmpty ? .parameters(result.0) : .multipart(result.1)
     }
 }
