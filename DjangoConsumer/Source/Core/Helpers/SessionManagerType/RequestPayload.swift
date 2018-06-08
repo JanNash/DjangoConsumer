@@ -120,7 +120,7 @@ private extension RequestPayload {
             self._merge(jsonDict, to: &parametersAndMultipart.1, outerKey: outerKey)
         case .multipart(let formDataArray):
             formDataArray.forEach({
-                self._mergeFormData($0, outerKey: outerKey, to: &parametersAndMultipart)
+                self._merge($0, to: &parametersAndMultipart, outerKey: outerKey)
             })
         case .nested(let key, let payloads):
             let innerKey: String = RequestPayload.keyEncodingStrategy.encodeNestedKey(outerKey: outerKey)(key)
@@ -130,14 +130,14 @@ private extension RequestPayload {
         }
     }
     
-    func _mergeFormData(_ formData: FormData, outerKey: String?, to parametersAndMultipart: inout (Parameters, MultipartDict)) {
+    func _merge(_ formData: FormData, to parametersAndMultipart: inout (Parameters, MultipartDict), outerKey: String?) {
         switch formData {
         case .json(let jsonDict):
             self._merge(jsonDict, to: &parametersAndMultipart.0, outerKey: outerKey)
             self._merge(jsonDict, to: &parametersAndMultipart.1, outerKey: outerKey)
         case .image(let key, let image, let mimeType):
-            let concatenateKeys: (String) -> String = RequestPayload.keyEncodingStrategy.encodeNestedKey(outerKey: outerKey)
-            parametersAndMultipart.1[concatenateKeys(key)] = self._encodeImage(image, mimeType: mimeType)
+            let key: String = RequestPayload.keyEncodingStrategy.encodeNestedKey(outerKey: outerKey)(key)
+            parametersAndMultipart.1[key] = self._encodeImage(image, mimeType: mimeType)
         case .nested(let keyedPayloadArray):
             let concatenateKeys: (String) -> String = RequestPayload.keyEncodingStrategy.encodeNestedKey(outerKey: outerKey)
             keyedPayloadArray.forEach({
@@ -182,23 +182,18 @@ private extension RequestPayload {
     }
     
     func _merge<Key, OuterKey>(_ array: [(Key, JSONValue)], to multipart: inout MultipartDict, outerKey: OuterKey, concatenateKeys: (OuterKey) -> (Key) -> String) {
+        func _setNull(_ innerKey: String) -> Void { multipart[innerKey] = jsonNullData }
         array.forEach({
             let innerKey: String = concatenateKeys(outerKey)($0.0)
             switch $0.1.typedValue {
-            case .dict(let dict):
-                if let dict: JSONDict = dict {
-                    self._merge(dict, to: &multipart, outerKey: innerKey)
-                } else {
-                    multipart[innerKey] = jsonNullData
-                }
-            case .array(let array):
-                if let array: [JSONValue] = array {
-                    self._merge(array, to: &multipart, outerKey: innerKey)
-                } else {
-                    multipart[innerKey] = jsonNullData
-                }
-            default:
+            case .null, .bool, .int, .uInt, .float, .string:
                 multipart[innerKey] = ($0.1.toData(), .applicationJSON)
+            case .dict(let dict):
+                guard let dict: JSONDict = dict else { _setNull(innerKey); break }
+                self._merge(dict, to: &multipart, outerKey: innerKey)
+            case .array(let array):
+                guard let array: [JSONValue] = array else { _setNull(innerKey); break }
+                self._merge(array, to: &multipart, outerKey: innerKey)
             }
         })
     }
