@@ -26,9 +26,14 @@ public enum UnwrappedRequestPayload {
 
 
 // MARK: -
+public protocol KeyEncodingStrategy {
+    func encodeNestedKey(outerKey: String?) -> (String) -> String
+    func encodeIndexedKey(outerKey: String) -> (Int) -> String
+}
+
+
+// MARK: -
 extension RequestPayload {
-    public typealias UnwrappingStrategy = (RequestPayload)
-    
     func unwrap() -> UnwrappedRequestPayload {
         return self._unwrap()
     }
@@ -40,6 +45,18 @@ public indirect enum RequestPayload: Equatable {
     case json(JSONDict)
     case multipart([FormData])
     case nested(String, [RequestPayload])
+ 
+    public static var keyEncodingStrategy: KeyEncodingStrategy = DefaultKeyEncoding()
+    
+    public struct DefaultKeyEncoding: KeyEncodingStrategy {
+        public func encodeIndexedKey(outerKey: String) -> (Int) -> String {
+            return { outerKey + "[\($0)]" }
+        }
+        
+        public func encodeNestedKey(outerKey: String?) -> (String) -> String {
+            return { outerKey?.appending(".").appending($0) ?? $0 }
+        }
+    }
 }
 
 
@@ -49,22 +66,6 @@ extension Array where Element == (String, RequestPayload) {
         return self._equals(lhs, rhs)
     }
 }
-
-
-// MARK: -
-extension FormData {
-    public func unwrap() -> [String: Data] {
-        return self._unwrap()
-    }
-}
-
-
-// MARK: -
-//extension Collection where Element == FormData {
-//    public func unwrap() -> [String: Data] {
-//        return self.map({ $0.unwrap() })
-//    }
-//}
 
 
 // MARK: -
@@ -103,19 +104,9 @@ private func += <K, V>(_ lhs: inout Dictionary<K, V>, _ rhs: Dictionary<K, V>) {
     return lhs.merge(rhs, uniquingKeysWith: { _, r in r })
 }
 
+
 // MARK: -
 private extension RequestPayload {
-    func _encodeIndexedKey(outerKey: String) -> (Int) -> String {
-        return { outerKey + "[\($0)]" }
-    }
-    
-    func _encodeNestedKeys(outerKey: String?) -> (String) -> String {
-        return { innerKey in
-            guard let outerKey: String = outerKey else { return innerKey }
-            return outerKey + "." + innerKey
-        }
-    }
-    
     func _encodeImage(_ image: UIImage, mimeType: MimeType.Image) -> (Data, MimeType) {
         switch mimeType {
         case .jpeg(let compressionQuality):
@@ -149,7 +140,7 @@ private extension RequestPayload {
             jsonDict.dict.map({ $0 }),
             to: &multipartDict,
             outerKey: outerKey,
-            concatenateKeys: self._encodeNestedKeys
+            concatenateKeys: RequestPayload.keyEncodingStrategy.encodeNestedKey
         )
     }
     
@@ -158,7 +149,7 @@ private extension RequestPayload {
             jsonArray.enumerated().map({ ($0.offset, $0.element) }),
             to: &multipartDict,
             outerKey: outerKey,
-            concatenateKeys: self._encodeIndexedKey
+            concatenateKeys: RequestPayload.keyEncodingStrategy.encodeIndexedKey
         )
     }
     
@@ -182,10 +173,10 @@ private extension RequestPayload {
         case .json(let jsonDict):
             self._mergeJSONDict(jsonDict, outerKey: outerKey, to: &parametersAndMultipart)
         case .image(let key, let image, let mimeType):
-            let concatenateKeys: (String) -> String = self._encodeNestedKeys(outerKey: outerKey)
+            let concatenateKeys: (String) -> String = RequestPayload.keyEncodingStrategy.encodeNestedKey(outerKey: outerKey)
             parametersAndMultipart.1[concatenateKeys(key)] = self._encodeImage(image, mimeType: mimeType)
         case .nested(let keyedPayloadArray):
-            let concatenateKeys: (String) -> String = self._encodeNestedKeys(outerKey: outerKey)
+            let concatenateKeys: (String) -> String = RequestPayload.keyEncodingStrategy.encodeNestedKey(outerKey: outerKey)
             keyedPayloadArray.forEach({
                 $0.1._merge(to: &parametersAndMultipart, outerKey: concatenateKeys($0.0))
             })
@@ -201,7 +192,7 @@ private extension RequestPayload {
                 self._mergeFormData($0, outerKey: outerKey, to: &parametersAndMultipart)
             })
         case .nested(let key, let payloads):
-            let innerKey: String = self._encodeNestedKeys(outerKey: outerKey)(key)
+            let innerKey: String = RequestPayload.keyEncodingStrategy.encodeNestedKey(outerKey: outerKey)(key)
             payloads.forEach({
                 $0._merge(to: &parametersAndMultipart, outerKey: innerKey)
             })
@@ -240,9 +231,4 @@ private extension FormData {
         default:                                return false
         }
     }
-    
-    func _unwrap() -> [String: Data] {
-        return [:]
-    }
-
 }
