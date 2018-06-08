@@ -14,8 +14,93 @@ import Alamofire
 
 
 // MARK: // Public
+public typealias MultipartValue = (String, (Data, Multipart.ContentType))
+
 // MARK: -
+public typealias MultipartPayload = [String: (Data, Multipart.ContentType)]
+
+// MARK: -
+public protocol MultipartEncoding {
+    func concatenate(outerKey: String?, andInnerKey innerKey: String, for value: MultipartValueConvertible, with contentType: Multipart.ContentType) -> String
+    func concatenate(outerKey: String, andIndex index: Int, for value: MultipartValueConvertible, with contentType: Multipart.ContentType) -> String
+    func encode(_ convertible: MultipartValueConvertible, withKey key: String) -> MultipartValue
+}
+
+public extension MultipartEncoding {
+    public func concatenate(outerKey: String?, andInnerKey innerKey: String, for value: MultipartValueConvertible, with contentType: Multipart.ContentType) -> String {
+        return outerKey?.appending(innerKey) ?? innerKey
+    }
+    
+    public func concatenate(outerKey: String, andIndex index: Int, for value: MultipartValueConvertible, with contentType: Multipart.ContentType) -> String {
+        return outerKey + "[\(index)]"
+    }
+    
+    public func encode(_ convertible: MultipartValueConvertible, withKey key: String) -> MultipartValue {
+        return convertible.encode(key: key, encoding: self)
+    }
+}
+
+
+// MARK: -
+public enum _RequestPayload {
+    case parameters(Parameters)
+    case multipart(MultipartPayload)
+}
+
+
+public enum Multipart {
+    public enum ContentType: String {
+        case applicationJSON = "application/json"
+        case imageJPEG = "image/jpeg"
+        case imagePNG = "image/png"
+    }
+}
+
+
+public typealias _MultipartDict = [String: MultipartValueConvertible]
+public extension Collection where Element == (key: _MultipartDict.Key, value: _MultipartDict.Value) {
+    public func encode(with multipartEncoding: MultipartEncoding) -> MultipartPayload {
+        return [:]
+    }
+}
+
+
+//public protocol MultipartPayloadConvertible {
+//    func encode(with multipartEncoding: MultipartEncoding) -> MultipartPayload
+//}
+
+
+public protocol MultipartValueConvertible {
+    func encode(key: String, encoding: MultipartEncoding) -> MultipartValue
+}
+
+
+func test() {
+    let a: _MultipartDict = [:]
+    class Encoding: MultipartEncoding {}
+    a.encode(with: Encoding())
+}
+
+
+
+
+
 public typealias MultipartDict = [String: (Data, MimeType)]
+
+public enum MutlipartContentType: String {
+    case applicationJSON = "application/json"
+    case imageJPEG = "image/jpeg"
+    case imagePNG = "image/png"
+    
+    public enum Application: Equatable {
+        case json
+    }
+    
+    public enum Image: Equatable {
+        case jpeg(compressionQuality: CGFloat)
+        case png
+    }
+}
 
 
 // MARK: -
