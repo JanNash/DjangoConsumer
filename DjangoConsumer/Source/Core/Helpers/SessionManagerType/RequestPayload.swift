@@ -119,30 +119,33 @@ private extension RequestPayload {
         }
     }
     
+    func _mergeJSONValue(_ value: JSONValue, toMultipart multipart: inout MultipartDict, prefixKey: String) {
+        switch value.typedValue {
+        case .dict(let dict):
+            if let dict: JSONDict = dict {
+                let innerMultipart: MultipartDict = self._convertJSONDictToMultipartDict(dict, prefixKey: prefixKey)
+                self._mergeMultipart(innerMultipart, toMultipart: &multipart)
+            } else {
+                multipart[prefixKey] = (jsonNullData, .applicationJSON)
+            }
+        case .array(let array):
+            if let array: [JSONValue] = array {
+                let innerMultipart: MultipartDict = self._convertJSONArrayToMultipartDict(array, prefixKey: prefixKey)
+                self._mergeMultipart(innerMultipart, toMultipart: &multipart)
+            } else {
+                multipart[prefixKey] = (jsonNullData, .applicationJSON)
+            }
+        default:
+            multipart[prefixKey] = (value.toData(), .applicationJSON)
+        }
+    }
+    
     func _convertJSONDictToMultipartDict(_ jsonDict: JSONDict, prefixKey: String?) -> MultipartDict {
         var result: MultipartDict = [:]
         
         jsonDict.dict.forEach({ key, value in
-            let innerPrefixKey: String = _encodeNestedKeys(outerKey: prefixKey, innerKey: key)
-            
-            switch value.typedValue {
-            case .dict(let dict):
-                if let dict: JSONDict = dict {
-                    let multipart: MultipartDict = self._convertJSONDictToMultipartDict(dict, prefixKey: innerPrefixKey)
-                    self._mergeMultipart(multipart, toMultipart: &result)
-                } else {
-                    result[innerPrefixKey] = (jsonNullData, .applicationJSON)
-                }
-            case .array(let array):
-                if let array: [JSONValue] = array {
-                    let multipart: MultipartDict = self._convertJSONArrayToMultipartDict(array, prefixKey: innerPrefixKey)
-                    self._mergeMultipart(multipart, toMultipart: &result)
-                } else {
-                    result[innerPrefixKey] = (jsonNullData, .applicationJSON)
-                }
-            default:
-                result[innerPrefixKey] = (value.toData(), .applicationJSON)
-            }
+            let innerPrefixKey: String = self._encodeNestedKeys(outerKey: prefixKey, innerKey: key)
+            self._mergeJSONValue(value, toMultipart: &result, prefixKey: innerPrefixKey)
         })
         
         return result
@@ -153,25 +156,7 @@ private extension RequestPayload {
         
         jsonArray.enumerated().forEach({
             let innerPrefixKey: String = self._encodeIndexedKey(key: prefixKey, index: $0.offset)
-            let value: JSONValue = $0.element
-            switch value.typedValue {
-            case .dict(let dict):
-                if let dict: JSONDict = dict {
-                    let multipart: MultipartDict = self._convertJSONDictToMultipartDict(dict, prefixKey: innerPrefixKey)
-                    self._mergeMultipart(multipart, toMultipart: &result)
-                } else {
-                    result[innerPrefixKey] = (jsonNullData, .applicationJSON)
-                }
-            case .array(let array):
-                if let array: [JSONValue] = array {
-                    let multipart: MultipartDict = self._convertJSONArrayToMultipartDict(array, prefixKey: innerPrefixKey)
-                    self._mergeMultipart(multipart, toMultipart: &result)
-                } else {
-                    result[innerPrefixKey] = (jsonNullData, .applicationJSON)
-                }
-            default:
-                result[innerPrefixKey] = (value.toData(), .applicationJSON)
-            }
+            self._mergeJSONValue($0.element, toMultipart: &result, prefixKey: innerPrefixKey)
         })
         
         return result
@@ -189,13 +174,18 @@ private extension RequestPayload {
         resultMultipart.merge(multipartDict, uniquingKeysWith: { _, r in r })
     }
     
+    func _mergeJSONDict(_ jsonDict: JSONDict, prefixKey: String?, toParameters parameters: inout Parameters, toMultipart multipart: inout MultipartDict) {
+        self._mergeParameters(jsonDict.unwrap(), prefixKey: prefixKey, toParameters: &parameters)
+        self._mergeMultipart(self._convertJSONDictToMultipartDict(jsonDict, prefixKey: prefixKey), toMultipart: &multipart)
+    }
+    
     func _mergeFormData(_ formData: FormData, prefixKey: String?, toParameters parameters: inout Parameters, toMultipart multipart: inout MultipartDict) {
         switch formData {
         case .json(let jsonDict):
-            self._mergeParameters(jsonDict.unwrap(), prefixKey: prefixKey, toParameters: &parameters)
-            self._mergeMultipart(self._convertJSONDictToMultipartDict(jsonDict, prefixKey: prefixKey), toMultipart: &multipart)
+            self._mergeJSONDict(jsonDict, prefixKey: prefixKey, toParameters: &parameters, toMultipart: &multipart)
         case .image(let key, let image, let mimeType):
-            multipart[key] = _encodeImage(image, mimeType: mimeType)
+            let innerPrefixKey: String = self._encodeNestedKeys(outerKey: prefixKey, innerKey: key)
+            multipart[innerPrefixKey] = self._encodeImage(image, mimeType: mimeType)
         case .nested(let keyedPayloadArray):
             keyedPayloadArray.forEach({
                 let innerPrefixKey: String = self._encodeNestedKeys(outerKey: prefixKey, innerKey: $0.0)
@@ -207,9 +197,11 @@ private extension RequestPayload {
     func _mergeRequestPayload(_ requestPayload: RequestPayload, prefixKey: String?, toParameters parameters: inout Parameters, toMultipart multipart: inout MultipartDict) {
         switch requestPayload {
         case .json(let jsonDict):
-            self._mergeParameters(jsonDict.unwrap(), prefixKey: prefixKey, toParameters: &parameters)
+            self._mergeJSONDict(jsonDict, prefixKey: prefixKey, toParameters: &parameters, toMultipart: &multipart)
         case .multipart(let formDataArray):
-            formDataArray.forEach({ self._mergeFormData($0, prefixKey: prefixKey, toParameters: &parameters, toMultipart: &multipart) })
+            formDataArray.forEach({
+                self._mergeFormData($0, prefixKey: prefixKey, toParameters: &parameters, toMultipart: &multipart)
+            })
         case .nested(let key, let payloads):
             let innerPrefixKey: String = self._encodeNestedKeys(outerKey: prefixKey, innerKey: key)
             payloads.forEach({
