@@ -66,7 +66,7 @@ private extension DefaultImplementations.ListPostable {
         }
         
         sessionManager.fireRequest(
-            with: POSTRequestConfiguration(url: url, payload: payload, encoding: encoding),
+            with: .post(POSTRequestConfiguration(url: url, payload: payload, encoding: encoding)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

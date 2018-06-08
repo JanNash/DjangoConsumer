@@ -79,7 +79,7 @@ private extension DefaultImplementations.SinglePostable {
         }
         
         sessionManager.fireRequest(
-            with: POSTRequestConfiguration(url: url, payload: payload, encoding: encoding, headers: additionalHeaders),
+            with: .post(POSTRequestConfiguration(url: url, payload: payload, encoding: encoding, headers: additionalHeaders)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

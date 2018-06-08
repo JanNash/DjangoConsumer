@@ -66,7 +66,7 @@ private extension DefaultImplementations.ResourceID {
         }
         
         sessionManager.fireRequest(
-            with: GETRequestConfiguration(url: url, encoding: encoding),
+            with: .get(GETRequestConfiguration(url: url, encoding: encoding)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

@@ -71,7 +71,7 @@ private extension DefaultImplementations.DetailGettable {
             }
             
             sessionManager.fireRequest(
-                with: GETRequestConfiguration(url: url, encoding: encoding),
+                with: .get(GETRequestConfiguration(url: url, encoding: encoding)),
                 responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
             )
         } catch {

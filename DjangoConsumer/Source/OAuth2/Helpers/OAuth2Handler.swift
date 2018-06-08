@@ -313,13 +313,13 @@ private extension OAuth2Handler {
     func __requestAndSaveTokens(url: URL, payload: RequestPayload, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
-        let cfg: POSTRequestConfiguration = {
-            POSTRequestConfiguration(
+        let cfg: RequestConfiguration = {
+            .post(POSTRequestConfiguration(
                 url: url,
                 payload: payload,
                 encoding: URLEncoding.default,
                 headers: [basicAuthHeader.key : basicAuthHeader.value]
-            )
+            ))
         }()
         
         let responseHandling: JSONResponseHandling = {
@@ -378,12 +378,12 @@ private extension OAuth2Handler {
         
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
-        let cfg: POSTRequestConfiguration = POSTRequestConfiguration(
+        let cfg: RequestConfiguration = .post(POSTRequestConfiguration(
             url: self.settings.tokenRevokeURL,
             payload: .json([_C.JSONKeys.token : accessToken]),
             encoding: URLEncoding.default,
             headers: [basicAuthHeader.key : basicAuthHeader.value]
-        )
+        ))
         
         let responseHandling: JSONResponseHandling = JSONResponseHandling(
             onSuccess: { _ in },

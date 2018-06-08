@@ -21,20 +21,22 @@ public enum RequestCreationResult {
 
 
 // MARK: -
+public enum RequestConfiguration {
+    case get(GETRequestConfiguration)
+    case post(POSTRequestConfiguration)
+}
+
+
+// MARK: -
 public protocol SessionManagerType: class {
-    func createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void)
-    func createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void)
+    func createRequest(with cfg: RequestConfiguration, completion: @escaping (RequestCreationResult) -> Void)
     func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling)
 }
 
 
 // MARK: Convenience Default Implementation
 public extension SessionManagerType {
-    func fireRequest(with cfg: GETRequestConfiguration, responseHandling: JSONResponseHandling) {
-        DefaultImplementations.SessionManagerType.fireRequest(via: self, with: cfg, responseHandling: responseHandling)
-    }
-    
-    func fireRequest(with cfg: POSTRequestConfiguration, responseHandling: JSONResponseHandling) {
+    func fireRequest(with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
         DefaultImplementations.SessionManagerType.fireRequest(via: self, with: cfg, responseHandling: responseHandling)
     }
     
@@ -46,13 +48,7 @@ public extension SessionManagerType {
 
 // MARK: - DefaultImplementations.SessionManagerType
 public extension DefaultImplementations.SessionManagerType {
-    static func fireRequest(via sessionManager: SessionManagerType, with cfg: GETRequestConfiguration, responseHandling: JSONResponseHandling) {
-        sessionManager.createRequest(with: cfg) {
-            sessionManager.handle(requestCreationResult: $0, responseHandling: responseHandling)
-        }
-    }
-    
-    static func fireRequest(via sessionManager: SessionManagerType, with cfg: POSTRequestConfiguration, responseHandling: JSONResponseHandling) {
+    static func fireRequest(via sessionManager: SessionManagerType, with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
         sessionManager.createRequest(with: cfg) {
             sessionManager.handle(requestCreationResult: $0, responseHandling: responseHandling)
         }

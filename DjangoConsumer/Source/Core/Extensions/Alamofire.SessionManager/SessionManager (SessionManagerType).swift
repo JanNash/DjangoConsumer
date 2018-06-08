@@ -15,11 +15,7 @@ import Alamofire
 // MARK: // Public
 // MARK: SessionManagerType
 extension Alamofire.SessionManager: SessionManagerType {
-    public func createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
-        self._createRequest(with: cfg, completion: completion)
-    }
-    
-    public func createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
+    public func createRequest(with cfg: RequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
         self._createRequest(with: cfg, completion: completion)
     }
     
@@ -31,6 +27,13 @@ extension Alamofire.SessionManager: SessionManagerType {
 
 // MARK: // Private
 private extension Alamofire.SessionManager {
+    func _createRequest(with cfg: RequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
+        switch cfg {
+        case .get(let config):  self._createRequest(with: config, completion: completion)
+        case .post(let config): self._createRequest(with: config, completion: completion)
+        }
+    }
+    
     func _createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
         completion(.created(
             self.request(cfg.url, method: .get, parameters: cfg.parameters.unwrap(), encoding: cfg.encoding, headers: cfg.headers)
