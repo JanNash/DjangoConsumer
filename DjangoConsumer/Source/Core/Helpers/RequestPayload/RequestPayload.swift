@@ -15,7 +15,7 @@ import Alamofire
 // MARK: // Public
 // MARK: -
 public enum RequestPayload {
-    case jsonDict(JSONDict)
+    case json(JSONDict)
     case multipart(MultipartDict)
     
     public enum Unwrapped {
