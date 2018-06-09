@@ -20,23 +20,32 @@ public typealias MultipartValue = (String, (Data, Multipart.ContentType))
 public typealias MultipartPayload = [String: (Data, Multipart.ContentType)]
 
 // MARK: -
-public protocol MultipartEncoding {
-    func concatenate(outerKey: String?, andInnerKey innerKey: String, for value: MultipartValueConvertible, with contentType: Multipart.ContentType) -> String
-    func concatenate(outerKey: String, andIndex index: Int, for value: MultipartValueConvertible, with contentType: Multipart.ContentType) -> String
-    func encode(_ convertible: MultipartValueConvertible, withKey key: String) -> MultipartValue
+public protocol MultipartConversion {
+    typealias Convertible = MultipartValueConvertible
+    typealias ContentType = Multipart.ContentType
+    
+    func concatenate(outerKey: String?, innerKey: String/*, for value: Convertible, with contentType: ContentType*/) -> String
+    func concatenate(outerKey: String, index: Int/*, for value: Convertible, with contentType: ContentType*/) -> String
+    func merge(_ convertible: MultipartValueConvertible, key: String, to payload: inout MultipartPayload)
+    func mergeNull(with contentType: ContentType, to payload: inout MultipartPayload, key: String)
 }
 
-public extension MultipartEncoding {
-    public func concatenate(outerKey: String?, andInnerKey innerKey: String, for value: MultipartValueConvertible, with contentType: Multipart.ContentType) -> String {
+
+public extension MultipartConversion {
+    public func concatenate(outerKey: String?, innerKey: String/*, for value: Convertible, with contentType: ContentType*/) -> String {
         return outerKey?.appending(innerKey) ?? innerKey
     }
     
-    public func concatenate(outerKey: String, andIndex index: Int, for value: MultipartValueConvertible, with contentType: Multipart.ContentType) -> String {
+    public func concatenate(outerKey: String, index: Int/*, for value: Convertible, with contentType: ContentType*/) -> String {
         return outerKey + "[\(index)]"
     }
     
-    public func encode(_ convertible: MultipartValueConvertible, withKey key: String) -> MultipartValue {
-        return convertible.encode(key: key, encoding: self)
+    public func merge(_ convertible: MultipartValueConvertible, key: String, to payload: inout MultipartPayload) {
+        convertible.merge(to: &payload, key: key, encoding: self)
+    }
+    
+    func mergeNull(with contentType: ContentType, to payload: inout MultipartPayload, key: String) {
+        payload[key] = contentType.null
     }
 }
 
@@ -53,33 +62,102 @@ public enum Multipart {
         case applicationJSON = "application/json"
         case imageJPEG = "image/jpeg"
         case imagePNG = "image/png"
+        
+        public var null: (Data, ContentType) {
+            return ("null".data(using: .utf8)!, self)
+        }
     }
 }
 
 
-public typealias _MultipartDict = [String: MultipartValueConvertible]
-public extension Collection where Element == (key: _MultipartDict.Key, value: _MultipartDict.Value) {
-    public func encode(with multipartEncoding: MultipartEncoding) -> MultipartPayload {
-        return [:]
-    }
+public protocol MultipartPayloadConvertible: MultipartValueConvertible {
+    func encode(key: String?, encoding: MultipartConversion) -> MultipartPayload
 }
 
 
-//public protocol MultipartPayloadConvertible {
-//    func encode(with multipartEncoding: MultipartEncoding) -> MultipartPayload
-//}
+public extension MultipartPayloadConvertible {
+    public func merge(to payload: inout MultipartPayload, key: String, encoding: MultipartConversion) {
+        payload += self.encode(key: key, encoding: encoding)
+    }
+}
 
 
 public protocol MultipartValueConvertible {
-    func encode(key: String, encoding: MultipartEncoding) -> MultipartValue
+    func merge(to payload: inout MultipartPayload, key: String, encoding: MultipartConversion)
 }
 
 
-func test() {
-    let a: _MultipartDict = [:]
-    class Encoding: MultipartEncoding {}
-    a.encode(with: Encoding())
+extension JSONDict: MultipartPayloadConvertible {
+    public func encode(key: String?, encoding: MultipartConversion) -> MultipartPayload {
+        var result: MultipartPayload = [:]
+        self.dict.forEach({
+            $0.value.merge(
+                to: &result,
+                key: encoding.concatenate(outerKey: key, innerKey: $0.key),
+                encoding: encoding
+            )
+        })
+        return result
+    }
 }
+
+
+extension Array: MultipartValueConvertible where Element == JSONValue {
+    public func merge(to payload: inout MultipartPayload, key: String, encoding: MultipartConversion) {
+        self.enumerated().forEach({
+            $0.element.merge(
+                to: &payload,
+                key: encoding.concatenate(outerKey: key, index: $0.offset),
+                encoding: encoding
+            )
+        })
+    }
+}
+
+
+extension JSONValue: MultipartValueConvertible {
+    public func merge(to payload: inout MultipartPayload, key: String, encoding: MultipartConversion) {
+        let mergeNull: (inout MultipartPayload) -> Void = { encoding.mergeNull(with: .applicationJSON, to: &$0, key: key) }
+        
+        switch self.typedValue {
+        case .dict(let dict):
+            dict?.merge(to: &payload, key: key, encoding: encoding) ?? mergeNull(&payload)
+        case .array(let array):
+            array?.merge(to: &payload, key: key, encoding: encoding) ?? mergeNull(&payload)
+        default:
+            let value: Any = JSONValue.unwrap(self)
+            guard !(value is NSNull), let data: Data = "\(value)".data(using: .utf8) else {
+                mergeNull(&payload)
+                return
+            }
+            payload[key] = (data, .applicationJSON)
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
