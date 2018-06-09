@@ -1,5 +1,5 @@
 //
-//  RequestPayloadConvertible.swift
+//  RequestPayload.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 02.06.18.
@@ -13,6 +13,21 @@ import Alamofire
 
 
 // MARK: // Public
+// MARK: -
+public enum RequestPayload {
+    case jsonDict(JSONDict)
+    case multipart(MultipartDict)
+}
+
+
+// MARK: -
 public protocol RequestPayloadConvertible {
     func toPayload(for method: ResourceHTTPMethod) -> RequestPayload
+}
+
+
+// MARK: -
+public enum UnwrappedRequestPayload {
+    case jsonDict(Parameters)
+    case multipart(MultipartPayload)
 }

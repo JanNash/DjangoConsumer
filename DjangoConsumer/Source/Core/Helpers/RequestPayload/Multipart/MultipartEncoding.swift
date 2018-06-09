@@ -13,24 +13,7 @@ import Foundation
 
 
 // MARK: // Public
-public protocol MultipartPayloadConvertible: MultipartValueConvertible {
-    func encode(key: String?, encoding: MultipartEncoding) -> MultipartPayload
-}
-
-
-public protocol MultipartValueConvertible {
-    func merge(to payload: inout MultipartPayload, key: String, encoding: MultipartEncoding)
-}
-
-
-public extension MultipartValueConvertible {
-    static func dict(_ dict: [String: MultipartValueConvertible]) -> MultipartDict {
-        return MultipartDict(dict)
-    }
-}
-
-
-// MARK: -
+// MARK: Protocol Declaration
 public protocol MultipartEncoding {
     typealias Convertible = MultipartValueConvertible
     typealias ContentType = Multipart.ContentType
@@ -42,6 +25,7 @@ public protocol MultipartEncoding {
 }
 
 
+// MARK: Default Implementations
 public extension MultipartEncoding {
     public func concatenate(outerKey: String?, innerKey: String/*, for value: Convertible, with contentType: ContentType*/) -> String {
         return outerKey?.appending(".").appending(innerKey) ?? innerKey
