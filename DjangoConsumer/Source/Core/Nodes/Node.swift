@@ -204,12 +204,50 @@ public extension DefaultImplementations.Node {
 
 // MARK: Request Payload Generation
 public extension DefaultImplementations.Node {
+    class DefaultMultipartEncoding: MultipartEncoding {}
+    
     public static func payloadFrom(node: Node, object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload {
         return object.toPayload(for: method)
     }
     
     public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> RequestPayload where C.Element == T {
-        return .nested(ListRequestKeys.objects, listPostables.map({ node.payloadFrom(object: $0, method: .post) }))
+        var multipartPayload: MultipartPayload = [:]
+        var jsonPayload: JSONDict = [:]
+        
+        let encoding: MultipartEncoding = DefaultMultipartEncoding()
+        
+        listPostables.enumerated().forEach({
+            switch $0.element.toPayload(for: .post) {
+            case .multipart(let dict):
+                dict.merge(
+                    to: &multipartPayload,
+                    key: encoding.concatenate(outerKey: ListRequestKeys.objects, index: $0.offset),
+                    encoding: encoding
+                )
+            case .json(let dict):
+                jsonPayload.dict[ListRequestKeys.objects]
+            }
+        })
+        
+        // !!!: This function would be the starting point for possibly splitting into two requests
+        // One could contain everything that's JSONPayloadConvertible, the other everythin that needs
+        // to be sent via multipart. Since the objects can decide at runtime what kind of payload
+        // they'll be converted to, it's possible that a list of those objects contains some that need
+        // to send multipart data along and some that just contain JSON. An example (of which I'm not
+        // sure that it stands true) is that if you send a list of objects that have a variable that's
+        // an image, but that variable is optional, it could be possible that some of the objects have
+        // an image assigned and some don't. Those that don't could simply send jsonPayload containing
+        // 'null' as value for the key of the image. This could make it possible to have guaranteed
+        // atomic per-object POSTS (since an object will always be sent as one request, either
+        // multipart or json) but to be able to optimize request sizes (and thus durations), since
+        // multipart has quite some overhead (see boundary and ContentDisposition) when sending single
+        // JSON values, so it might always be preferable to send json, unless multipart is necessary.
+        //   Splitting the request into one multipart and one json request has the possible drawback
+        // that a list post can not be guaranteed to be atomic, since there will be two lists of
+        // objects sent in separate requests. A setting could be added to the node for that, or we
+        // could pass in a parameter in DefaultImplementations.ListPostable.post(self, to: node).
+        // What a novel this has gotten... 🤩 (Is your project commented? - Yeah, I got over 18
+        // lines of comments...)
     }
 }
 
