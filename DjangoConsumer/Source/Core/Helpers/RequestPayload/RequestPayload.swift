@@ -17,17 +17,15 @@ import Alamofire
 public enum RequestPayload {
     case jsonDict(JSONDict)
     case multipart(MultipartDict)
+    
+    public enum Unwrapped {
+        case json(Parameters)
+        case multipart(MultipartPayload)
+    }
 }
 
 
 // MARK: -
 public protocol RequestPayloadConvertible {
     func toPayload(for method: ResourceHTTPMethod) -> RequestPayload
-}
-
-
-// MARK: -
-public enum UnwrappedRequestPayload {
-    case jsonDict(Parameters)
-    case multipart(MultipartPayload)
 }
