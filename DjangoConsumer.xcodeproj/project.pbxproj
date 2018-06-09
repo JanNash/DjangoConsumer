@@ -20,6 +20,7 @@
 		3822C625D7D6018BF412869914F1C6F8 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */; };
 		382B523A6651A0ABFF4B3EDE91903E0D /* SessionManager (SessionManagerType).swift in Sources */ = {isa = PBXBuildFile; fileRef = 19227FA82FAB0B4E505BB2D51004EE4A /* SessionManager (SessionManagerType).swift */; };
 		389DB66A12C50B25BB432C7739C9F8FE /* DefaultImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A4663B5A7E8ABD82363BF8C7E8578B /* DefaultImplementations.swift */; };
+		3AE481C8D67ED860A9D07F9DFC7F12A3 /* MultipartEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCDA6F5BA4AAE2B1D394B9D9221E10A /* MultipartEncoding.swift */; };
 		3CE39AA01C15C2A2704A15F85D5499B5 /* OAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155D3DABEF4F0BD3813712D3ED323A5 /* OAuth2Node.swift */; };
 		41F0C90F3824F5746D5EBA92A18F4DE6 /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4483E4F025B67F9A65AFA6C06CE62659 /* BaseTest.swift */; };
 		4B155E6B16321C5A8AD3E02C089A6494 /* FilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */; };
@@ -54,7 +55,6 @@
 		9F959BF0B75FAB192D1BB574B290A901 /* MockOAuth2NodeAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFC17C86ABB1FBF8CD6F23A5E50FFB2 /* MockOAuth2NodeAuthClient.swift */; };
 		A15CA844385233097AC5B68BC7E2B4EA /* MockDetailGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB0E8D5513F5112E8ED64C72CD785E2 /* MockDetailGettable.swift */; };
 		A6254114C15C891EA8B9B955EBD6D3BE /* ifThisIsAThen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */; };
-		AB6AD6B6401785C0AE767729876F8066 /* RequestPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2FDECE7813FB4BCBE93CD72180CF12 /* RequestPayload.swift */; };
 		AC3E98E7BDF090E898F6B180F0A78EC6 /* DefaultImplementations+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8042D5F51399BB3BA078D848DE1E6C /* DefaultImplementations+OAuth2.swift */; };
 		AF0B9F5D0B3ADE02B23829D55976FBE0 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */; };
 		B2C267D093D4E4C61C83512AEB575DB2 /* NoAuthNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF6B5C4B2615656BA949DE2EB981597 /* NoAuthNode.swift */; };
@@ -131,7 +131,7 @@
 		5B40455D60A26551AE94077196644292 /* Pods-DjangoConsumerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumerTests/Pods-DjangoConsumerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		62B2F034C66C79F5FBE711A55081EB8A /* Multipart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multipart.swift; sourceTree = "<group>"; };
 		6331C6F2052A8B5FAA17CBBBCCCDE651 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B2FDECE7813FB4BCBE93CD72180CF12 /* RequestPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestPayload.swift; sourceTree = "<group>"; };
+		6BCDA6F5BA4AAE2B1D394B9D9221E10A /* MultipartEncoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartEncoding.swift; sourceTree = "<group>"; };
 		6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2CredentialStore.swift; sourceTree = "<group>"; };
 		6DB0E8D5513F5112E8ED64C72CD785E2 /* MockDetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDetailGettable.swift; sourceTree = "<group>"; };
 		6F8042D5F51399BB3BA078D848DE1E6C /* DefaultImplementations+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultImplementations+OAuth2.swift"; sourceTree = "<group>"; };
@@ -206,6 +206,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0600737F836FA46F8D94870E6BA0F145 /* Multipart */ = {
+			isa = PBXGroup;
+			children = (
+				62B2F034C66C79F5FBE711A55081EB8A /* Multipart.swift */,
+				6BCDA6F5BA4AAE2B1D394B9D9221E10A /* MultipartEncoding.swift */,
+			);
+			path = Multipart;
+			sourceTree = "<group>";
+		};
 		0B0F6940DA57CCF54880F75FE387BCFF /* OAuth2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,7 +296,6 @@
 			children = (
 				8F1418A5FD322DC94B0AC3CC103950D6 /* JSONResponseHandling.swift */,
 				CBF1E64C5A45BDCEA84AD875DEB79C0E /* RequestConfiguration.swift */,
-				6B2FDECE7813FB4BCBE93CD72180CF12 /* RequestPayload.swift */,
 				C4B6A9B9477C41078CCA36B96B7D7D09 /* RequestPayloadConvertible.swift */,
 				3EA7E85FD88DAC1D72D6549171E90C35 /* SessionManagerType.swift */,
 			);
@@ -505,14 +513,6 @@
 				6331C6F2052A8B5FAA17CBBBCCCDE651 /* Info.plist */,
 			);
 			path = DjangoConsumerTests;
-			sourceTree = "<group>";
-		};
-		0600737F836FA46F8D94870E6BA0F145 /* Multipart */ = {
-			isa = PBXGroup;
-			children = (
-				62B2F034C66C79F5FBE711A55081EB8A /* Multipart.swift */,
-			);
-			path = Multipart;
 			sourceTree = "<group>";
 		};
 		F4216A7EEF6B1AE6943EEFD7A45D1EFA /* Nodes */ = {
@@ -760,6 +760,7 @@
 				559570D272D07D3CF7E94DBFA6DB21FD /* ListResource.swift in Sources */,
 				B3E299C9B70F83930F6D0B466E8A32A9 /* MetaResource.swift in Sources */,
 				4C748FD03B38685611A12F4F91971E46 /* Multipart.swift in Sources */,
+				3AE481C8D67ED860A9D07F9DFC7F12A3 /* MultipartEncoding.swift in Sources */,
 				58D6160D67129FBAF3F195726BA1C2A8 /* NeedsNoAuthNode.swift in Sources */,
 				C544A6A60782C8CFD9326E3ACF2545B4 /* NeedsOAuth2Node.swift in Sources */,
 				B2C267D093D4E4C61C83512AEB575DB2 /* NoAuthNode.swift in Sources */,
@@ -770,7 +771,6 @@
 				23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */,
 				6F88632AF116A6692DCF6A2152FAE897 /* ProgrammerAssertions.swift in Sources */,
 				BB9E9E198AA0DF30DE9DB78BE451676A /* RequestConfiguration.swift in Sources */,
-				AB6AD6B6401785C0AE767729876F8066 /* RequestPayload.swift in Sources */,
 				99CE7AB38EB1A9E04940883E979F4326 /* RequestPayloadConvertible.swift in Sources */,
 				D2FE9A8DDB7430BC3D23ED3ACCB16451 /* ResourceHTTPMethod.swift in Sources */,
 				E912FBEE5C47723A158B745B84A1F870 /* ResourceID+OAuth2.swift in Sources */,

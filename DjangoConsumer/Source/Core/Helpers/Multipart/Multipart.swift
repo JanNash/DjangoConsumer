@@ -13,6 +13,15 @@ import Foundation
 
 
 // MARK: // Public
+// MARK: - MultipartValue
+public typealias MultipartValue = (String, (Data, Multipart.ContentType))
+
+
+// MARK: - MultipartPayload
+public typealias MultipartPayload = [String: (Data, Multipart.ContentType)]
+
+
+// MARK: -
 public enum Multipart {
     public enum ContentType: String, CustomStringConvertible {
         case applicationJSON = "application/json"
