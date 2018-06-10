@@ -211,23 +211,8 @@ public extension DefaultImplementations.Node {
     }
     
     public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> RequestPayload where C.Element == T {
-        var multipartPayload: MultipartPayload = [:]
-        var jsonPayload: JSONDict = [:]
-        
-        let encoding: MultipartEncoding = DefaultMultipartEncoding()
-        
-        listPostables.enumerated().forEach({
-            switch $0.element.toPayload(for: .post) {
-            case .multipart(let dict):
-                dict.merge(
-                    to: &multipartPayload,
-                    key: encoding.concatenate(outerKey: ListRequestKeys.objects, index: $0.offset),
-                    encoding: encoding
-                )
-            case .json(let dict):
-                jsonPayload.dict[ListRequestKeys.objects]
-            }
-        })
+        // For now, a request will always be sent as multipart if at least one multipart payload was found.
+        // This might induce some overhead, but there would be a way: see essay below :D
         
         // !!!: This function would be the starting point for possibly splitting into two requests
         // One could contain everything that's JSONPayloadConvertible, the other everythin that needs
@@ -248,6 +233,8 @@ public extension DefaultImplementations.Node {
         // could pass in a parameter in DefaultImplementations.ListPostable.post(self, to: node).
         // What a novel this has gotten... 🤩 (Is your project commented? - Yeah, I got over 18
         // lines of comments...)
+        
+        return self._payloadFrom(node: node, listPostables: listPostables)
     }
 }
 
@@ -313,7 +300,7 @@ public extension DefaultImplementations.Node {
 
 
 // MARK: // Private
-// MARK: Parameter Generation Implementations
+// MARK: URL Parameter Generation Implementations
 private extension DefaultImplementations.Node {
     static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> JSONDict {
         var parameters: [String: JSONValueConvertible] = [:]
@@ -328,6 +315,29 @@ private extension DefaultImplementations.Node {
             DefaultPagination.Keys.offset: offset,
             DefaultPagination.Keys.limit: limit
         ]
+    }
+}
+
+
+// MARK: Request Payload Generation Implementations
+private extension DefaultImplementations.Node {
+    static func _payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> RequestPayload where C.Element == T {
+        var jsonDicts: [JSONValueConvertible] = []
+        var multipartDicts: [MultipartDict] = []
+        
+        listPostables.forEach({
+            switch $0.toPayload(for: .post) {
+            case .json(let dict):       jsonDicts.append(dict)
+            case .multipart(let dict):  multipartDicts.append(dict)
+            }
+        })
+        
+        
+        if multipartDicts.isEmpty {
+            return .json([ListRequestKeys.objects: jsonDicts])
+        }
+        
+        return .multipart([ListRequestKeys.objects: multipartDicts])
     }
 }
 
