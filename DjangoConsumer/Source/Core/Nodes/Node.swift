@@ -325,6 +325,10 @@ private extension DefaultImplementations.Node {
         var jsonDicts: [JSONDict] = []
         var multipartDicts: [MultipartDict] = []
         
+        let count: Int = listPostables.count
+        jsonDicts.reserveCapacity(count)
+        multipartDicts.reserveCapacity(count)
+        
         listPostables.forEach({
             switch $0.toPayload(for: .post) {
             case .json(let dict):
