@@ -68,6 +68,7 @@ private extension DefaultImplementations.SinglePostable {
             dict.dict.merge(additionalParameters.dict, uniquingKeysWith: { _, r in r })
         }
         
+        let unwrappedPayload: RequestPayload.Unwrapped = node.unwrapPayload(payload, for: singlePostable, method: method)
         let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
@@ -80,7 +81,7 @@ private extension DefaultImplementations.SinglePostable {
         }
         
         sessionManager.fireRequest(
-            with: .post(POSTRequestConfiguration(url: url, payload: payload, encoding: encoding, headers: additionalHeaders)),
+            with: .post(POSTRequestConfiguration(url: url, payload: unwrappedPayload, encoding: encoding, headers: additionalHeaders)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
