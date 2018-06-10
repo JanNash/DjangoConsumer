@@ -14,8 +14,16 @@ import Foundation
 
 // MARK: // Public
 // MARK: Protocol Declaration
-public protocol JSONValueConvertible {
+public protocol JSONValueConvertible: MultipartValueConvertible {
     func toJSONValue() -> JSONValue
+}
+
+
+// MARK: MultipartValueConvertible
+extension JSONValueConvertible {
+    public func merge(to payload: inout MultipartPayload, key: String, encoding: MultipartEncoding) {
+        self._merge(to: &payload, key: key, encoding: encoding)
+    }
 }
 
 
@@ -112,5 +120,22 @@ private extension Optional/*: JSONValueConvertible*/ where Wrapped: JSONValueCon
             default:                return .null
             }
         }
+    }
+}
+
+
+// MARK: JSONValueConvertible: MultipartValueConvertible
+// MARK: MultipartValueConvertible
+private extension JSONValueConvertible {
+    func _merge(to payload: inout MultipartPayload, key: String, encoding: MultipartEncoding) {
+        let data: Data = {
+            let value: Any = self.toJSONValue().unwrap()
+            guard !(value is NSNull), let data: Data = "\(value)".data(using: .utf8) else {
+                return "null".data(using: .utf8)!
+            }
+            return data
+        }()
+        
+        payload[key] = (data, .applicationJSON)
     }
 }

@@ -52,10 +52,6 @@ public extension JSONValue {
     public static func dict(_ jsonConvertible: JSONConvertible?) -> JSONValue {
         return ._dict(jsonConvertible)
     }
-    
-    public func toData() -> Data {
-        return try! JSONSerialization.data(withJSONObject: JSONValue.unwrap(self))
-    }
 }
 
 
@@ -95,8 +91,12 @@ extension JSONValue: CustomStringConvertible {
 // MARK: // Internal
 // MARK: Interface
 extension JSONValue {
+    func unwrap() -> Any {
+        return self._unwrap()
+    }
+    
     static func unwrap(_ jsonValue: JSONValue) -> Any {
-        return self._unwrap(jsonValue)
+        return jsonValue.unwrap()
     }
 }
 
@@ -164,9 +164,9 @@ private extension JSONValue {
         return .dict(jsonConvertible?.jsonDict())
     }
     
-    static func _unwrap(_ jsonValue: JSONValue) -> Any {
+    func _unwrap() -> Any {
         return {
-            switch jsonValue.typedValue {
+            switch self.typedValue {
             case .null:                 return nil
             case .bool(let value):      return value
             case .int(let value):       return value
