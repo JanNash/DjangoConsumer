@@ -329,6 +329,7 @@ private extension DefaultImplementations.Node {
             switch $0.toPayload(for: .post) {
             case .json(let dict):
                 jsonDicts.append(dict)
+                multipartDicts.append(MultipartDict(dict.dict))
             case .multipart(let dict):
                 multipartDicts.append(dict)
             }
@@ -338,7 +339,6 @@ private extension DefaultImplementations.Node {
             return .json([ListRequestKeys.objects: jsonDicts])
         }
         
-        // A third case, jsonAndMultipart?
         return .multipart([ListRequestKeys.objects: multipartDicts])
     }
 }
