@@ -32,7 +32,7 @@ public struct MultipartDict: CustomStringConvertible, ExpressibleByDictionaryLit
         return "MultipartDict(" + self.dict.description + ")"
     }
     
-    public func unwrap(using encoding: MultipartEncoding) -> UnwrappedRequestPayload {
+    public func unwrap(using encoding: MultipartEncoding) -> RequestPayload.Unwrapped {
         return .multipart(self.encode(key: nil, encoding: encoding))
     }
 }
