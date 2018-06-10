@@ -58,13 +58,13 @@ private extension DefaultImplementations.SinglePostable {
         
         let payload: RequestPayload = node.payloadFrom(object: singlePostable, method: method)
         
+        // TODO: It should be fairly possible to get rid of all those dict.dict.dicts
+        // by making JSONDict and MultipartDict actual Collection Types.
         switch payload {
-        case .json(var value):
-            value.dict.merge(additionalParameters.dict, uniquingKeysWith: { _, r in r})
-        case .multipart(var value):
-            value.append(.json(additionalParameters))
-        case .nested(_, var value):
-            value.append(.json(additionalParameters))
+        case .json(var dict):
+            dict.dict.merge(additionalParameters.dict, uniquingKeysWith: { _, r in r})
+        case .multipart(var dict):
+            dict.dict.merge(additionalParameters.dict, uniquingKeysWith: { _, r in r })
         }
         
         let encoding: ParameterEncoding = JSONEncoding.default
