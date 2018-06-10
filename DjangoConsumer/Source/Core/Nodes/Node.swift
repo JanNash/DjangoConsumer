@@ -322,21 +322,23 @@ private extension DefaultImplementations.Node {
 // MARK: Request Payload Generation Implementations
 private extension DefaultImplementations.Node {
     static func _payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> RequestPayload where C.Element == T {
-        var jsonDicts: [JSONValueConvertible] = []
+        var jsonDicts: [JSONDict] = []
         var multipartDicts: [MultipartDict] = []
         
         listPostables.forEach({
             switch $0.toPayload(for: .post) {
-            case .json(let dict):       jsonDicts.append(dict)
-            case .multipart(let dict):  multipartDicts.append(dict)
+            case .json(let dict):
+                jsonDicts.append(dict)
+            case .multipart(let dict):
+                multipartDicts.append(dict)
             }
         })
-        
         
         if multipartDicts.isEmpty {
             return .json([ListRequestKeys.objects: jsonDicts])
         }
         
+        // A third case, jsonAndMultipart?
         return .multipart([ListRequestKeys.objects: multipartDicts])
     }
 }
