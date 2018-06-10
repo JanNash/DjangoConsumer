@@ -310,7 +310,7 @@ private extension OAuth2Handler {
 
 // MARK: Common Token Request Functionality
 private extension OAuth2Handler {
-    func __requestAndSaveTokens(url: URL, payload: RequestPayload, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    func __requestAndSaveTokens(url: URL, payload: RequestPayload.Unwrapped, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
         let cfg: RequestConfiguration = {
