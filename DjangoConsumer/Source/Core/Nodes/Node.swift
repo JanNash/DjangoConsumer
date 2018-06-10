@@ -21,6 +21,9 @@ public protocol Node {
     // Routes
     var routes: [Route] { get }
     
+    // Multipart Payload Encoding
+    var multipartEncoding: MultipartEncoding { get }
+    
     // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     func defaultFilters(for resourceType: FilteredListGettable.Type) -> [FilterType]
@@ -34,6 +37,10 @@ public protocol Node {
     // Request Payload Generation
     func payloadFrom(object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload
     func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> RequestPayload where C.Element == T
+    func multipartEncoding(for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding
+    func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T
+    func unwrapPayload(_ payload: RequestPayload, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload.Unwrapped
+    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: RequestPayload, for objects: C) -> RequestPayload.Unwrapped where C.Element == T
     
     // URLs
     // MetaResource.Type URLs
@@ -97,6 +104,22 @@ public extension Node {
     
     func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> RequestPayload where C.Element == T {
         return DefaultImplementations.Node.payloadFrom(node: self, listPostables: listPostables)
+    }
+    
+    func multipartEncoding(for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
+        return DefaultImplementations.Node.multipartEncoding(node: self, for: object, method: method)
+    }
+    
+    func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T {
+        return DefaultImplementations.Node.multipartEncoding(node: self, for: objects)
+    }
+    
+    func unwrapPayload(_ payload: RequestPayload, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload.Unwrapped {
+        return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: object, method: method)
+    }
+    
+    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: RequestPayload, for objects: C) -> RequestPayload.Unwrapped where C.Element == T {
+        return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: objects)
     }
 }
 
@@ -236,6 +259,22 @@ public extension DefaultImplementations.Node {
         
         return self._payloadFrom(node: node, listPostables: listPostables)
     }
+    
+    public static func multipartEncoding(node: Node, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
+        return node.multipartEncoding
+    }
+    
+    public static func multipartEncoding<C: Collection, T: ListPostable>(node: Node, for objects: C) -> MultipartEncoding where C.Element == T {
+        return node.multipartEncoding
+    }
+    
+    public static func unwrapPayload(node: Node, payload: RequestPayload, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload.Unwrapped {
+        return self._unwrapPayload(node: node, payload: payload, for: object, method: method)
+    }
+    
+    public static func unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: RequestPayload, for objects: C) -> RequestPayload.Unwrapped where C.Element == T {
+        return self._unwrapPayload(node: node, payload: payload, for: objects)
+    }
 }
 
 
@@ -344,6 +383,24 @@ private extension DefaultImplementations.Node {
         }
         
         return .multipart([ListRequestKeys.objects: multipartDicts])
+    }
+    
+    static func _unwrapPayload(node: Node, payload: RequestPayload, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload.Unwrapped {
+        switch payload {
+        case .json(let dict):
+            return .json(dict.unwrap())
+        case .multipart(let dict):
+            return dict.unwrap(using: node.multipartEncoding(for: object, method: method))
+        }
+    }
+    
+    static func _unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: RequestPayload, for objects: C) -> RequestPayload.Unwrapped where C.Element == T {
+        switch payload {
+        case .json(let dict):
+            return .json(dict.unwrap())
+        case .multipart(let dict):
+            return dict.unwrap(using: node.multipartEncoding(for: objects))
+        }
     }
 }
 
