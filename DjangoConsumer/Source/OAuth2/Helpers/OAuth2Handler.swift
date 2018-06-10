@@ -262,7 +262,7 @@ private extension OAuth2Handler {
         self._isRequesting = true
         
         let url: URL = self.settings.tokenRequestURL
-        let payload: RequestPayload = .json([
+        let payload: RequestPayload.Unwrapped = .json([
             _C.JSONKeys.grantType : _C.GrantTypes.password,
             _C.JSONKeys.scope : _C.Scopes.readWrite,
             _C.JSONKeys.username : username,
@@ -292,7 +292,7 @@ private extension OAuth2Handler {
         }
         
         let url: URL = self.settings.tokenRefreshURL
-        let payload: RequestPayload = .json([
+        let payload: RequestPayload.Unwrapped = .json([
             _C.JSONKeys.refreshToken: refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
         ])
