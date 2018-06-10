@@ -77,13 +77,13 @@ extension Optional: JSONValueConvertible where Wrapped: JSONValueConvertible {
 
 
 // MARK: Conditional Conformances
-//extension Dictionary: JSONValueConvertible where Key == String, Value: JSONValueConvertible {
-//    public func toJSONValue() -> JSONValue { return .dict(self) }
-//}
+extension Dictionary: JSONValueConvertible where Key == String, Value: JSONValueConvertible {
+    public func toJSONValue() -> JSONValue { return .dict(self) }
+}
 
-//extension Array: JSONValueConvertible where Element: JSONValueConvertible {
-//    public func toJSONValue() -> JSONValue { return .array(self) }
-//}
+extension Array: JSONValueConvertible where Element: JSONValueConvertible {
+    public func toJSONValue() -> JSONValue { return .array(self) }
+}
 
 
 // MARK: // Private
