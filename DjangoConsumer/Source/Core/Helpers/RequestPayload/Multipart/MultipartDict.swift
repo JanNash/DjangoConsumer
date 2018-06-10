@@ -22,7 +22,7 @@ public struct MultipartDict: CustomStringConvertible, ExpressibleByDictionaryLit
         self.dict = Dictionary(uniqueKeysWithValues: elements)
     }
     
-    let dict: [String: MultipartValueConvertible]
+    var dict: [String: MultipartValueConvertible]
     
     public func encode(key: String?, encoding: MultipartEncoding) -> MultipartPayload {
         return self._encode(key: key, encoding: encoding)
