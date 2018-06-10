@@ -60,6 +60,7 @@ private extension DefaultImplementations.SinglePostable {
         
         // TODO: It should be fairly possible to get rid of all those dict.dict.dicts
         // by making JSONDict and MultipartDict actual Collection Types.
+        // ???: Also, this switch should actually happen in the Node, I suppose?
         switch payload {
         case .json(var dict):
             dict.dict.merge(additionalParameters.dict, uniquingKeysWith: { _, r in r})
