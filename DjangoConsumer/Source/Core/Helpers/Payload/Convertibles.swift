@@ -21,8 +21,10 @@ public protocol PayloadConvertible {
 
 
 // MARK: PayloadConvertible Default Implementation
-extension PayloadConvertible {
-    
+public extension PayloadConvertible {
+    public func toPayload() -> Payload {
+        return self.payloadDict().toPayload()
+    }
 }
 
 
@@ -39,7 +41,7 @@ public protocol JSONValueConvertible: PayloadElementConvertible {
 
 
 // MARK: PayloadValueConvertible Default Implementation
-extension JSONValueConvertible {
+public extension JSONValueConvertible {
     public func splitToPayloadElement(path: String) -> Payload.Element {
         return (self.toJSONValue().unwrap(), [:])
     }
@@ -53,7 +55,7 @@ public protocol MultipartValueConvertible: PayloadElementConvertible {
 
 
 // MARK: PayloadValueConvertible Default Implementation
-extension MultipartValueConvertible {
+public extension MultipartValueConvertible {
     public func splitToPayloadElement(path: String) -> Payload.Element {
         return (nil, [path: self.toMultipartValue()])
     }
