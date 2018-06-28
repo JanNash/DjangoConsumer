@@ -14,35 +14,26 @@ import Foundation
 
 // MARK: // Public
 // MARK: -
-public struct PayloadDict: ExpressibleByDictionaryLiteral {
-    // Typealiases
-    public typealias DictType = [String: PayloadElementConvertible]
-    public typealias Index = PayloadDict.DictType.Index
-    public typealias Key = PayloadDict.DictType.Key
-    public typealias Value = PayloadDict.DictType.Value
-    public typealias Element = (key: PayloadDict.Key, value: PayloadDict.Value)
-    
-    // ExpressibleByDictionaryLiteral Init
-    public init(dictionaryLiteral elements: (PayloadDict.Key, PayloadDict.Value)...) {
-        self.dict = Dictionary(elements, uniquingKeysWith: { _, r in r })
-    }
-    
-    // Internal Variables
-    var dict: PayloadDict.DictType
+public extension Payload.Dict {
+    // Collection Typealiases
+    public typealias Index = Payload.Dict.DictType.Index
+    public typealias Key = Payload.Dict.DictType.Key
+    public typealias Value = Payload.Dict.DictType.Value
+    public typealias Element = (key: Key, value: Value)
 }
 
 
 // MARK: Collection Conformance
-extension PayloadDict: Collection {
-    public var startIndex: PayloadDict.Index {
+extension Payload.Dict {
+    public var startIndex: Index {
         return self.dict.startIndex
     }
     
-    public var endIndex: PayloadDict.Index {
+    public var endIndex: Index {
         return self.dict.endIndex
     }
     
-    public func index(after i: PayloadDict.Index) -> PayloadDict.DictType.Index {
+    public func index(after i: Index) -> Index {
         return self.dict.index(after: i)
     }
     
@@ -51,7 +42,7 @@ extension PayloadDict: Collection {
         set { self.dict[key] = newValue }
     }
     
-    public subscript(position: PayloadDict.DictType.Index) -> (key: PayloadDict.Key, value: PayloadDict.Value) {
+    public subscript(position: Index) -> (key: Key, value: Value) {
         return self.dict[position]
     }
 }
