@@ -1,5 +1,5 @@
 //
-//  Dictionary (PayloadValueConvertible).swift
+//  Dictionary (PayloadElementConvertible).swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 28.06.18.
@@ -13,7 +13,7 @@ import Foundation
 
 
 // MARK: // Public
-// MARK: - : PayloadValueConvertible
+// MARK: - : PayloadElementConvertible
 extension Dictionary: PayloadElementConvertible where Key == String, Value: PayloadElementConvertible {
     public func splitToPayloadElement(path: String) -> Payload.Element {
         return self._splitToPayloadElement(path: path)
@@ -21,8 +21,8 @@ extension Dictionary: PayloadElementConvertible where Key == String, Value: Payl
 }
 
 
-// MARK: : PayloadValueConvertible Implementation
-private extension Dictionary/*: PayloadValueConvertible*/ where Key == String, Value: PayloadElementConvertible {
+// MARK: : PayloadElementConvertible Implementation
+private extension Dictionary/*: PayloadElementConvertible*/ where Key == String, Value: PayloadElementConvertible {
     func _splitToPayloadElement(path: String) -> Payload.Element {
         var multipartDict: [String: Payload.Multipart.Value] = [:]
         
