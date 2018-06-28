@@ -12,35 +12,30 @@
 import Foundation
 
 
-// MARK: // Internal
+// MARK: // Public
 // MARK: Interface
-extension Payload.JSON.Value {
+public extension Payload.JSON.Value {
     // Factories
-    static let null: Payload.JSON.Value = Payload.JSON.Value(.null)
+    public static let null: Payload.JSON.Value = Payload.JSON.Value(.null)
     
-    static func bool(_ bool: Bool?) -> Payload.JSON.Value {
+    public static func bool(_ bool: Bool?) -> Payload.JSON.Value {
         return ._bool(bool)
     }
     
-    static func int<T>(_ int: T?) -> Payload.JSON.Value where T: SignedInteger {
+    public static func int<T>(_ int: T?) -> Payload.JSON.Value where T: SignedInteger {
         return ._int(int)
     }
     
-    static func uInt<T>(_ int: T?) -> Payload.JSON.Value where T: UnsignedInteger {
+    public static func uInt<T>(_ int: T?) -> Payload.JSON.Value where T: UnsignedInteger {
         return ._uInt(int)
     }
     
-    static func float<T>(_ float: T?) -> Payload.JSON.Value where T: BinaryFloatingPoint {
+    public static func float<T>(_ float: T?) -> Payload.JSON.Value where T: BinaryFloatingPoint {
         return ._float(float)
     }
     
-    static func string(_ string: String?) -> Payload.JSON.Value {
+    public static func string(_ string: String?) -> Payload.JSON.Value {
         return ._string(string)
-    }
-    
-    // Unwrap
-    func unwrap() -> Any {
-        return self._unwrap()
     }
 }
 
@@ -48,8 +43,17 @@ extension Payload.JSON.Value {
 // MARK: Protocol Conformances
 // MARK: CustomStringConvertible
 extension Payload.JSON.Value: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         return self._description
+    }
+}
+
+
+// MARK: // Internal
+// MARK: Interface
+extension Payload.JSON.Value {
+    func unwrap() -> Any {
+        return self._unwrap()
     }
 }
 

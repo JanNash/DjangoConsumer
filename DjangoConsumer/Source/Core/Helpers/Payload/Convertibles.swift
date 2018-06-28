@@ -14,41 +14,41 @@ import Foundation
 
 // MARK: // Public
 // MARK: -
-protocol PayloadConvertible {
+public protocol PayloadConvertible {
 //    var payloadDict: Payload.Dict
     func toPayload() -> Payload
 }
 
 
 // MARK: -
-protocol PayloadElementConvertible {
+public protocol PayloadElementConvertible {
     func splitToPayloadElement(path: String) -> Payload.Element
 }
 
 
 // MARK: -
-protocol JSONValueConvertible: PayloadElementConvertible {
+public protocol JSONValueConvertible: PayloadElementConvertible {
     func toJSONValue() -> Payload.JSON.Value
 }
 
 
 // MARK: PayloadValueConvertible Default Implementation
 extension JSONValueConvertible {
-    func splitToPayloadElement(path: String) -> Payload.Element {
+    public func splitToPayloadElement(path: String) -> Payload.Element {
         return (self.toJSONValue().unwrap(), [:])
     }
 }
 
 
 // MARK: -
-protocol MultipartValueConvertible: PayloadElementConvertible {
+public protocol MultipartValueConvertible: PayloadElementConvertible {
     func toMultipartValue() -> Payload.Multipart.Value
 }
 
 
 // MARK: PayloadValueConvertible Default Implementation
 extension MultipartValueConvertible {
-    func splitToPayloadElement(path: String) -> Payload.Element {
+    public func splitToPayloadElement(path: String) -> Payload.Element {
         return (nil, [path: self.toMultipartValue()])
     }
 }

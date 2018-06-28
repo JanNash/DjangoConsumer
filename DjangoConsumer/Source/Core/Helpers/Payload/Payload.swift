@@ -16,13 +16,14 @@ import Foundation
 // MARK: -
 public struct Payload {
     // Variables
-    var json: [String: Any]
-    var multipart: [String: Multipart.Value]
+    public private(set) var json: [String: Any]
+    public private(set) var multipart: [String: Multipart.Value]
     
-    typealias Element = (json: Any?, multipart: [String: Multipart.Value])
+    // Element
+    public typealias Element = (json: Any?, multipart: [String: Multipart.Value])
     
     // JSON
-    struct JSON {
+    public struct JSON {
         public struct Value: Equatable {
             indirect enum Type_: Equatable {
                 case null
@@ -43,10 +44,10 @@ public struct Payload {
         }
     }
     
-    enum Multipart {
-        typealias Value = (Data, ContentType)
+    public enum Multipart {
+        public typealias Value = (Data, ContentType)
         
-        enum ContentType: String, CustomStringConvertible {
+        public enum ContentType: String, CustomStringConvertible {
             case imageJPEG = "image/jpeg"
             case imagePNG = "image/png"
             // TODO: Add missing content types
@@ -55,7 +56,7 @@ public struct Payload {
                 return ("null".data(using: .utf8)!, self)
             }
             
-            var description: String {
+            public var description: String {
                 return self.rawValue
             }
         }
