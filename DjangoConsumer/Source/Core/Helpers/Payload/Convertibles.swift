@@ -15,8 +15,14 @@ import Foundation
 // MARK: // Public
 // MARK: -
 public protocol PayloadConvertible {
-//    var payloadDict: Payload.Dict
+    func payloadDict() -> Payload.Dict
     func toPayload() -> Payload
+}
+
+
+// MARK: PayloadConvertible Default Implementation
+extension PayloadConvertible {
+    
 }
 
 
