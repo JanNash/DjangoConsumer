@@ -518,15 +518,6 @@
 			path = DjangoConsumerTests;
 			sourceTree = "<group>";
 		};
-		F9351217B58D4D9294E6EE18544A24D4 /* Convertible Implementations */ = {
-			isa = PBXGroup;
-			children = (
-				6A2B74890F5D216B043FF2D4141949C5 /* Array (PayloadElementConvertible).swift */,
-				E9C80ED76C9341053CBA664AC2ECF634 /* Dictionary (PayloadElementConvertible).swift */,
-			);
-			path = "Convertible Implementations";
-			sourceTree = "<group>";
-		};
 		F4216A7EEF6B1AE6943EEFD7A45D1EFA /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
@@ -554,6 +545,15 @@
 				6D4F01CD750F13B645FC2544029A1468 /* PayloadConvertible.swift */,
 			);
 			path = Convertibles;
+			sourceTree = "<group>";
+		};
+		F9351217B58D4D9294E6EE18544A24D4 /* Convertible Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				6A2B74890F5D216B043FF2D4141949C5 /* Array (PayloadElementConvertible).swift */,
+				E9C80ED76C9341053CBA664AC2ECF634 /* Dictionary (PayloadElementConvertible).swift */,
+			);
+			path = "Convertible Implementations";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
