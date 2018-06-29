@@ -49,7 +49,7 @@ extension Payload.Dict {
 
 
 // MARK: PayloadConvertible
-extension Payload.Dict: PayloadConvertible {
+extension Payload.Dict/*: PayloadConvertible*/ {
     public func payloadDict() -> Payload.Dict {
         return self
     }

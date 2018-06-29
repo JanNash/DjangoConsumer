@@ -23,7 +23,7 @@ public struct Payload {
     public typealias Element = (json: Any?, multipart: [String: Multipart.Value])
     
     // Dict
-    public struct Dict: Collection, ExpressibleByDictionaryLiteral {
+    public struct Dict: Collection, ExpressibleByDictionaryLiteral, PayloadConvertible {
         // Typealiases
         public typealias DictType = [String: PayloadElementConvertible]
         
@@ -37,9 +37,9 @@ public struct Payload {
     }
     
     // JSON
-    public struct JSON {
+    public enum JSON {
         // Typed Value
-        public enum Value: Equatable {
+        public enum Value: Equatable, CustomStringConvertible {
             case bool(Bool?)
             case int(Int?)
             case int8(Int8?)

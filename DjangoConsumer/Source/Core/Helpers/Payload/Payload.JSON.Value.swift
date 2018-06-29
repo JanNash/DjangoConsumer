@@ -24,7 +24,7 @@ extension Payload.JSON.Value {
 
 // MARK: Protocol Conformances
 // MARK: CustomStringConvertible
-extension Payload.JSON.Value: CustomStringConvertible {
+extension Payload.JSON.Value/*: CustomStringConvertible*/ {
     public var description: String {
         return self._description
     }
