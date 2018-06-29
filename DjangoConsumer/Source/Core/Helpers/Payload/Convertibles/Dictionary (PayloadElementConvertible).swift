@@ -15,26 +15,27 @@ import Foundation
 // MARK: // Public
 // MARK: - : PayloadElementConvertible
 extension Dictionary: PayloadElementConvertible where Key == String, Value: PayloadElementConvertible {
-    public func splitToPayloadElement(path: String) -> Payload.Element {
-        return self._splitToPayloadElement(path: path)
+    public func toPayloadElement(path: String) -> Payload.Element {
+        return self._toPayloadElement(path: path)
     }
 }
 
 
 // MARK: : PayloadElementConvertible Implementation
 private extension Dictionary/*: PayloadElementConvertible*/ where Key == String, Value: PayloadElementConvertible {
-    func _splitToPayloadElement(path: String) -> Payload.Element {
-        var multipartDict: [String: Payload.Multipart.Value] = [:]
-        
-        let jsonDict: [String: Any] = Dictionary<String, Any>(
+    func _toPayloadElement(path: String) -> Payload.Element {
+        var multipartPayload: Payload.Multipart.Payload = []
+        let jsonPayloadValue: Payload.JSON.RawPayloadValue = Dictionary<String, Any>(
             self.compactMap({ element in
                 // FIXME: This should be extracted
                 let path: String = path + "." + element.key
-                let payloadValue: Payload.Element = element.value.splitToPayloadElement(path: path)
+                let payloadValue: Payload.Element = element.value.toPayloadElement(path: path)
                 
-                multipartDict.merge(payloadValue.multipart, uniquingKeysWith: { _, r in r })
+                if let multipart: Payload.Multipart.RawPayloadValue = payloadValue.multipart {
+                    multipartPayload += multipart
+                }
                 
-                if let json = payloadValue.json {
+                if let json: Payload.JSON.RawPayloadValue = payloadValue.json {
                     return (element.key, json)
                 }
                 
@@ -43,6 +44,6 @@ private extension Dictionary/*: PayloadElementConvertible*/ where Key == String,
             uniquingKeysWith: { _, r in r }
         )
         
-        return (jsonDict, multipartDict)
+        return (jsonPayloadValue, multipartPayload)
     }
 }

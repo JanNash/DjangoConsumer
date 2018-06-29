@@ -15,28 +15,30 @@ import Foundation
 // MARK: // Public
 // MARK: - : PayloadElementConvertible
 extension Array: PayloadElementConvertible where Element: PayloadElementConvertible {
-    public func splitToPayloadElement(path: String) -> Payload.Element {
-        return self._splitToPayloadElement(path: path)
+    public func toPayloadElement(path: String) -> Payload.Element {
+        return self._toPayloadElement(path: path)
     }
 }
 
 
 // MARK: : PayloadElementConvertible Implementation
 private extension Array/*: PayloadElementConvertible*/ where Element: PayloadElementConvertible {
-    func _splitToPayloadElement(path: String) -> Payload.Element {
-        var multipartDict: [String: Payload.Multipart.Value] = [:]
+    func _toPayloadElement(path: String) -> Payload.Element {
+        var multipartPayload: Payload.Multipart.Payload = []
         
-        let jsonArray: [Any] = self.enumerated().compactMap({
+        let jsonPayloadValue: [Payload.JSON.RawPayloadValue] = self.enumerated().compactMap({
             let (offset, element): (Int, Element) = $0
             // FIXME: This should be extracted
             let path: String = path + "[" + "\(offset)" + "]"
-            let payloadValue: Payload.Element = element.splitToPayloadElement(path: path)
+            let payloadElement: Payload.Element = element.toPayloadElement(path: path)
         
-            multipartDict.merge(payloadValue.multipart, uniquingKeysWith: { _, r in r })
+            if let multipart: Payload.Multipart.RawPayloadValue = payloadElement.multipart {
+                multipartPayload += multipart
+            }
             
-            return payloadValue.json
+            return payloadElement.json
         })
         
-        return (jsonArray, multipartDict)
+        return (jsonPayloadValue, multipartPayload)
     }
 }

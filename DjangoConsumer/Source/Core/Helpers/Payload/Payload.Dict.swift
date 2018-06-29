@@ -64,13 +64,15 @@ extension Payload.Dict/*: PayloadConvertible*/ {
 // MARK: PayloadConvertible Implementation
 private extension Payload.Dict/*: PayloadConvertible*/ {
     func _toPayload() -> Payload {
-        var multipart: [String: Payload.Multipart.Value] = [:]
-        let json: [String: Any] = Dictionary<String, Any>(
+        var multipartPayload: Payload.Multipart.Payload = []
+        let jsonPayload: Payload.JSON.Payload = Dictionary<String, Any>(
             self.compactMap({
                 let (key, convertible): (String, PayloadElementConvertible) = $0
-                let payloadElement: Payload.Element = convertible.splitToPayloadElement(path: key)
+                let payloadElement: Payload.Element = convertible.toPayloadElement(path: key)
                 
-                multipart.merge(payloadElement.multipart, uniquingKeysWith: { _, r in r })
+                if let multipart: Payload.Multipart.Payload = payloadElement.multipart {
+                    multipartPayload = multipart
+                }
                 
                 if let json: Any = payloadElement.json {
                     return (key, json)
@@ -81,6 +83,6 @@ private extension Payload.Dict/*: PayloadConvertible*/ {
             uniquingKeysWith: { _, r in r }
         )
         
-        return Payload(json: json, multipart: multipart)
+        return Payload(json: jsonPayload, multipart: multipartPayload)
     }
 }

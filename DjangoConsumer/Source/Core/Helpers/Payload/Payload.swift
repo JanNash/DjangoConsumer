@@ -16,11 +16,11 @@ import Foundation
 // MARK: -
 public struct Payload {
     // Variables
-    public private(set) var json: [String: Any]
-    public private(set) var multipart: [String: Multipart.Value]
+    public private(set) var json: JSON.Payload
+    public private(set) var multipart: Multipart.Payload
     
     // Element
-    public typealias Element = (json: Any?, multipart: [String: Multipart.Value])
+    public typealias Element = (json: JSON.RawPayloadValue?, multipart: Multipart.RawPayloadValue?)
     
     // Dict
     public struct Dict: Collection, ExpressibleByDictionaryLiteral, PayloadConvertible {
@@ -38,6 +38,12 @@ public struct Payload {
     
     // JSON
     public enum JSON {
+        // RawPayloadValue
+        public typealias RawPayloadValue = Any
+        
+        // Payload
+        public typealias Payload = [String: RawPayloadValue]
+        
         // Typed Value
         public enum Value: Equatable, CustomStringConvertible {
             case bool(Bool?)
@@ -58,6 +64,12 @@ public struct Payload {
     }
     
     public enum Multipart {
+        // RawPayloadValue
+        public typealias RawPayloadValue = [(String, Multipart.Value)]
+        
+        // Payload
+        public typealias Payload = [(String, Multipart.Value)]
+        
         // Value
         public typealias Value = (Data, ContentType)
         
