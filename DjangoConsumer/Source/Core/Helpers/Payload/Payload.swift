@@ -55,14 +55,6 @@ public struct Payload {
             case double(Double?)
             case string(String?)
         }
-        
-        // Init
-        init(_ value: Value) {
-            self.value = value
-        }
-        
-        // Inner Value
-        let value: Value
     }
     
     public enum Multipart {
