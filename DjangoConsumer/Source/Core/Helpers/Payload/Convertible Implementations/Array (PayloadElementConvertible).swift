@@ -24,8 +24,7 @@ extension Array: PayloadElementConvertible where Element: PayloadElementConverti
 // MARK: : PayloadElementConvertible Implementation
 private extension Array/*: PayloadElementConvertible*/ where Element: PayloadElementConvertible {
     func _toPayloadElement(path: String) -> Payload.Element {
-        var multipartPayload: Payload.Multipart.Payload = []
-        
+        var multipartPayloadValue: Payload.Multipart.RawPayloadValue = []
         let jsonPayloadValue: [Payload.JSON.RawPayloadValue] = self.enumerated().compactMap({
             let (offset, element): (Int, Element) = $0
             // FIXME: This should be extracted
@@ -33,12 +32,12 @@ private extension Array/*: PayloadElementConvertible*/ where Element: PayloadEle
             let payloadElement: Payload.Element = element.toPayloadElement(path: path)
         
             if let multipart: Payload.Multipart.RawPayloadValue = payloadElement.multipart {
-                multipartPayload += multipart
+                multipartPayloadValue += multipart
             }
             
             return payloadElement.json
         })
         
-        return (jsonPayloadValue, multipartPayload)
+        return (jsonPayloadValue, multipartPayloadValue)
     }
 }
