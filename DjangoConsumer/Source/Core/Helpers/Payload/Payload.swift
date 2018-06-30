@@ -47,6 +47,26 @@ public struct Payload {
             case double(Double?)
             case string(String?)
         }
+    
+        // Dict
+        public struct Dict: Collection, ExpressibleByDictionaryLiteral {
+            // Typealiases
+            public typealias DictType = [String: JSONValueConvertible]
+            
+            // Collection Typealiases
+            public typealias Index = DictType.Index
+            public typealias Key = DictType.Key
+            public typealias Value = DictType.Value
+            public typealias Element = (key: Key, value: Value)
+            
+            // ExpressibleByDictionaryLiteral Init
+            public init(dictionaryLiteral elements: (Key, Value)...) {
+                self._dict  = Dictionary(elements, uniquingKeysWith: { _, r in r })
+            }
+            
+            // Private Variables
+            private var _dict: DictType
+        }
     }
     
     public enum Multipart {
@@ -75,5 +95,30 @@ public struct Payload {
                 return self.rawValue
             }
         }
+    }
+}
+
+
+// MARK: Payload.JSON.Dict: Collection
+extension Payload.JSON.Dict/*: Collection*/ {
+    public var startIndex: Index {
+        return self._dict.startIndex
+    }
+    
+    public var endIndex: Index {
+        return self._dict.endIndex
+    }
+    
+    public func index(after i: Index) -> Index {
+        return self._dict.index(after: i)
+    }
+    
+    public subscript(key: Key) -> Value? {
+        get { return self._dict[key] }
+        set { self._dict[key] = newValue }
+    }
+    
+    public subscript(position: Index) -> (key: Key, value: Value) {
+        return self._dict[position]
     }
 }
