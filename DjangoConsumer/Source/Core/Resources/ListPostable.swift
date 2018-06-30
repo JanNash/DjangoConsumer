@@ -53,8 +53,7 @@ private extension DefaultImplementations.ListPostable {
     static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType) where C.Element == T {
         let routeType: RouteType.List = .listPOST
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
-        let payload: RequestPayload = node.payloadFrom(listPostables: objects)
-        let unwrappedPayload: RequestPayload.Unwrapped = node.unwrapPayload(payload, for: objects)
+        let payload: Payload = node.payloadFrom(listPostables: objects)
         let encoding: ParameterEncoding = URLEncoding.default
         
         func onSuccess(_ json: JSON) {
@@ -67,7 +66,7 @@ private extension DefaultImplementations.ListPostable {
         }
         
         sessionManager.fireRequest(
-            with: .post(POSTRequestConfiguration(url: url, payload: unwrappedPayload, encoding: encoding)),
+            with: .post(POSTRequestConfiguration(url: url, payload: payload, encoding: encoding)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
