@@ -17,6 +17,7 @@
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
 		22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
+		33961D443AAF9FFEAF03E4137A8F361A /* Payload.Dict (PayloadConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = D5683F184823889C26D309367131B2F2 /* Payload.Dict (PayloadConvertible).swift */; };
 		36FB7694D0EC516AB7CD007226092BF4 /* SinglePostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */; };
 		3822C625D7D6018BF412869914F1C6F8 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */; };
 		382B523A6651A0ABFF4B3EDE91903E0D /* SessionManager (SessionManagerType).swift in Sources */ = {isa = PBXBuildFile; fileRef = 19227FA82FAB0B4E505BB2D51004EE4A /* SessionManager (SessionManagerType).swift */; };
@@ -174,6 +175,7 @@
 		CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourceID+OAuth2.swift"; sourceTree = "<group>"; };
 		D141F279D8027641BD858F953499CE12 /* Payload.JSON.Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.JSON.Value.swift; sourceTree = "<group>"; };
+		D5683F184823889C26D309367131B2F2 /* Payload.Dict (PayloadConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Payload.Dict (PayloadConvertible).swift"; sourceTree = "<group>"; };
 		D7EDE5DD6F3905711D9BD82731F1D21D /* JSONResponseHandlingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONResponseHandlingTests.swift; sourceTree = "<group>"; };
 		DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 			children = (
 				6A2B74890F5D216B043FF2D4141949C5 /* Array (PayloadElementConvertible).swift */,
 				E9C80ED76C9341053CBA664AC2ECF634 /* Dictionary (PayloadElementConvertible).swift */,
+				D5683F184823889C26D309367131B2F2 /* Payload.Dict (PayloadConvertible).swift */,
 			);
 			path = "Convertible Implementations";
 			sourceTree = "<group>";
@@ -778,6 +781,7 @@
 				DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */,
 				3CE39AA01C15C2A2704A15F85D5499B5 /* OAuth2Node.swift in Sources */,
 				23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */,
+				33961D443AAF9FFEAF03E4137A8F361A /* Payload.Dict (PayloadConvertible).swift in Sources */,
 				81BEB88AFE7E55393C242AC9914BD4EA /* Payload.Dict.swift in Sources */,
 				7EFAFAD67B846597D98C779048138F6D /* Payload.JSON.Value.swift in Sources */,
 				F977BED704179A6A02EC4459A0E3018C /* Payload.swift in Sources */,
