@@ -30,17 +30,17 @@ public protocol Node {
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
     
     // URL Parameter Generation
-    func parametersFrom(filters: [FilterType]) -> JSONDict
-    func parametersFrom(offset: UInt, limit: UInt) -> JSONDict
-    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> JSONDict
+    func parametersFrom(filters: [FilterType]) -> Payload.JSON.Dict
+    func parametersFrom(offset: UInt, limit: UInt) -> Payload.JSON.Dict
+    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Payload.JSON.Dict
     
     // Request Payload Generation
-    func payloadFrom(object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload
-    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> RequestPayload where C.Element == T
-    func multipartEncoding(for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding
+    func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload
+    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> Payload where C.Element == T
+    func multipartEncoding(for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding
     func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T
-    func unwrapPayload(_ payload: RequestPayload, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload.Unwrapped
-    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: RequestPayload, for objects: C) -> RequestPayload.Unwrapped where C.Element == T
+    func unwrapPayload(_ payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped
+    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T
     
     // URLs
     // MetaResource.Type URLs
@@ -82,15 +82,15 @@ public extension Node {
 
 // MARK: URL Parameter Generation
 public extension Node {
-    func parametersFrom(filters: [FilterType]) -> JSONDict {
+    func parametersFrom(filters: [FilterType]) -> Payload.JSON.Dict {
         return DefaultImplementations.Node.parametersFrom(node: self, filters: filters)
     }
     
-    func parametersFrom(offset: UInt, limit: UInt) -> JSONDict {
+    func parametersFrom(offset: UInt, limit: UInt) -> Payload.JSON.Dict {
         return DefaultImplementations.Node.parametersFrom(node: self, offset: offset, limit: limit)
     }
     
-    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> JSONDict {
+    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
         return DefaultImplementations.Node.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
     }
 }
@@ -98,15 +98,15 @@ public extension Node {
 
 // MARK: Request Payload Generation
 public extension Node {
-    func payloadFrom(object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload {
+    func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
         return DefaultImplementations.Node.payloadFrom(node: self, object: object, method: method)
     }
     
-    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> RequestPayload where C.Element == T {
+    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> Payload where C.Element == T {
         return DefaultImplementations.Node.payloadFrom(node: self, listPostables: listPostables)
     }
     
-    func multipartEncoding(for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
+    func multipartEncoding(for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
         return DefaultImplementations.Node.multipartEncoding(node: self, for: object, method: method)
     }
     
@@ -114,11 +114,11 @@ public extension Node {
         return DefaultImplementations.Node.multipartEncoding(node: self, for: objects)
     }
     
-    func unwrapPayload(_ payload: RequestPayload, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload.Unwrapped {
+    func unwrapPayload(_ payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped {
         return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: object, method: method)
     }
     
-    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: RequestPayload, for objects: C) -> RequestPayload.Unwrapped where C.Element == T {
+    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T {
         return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: objects)
     }
 }
@@ -211,15 +211,15 @@ public extension DefaultImplementations.Node {
 
 // MARK: URL Parameter Generation
 public extension DefaultImplementations.Node {
-    public static func parametersFrom(node: Node, filters: [FilterType]) -> JSONDict {
-        return JSONDict(filters.mapToDict({ ($0.stringKey, $0.value) }))
+    public static func parametersFrom(node: Node, filters: [FilterType]) -> Payload.JSON.Dict {
+        return Payload.JSON.Dict(filters.mapToDict({ ($0.stringKey, $0.value) }))
     }
     
-    public static func parametersFrom(node: Node, offset: UInt, limit: UInt) -> JSONDict {
+    public static func parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
         return self._parametersFrom(node: node, offset: offset, limit: limit)
     }
     
-    public static func parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> JSONDict {
+    public static func parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
         return self._parametersFrom(node: node, offset: offset, limit: limit, filters: filters)
     }
 }
@@ -229,11 +229,11 @@ public extension DefaultImplementations.Node {
 public extension DefaultImplementations.Node {
     class DefaultMultipartEncoding: MultipartEncoding {}
     
-    public static func payloadFrom(node: Node, object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload {
+    public static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
         return object.toPayload(for: method)
     }
     
-    public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> RequestPayload where C.Element == T {
+    public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
         // For now, a request will always be sent as multipart if at least one multipart payload was found.
         // This might induce some overhead, but there would be a way: see essay below :D
         
@@ -260,7 +260,7 @@ public extension DefaultImplementations.Node {
         return self._payloadFrom(node: node, listPostables: listPostables)
     }
     
-    public static func multipartEncoding(node: Node, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
+    public static func multipartEncoding(node: Node, for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
         return node.multipartEncoding
     }
     
@@ -268,11 +268,11 @@ public extension DefaultImplementations.Node {
         return node.multipartEncoding
     }
     
-    public static func unwrapPayload(node: Node, payload: RequestPayload, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload.Unwrapped {
+    public static func unwrapPayload(node: Node, payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped {
         return self._unwrapPayload(node: node, payload: payload, for: object, method: method)
     }
     
-    public static func unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: RequestPayload, for objects: C) -> RequestPayload.Unwrapped where C.Element == T {
+    public static func unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T {
         return self._unwrapPayload(node: node, payload: payload, for: objects)
     }
 }
@@ -341,15 +341,15 @@ public extension DefaultImplementations.Node {
 // MARK: // Private
 // MARK: URL Parameter Generation Implementations
 private extension DefaultImplementations.Node {
-    static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> JSONDict {
-        var parameters: [String: JSONValueConvertible] = [:]
+    static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
+        var parameters: Payload.JSON.Dict = [:]
         let writeToParameters: (String, JSONValueConvertible) -> Void = { parameters[$0] = $1 }
-        node.parametersFrom(offset: offset, limit: limit).dict.forEach(writeToParameters)
-        node.parametersFrom(filters: filters).dict.forEach(writeToParameters)
-        return JSONDict(parameters)
+        node.parametersFrom(offset: offset, limit: limit).forEach(writeToParameters)
+        node.parametersFrom(filters: filters).forEach(writeToParameters)
+        return parameters
     }
     
-    static func _parametersFrom(node: Node, offset: UInt, limit: UInt) -> JSONDict {
+    static func _parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
         return [
             DefaultPagination.Keys.offset: offset,
             DefaultPagination.Keys.limit: limit
@@ -360,47 +360,16 @@ private extension DefaultImplementations.Node {
 
 // MARK: Request Payload Generation Implementations
 private extension DefaultImplementations.Node {
-    static func _payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> RequestPayload where C.Element == T {
-        var jsonDicts: [JSONDict] = []
-        var multipartDicts: [MultipartDict] = []
+    static func _payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
         
-        let count: Int = listPostables.count
-        jsonDicts.reserveCapacity(count)
-        multipartDicts.reserveCapacity(count)
-        
-        listPostables.forEach({
-            switch $0.toPayload(for: .post) {
-            case .json(let dict):
-                jsonDicts.append(dict)
-                multipartDicts.append(MultipartDict(dict.dict))
-            case .multipart(let dict):
-                multipartDicts.append(dict)
-            }
-        })
-        
-        if multipartDicts.isEmpty {
-            return .json([ListRequestKeys.objects: jsonDicts])
-        }
-        
-        return .multipart([ListRequestKeys.objects: multipartDicts])
     }
     
-    static func _unwrapPayload(node: Node, payload: RequestPayload, for object: RequestPayloadConvertible, method: ResourceHTTPMethod) -> RequestPayload.Unwrapped {
-        switch payload {
-        case .json(let dict):
-            return .json(dict.unwrap())
-        case .multipart(let dict):
-            return dict.unwrap(using: node.multipartEncoding(for: object, method: method))
-        }
+    static func _unwrapPayload(node: Node, payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
+        
     }
     
-    static func _unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: RequestPayload, for objects: C) -> RequestPayload.Unwrapped where C.Element == T {
-        switch payload {
-        case .json(let dict):
-            return .json(dict.unwrap())
-        case .multipart(let dict):
-            return dict.unwrap(using: node.multipartEncoding(for: objects))
-        }
+    static func _unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: Payload, for objects: C) -> Payload where C.Element == T {
+        
     }
 }
 
