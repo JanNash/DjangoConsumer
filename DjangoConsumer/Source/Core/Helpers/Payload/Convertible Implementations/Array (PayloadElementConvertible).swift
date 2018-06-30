@@ -32,7 +32,7 @@ private extension Array/*: PayloadElementConvertible*/ where Element: PayloadEle
             let payloadElement: Payload.Element = element.toPayloadElement(path: path)
         
             if let multipart: Payload.Multipart.RawPayloadValue = payloadElement.multipart {
-                multipartPayloadValue += multipart
+                multipartPayloadValue.append(contentsOf: multipart)
             }
             
             return payloadElement.json

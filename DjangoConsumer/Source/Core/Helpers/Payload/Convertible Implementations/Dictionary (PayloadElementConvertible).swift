@@ -32,7 +32,7 @@ private extension Dictionary/*: PayloadElementConvertible*/ where Key == String,
                 let payloadValue: Payload.Element = element.value.toPayloadElement(path: path)
                 
                 if let multipart: Payload.Multipart.RawPayloadValue = payloadValue.multipart {
-                    multipartPayloadValue += multipart
+                    multipartPayloadValue.append(contentsOf: multipart)
                 }
                 
                 if let json: Payload.JSON.RawPayloadValue = payloadValue.json {
