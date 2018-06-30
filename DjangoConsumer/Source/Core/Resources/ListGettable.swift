@@ -54,7 +54,7 @@ private extension DefaultImplementations.ListGettable {
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
         let limit: UInt = limit ?? node.defaultLimit(for: l)
-        let parameters: JSONDict = node.parametersFrom(offset: offset, limit: limit, filters: filters)
+        let parameters: Payload.JSON.Dict = node.parametersFrom(offset: offset, limit: limit, filters: filters)
         
         let encoding: ParameterEncoding = URLEncoding.default
         
