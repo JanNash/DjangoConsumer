@@ -17,7 +17,6 @@
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
 		22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
-		33961D443AAF9FFEAF03E4137A8F361A /* Payload.Dict (PayloadConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = D5683F184823889C26D309367131B2F2 /* Payload.Dict (PayloadConvertible).swift */; };
 		36FB7694D0EC516AB7CD007226092BF4 /* SinglePostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */; };
 		3822C625D7D6018BF412869914F1C6F8 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */; };
 		382B523A6651A0ABFF4B3EDE91903E0D /* SessionManager (SessionManagerType).swift in Sources */ = {isa = PBXBuildFile; fileRef = 19227FA82FAB0B4E505BB2D51004EE4A /* SessionManager (SessionManagerType).swift */; };
@@ -42,7 +41,6 @@
 		6F88632AF116A6692DCF6A2152FAE897 /* ProgrammerAssertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B670AB270ECCE2990C43EB5638B493A9 /* ProgrammerAssertions.swift */; };
 		7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */; };
 		7EFAFAD67B846597D98C779048138F6D /* Payload.JSON.Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = D141F279D8027641BD858F953499CE12 /* Payload.JSON.Value.swift */; };
-		81BEB88AFE7E55393C242AC9914BD4EA /* Payload.Dict.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE82A4D3885B635F1A3AE9E02F7C19D6 /* Payload.Dict.swift */; };
 		85DDC752F3F7E6CC82A38B043FC37B92 /* ListPostableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA8C41090A85EA39F94744D3849CC4E /* ListPostableClient.swift */; };
 		85F678709D3A9DE7B8D9D6A653A13EE4 /* JSONInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461A692D56D0CF8C910394B69EA98D4D /* JSONInitializable.swift */; };
 		87E7444A70F7D003157530A3017A53C4 /* SessionManager (makeDefault).swift in Sources */ = {isa = PBXBuildFile; fileRef = F551E4C07509B8D4F303FA00AF46FA0B /* SessionManager (makeDefault).swift */; };
@@ -175,11 +173,9 @@
 		CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTests.swift; sourceTree = "<group>"; };
 		D0DB57D18BA5880EDE99386CA6CB0EDD /* ResourceID+OAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResourceID+OAuth2.swift"; sourceTree = "<group>"; };
 		D141F279D8027641BD858F953499CE12 /* Payload.JSON.Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.JSON.Value.swift; sourceTree = "<group>"; };
-		D5683F184823889C26D309367131B2F2 /* Payload.Dict (PayloadConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Payload.Dict (PayloadConvertible).swift"; sourceTree = "<group>"; };
 		D7EDE5DD6F3905711D9BD82731F1D21D /* JSONResponseHandlingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONResponseHandlingTests.swift; sourceTree = "<group>"; };
 		DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.debug.xcconfig"; sourceTree = "<group>"; };
-		DE82A4D3885B635F1A3AE9E02F7C19D6 /* Payload.Dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.Dict.swift; sourceTree = "<group>"; };
 		E42A43B5F7E093D4575CAE0BC56AE2E0 /* DjangoConsumerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoConsumerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9C80ED76C9341053CBA664AC2ECF634 /* Dictionary (PayloadElementConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary (PayloadElementConvertible).swift"; sourceTree = "<group>"; };
 		EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IfThisIsAThenTests.swift; sourceTree = "<group>"; };
@@ -335,7 +331,6 @@
 			children = (
 				F9351217B58D4D9294E6EE18544A24D4 /* Convertible Implementations */,
 				F4E71ABEE60C720DE96808ACD44C537D /* Convertibles */,
-				DE82A4D3885B635F1A3AE9E02F7C19D6 /* Payload.Dict.swift */,
 				D141F279D8027641BD858F953499CE12 /* Payload.JSON.Value.swift */,
 				F1988959B77FF92A6257775066EE536D /* Payload.swift */,
 			);
@@ -554,7 +549,6 @@
 			children = (
 				6A2B74890F5D216B043FF2D4141949C5 /* Array (PayloadElementConvertible).swift */,
 				E9C80ED76C9341053CBA664AC2ECF634 /* Dictionary (PayloadElementConvertible).swift */,
-				D5683F184823889C26D309367131B2F2 /* Payload.Dict (PayloadConvertible).swift */,
 			);
 			path = "Convertible Implementations";
 			sourceTree = "<group>";
@@ -781,8 +775,6 @@
 				DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */,
 				3CE39AA01C15C2A2704A15F85D5499B5 /* OAuth2Node.swift in Sources */,
 				23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */,
-				33961D443AAF9FFEAF03E4137A8F361A /* Payload.Dict (PayloadConvertible).swift in Sources */,
-				81BEB88AFE7E55393C242AC9914BD4EA /* Payload.Dict.swift in Sources */,
 				7EFAFAD67B846597D98C779048138F6D /* Payload.JSON.Value.swift in Sources */,
 				F977BED704179A6A02EC4459A0E3018C /* Payload.swift in Sources */,
 				575A356CD0E83D149256F2273C2651C7 /* PayloadConvertible.swift in Sources */,

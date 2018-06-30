@@ -15,7 +15,7 @@ import Foundation
 // MARK: // Public
 // MARK: -
 public protocol PayloadConvertible {
-    func payloadDict() -> Payload.Dict
+    func payloadDict() -> [String: PayloadElementConvertible]
     func toPayload() -> Payload
 }
 
@@ -23,7 +23,7 @@ public protocol PayloadConvertible {
 // MARK: PayloadConvertible Default Implementation
 public extension PayloadConvertible {
     public func toPayload() -> Payload {
-        return self.payloadDict().toPayload()
+        return self._toPayload()
     }
 }
 
@@ -31,4 +31,32 @@ public extension PayloadConvertible {
 // MARK: -
 public protocol PayloadElementConvertible {
     func toPayloadElement(path: String) -> Payload.Element
+}
+
+
+// MARK: // Private
+// MARK: PayloadConvertible Default Implementation
+private extension PayloadConvertible {
+    func _toPayload() -> Payload {
+        var multipartPayload: Payload.Multipart.Payload = []
+        let jsonPayload: Payload.JSON.Payload = Dictionary<String, Any>(
+            self.payloadDict().compactMap({
+                let (key, convertible): (String, PayloadElementConvertible) = $0
+                let payloadElement: Payload.Element = convertible.toPayloadElement(path: key)
+                
+                if let multipart: Payload.Multipart.Payload = payloadElement.multipart {
+                    multipartPayload = multipart
+                }
+                
+                if let json: Any = payloadElement.json {
+                    return (key, json)
+                }
+                
+                return nil
+            }),
+            uniquingKeysWith: { _, r in r }
+        )
+        
+        return Payload(json: jsonPayload, multipart: multipartPayload)
+    }
 }

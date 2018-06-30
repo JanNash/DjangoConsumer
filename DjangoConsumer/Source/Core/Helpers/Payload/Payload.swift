@@ -22,20 +22,6 @@ public struct Payload {
     // Element
     public typealias Element = (json: JSON.RawPayloadValue?, multipart: Multipart.RawPayloadValue?)
     
-    // Dict
-    public struct Dict: Collection, ExpressibleByDictionaryLiteral, PayloadConvertible {
-        // Typealiases
-        public typealias DictType = [String: PayloadElementConvertible]
-        
-        // ExpressibleByDictionaryLiteral Init
-        public init(dictionaryLiteral elements: (Key, Value)...) {
-            self.dict_ = Dictionary(elements, uniquingKeysWith: { _, r in r })
-        }
-        
-        // Internal Variables
-        var dict_: Payload.Dict.DictType
-    }
-    
     // JSON
     public enum JSON {
         // RawPayloadValue
