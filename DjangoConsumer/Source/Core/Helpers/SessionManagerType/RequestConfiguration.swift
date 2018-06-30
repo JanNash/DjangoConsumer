@@ -15,7 +15,7 @@ import Alamofire
 // MARK: // Public
 // MARK: - GETRequestConfiguration
 public struct GETRequestConfiguration {
-    public init(url: URL, parameters: JSONDict = [:], encoding: ParameterEncoding, headers: HTTPHeaders = [:], acceptableStatusCodes: [Int] = Array(200..<300), acceptableContentTypes: [String] = ["*/*"]) {
+    public init(url: URL, parameters: Payload.JSON.Dict = [:], encoding: ParameterEncoding, headers: HTTPHeaders = [:], acceptableStatusCodes: [Int] = Array(200..<300), acceptableContentTypes: [String] = ["*/*"]) {
         self.url = url
         self.parameters = parameters
         self.encoding = encoding
@@ -25,7 +25,7 @@ public struct GETRequestConfiguration {
     }
     
     public var url: URL
-    public var parameters: JSONDict
+    public var parameters: Payload.JSON.Dict
     public var encoding: ParameterEncoding
     public var headers: HTTPHeaders
     public var acceptableStatusCodes: [Int]
@@ -35,7 +35,7 @@ public struct GETRequestConfiguration {
 
 // MARK: - POSTRequestConfiguration
 public struct POSTRequestConfiguration {
-    public init(url: URL, payload: RequestPayload.Unwrapped, encoding: ParameterEncoding, headers: HTTPHeaders = [:], acceptableStatusCodes: [Int] = Array(200..<300), acceptableContentTypes: [String] = ["*/*"]) {
+    public init(url: URL, payload: Payload, encoding: ParameterEncoding, headers: HTTPHeaders = [:], acceptableStatusCodes: [Int] = Array(200..<300), acceptableContentTypes: [String] = ["*/*"]) {
         self.url = url
         self.payload = payload
         self.encoding = encoding
@@ -45,7 +45,7 @@ public struct POSTRequestConfiguration {
     }
     
     public var url: URL
-    public var payload: RequestPayload.Unwrapped
+    public var payload: Payload
     public var encoding: ParameterEncoding
     public var headers: HTTPHeaders
     public var acceptableStatusCodes: [Int]
