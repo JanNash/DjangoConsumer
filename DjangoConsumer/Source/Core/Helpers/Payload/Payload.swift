@@ -29,11 +29,11 @@ public struct Payload {
         
         // ExpressibleByDictionaryLiteral Init
         public init(dictionaryLiteral elements: (Key, Value)...) {
-            self.dict = Dictionary(elements, uniquingKeysWith: { _, r in r })
+            self.dict_ = Dictionary(elements, uniquingKeysWith: { _, r in r })
         }
         
         // Internal Variables
-        var dict: Payload.Dict.DictType
+        var dict_: Payload.Dict.DictType
     }
     
     // JSON

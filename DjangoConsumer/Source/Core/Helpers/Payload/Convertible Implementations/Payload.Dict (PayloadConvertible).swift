@@ -31,7 +31,7 @@ private extension Payload.Dict/*: PayloadConvertible*/ {
     func _toPayload() -> Payload {
         var multipartPayload: Payload.Multipart.Payload = []
         let jsonPayload: Payload.JSON.Payload = Dictionary<String, Any>(
-            self.compactMap({
+            self.dict_.compactMap({
                 let (key, convertible): (String, PayloadElementConvertible) = $0
                 let payloadElement: Payload.Element = convertible.toPayloadElement(path: key)
                 
