@@ -59,9 +59,14 @@ public struct Payload {
             public typealias Value = DictType.Value
             public typealias Element = (key: Key, value: Value)
             
+            // Init
+            public init(_ dictionary: [Key: Value]) {
+                self._dict = dictionary
+            }
+            
             // ExpressibleByDictionaryLiteral Init
             public init(dictionaryLiteral elements: (Key, Value)...) {
-                self._dict  = Dictionary(elements, uniquingKeysWith: { _, r in r })
+                self._dict = Dictionary(elements, uniquingKeysWith: { _, r in r })
             }
             
             // Private Variables
