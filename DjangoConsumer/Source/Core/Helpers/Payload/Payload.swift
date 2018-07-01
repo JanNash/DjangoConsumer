@@ -67,6 +67,7 @@ public struct Payload {
         public struct Dict: Collection, ExpressibleByDictionaryLiteral, JSONValueConvertible {
             // Typealiases
             public typealias DictType = JSON.Payload
+            public typealias MergeStrategy = DictType.SimpleMergeStrategy<DictType.Value>
             
             // Collection Typealiases
             public typealias Index = DictType.Index
