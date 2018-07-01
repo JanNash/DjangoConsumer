@@ -86,7 +86,7 @@ public struct Payload {
             }
             
             // Private Variables
-            private var _dict: DictType
+            fileprivate var _dict: DictType
             
             // JSONValueConvertible Conformance
             public func toJSONValue() -> JSON.Value {
