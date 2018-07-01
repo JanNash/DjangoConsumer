@@ -39,11 +39,11 @@ public extension SinglePostableNoAuth {
 
 // MARK: - DefaultImplementations.SinglePostable
 public extension DefaultImplementations.SinglePostable {
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: JSONDict) {
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict) {
         self.post(singlePostable, to: node, via: node.sessionManagerNoAuth, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
     
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: JSONDict) {
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict) {
         self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
     }
 }
@@ -51,24 +51,17 @@ public extension DefaultImplementations.SinglePostable {
 
 // MARK: // Private
 private extension DefaultImplementations.SinglePostable {
-    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: JSONDict) {
+    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict) {
         let routeType: RouteType.Detail = .singlePOST
         let method: ResourceHTTPMethod = routeType.method
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
-        let payload: RequestPayload = node.payloadFrom(object: singlePostable, method: method)
+        let payload: Payload = {
+            var payload: Payload = node.payloadFrom(object: singlePostable, method: method)
+            payload.json.merge(additionalParameters.unwrap(), strategy: .overwriteOldValue)
+            return payload
+        }()
         
-        // TODO: It should be fairly possible to get rid of all those dict.dict.dicts
-        // by making JSONDict and MultipartDict actual Collection Types.
-        // ???: Also, this switch should actually happen in the Node, I suppose?
-        switch payload {
-        case .json(var dict):
-            dict.dict.merge(additionalParameters.dict, uniquingKeysWith: { _, r in r})
-        case .multipart(var dict):
-            dict.dict.merge(additionalParameters.dict, uniquingKeysWith: { _, r in r })
-        }
-        
-        let unwrappedPayload: RequestPayload.Unwrapped = node.unwrapPayload(payload, for: singlePostable, method: method)
         let encoding: ParameterEncoding = JSONEncoding.default
         
         func onSuccess(_ json: JSON) {
@@ -81,7 +74,7 @@ private extension DefaultImplementations.SinglePostable {
         }
         
         sessionManager.fireRequest(
-            with: .post(POSTRequestConfiguration(url: url, payload: unwrappedPayload, encoding: encoding, headers: additionalHeaders)),
+            with: .post(POSTRequestConfiguration(url: url, payload: payload, encoding: encoding, headers: additionalHeaders)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }
