@@ -57,6 +57,8 @@ private extension Payload.JSON.Value {
             case .float(let v):     return v
             case .double(let v):    return v
             case .string(let v):    return v
+            case .array(let v):     return v
+            case .dict(let v):      return v
             case .null:             return nil
             }
         }() ?? NSNull() as Any
@@ -84,6 +86,8 @@ private extension Payload.JSON.Value/*: CustomStringConvertible*/ {
         case .float(let v):     return ".float("  + "\(d(v)))"
         case .double(let v):    return ".double(" + "\(d(v)))"
         case .string(let v):    return ".string(" + "\(d(v)))"
+        case .array(let v):     return ".array("  + "\(d(v))"
+        case .dict(let v):      return ".dict("   + "\(d(v))"
         case .null:             return ".null"
         }
     }

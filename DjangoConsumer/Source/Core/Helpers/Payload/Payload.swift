@@ -46,6 +46,10 @@ public struct Payload {
             case float(Float?)
             case double(Double?)
             case string(String?)
+            // Collections
+            case array([Value])
+            case dict([String: Value])
+            // Null
             // TODO: Document when and how null is used
             case null
         }
