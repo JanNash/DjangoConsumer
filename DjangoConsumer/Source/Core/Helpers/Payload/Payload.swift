@@ -71,6 +71,11 @@ public struct Payload {
             
             // Private Variables
             private var _dict: DictType
+            
+            // Unwrap
+            func unwrap() -> [String: JSON.RawPayloadValue] {
+                return self._dict.mapValues({ $0.toJSONValue().unwrap() })
+            }
         }
     }
     
