@@ -13,6 +13,9 @@ import Alamofire
 import SwiftyJSON
 
 
+// FIXME: Update Interface and Implementations
+
+
 // MARK: // Public
 public protocol Node {
     // Basic Setup
@@ -22,7 +25,7 @@ public protocol Node {
     var routes: [Route] { get }
     
     // Multipart Payload Encoding
-    var multipartEncoding: MultipartEncoding { get }
+//    var multipartEncoding: MultipartEncoding { get }
     
     // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
@@ -37,10 +40,10 @@ public protocol Node {
     // Request Payload Generation
     func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload
     func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> Payload where C.Element == T
-    func multipartEncoding(for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding
-    func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T
-    func unwrapPayload(_ payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped
-    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T
+//    func multipartEncoding(for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding
+//    func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T
+//    func unwrapPayload(_ payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload
+//    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: Payload, for objects: C) -> Payload where C.Element == T
     
     // URLs
     // MetaResource.Type URLs
@@ -106,21 +109,21 @@ public extension Node {
         return DefaultImplementations.Node.payloadFrom(node: self, listPostables: listPostables)
     }
     
-    func multipartEncoding(for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
-        return DefaultImplementations.Node.multipartEncoding(node: self, for: object, method: method)
-    }
-    
-    func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T {
-        return DefaultImplementations.Node.multipartEncoding(node: self, for: objects)
-    }
-    
-    func unwrapPayload(_ payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped {
-        return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: object, method: method)
-    }
-    
-    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T {
-        return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: objects)
-    }
+//    func multipartEncoding(for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
+//        return DefaultImplementations.Node.multipartEncoding(node: self, for: object, method: method)
+//    }
+//
+//    func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T {
+//        return DefaultImplementations.Node.multipartEncoding(node: self, for: objects)
+//    }
+//
+//    func unwrapPayload(_ payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped {
+//        return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: object, method: method)
+//    }
+//
+//    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T {
+//        return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: objects)
+//    }
 }
 
 
@@ -227,10 +230,10 @@ public extension DefaultImplementations.Node {
 
 // MARK: Request Payload Generation
 public extension DefaultImplementations.Node {
-    class DefaultMultipartEncoding: MultipartEncoding {}
+//    class DefaultMultipartEncoding: MultipartEncoding {}
     
     public static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
-        return object.toPayload(for: method)
+        return object.toPayload()
     }
     
     public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
@@ -260,21 +263,21 @@ public extension DefaultImplementations.Node {
         return self._payloadFrom(node: node, listPostables: listPostables)
     }
     
-    public static func multipartEncoding(node: Node, for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
-        return node.multipartEncoding
-    }
-    
-    public static func multipartEncoding<C: Collection, T: ListPostable>(node: Node, for objects: C) -> MultipartEncoding where C.Element == T {
-        return node.multipartEncoding
-    }
-    
-    public static func unwrapPayload(node: Node, payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped {
-        return self._unwrapPayload(node: node, payload: payload, for: object, method: method)
-    }
-    
-    public static func unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T {
-        return self._unwrapPayload(node: node, payload: payload, for: objects)
-    }
+//    public static func multipartEncoding(node: Node, for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
+//        return node.multipartEncoding
+//    }
+//
+//    public static func multipartEncoding<C: Collection, T: ListPostable>(node: Node, for objects: C) -> MultipartEncoding where C.Element == T {
+//        return node.multipartEncoding
+//    }
+//
+//    public static func unwrapPayload(node: Node, payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped {
+//        return self._unwrapPayload(node: node, payload: payload, for: object, method: method)
+//    }
+//
+//    public static func unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T {
+//        return self._unwrapPayload(node: node, payload: payload, for: objects)
+//    }
 }
 
 
