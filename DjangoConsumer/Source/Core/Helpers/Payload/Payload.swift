@@ -15,15 +15,15 @@ import Foundation
 // MARK: // Public
 // MARK: Interface
 public extension Payload {
-    public init(json: JSON.Dict) {
+    public init(_ json: JSON.Dict) {
         self.json = json._dict
     }
     
-    public init(multipart: Multipart.Dict) {
+    public init(_ multipart: Multipart.Dict) {
         self.multipart = multipart._dict
     }
     
-    public init(json: JSON.Dict, multipart: Multipart.Dict) {
+    public init(_ json: JSON.Dict, _ multipart: Multipart.Dict) {
         self.json = json._dict
         self.multipart = multipart._dict
     }
