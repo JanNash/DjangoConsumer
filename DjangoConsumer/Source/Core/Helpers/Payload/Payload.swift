@@ -92,11 +92,6 @@ public struct Payload {
             public func toJSONValue() -> JSON.Value {
                 return .dict(self._dict.mapToDict({ ($0, $1.toJSONValue()) }))
             }
-            
-            // Unwrap
-            func unwrap() -> [String: Any] {
-                return self._dict.mapValues({ $0.toJSONValue().unwrap() })
-            }
         }
     }
     
@@ -147,11 +142,6 @@ public struct Payload {
             
             // Private Variables
             fileprivate var _dict: DictType
-            
-            // Unwrap
-            func unwrap() -> [String: Any] {
-                return self._dict.mapValues({ $0.toMultipartValue() })
-            }
         }
     }
 }
@@ -203,5 +193,22 @@ extension Payload.Multipart.Dict/*: Collection*/ {
     
     public subscript(position: Index) -> (key: Key, value: Value) {
         return self._dict[position]
+    }
+}
+
+
+// MARK: // Internal
+// MARK: Payload.JSON.Dict Unwrapping
+extension Payload.JSON.Dict {
+    func unwrap() -> [String: Payload.JSON.Value] {
+        return self._dict.mapValues({ $0.toJSONValue() })
+    }
+}
+
+
+// MARK: Payload.Multipart.Dict Unwrapping
+extension Payload.Multipart.Dict {
+    func unwrap() -> [String: Payload.Multipart.Value] {
+        return self._dict.mapValues({ $0.toMultipartValue() })
     }
 }
