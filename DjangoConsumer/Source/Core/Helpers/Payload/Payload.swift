@@ -15,6 +15,19 @@ import Foundation
 // MARK: // Public
 // MARK: Interface
 public extension Payload {
+    public init(json: JSON.Dict) {
+        self.json = json._dict
+    }
+    
+    public init(multipart: Multipart.Dict) {
+        self.multipart = multipart._dict
+    }
+    
+    public init(json: JSON.Dict, multipart: Multipart.Dict) {
+        self.json = json._dict
+        self.multipart = multipart._dict
+    }
+    
     public mutating func merge(_ json: JSON.Dict, strategy: JSON.Dict.MergeStrategy) {
         self.json.merge(json._dict, strategy: strategy)
     }
@@ -28,8 +41,8 @@ public extension Payload {
 // MARK: -
 public struct Payload {
     // Variables
-    public private(set) var json: JSON.Payload
-    public private(set) var multipart: Multipart.Payload
+    public private(set) var json: JSON.Payload = [:]
+    public private(set) var multipart: Multipart.Payload = [:]
     
     // Element
     public typealias Element = (json: JSON.Payload?, multipart: Multipart.Payload?)
