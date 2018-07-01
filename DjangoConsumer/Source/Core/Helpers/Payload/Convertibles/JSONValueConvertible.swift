@@ -22,6 +22,6 @@ public protocol JSONValueConvertible: PayloadElementConvertible {
 // MARK: PayloadValueConvertible Default Implementation
 public extension JSONValueConvertible {
     public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        return ([(pathHead, self.toJSONValue())], nil)
+        return ([pathHead: self], nil)
     }
 }
