@@ -123,12 +123,67 @@ public struct Payload {
                 return self.rawValue
             }
         }
+        
+        public struct Dict: Collection, ExpressibleByDictionaryLiteral {
+            // Typealiases
+            public typealias DictType = Multipart.Payload
+            public typealias MergeStrategy = DictType.SimpleMergeStrategy<DictType.Value>
+            
+            // Collection Typealiases
+            public typealias Index = DictType.Index
+            public typealias Key = DictType.Key
+            public typealias Value = DictType.Value
+            public typealias Element = (key: Key, value: Value)
+            
+            // Init
+            public init(_ dictionary: [Key: Value]) {
+                self._dict = dictionary
+            }
+            
+            // ExpressibleByDictionaryLiteral Init
+            public init(dictionaryLiteral elements: (Key, Value)...) {
+                self._dict = Dictionary(elements, strategy: .overwriteOldValue)
+            }
+            
+            // Private Variables
+            fileprivate var _dict: DictType
+            
+            // Unwrap
+            func unwrap() -> [String: Any] {
+                return self._dict.mapValues({ $0.toMultipartValue() })
+            }
+        }
     }
 }
 
 
 // MARK: Payload.JSON.Dict: Collection
 extension Payload.JSON.Dict/*: Collection*/ {
+    public var startIndex: Index {
+        return self._dict.startIndex
+    }
+    
+    public var endIndex: Index {
+        return self._dict.endIndex
+    }
+    
+    public func index(after i: Index) -> Index {
+        return self._dict.index(after: i)
+    }
+    
+    public subscript(key: Key) -> Value? {
+        get { return self._dict[key] }
+        set { self._dict[key] = newValue }
+    }
+    
+    public subscript(position: Index) -> (key: Key, value: Value) {
+        return self._dict[position]
+    }
+}
+
+
+// MARK: Payload.Multipart.Dict: Collection
+extension Payload.Multipart.Dict/*: Collection*/ {
     public var startIndex: Index {
         return self._dict.startIndex
     }
