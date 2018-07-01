@@ -262,7 +262,7 @@ private extension OAuth2Handler {
         self._isRequesting = true
         
         let url: URL = self.settings.tokenRequestURL
-        let payload: RequestPayload.Unwrapped = .json([
+        let payload: Payload = .json([
             _C.JSONKeys.grantType : _C.GrantTypes.password,
             _C.JSONKeys.scope : _C.Scopes.readWrite,
             _C.JSONKeys.username : username,
@@ -292,7 +292,7 @@ private extension OAuth2Handler {
         }
         
         let url: URL = self.settings.tokenRefreshURL
-        let payload: RequestPayload.Unwrapped = .json([
+        let payload: Payload = Payload.JSON.Dict([
             _C.JSONKeys.refreshToken: refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
         ])
@@ -310,7 +310,7 @@ private extension OAuth2Handler {
 
 // MARK: Common Token Request Functionality
 private extension OAuth2Handler {
-    func __requestAndSaveTokens(url: URL, payload: RequestPayload.Unwrapped, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    func __requestAndSaveTokens(url: URL, payload: Payload, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
         let cfg: RequestConfiguration = {
