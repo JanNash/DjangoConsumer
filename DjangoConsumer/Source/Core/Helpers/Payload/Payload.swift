@@ -37,7 +37,7 @@ public struct Payload {
     // JSON
     public enum JSON {
         // Payload
-        public typealias Payload = [(String, Value)]
+        public typealias Payload = [String: JSONValueConvertible]
         
         // Typed Value
         public enum Value: Equatable, CustomStringConvertible {
@@ -101,7 +101,7 @@ public struct Payload {
     
     public enum Multipart {
         // Payload
-        public typealias Payload = [(String, Value)]
+        public typealias Payload = [String: MultipartValueConvertible]
         
         // Value
         public typealias Value = (Data, ContentType)
