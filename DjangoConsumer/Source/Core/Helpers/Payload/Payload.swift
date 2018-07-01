@@ -15,12 +15,12 @@ import Foundation
 // MARK: // Public
 // MARK: Interface
 public extension Payload {
-    public mutating func append(_ dict: JSON.Dict) {
-        self.json.append(contentsOf: dict.map({ ($0, $1.toJSONValue()) }))
+    public mutating func merge(_ json: JSON.Dict, strategy: JSON.Dict.MergeStrategy) {
+        self.json.merge(json._dict, strategy: strategy)
     }
     
-    public mutating func append(_ multipart: Multipart.Payload) {
-        self.multipart.append(contentsOf: multipart)
+    public mutating func merge(_ multipart: Multipart.Dict, strategy: Multipart.Dict.MergeStrategy) {
+        self.multipart.merge(multipart._dict, strategy: strategy)
     }
 }
 
