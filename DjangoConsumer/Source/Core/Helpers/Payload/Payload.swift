@@ -66,7 +66,7 @@ public struct Payload {
         // Dict
         public struct Dict: Collection, ExpressibleByDictionaryLiteral, JSONValueConvertible {
             // Typealiases
-            public typealias DictType = [String: JSONValueConvertible]
+            public typealias DictType = JSON.Payload
             
             // Collection Typealiases
             public typealias Index = DictType.Index
