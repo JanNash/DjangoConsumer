@@ -13,6 +13,18 @@ import Foundation
 
 
 // MARK: // Public
+// MARK: Interface
+public extension Payload {
+    public mutating func append(_ dict: JSON.Dict) {
+        self.json.append(contentsOf: dict.map({ ($0, $1.toJSONValue()) }))
+    }
+    
+    public mutating func append(_ multipart: Multipart.Payload) {
+        self.multipart.append(contentsOf: multipart)
+    }
+}
+
+
 // MARK: -
 public struct Payload {
     // Variables
