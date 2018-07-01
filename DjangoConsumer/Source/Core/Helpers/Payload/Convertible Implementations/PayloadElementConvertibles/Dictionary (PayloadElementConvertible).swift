@@ -24,8 +24,8 @@ extension Dictionary: PayloadElementConvertible where Key == String, Value: Payl
 // MARK: : PayloadElementConvertible Implementation
 private extension Dictionary/*: PayloadElementConvertible*/ where Key == String, Value: PayloadElementConvertible {
     func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        var multipartPayloadValue: Payload.Multipart.Payload = []
-        var jsonPayloadValue: Payload.JSON.Payload = []
+        var multipartPayload: Payload.Multipart.Payload = [:]
+        var jsonPayload: Payload.JSON.Payload = [:]
         
         self.forEach({ element in
             let (key, value): (String, Value) = element
@@ -35,14 +35,14 @@ private extension Dictionary/*: PayloadElementConvertible*/ where Key == String,
             let payloadValue: Payload.Element = value.toPayloadElement(path: path, pathHead: key)
             
             if let multipart: Payload.Multipart.Payload = payloadValue.multipart {
-                multipartPayloadValue.append(contentsOf: multipart)
+                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
             }
             
             if let json: Payload.JSON.Payload = payloadValue.json {
-                jsonPayloadValue.append(contentsOf: json)
+                jsonPayload.merge(json, strategy: .overwriteOldValue)
             }
         })
         
-        return (jsonPayloadValue, multipartPayloadValue)
+        return (jsonPayload, multipartPayload)
     }
 }

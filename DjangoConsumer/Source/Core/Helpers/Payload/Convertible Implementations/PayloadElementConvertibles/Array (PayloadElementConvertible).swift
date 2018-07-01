@@ -24,8 +24,8 @@ extension Array: PayloadElementConvertible where Element: PayloadElementConverti
 // MARK: : PayloadElementConvertible Implementation
 private extension Array/*: PayloadElementConvertible*/ where Element: PayloadElementConvertible {
     func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        var multipartPayloadValue: Payload.Multipart.Payload = []
-        var jsonPayloadValue: Payload.JSON.Payload = []
+        var multipartPayload: Payload.Multipart.Payload = [:]
+        var jsonPayload: Payload.JSON.Payload = [:]
         
         self.enumerated().forEach({
             let (offset, element): (Int, Element) = $0
@@ -34,14 +34,14 @@ private extension Array/*: PayloadElementConvertible*/ where Element: PayloadEle
             let payloadElement: Payload.Element = element.toPayloadElement(path: path, pathHead: pathHead)
         
             if let multipart: Payload.Multipart.Payload = payloadElement.multipart {
-                multipartPayloadValue.append(contentsOf: multipart)
+                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
             }
             
             if let json: Payload.JSON.Payload = payloadElement.json {
-                jsonPayloadValue.append(contentsOf: json)
+                jsonPayload.merge(json, strategy: .overwriteOldValue)
             }
         })
         
-        return (jsonPayloadValue, multipartPayloadValue)
+        return (jsonPayload, multipartPayload)
     }
 }
