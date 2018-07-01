@@ -46,6 +46,8 @@ public struct Payload {
             case float(Float?)
             case double(Double?)
             case string(String?)
+            // TODO: Document when and how null is used
+            case null
         }
     
         // Dict
