@@ -14,6 +14,10 @@ import Foundation
 
 // MARK: // Public
 public extension Sequence {
+    public func mapToDict<K, V>() -> [K: V] where Element == (K, V) {
+        return Dictionary(uniqueKeysWithValues: self)
+    }
+    
     public func mapToDict<K, V>(_ transform: (Element) throws -> (key: K, value: V)) rethrows -> [K: V] {
         return Dictionary(uniqueKeysWithValues: try self.map(transform))
     }
