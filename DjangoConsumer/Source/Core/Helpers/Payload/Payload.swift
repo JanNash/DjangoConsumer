@@ -52,7 +52,7 @@ public struct Payload {
         }
     
         // Dict
-        public struct Dict: Collection, ExpressibleByDictionaryLiteral {
+        public struct Dict: Collection, ExpressibleByDictionaryLiteral, JSONValueConvertible {
             // Typealiases
             public typealias DictType = [String: JSONValueConvertible]
             
@@ -74,6 +74,11 @@ public struct Payload {
             
             // Private Variables
             private var _dict: DictType
+            
+            // JSONValueConvertible Conformance
+            public func toJSONValue() -> JSON.Value {
+                return .dict(self._dict.mapToDict({ ($0, $1.toJSONValue()) }))
+            }
             
             // Unwrap
             func unwrap() -> [String: Any] {
