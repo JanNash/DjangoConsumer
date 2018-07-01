@@ -41,7 +41,7 @@ private extension Dictionary/*: PayloadElementConvertible*/ where Key == String,
                 
                 return nil
             }),
-            uniquingKeysWith: { _, r in r }
+            strategy: .overwriteOldValue
         )
         
         return (jsonPayloadValue, multipartPayloadValue)

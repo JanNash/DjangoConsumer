@@ -66,7 +66,7 @@ public struct Payload {
             
             // ExpressibleByDictionaryLiteral Init
             public init(dictionaryLiteral elements: (Key, Value)...) {
-                self._dict = Dictionary(elements, uniquingKeysWith: { _, r in r })
+                self._dict = Dictionary(elements, strategy: .overwriteOldValue)
             }
             
             // Private Variables
