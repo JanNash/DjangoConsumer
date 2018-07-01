@@ -20,15 +20,12 @@ public struct Payload {
     public private(set) var multipart: Multipart.Payload
     
     // Element
-    public typealias Element = (json: JSON.RawPayloadValue?, multipart: Multipart.RawPayloadValue?)
+    public typealias Element = (json: JSON.Payload?, multipart: Multipart.Payload?)
     
     // JSON
     public enum JSON {
-        // RawPayloadValue
-        public typealias RawPayloadValue = Any
-        
         // Payload
-        public typealias Payload = [String: RawPayloadValue]
+        public typealias Payload = [(String, Value)]
         
         // Typed Value
         public enum Value: Equatable, CustomStringConvertible {
@@ -79,18 +76,15 @@ public struct Payload {
             private var _dict: DictType
             
             // Unwrap
-            func unwrap() -> [String: JSON.RawPayloadValue] {
+            func unwrap() -> [String: Any] {
                 return self._dict.mapValues({ $0.toJSONValue().unwrap() })
             }
         }
     }
     
     public enum Multipart {
-        // RawPayloadValue
-        public typealias RawPayloadValue = [(String, Multipart.Value)]
-        
         // Payload
-        public typealias Payload = [(String, Multipart.Value)]
+        public typealias Payload = [(String, Value)]
         
         // Value
         public typealias Value = (Data, ContentType)
