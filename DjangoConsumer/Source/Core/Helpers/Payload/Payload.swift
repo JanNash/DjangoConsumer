@@ -16,8 +16,8 @@ import Foundation
 // MARK: -
 public struct Payload {
     // Variables
-    public private(set) var json: JSON.Payload
-    public private(set) var multipart: Multipart.Payload
+    public var json: JSON.Payload
+    public var multipart: Multipart.Payload
     
     // Element
     public typealias Element = (json: JSON.RawPayloadValue?, multipart: Multipart.RawPayloadValue?)
