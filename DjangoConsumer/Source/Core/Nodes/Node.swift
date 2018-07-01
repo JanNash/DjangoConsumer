@@ -24,9 +24,6 @@ public protocol Node {
     // Routes
     var routes: [Route] { get }
     
-    // Multipart Payload Encoding
-//    var multipartEncoding: MultipartEncoding { get }
-    
     // List GET Request Helpers
     func defaultLimit<T: ListGettable>(for resourceType: T.Type) -> UInt
     func defaultFilters(for resourceType: FilteredListGettable.Type) -> [FilterType]
@@ -40,10 +37,6 @@ public protocol Node {
     // Request Payload Generation
     func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload
     func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> Payload where C.Element == T
-//    func multipartEncoding(for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding
-//    func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T
-//    func unwrapPayload(_ payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload
-//    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: Payload, for objects: C) -> Payload where C.Element == T
     
     // URLs
     // MetaResource.Type URLs
@@ -108,22 +101,6 @@ public extension Node {
     func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> Payload where C.Element == T {
         return DefaultImplementations.Node.payloadFrom(node: self, listPostables: listPostables)
     }
-    
-//    func multipartEncoding(for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
-//        return DefaultImplementations.Node.multipartEncoding(node: self, for: object, method: method)
-//    }
-//
-//    func multipartEncoding<C: Collection, T: ListPostable>(for objects: C) -> MultipartEncoding where C.Element == T {
-//        return DefaultImplementations.Node.multipartEncoding(node: self, for: objects)
-//    }
-//
-//    func unwrapPayload(_ payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped {
-//        return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: object, method: method)
-//    }
-//
-//    func unwrapPayload<C: Collection, T: ListPostable>(_ payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T {
-//        return DefaultImplementations.Node.unwrapPayload(node: self, payload: payload, for: objects)
-//    }
 }
 
 
@@ -230,54 +207,13 @@ public extension DefaultImplementations.Node {
 
 // MARK: Request Payload Generation
 public extension DefaultImplementations.Node {
-//    class DefaultMultipartEncoding: MultipartEncoding {}
-    
     public static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
         return object.toPayload()
     }
     
     public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
-        // For now, a request will always be sent as multipart if at least one multipart payload was found.
-        // This might induce some overhead, but there would be a way: see essay below :D
-        
-        // !!!: This function would be the starting point for possibly splitting into two requests
-        // One could contain everything that's JSONPayloadConvertible, the other everythin that needs
-        // to be sent via multipart. Since the objects can decide at runtime what kind of payload
-        // they'll be converted to, it's possible that a list of those objects contains some that need
-        // to send multipart data along and some that just contain JSON. An example (of which I'm not
-        // sure that it stands true) is that if you send a list of objects that have a variable that's
-        // an image, but that variable is optional, it could be possible that some of the objects have
-        // an image assigned and some don't. Those that don't could simply send jsonPayload containing
-        // 'null' as value for the key of the image. This could make it possible to have guaranteed
-        // atomic per-object POSTS (since an object will always be sent as one request, either
-        // multipart or json) but to be able to optimize request sizes (and thus durations), since
-        // multipart has quite some overhead (see boundary and ContentDisposition) when sending single
-        // JSON values, so it might always be preferable to send json, unless multipart is necessary.
-        //   Splitting the request into one multipart and one json request has the possible drawback
-        // that a list post can not be guaranteed to be atomic, since there will be two lists of
-        // objects sent in separate requests. A setting could be added to the node for that, or we
-        // could pass in a parameter in DefaultImplementations.ListPostable.post(self, to: node).
-        // What a novel this has gotten... 🤩 (Is your project commented? - Yeah, I got over 18
-        // lines of comments...)
-        
         return self._payloadFrom(node: node, listPostables: listPostables)
     }
-    
-//    public static func multipartEncoding(node: Node, for object: PayloadConvertible, method: ResourceHTTPMethod) -> MultipartEncoding {
-//        return node.multipartEncoding
-//    }
-//
-//    public static func multipartEncoding<C: Collection, T: ListPostable>(node: Node, for objects: C) -> MultipartEncoding where C.Element == T {
-//        return node.multipartEncoding
-//    }
-//
-//    public static func unwrapPayload(node: Node, payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload.Unwrapped {
-//        return self._unwrapPayload(node: node, payload: payload, for: object, method: method)
-//    }
-//
-//    public static func unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: Payload, for objects: C) -> Payload.Unwrapped where C.Element == T {
-//        return self._unwrapPayload(node: node, payload: payload, for: objects)
-//    }
 }
 
 
@@ -364,15 +300,7 @@ private extension DefaultImplementations.Node {
 // MARK: Request Payload Generation Implementations
 private extension DefaultImplementations.Node {
     static func _payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
-        
-    }
-    
-    static func _unwrapPayload(node: Node, payload: Payload, for object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
-        
-    }
-    
-    static func _unwrapPayload<C: Collection, T: ListPostable>(node: Node, payload: Payload, for objects: C) -> Payload where C.Element == T {
-        
+        return Payload([ListRequestKeys.objects: listPostables.map({ $0.payloadDict() })])
     }
 }
 
