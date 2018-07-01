@@ -30,7 +30,7 @@ public extension PayloadConvertible {
 
 // MARK: -
 public protocol PayloadElementConvertible {
-    func toPayloadElement(path: String) -> Payload.Element
+    func toPayloadElement(path: String, pathHead: String) -> Payload.Element
 }
 
 
@@ -39,20 +39,20 @@ public protocol PayloadElementConvertible {
 private extension PayloadConvertible {
     func _toPayload() -> Payload {
         var multipartPayload: Payload.Multipart.Payload = []
-        let jsonPayload: Payload.JSON.Payload = self.payloadDict().compactMap({
+        var jsonPayload: Payload.JSON.Payload = []
+        
+        self.payloadDict().forEach({
             let (key, convertible): (String, PayloadElementConvertible) = $0
-            let payloadElement: Payload.Element = convertible.toPayloadElement(path: key)
+            let payloadElement: Payload.Element = convertible.toPayloadElement(path: key, pathHead: key)
             
             if let multipart: Payload.Multipart.Payload = payloadElement.multipart {
-                multipartPayload = multipart
+                multipartPayload += multipart
             }
             
-            if let json: Any = payloadElement.json {
-                return (key, json)
+            if let json: Payload.JSON.Payload = payloadElement.json {
+                jsonPayload += json
             }
-            
-            return nil
-        }).mapToDict()
+        })
         
         return Payload(json: jsonPayload, multipart: multipartPayload)
     }

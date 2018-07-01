@@ -15,27 +15,31 @@ import Foundation
 // MARK: // Public
 // MARK: - : PayloadElementConvertible
 extension Array: PayloadElementConvertible where Element: PayloadElementConvertible {
-    public func toPayloadElement(path: String) -> Payload.Element {
-        return self._toPayloadElement(path: path)
+    public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
+        return self._toPayloadElement(path: path, pathHead: pathHead)
     }
 }
 
 
 // MARK: : PayloadElementConvertible Implementation
 private extension Array/*: PayloadElementConvertible*/ where Element: PayloadElementConvertible {
-    func _toPayloadElement(path: String) -> Payload.Element {
-        var multipartPayloadValue: Payload.Multipart.RawPayloadValue = []
-        let jsonPayloadValue: [Payload.JSON.RawPayloadValue] = self.enumerated().compactMap({
+    func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
+        var multipartPayloadValue: Payload.Multipart.Payload = []
+        var jsonPayloadValue: Payload.JSON.Payload = []
+        
+        self.enumerated().forEach({
             let (offset, element): (Int, Element) = $0
             // FIXME: This should be extracted
             let path: String = path + "[" + "\(offset)" + "]"
-            let payloadElement: Payload.Element = element.toPayloadElement(path: path)
+            let payloadElement: Payload.Element = element.toPayloadElement(path: path, pathHead: pathHead)
         
-            if let multipart: Payload.Multipart.RawPayloadValue = payloadElement.multipart {
+            if let multipart: Payload.Multipart.Payload = payloadElement.multipart {
                 multipartPayloadValue.append(contentsOf: multipart)
             }
             
-            return payloadElement.json
+            if let json: Payload.JSON.Payload = payloadElement.json {
+                jsonPayloadValue.append(contentsOf: json)
+            }
         })
         
         return (jsonPayloadValue, multipartPayloadValue)

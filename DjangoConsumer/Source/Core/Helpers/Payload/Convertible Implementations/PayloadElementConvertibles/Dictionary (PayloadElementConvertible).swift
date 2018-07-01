@@ -15,34 +15,33 @@ import Foundation
 // MARK: // Public
 // MARK: - : PayloadElementConvertible
 extension Dictionary: PayloadElementConvertible where Key == String, Value: PayloadElementConvertible {
-    public func toPayloadElement(path: String) -> Payload.Element {
-        return self._toPayloadElement(path: path)
+    public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
+        return self._toPayloadElement(path: path, pathHead: pathHead)
     }
 }
 
 
 // MARK: : PayloadElementConvertible Implementation
 private extension Dictionary/*: PayloadElementConvertible*/ where Key == String, Value: PayloadElementConvertible {
-    func _toPayloadElement(path: String) -> Payload.Element {
-        var multipartPayloadValue: Payload.Multipart.RawPayloadValue = []
-        let jsonPayloadValue: Payload.JSON.RawPayloadValue = Dictionary<String, Any>(
-            self.compactMap({ element in
-                // FIXME: This should be extracted
-                let path: String = path + "." + element.key
-                let payloadValue: Payload.Element = element.value.toPayloadElement(path: path)
-                
-                if let multipart: Payload.Multipart.RawPayloadValue = payloadValue.multipart {
-                    multipartPayloadValue.append(contentsOf: multipart)
-                }
-                
-                if let json: Payload.JSON.RawPayloadValue = payloadValue.json {
-                    return (element.key, json)
-                }
-                
-                return nil
-            }),
-            strategy: .overwriteOldValue
-        )
+    func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
+        var multipartPayloadValue: Payload.Multipart.Payload = []
+        var jsonPayloadValue: Payload.JSON.Payload = []
+        
+        self.forEach({ element in
+            let (key, value): (String, Value) = element
+            
+            // FIXME: This should be extracted
+            let path: String = path + "." + key
+            let payloadValue: Payload.Element = value.toPayloadElement(path: path, pathHead: key)
+            
+            if let multipart: Payload.Multipart.Payload = payloadValue.multipart {
+                multipartPayloadValue.append(contentsOf: multipart)
+            }
+            
+            if let json: Payload.JSON.Payload = payloadValue.json {
+                jsonPayloadValue.append(contentsOf: json)
+            }
+        })
         
         return (jsonPayloadValue, multipartPayloadValue)
     }

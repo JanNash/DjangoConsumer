@@ -21,7 +21,7 @@ public protocol MultipartValueConvertible: PayloadElementConvertible {
 
 // MARK: PayloadValueConvertible Default Implementation
 public extension MultipartValueConvertible {
-    public func toPayloadElement(path: String) -> Payload.Element {
+    public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
         return (nil, [(path, self.toMultipartValue())])
     }
 }
