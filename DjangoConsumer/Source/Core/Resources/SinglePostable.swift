@@ -58,7 +58,7 @@ private extension DefaultImplementations.SinglePostable {
         
         let payload: Payload = {
             var payload: Payload = node.payloadFrom(object: singlePostable, method: method)
-            payload.json.merge(additionalParameters.unwrap(), strategy: .overwriteOldValue)
+            payload.append(additionalParameters)
             return payload
         }()
         
