@@ -15,8 +15,8 @@ import Foundation
 // MARK: // Public
 // MARK: Interface
 public extension Payload {
-    mutating func merge(_ payloadDict: Payload.Dict) {
-        self._merge(payloadDict)
+    mutating func merge<C>(_ dict: C) where C: Collection, C.Element == Dict.Element {
+        self._merge(dict)
     }
 }
 
@@ -36,7 +36,7 @@ public struct Payload: ExpressibleByDictionaryLiteral {
     
     // ExpressibleByDictionaryLiteral Init
     public init(dictionaryLiteral elements: (Payload.Dict.Key, Payload.Dict.Value)...) {
-        // FIXME: A mergeStrategy should be passed in here
+        // FIXME: A mergeStrategy should be passed into mapToDict
         self = ._from(elements.mapToDict())
     }
     
@@ -264,7 +264,7 @@ extension Payload.Multipart.Dict/*: Collection*/ {
 // MARK: // Private
 // MARK: Common Initializer
 private extension Payload {
-    static func _from(_ dict: Payload.Dict.DictType) -> Payload {
+    static func _from<C>(_ dict: C) -> Payload where C: Collection, C.Element == (key: String, value: Payload.Value) {
         var payload: Payload = Payload()
 
         dict.forEach({
@@ -283,8 +283,8 @@ private extension Payload {
 
 // MARK: Interface Implementation
 private extension Payload {
-    mutating func _merge(_ payloadDict: Payload.Dict) {
-        let payload: Payload = ._from(payloadDict._dict)
+    mutating func _merge<C>(_ dict: C) where C: Collection, C.Element == Dict.Element {
+        let payload: Payload = ._from(dict)
         self.json.merge(payload.json, strategy: .overwriteOldValue)
         self.multipart.merge(payload.multipart, strategy: .overwriteOldValue)
     }
