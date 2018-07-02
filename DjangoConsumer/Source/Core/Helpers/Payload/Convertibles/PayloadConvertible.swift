@@ -38,18 +38,18 @@ public protocol PayloadElementConvertible {
 // MARK: PayloadConvertible Default Implementation
 private extension PayloadConvertible {
     func _toPayload() -> Payload {
-        var multipartPayload: Payload.Multipart.Payload = [:]
-        var jsonPayload: Payload.JSON.Payload = [:]
+        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
+        var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
         
         self.payloadDict().forEach({
             let (key, convertible): (String, PayloadElementConvertible) = $0
             let payloadElement: Payload.Element = convertible.toPayloadElement(path: key, pathHead: key)
             
-            if let multipart: Payload.Multipart.Payload = payloadElement.multipart {
+            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
                 multipartPayload.merge(multipart, strategy: .overwriteOldValue)
             }
             
-            if let json: Payload.JSON.Payload = payloadElement.json {
+            if let json: Payload.JSON.UnwrappedPayload = payloadElement.json {
                 jsonPayload.merge(json, strategy: .overwriteOldValue)
             }
         })
