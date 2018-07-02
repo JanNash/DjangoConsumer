@@ -41,16 +41,16 @@ public extension Payload {
 // MARK: -
 public struct Payload {
     // Variables
-    public private(set) var json: JSON.Payload = [:]
-    public private(set) var multipart: Multipart.Payload = [:]
+    public private(set) var json: JSON.UnwrappedPayload = [:]
+    public private(set) var multipart: Multipart.UnwrappedPayload = [:]
     
     // Element
-    public typealias Element = (json: JSON.Payload?, multipart: Multipart.Payload?)
+    public typealias Element = (json: JSON.UnwrappedPayload?, multipart: Multipart.UnwrappedPayload?)
     
     // JSON
     public enum JSON {
-        // Payload
-        public typealias Payload = [String: JSONValueConvertible]
+        // UnwrappedPayload
+        public typealias UnwrappedPayload = [String: Any]
         
         // Typed Value
         public enum Value: Equatable, CustomStringConvertible {
@@ -79,7 +79,7 @@ public struct Payload {
         // Dict
         public struct Dict: Collection, ExpressibleByDictionaryLiteral, JSONValueConvertible {
             // Typealiases
-            public typealias DictType = JSON.Payload
+            public typealias DictType = [String: JSONValueConvertible]
             public typealias MergeStrategy = DictType.MergeStrategy
             
             // Collection Typealiases
@@ -109,8 +109,8 @@ public struct Payload {
     }
     
     public enum Multipart {
-        // Payload
-        public typealias Payload = [String: MultipartValueConvertible]
+        // UnwrappedPayload
+        public typealias UnwrappedPayload = [String: Value]
         
         // Value
         public typealias Value = (Data, ContentType)
@@ -134,7 +134,7 @@ public struct Payload {
         
         public struct Dict: Collection, ExpressibleByDictionaryLiteral {
             // Typealiases
-            public typealias DictType = Multipart.Payload
+            public typealias DictType = [String: MultipartValueConvertible]
             public typealias MergeStrategy = DictType.MergeStrategy
             
             // Collection Typealiases
