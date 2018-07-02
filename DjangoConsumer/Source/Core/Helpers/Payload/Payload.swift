@@ -15,8 +15,28 @@ import Foundation
 // MARK: // Public
 // MARK: Interface
 public extension Payload {
+    mutating func merge(_ json: JSON.Dict) {
+        self.merge(json._dict)
+    }
+    
+    mutating func merge(_ multipart: Multipart.Dict) {
+        self.merge(multipart._dict)
+    }
+    
     mutating func merge<C>(_ dict: C) where C: Collection, C.Element == Dict.Element {
         self._merge(dict)
+    }
+    
+    func merging(_ json: JSON.Dict) -> Payload {
+        return self.merging(json._dict)
+    }
+    
+    func merging(_ multipart: Multipart.Dict) -> Payload {
+        return self.merging(multipart._dict)
+    }
+    
+    func merging<C>(_ dict: C) -> Payload where C: Collection, C.Element == Dict.Element {
+        return self._merging(dict)
     }
 }
 
@@ -287,6 +307,12 @@ private extension Payload {
         let payload: Payload = ._from(dict)
         self.json.merge(payload.json, strategy: .overwriteOldValue)
         self.multipart.merge(payload.multipart, strategy: .overwriteOldValue)
+    }
+    
+    func _merging<C>(_ dict: C) -> Payload where C: Collection, C.Element == Dict.Element {
+        var payload: Payload = self
+        payload.merge(dict)
+        return payload
     }
 }
 
