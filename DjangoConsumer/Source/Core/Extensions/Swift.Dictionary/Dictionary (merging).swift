@@ -15,11 +15,11 @@ import Foundation
 // MARK: // Public
 // MARK: -
 public extension Dictionary {
-    public enum SimpleMergeStrategy<V> {
+    public enum MergeStrategy {
         case keepOldValue
         case overwriteOldValue
         
-        var closure: (V, V) -> V {
+        var closure: (Value, Value) -> Value {
             switch self {
             case .keepOldValue:         return { old, _ in old }
             case .overwriteOldValue:    return { _, new in new }
@@ -27,15 +27,15 @@ public extension Dictionary {
         }
     }
     
-    public init<S>(_ keysAndValues: S, strategy: SimpleMergeStrategy<Value>) where S : Sequence, S.Element == (Key, Value) {
+    public init<S>(_ keysAndValues: S, strategy: MergeStrategy) where S : Sequence, S.Element == (Key, Value) {
         try! self.init(keysAndValues, uniquingKeysWith: strategy.closure)
     }
     
-    public mutating func merge(_ dictionary: [Key: Value], strategy: SimpleMergeStrategy<Value>) {
+    public mutating func merge(_ dictionary: [Key: Value], strategy: MergeStrategy) {
         self.merge(dictionary, uniquingKeysWith: strategy.closure)
     }
     
-    public func merging(_ dictionary: [Key: Value], strategy: SimpleMergeStrategy<Value>) -> [Key: Value] {
+    public func merging(_ dictionary: [Key: Value], strategy: MergeStrategy) -> [Key: Value] {
         return self.merging(dictionary, uniquingKeysWith: strategy.closure)
     }
 }
