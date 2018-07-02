@@ -35,11 +35,12 @@ private extension Alamofire.SessionManager {
     }
     
     func _createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
-        completion(.created(
-            self.request(cfg.url, method: .get, parameters: cfg.parameters.unwrap(), encoding: cfg.encoding, headers: cfg.headers)
-                .validate(statusCode: cfg.acceptableStatusCodes)
-                .validate(contentType: cfg.acceptableContentTypes)
-        ))
+        // FIXME: Update implementation
+//        completion(.created(
+//            self.request(cfg.url, method: .get, parameters: cfg.parameters.unwrap(), encoding: cfg.encoding, headers: cfg.headers)
+//                .validate(statusCode: cfg.acceptableStatusCodes)
+//                .validate(contentType: cfg.acceptableContentTypes)
+//        ))
     }
     
     func _createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
