@@ -212,7 +212,7 @@ public extension DefaultImplementations.Node {
     }
     
     public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
-        return self._payloadFrom(node: node, listPostables: listPostables)
+        return [ListRequestKeys.objects: listPostables.map({ $0.payloadDict() })]
     }
 }
 
@@ -293,14 +293,6 @@ private extension DefaultImplementations.Node {
             DefaultPagination.Keys.offset: offset,
             DefaultPagination.Keys.limit: limit
         ]
-    }
-}
-
-
-// MARK: Request Payload Generation Implementations
-private extension DefaultImplementations.Node {
-    static func _payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
-        return Payload([ListRequestKeys.objects: listPostables.map({ $0.payloadDict() })])
     }
 }
 
