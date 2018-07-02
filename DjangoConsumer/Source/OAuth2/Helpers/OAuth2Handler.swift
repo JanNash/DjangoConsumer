@@ -262,12 +262,12 @@ private extension OAuth2Handler {
         self._isRequesting = true
         
         let url: URL = self.settings.tokenRequestURL
-        let payload: Payload = Payload([
+        let payload: Payload = [
             _C.JSONKeys.grantType : _C.GrantTypes.password,
             _C.JSONKeys.scope : _C.Scopes.readWrite,
             _C.JSONKeys.username : username,
             _C.JSONKeys.password : password
-        ])
+        ]
         
         self.__requestAndSaveTokens(
             url: url,
@@ -292,10 +292,10 @@ private extension OAuth2Handler {
         }
         
         let url: URL = self.settings.tokenRefreshURL
-        let payload: Payload = Payload([
+        let payload: Payload = [
             _C.JSONKeys.refreshToken: refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
-        ])
+        ]
         
         self.__requestAndSaveTokens(
             url: url,
@@ -380,7 +380,7 @@ private extension OAuth2Handler {
         
         let cfg: RequestConfiguration = .post(POSTRequestConfiguration(
             url: self.settings.tokenRevokeURL,
-            payload: Payload([_C.JSONKeys.token : accessToken]),
+            payload: [_C.JSONKeys.token : accessToken],
             encoding: URLEncoding.default,
             headers: [basicAuthHeader.key : basicAuthHeader.value]
         ))
