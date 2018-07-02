@@ -40,7 +40,7 @@ public struct Payload: ExpressibleByDictionaryLiteral {
     public typealias Element = (json: JSON.UnwrappedPayload?, multipart: Multipart.UnwrappedPayload?)
     
     // Dict
-    public struct Dict: Collection, ExpressibleByDictionaryLiteral {
+    public struct Dict: Collection, ExpressibleByDictionaryLiteral, PayloadElementConvertible {
         // Typealiases
         public typealias DictType = [String: PayloadElementConvertible]
         public typealias MergeStrategy = DictType.MergeStrategy
@@ -58,6 +58,11 @@ public struct Payload: ExpressibleByDictionaryLiteral {
         
         // Private Variables
         fileprivate var _dict: DictType
+        
+        // PayloadElementConvertible Conformance
+        public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
+            return self._toPayloadElement(path: path, pathHead: pathHead)
+        }
     }
     
     // JSON
@@ -269,5 +274,32 @@ private extension Payload {
         })
         
         return Payload(_json: jsonPayload, _multipart: multipartPayload)
+    }
+}
+
+
+// MARK: Payload.Dict: PayloadElementConvertible
+private extension Payload.Dict/*: PayloadElementConvertible*/ {
+    func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
+        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
+        var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
+        
+        self.forEach({ element in
+            let (key, value): (String, Value) = element
+            
+            // FIXME: This should be extracted
+            let path: String = path + "." + key
+            let payloadValue: Payload.Element = value.toPayloadElement(path: path, pathHead: key)
+            
+            if let multipart: Payload.Multipart.UnwrappedPayload = payloadValue.multipart {
+                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
+            }
+            
+            if let json: Payload.JSON.UnwrappedPayload = payloadValue.json {
+                jsonPayload.merge(json, strategy: .overwriteOldValue)
+            }
+        })
+        
+        return (jsonPayload, multipartPayload)
     }
 }
