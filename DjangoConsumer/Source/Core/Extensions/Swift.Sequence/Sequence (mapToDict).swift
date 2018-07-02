@@ -14,6 +14,7 @@ import Foundation
 
 // MARK: // Public
 public extension Sequence {
+    // FIXME: Add mergeStrategy parameters to mapToDict functions
     public func mapToDict<K, V>() -> [K: V] where Element == (K, V) {
         return Dictionary(uniqueKeysWithValues: self)
     }
