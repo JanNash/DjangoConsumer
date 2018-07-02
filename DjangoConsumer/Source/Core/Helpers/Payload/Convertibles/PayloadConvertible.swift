@@ -15,7 +15,7 @@ import Foundation
 // MARK: // Public
 // MARK: -
 public protocol PayloadConvertible {
-    func payloadDict() -> [String: PayloadElementConvertible]
+    func payloadDict() -> Payload.Dict
     func toPayload() -> Payload
 }
 
@@ -23,7 +23,7 @@ public protocol PayloadConvertible {
 // MARK: PayloadConvertible Default Implementation
 public extension PayloadConvertible {
     public func toPayload() -> Payload {
-        return self._toPayload()
+        return Payload(self.payloadDict())
     }
 }
 
@@ -31,29 +31,4 @@ public extension PayloadConvertible {
 // MARK: -
 public protocol PayloadElementConvertible {
     func toPayloadElement(path: String, pathHead: String) -> Payload.Element
-}
-
-
-// MARK: // Private
-// MARK: PayloadConvertible Default Implementation
-private extension PayloadConvertible {
-    func _toPayload() -> Payload {
-        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
-        var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
-        
-        self.payloadDict().forEach({
-            let (key, convertible): (String, PayloadElementConvertible) = $0
-            let payloadElement: Payload.Element = convertible.toPayloadElement(path: key, pathHead: key)
-            
-            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
-                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-            }
-            
-            if let json: Payload.JSON.UnwrappedPayload = payloadElement.json {
-                jsonPayload.merge(json, strategy: .overwriteOldValue)
-            }
-        })
-        
-        return Payload(json: jsonPayload, multipart: multipartPayload)
-    }
 }

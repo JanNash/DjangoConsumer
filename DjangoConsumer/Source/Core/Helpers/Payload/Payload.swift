@@ -13,39 +13,52 @@ import Foundation
 
 
 // MARK: // Public
-// MARK: Interface
-public extension Payload {
-    public init(_ json: JSON.Dict) {
-        self.json = json._dict
-    }
-    
-    public init(_ multipart: Multipart.Dict) {
-        self.multipart = multipart._dict
-    }
-    
-    public init(_ json: JSON.Dict, _ multipart: Multipart.Dict) {
-        self.json = json._dict
-        self.multipart = multipart._dict
-    }
-    
-    public mutating func merge(_ json: JSON.Dict, strategy: JSON.Dict.MergeStrategy) {
-        self.json.merge(json._dict, strategy: strategy)
-    }
-    
-    public mutating func merge(_ multipart: Multipart.Dict, strategy: Multipart.Dict.MergeStrategy) {
-        self.multipart.merge(multipart._dict, strategy: strategy)
-    }
-}
-
-
 // MARK: -
-public struct Payload {
+public struct Payload: ExpressibleByDictionaryLiteral {
+    // Fileprivate Init
+    fileprivate init(_json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
+        self.json = _json
+        self.multipart = _multipart
+    }
+    
+    // Public Init
+    public init(_ payloadDict: Payload.Dict) {
+        self = ._from(payloadDict._dict)
+    }
+    
+    // ExpressibleByDictionaryLiteral Init
+    public init(dictionaryLiteral elements: (Payload.Dict.Key, Payload.Dict.Value)...) {
+        // FIXME: A mergeStrategy should be passed in here
+        self = ._from(elements.mapToDict())
+    }
+    
     // Variables
     public private(set) var json: JSON.UnwrappedPayload = [:]
     public private(set) var multipart: Multipart.UnwrappedPayload = [:]
     
     // Element
     public typealias Element = (json: JSON.UnwrappedPayload?, multipart: Multipart.UnwrappedPayload?)
+    
+    // Dict
+    public struct Dict: Collection, ExpressibleByDictionaryLiteral {
+        // Typealiases
+        public typealias DictType = [String: PayloadElementConvertible]
+        public typealias MergeStrategy = DictType.MergeStrategy
+        
+        // Collection Typealiases
+        public typealias Index = DictType.Index
+        public typealias Key = DictType.Key
+        public typealias Value = DictType.Value
+        public typealias Element = (key: Key, value: Value)
+        
+        // ExpressibleByDictionaryLiteral Init
+        public init(dictionaryLiteral elements: (Key, Value)...) {
+            self._dict = Dictionary(elements, strategy: .overwriteOldValue)
+        }
+        
+        // Private Variables
+        fileprivate var _dict: DictType
+    }
     
     // JSON
     public enum JSON {
@@ -160,6 +173,31 @@ public struct Payload {
 }
 
 
+// MARK: Payload.Dict: Collection
+extension Payload.Dict/*: Collection*/ {
+    public var startIndex: Index {
+        return self._dict.startIndex
+    }
+    
+    public var endIndex: Index {
+        return self._dict.endIndex
+    }
+    
+    public func index(after i: Index) -> Index {
+        return self._dict.index(after: i)
+    }
+    
+    public subscript(key: Key) -> Value? {
+        get { return self._dict[key] }
+        set { self._dict[key] = newValue }
+    }
+    
+    public subscript(position: Index) -> (key: Key, value: Value) {
+        return self._dict[position]
+    }
+}
+
+
 // MARK: Payload.JSON.Dict: Collection
 extension Payload.JSON.Dict/*: Collection*/ {
     public var startIndex: Index {
@@ -210,18 +248,26 @@ extension Payload.Multipart.Dict/*: Collection*/ {
 }
 
 
-// MARK: // Internal
-// MARK: Payload.JSON.Dict Unwrapping
-extension Payload.JSON.Dict {
-    func unwrap() -> [String: Payload.JSON.Value] {
-        return self._dict.mapValues({ $0.toJSONValue() })
-    }
-}
-
-
-// MARK: Payload.Multipart.Dict Unwrapping
-extension Payload.Multipart.Dict {
-    func unwrap() -> [String: Payload.Multipart.Value] {
-        return self._dict.mapValues({ $0.toMultipartValue() })
+// MARK: // Private
+// MARK: Common Initializer
+private extension Payload {
+    static func _from(_ payloadDict: Payload.Dict.DictType) -> Payload {
+        var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
+        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
+        
+        payloadDict.forEach({
+            let (key, convertible): (String, PayloadElementConvertible) = $0
+            let payloadElement: Payload.Element = convertible.toPayloadElement(path: key, pathHead: key)
+            
+            if let json: Payload.JSON.UnwrappedPayload = payloadElement.json {
+                jsonPayload.merge(json, strategy: .overwriteOldValue)
+            }
+            
+            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
+                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
+            }
+        })
+        
+        return Payload(_json: jsonPayload, _multipart: multipartPayload)
     }
 }
