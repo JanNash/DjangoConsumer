@@ -13,6 +13,14 @@ import Foundation
 
 
 // MARK: // Public
+// MARK: Interface
+public extension Payload {
+    mutating func merge(_ payloadDict: Payload.Dict) {
+        self._merge(payloadDict)
+    }
+}
+
+
 // MARK: -
 public struct Payload: ExpressibleByDictionaryLiteral {
     // Fileprivate Init
@@ -256,24 +264,29 @@ extension Payload.Multipart.Dict/*: Collection*/ {
 // MARK: // Private
 // MARK: Common Initializer
 private extension Payload {
-    static func _from(_ payloadDict: Payload.Dict.DictType) -> Payload {
-        var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
-        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
-        
-        payloadDict.forEach({
+    static func _from(_ dict: Payload.Dict.DictType) -> Payload {
+        var payload: Payload = Payload()
+
+        dict.forEach({
             let (key, convertible): (String, PayloadElementConvertible) = $0
-            let payloadElement: Payload.Element = convertible.toPayloadElement(path: key, pathHead: key)
-            
-            if let json: Payload.JSON.UnwrappedPayload = payloadElement.json {
-                jsonPayload.merge(json, strategy: .overwriteOldValue)
-            }
-            
-            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
-                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-            }
+            _Utils._merge(
+                convertible.toPayloadElement(path: key, pathHead: key),
+                to: &payload.json,
+                and: &payload.multipart
+            )
         })
         
-        return Payload(_json: jsonPayload, _multipart: multipartPayload)
+        return payload
+    }
+}
+
+
+// MARK: Interface Implementation
+private extension Payload {
+    mutating func _merge(_ payloadDict: Payload.Dict) {
+        let payload: Payload = ._from(payloadDict._dict)
+        self.json.merge(payload.json, strategy: .overwriteOldValue)
+        self.multipart.merge(payload.multipart, strategy: .overwriteOldValue)
     }
 }
 
@@ -281,25 +294,33 @@ private extension Payload {
 // MARK: Payload.Dict: PayloadElementConvertible
 private extension Payload.Dict/*: PayloadElementConvertible*/ {
     func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
         var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
+        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
         
-        self.forEach({ element in
-            let (key, value): (String, Value) = element
-            
-            // FIXME: This should be extracted
-            let path: String = path + "." + key
-            let payloadValue: Payload.Element = value.toPayloadElement(path: path, pathHead: key)
-            
-            if let multipart: Payload.Multipart.UnwrappedPayload = payloadValue.multipart {
-                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-            }
-            
-            if let json: Payload.JSON.UnwrappedPayload = payloadValue.json {
-                jsonPayload.merge(json, strategy: .overwriteOldValue)
-            }
+        self.forEach({
+            let (key, value): (String, Value) = $0
+            // FIXME: The path creation should be extracted
+            _Utils._merge(
+                value.toPayloadElement(path: path + "." + key, pathHead: key),
+                to: &jsonPayload,
+                and: &multipartPayload
+            )
         })
         
         return (jsonPayload, multipartPayload)
+    }
+}
+
+
+// MARK: Utilities
+private enum _Utils {
+    static func _merge(_ payloadElement: Payload.Element, to jsonPayload: inout Payload.JSON.UnwrappedPayload, and multipartPayload: inout Payload.Multipart.UnwrappedPayload) {
+        if let json: Payload.JSON.UnwrappedPayload = payloadElement.json {
+            jsonPayload.merge(json, strategy: .overwriteOldValue)
+        }
+        
+        if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
+            multipartPayload.merge(multipart, strategy: .overwriteOldValue)
+        }
     }
 }
