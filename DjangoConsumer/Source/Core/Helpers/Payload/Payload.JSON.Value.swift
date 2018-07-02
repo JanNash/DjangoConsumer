@@ -57,8 +57,8 @@ private extension Payload.JSON.Value {
             case .float(let v):     return v
             case .double(let v):    return v
             case .string(let v):    return v
-            case .array(let v):     return v
-            case .dict(let v):      return v
+            case .array(let v):     return v.map({ $0.unwrap() })
+            case .dict(let v):      return v.mapValues({ $0.unwrap() })
             case .null:             return nil
             }
         }() ?? NSNull() as Any
