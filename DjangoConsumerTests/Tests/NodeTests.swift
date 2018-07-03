@@ -186,24 +186,24 @@ class NodeTests: BaseTest {
         })
     }
     
-    func testPayloadFromRequestPayloadConvertible() {
-        func nodeImplementation(_ node: Node, _ object: RequestPayloadConvertible, _ method: ResourceHTTPMethod) -> RequestPayload {
+    func testPayloadFromPayloadConvertible() {
+        func nodeImplementation(_ node: Node, _ object: PayloadConvertible, _ method: ResourceHTTPMethod) -> Payload {
             return node.payloadFrom(object: object, method: method)
         }
         
-        func defaultImplementation(_ node: Node, _ object: RequestPayloadConvertible, _ method: ResourceHTTPMethod) -> RequestPayload {
+        func defaultImplementation(_ node: Node, _ object: PayloadConvertible, _ method: ResourceHTTPMethod) -> Payload {
             return Dflt.payloadFrom(node: node, object: object, method: method)
         }
         
         let node: Node = MockNode()
-        let objectsAndExpectedPayloadForMethod: [(RequestPayloadConvertible, (ResourceHTTPMethod) -> RequestPayload)] = (1..<100)
+        let objectsAndExpectedPayloadForMethod: [(PayloadConvertible, (ResourceHTTPMethod) -> Payload)] = (1..<100)
             .map({ MockListPostable(name: "\($0)") })
             .map({ object in (object, { object.toPayload(for: $0) }) })
         
         objectsAndExpectedPayloadForMethod.forEach({ objectAndExpectedPayloadForMethod in
             let (object, expectedPayloadForMethod) = objectAndExpectedPayloadForMethod
             ResourceHTTPMethod.all.forEach({ method in
-                let expectedPayload: RequestPayload = expectedPayloadForMethod(method)
+                let expectedPayload: Payload = expectedPayloadForMethod(method)
                 [nodeImplementation, defaultImplementation].map({
                     $0(node, object, method)
                 }).forEach({
@@ -214,17 +214,17 @@ class NodeTests: BaseTest {
     }
     
     func testParametersFromListPostables() {
-        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> RequestPayload where C.Element: ListPostable {
+        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> Payload where C.Element: ListPostable {
             return node.payloadFrom(listPostables: listPostables)
         }
         
-        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> RequestPayload where C.Element: ListPostable {
+        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> Payload where C.Element: ListPostable {
             return Dflt.payloadFrom(node: node, listPostables: listPostables)
         }
         
         let node: Node = MockNode()
         let objects: [MockListPostable] = (0..<100).map({ MockListPostable(name: "\($0)") })
-        let expectedPayload: RequestPayload = .nested(ListRequestKeys.objects, objects.map({ $0.toPayload(for: .post) }))
+        let expectedPayload: Payload = .nested(ListRequestKeys.objects, objects.map({ $0.toPayload(for: .post) }))
         
         [nodeImplementation, defaultImplementation].map({
             $0(node, objects)
