@@ -36,12 +36,7 @@ class SessionManagerTypeTests: BaseTest {
         
         private var _AF_sessionManager: SessionManager = SessionManager()
         
-        func createRequest(with cfg: GETRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
-            self.requestWithCFGCalled?()
-            self._AF_sessionManager.createRequest(with: cfg, completion: completion)
-        }
-        
-        func createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
+        func createRequest(with cfg: RequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
             self.requestWithCFGCalled?()
             self._AF_sessionManager.createRequest(with: cfg, completion: completion)
         }
