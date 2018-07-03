@@ -16,12 +16,12 @@ import DjangoConsumer
 
 
 // MARK: // Private
-private let _failingRequestConfig: GETRequestConfiguration = {
-    GETRequestConfiguration(url: URL(string: "http://example.com")!, encoding: URLEncoding.default)
+private let _failingRequestConfig: RequestConfiguration = {
+    .get(GETRequestConfiguration(url: URL(string: "http://example.com")!, encoding: URLEncoding.default))
 }()
 
-private let _succeedingRequestConfig: GETRequestConfiguration = {
-    GETRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, encoding: URLEncoding.default)
+private let _succeedingRequestConfig: RequestConfiguration = {
+    .get(GETRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, encoding: URLEncoding.default))
 }()
 
 private enum _TestError: Error { case foo }
