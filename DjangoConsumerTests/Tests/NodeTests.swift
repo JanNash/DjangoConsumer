@@ -119,12 +119,12 @@ class NodeTests: BaseTest {
     
     // Parameter Generation
     func testParametersFromFilters() {
-        func nodeImplementation(_ node: Node, _ filters: [FilterType]) -> Parameters {
-            return node.parametersFrom(filters: filters).unwrap()
+        func nodeImplementation(_ node: Node, _ filters: [FilterType]) -> Payload.JSON.Dict {
+            return node.parametersFrom(filters: filters)
         }
         
-        func defaultImplementation(_ node: Node, _ filters: [FilterType]) -> Parameters {
-            return Dflt.parametersFrom(node: node, filters: filters).unwrap()
+        func defaultImplementation(_ node: Node, _ filters: [FilterType]) -> Payload.JSON.Dict {
+            return Dflt.parametersFrom(node: node, filters: filters)
         }
         
         let node: Node = MockNode()
@@ -140,12 +140,12 @@ class NodeTests: BaseTest {
     }
     
     func testParametersFromOffsetAndLimit() {
-        func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Parameters {
-            return node.parametersFrom(offset: offset, limit: limit).unwrap()
+        func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Payload.JSON.Dict {
+            return node.parametersFrom(offset: offset, limit: limit)
         }
         
-        func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Parameters {
-            return Dflt.parametersFrom(node: node, offset: offset, limit: limit).unwrap()
+        func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Payload.JSON.Dict {
+            return Dflt.parametersFrom(node: node, offset: offset, limit: limit)
         }
         
         let node: Node = MockNode()
@@ -162,12 +162,12 @@ class NodeTests: BaseTest {
     }
     
     func testParametersFromOffsetAndLimitAndFilters() {
-        func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Parameters {
-            return node.parametersFrom(offset: offset, limit: limit, filters: filters).unwrap()
+        func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Payload.JSON.Dict {
+            return node.parametersFrom(offset: offset, limit: limit, filters: filters)
         }
         
-        func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Parameters {
-            return Dflt.parametersFrom(node: node, offset: offset, limit: limit, filters: filters).unwrap()
+        func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Payload.JSON.Dict {
+            return Dflt.parametersFrom(node: node, offset: offset, limit: limit, filters: filters)
         }
         
         let node: Node = MockNode()
