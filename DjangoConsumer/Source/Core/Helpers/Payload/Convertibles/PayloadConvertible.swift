@@ -14,7 +14,7 @@ import Foundation
 
 // MARK: // Public
 // MARK: -
-public protocol PayloadConvertible {
+public protocol PayloadConvertible: PayloadElementConvertible {
     func payloadDict() -> Payload.Dict
     func toPayload() -> Payload
 }
@@ -24,6 +24,14 @@ public protocol PayloadConvertible {
 public extension PayloadConvertible {
     public func toPayload() -> Payload {
         return Payload(self.payloadDict())
+    }
+}
+
+
+// MARK: PayloadConvertible: PayloadElementConvertible
+public extension PayloadConvertible {
+    public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
+        return self.payloadDict().toPayloadElement(path: path, pathHead: pathHead)
     }
 }
 
