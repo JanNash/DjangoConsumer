@@ -123,7 +123,7 @@ public struct Payload: ExpressibleByDictionaryLiteral {
         }
     
         // Dict
-        public struct Dict: Collection, ExpressibleByDictionaryLiteral, JSONValueConvertible {
+        public struct Dict: Collection, Equatable, ExpressibleByDictionaryLiteral, JSONValueConvertible {
             // Typealiases
             public typealias DictType = [String: JSONValueConvertible]
             public typealias MergeStrategy = DictType.MergeStrategy
@@ -144,8 +144,13 @@ public struct Payload: ExpressibleByDictionaryLiteral {
                 self._dict = Dictionary(elements, strategy: .overwriteOldValue)
             }
             
-            // Private Variables
+            // Fileprivate Variables
             fileprivate var _dict: DictType
+            
+            // Equatable Conformance
+            public static func == (lhs: Payload.JSON.Dict, rhs: Payload.JSON.Dict) -> Bool {
+                return lhs.toJSONValue() == rhs.toJSONValue()
+            }
             
             // JSONValueConvertible Conformance
             public func toJSONValue() -> JSON.Value {
