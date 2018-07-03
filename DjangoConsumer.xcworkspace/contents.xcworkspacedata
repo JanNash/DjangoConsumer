@@ -14,6 +14,9 @@
    <FileRef
       location = "group:DjangoConsumer.xcworkspace/xcshareddata/IDETemplateMacros.plist">
    </FileRef>
+   <FileRef
+      location = "group:DjangoConsumer.playground">
+   </FileRef>
    <Group
       location = "container:"
       name = "xcode-project-setup">
