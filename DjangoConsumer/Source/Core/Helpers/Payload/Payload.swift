@@ -42,7 +42,7 @@ public extension Payload {
 
 
 // MARK: -
-public struct Payload: ExpressibleByDictionaryLiteral {
+public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
     // Fileprivate Init
     fileprivate init(_json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
         self.json = _json
@@ -63,6 +63,11 @@ public struct Payload: ExpressibleByDictionaryLiteral {
     // Variables
     public private(set) var json: JSON.UnwrappedPayload = [:]
     public private(set) var multipart: Multipart.UnwrappedPayload = [:]
+    
+    // Equatable Conformance
+    public static func == (lhs: Payload, rhs: Payload) -> Bool {
+        return lhs.__eq__(rhs)
+    }
     
     // Element
     public typealias Element = (json: JSON.UnwrappedPayload?, multipart: Multipart.UnwrappedPayload?)
@@ -322,6 +327,30 @@ private extension Payload {
 }
 
 
+// MARK: Equatable Implementation
+private extension Payload {
+    func __eq__(_ other: Payload) -> Bool {
+        let jsonValueDictOf: (Payload) -> [String: JSON.Value] = {
+            $0.json.mapValues({ ($0 as! JSONValueConvertible).toJSONValue() })
+        }
+        
+        if jsonValueDictOf(self) != jsonValueDictOf(other) {
+            return false
+        }
+        
+        for (key, lValue) in self.multipart {
+            guard
+                let rValue: Multipart.Value = other.multipart[key],
+                lValue.1 == rValue.1, lValue.0 == rValue.0
+                else { return false }
+        }
+        
+        return true
+    }
+}
+
+
+// MARK: -
 // MARK: Payload.Dict: PayloadElementConvertible
 private extension Payload.Dict/*: PayloadElementConvertible*/ {
     func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
