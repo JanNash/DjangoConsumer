@@ -15,15 +15,20 @@ import Foundation
 // MARK: // Public
 // MARK: -
 public protocol PayloadConvertible: PayloadElementConvertible {
-    func payloadDict() -> Payload.Dict
-    func toPayload() -> Payload
+    func defaultPayloadDict() -> Payload.Dict
+    func payloadDict(for method: ResourceHTTPMethod) -> Payload.Dict
+    func toPayload(for method: ResourceHTTPMethod) -> Payload
 }
 
 
 // MARK: PayloadConvertible Default Implementation
 public extension PayloadConvertible {
-    public func toPayload() -> Payload {
-        return Payload(self.payloadDict())
+    public func payloadDict(for method: ResourceHTTPMethod) -> Payload.Dict {
+        return self.defaultPayloadDict()
+    }
+    
+    public func toPayload(for method: ResourceHTTPMethod) -> Payload {
+        return Payload(self.payloadDict(for: method))
     }
 }
 
@@ -31,7 +36,7 @@ public extension PayloadConvertible {
 // MARK: PayloadConvertible: PayloadElementConvertible
 public extension PayloadConvertible {
     public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        return self.payloadDict().toPayloadElement(path: path, pathHead: pathHead)
+        return self.defaultPayloadDict().toPayloadElement(path: path, pathHead: pathHead)
     }
 }
 
