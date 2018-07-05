@@ -39,7 +39,7 @@ struct MockListPostable: ListPostableNoAuth, Equatable {
     static let defaultNoAuthNode: NoAuthNode = MockNode.main
     static var listPostableClients: [ListPostableClient] = []
     
-    func payloadDict() -> Payload.Dict {
+    func defaultPayloadDict() -> Payload.Dict {
         return [Keys.name : self.name]
     }
 }

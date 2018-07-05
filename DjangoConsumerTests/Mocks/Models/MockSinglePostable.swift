@@ -30,7 +30,7 @@ struct MockSinglePostable: SinglePostableNoAuth {
     static let defaultNoAuthNode: NoAuthNode = MockNode.main
     static var singlePostableClients: [SinglePostableClient] = []
     
-    func payloadDict() -> Payload.Dict {
+    func defaultPayloadDict() -> Payload.Dict {
         return [:]
     }
 }

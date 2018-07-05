@@ -224,7 +224,7 @@ class NodeTests: BaseTest {
         
         let node: Node = MockNode()
         let objects: [MockListPostable] = (0..<100).map({ MockListPostable(name: "\($0)") })
-        let expectedPayload: Payload = [ListRequestKeys.objects: objects.map({ $0.toPayload(for: .post) })]
+        let expectedPayload: Payload = [ListRequestKeys.objects: objects.map({ $0.payloadDict(for: .post) })]
         
         [nodeImplementation, defaultImplementation].map({
             $0(node, objects)
