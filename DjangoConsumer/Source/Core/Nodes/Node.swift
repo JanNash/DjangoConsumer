@@ -208,11 +208,11 @@ public extension DefaultImplementations.Node {
 // MARK: Request Payload Generation
 public extension DefaultImplementations.Node {
     public static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
-        return object.toPayload()
+        return object.toPayload(for: method)
     }
     
     public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
-        return [ListRequestKeys.objects: listPostables.map({ $0.payloadDict() })]
+        return [ListRequestKeys.objects: listPostables.map({ $0.payloadDict(for: .post) })]
     }
 }
 
