@@ -43,7 +43,8 @@ public extension Payload {
 
 // MARK: -
 public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
-    // Fileprivate Init
+    // Fileprivate Inits
+    fileprivate init() {}
     fileprivate init(_json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
         self.json = _json
         self.multipart = _multipart
