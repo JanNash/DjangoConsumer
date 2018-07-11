@@ -70,6 +70,11 @@ public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
         return lhs.__eq__(rhs)
     }
     
+    // JSONData
+    public func jsonData() -> Data {
+        return try! JSONSerialization.data(withJSONObject: self.json)
+    }
+    
     // Element
     public typealias Element = (json: JSON.UnwrappedPayload?, multipart: Multipart.UnwrappedPayload?)
     
