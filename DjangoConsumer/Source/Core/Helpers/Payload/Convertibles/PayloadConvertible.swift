@@ -13,7 +13,7 @@ import Foundation
 
 
 public protocol PayloadConversion {
-    typealias Configuration = (rootObject: PayloadConvertible, method: ResourceHTTPMethod, multipartPath: Payload.Multipart.Path, currentKey: String)
+    typealias Configuration = (rootObject: PayloadConvertible?, method: ResourceHTTPMethod, multipartPath: Payload.Multipart.Path, currentKey: String)
     
     func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value?
     func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value?
@@ -26,7 +26,7 @@ public protocol PayloadConversion {
 public protocol PayloadConvertible: PayloadElementConvertible {
     func defaultPayloadDict() -> Payload.Dict
     func payloadDict(for method: ResourceHTTPMethod) -> Payload.Dict
-    func toPayload(for method: ResourceHTTPMethod) -> Payload
+    func toPayload(for method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload
 }
 
 
@@ -36,8 +36,8 @@ public extension PayloadConvertible {
         return self.defaultPayloadDict()
     }
     
-    public func toPayload(for method: ResourceHTTPMethod) -> Payload {
-        return Payload(self.payloadDict(for: method))
+    public func toPayload(for method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload {
+        return self.payloadDict(for: method).toPayload(conversion: conversion, rootObject: self, method: method)
     }
 }
 
