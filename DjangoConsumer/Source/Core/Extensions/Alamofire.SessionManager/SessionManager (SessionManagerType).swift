@@ -43,31 +43,26 @@ private extension Alamofire.SessionManager {
     }
     
     func _createRequest(with cfg: POSTRequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
-        // FIXME: Update implementation
-//        switch cfg.payload {
-//
-//        case .json(let parameters):
-//            completion(.created(
-//                self.request(cfg.url, method: .post, parameters: parameters, encoding: cfg.encoding, headers: cfg.headers)
-//                    .validate(statusCode: cfg.acceptableStatusCodes)
-//                    .validate(contentType: cfg.acceptableContentTypes)
-//                ))
-//
-//        case .multipart(let multipartDictionary):
-//            self.upload(multipartFormData: { multipartFormData in
-//                // ???: Is it possible to encode a whole JSON object (i.e. dictionary) into one body part?
-//                // ???: We're passing in application/json as mimeType for single jsonValues, this should be correct, is it though?
-//                multipartDictionary.forEach({
-//                    multipartFormData.append($0.value.0, withName: $0.key, mimeType: $0.value.1.rawValue)
-//                })
-//            }, to: cfg.url, method: .post, headers: cfg.headers, encodingCompletion: {
-//                switch $0 {
-//                case .success(request: let request, streamingFromDisk: _, streamFileURL: _):
-//                    completion(.created(request))
-//                case .failure(let error):
-//                    completion(.failed(error))
-//                }
-//            })
-//        }
+        let payload: Payload = cfg.payload
+        if payload.multipart.isEmpty {
+            completion(.created(
+                self.request(cfg.url, method: .post, parameters: payload.json, encoding: cfg.encoding, headers: cfg.headers)
+                    .validate(statusCode: cfg.acceptableStatusCodes)
+                    .validate(contentType: cfg.acceptableContentTypes)
+                ))
+        } else {
+            self.upload(multipartFormData: { multipartFormData in
+                // FIXME: Harcoded String literals
+                multipartFormData.append(payload.jsonData(), withName: "data", mimeType: "application/json")
+                payload.multipart.map({ ($0.value.0, $0.key, $0.value.1.rawValue) }).forEach(multipartFormData.append)
+            }, to: cfg.url, method: .post, headers: cfg.headers, encodingCompletion: {
+                switch $0 {
+                case .success(request: let request, streamingFromDisk: _, streamFileURL: _):
+                    completion(.created(request))
+                case .failure(let error):
+                    completion(.failed(error))
+                }
+            })
+        }
     }
 }
