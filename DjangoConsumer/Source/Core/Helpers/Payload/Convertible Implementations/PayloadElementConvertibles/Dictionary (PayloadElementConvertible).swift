@@ -15,7 +15,7 @@ import Foundation
 // MARK: // Public
 // MARK: - : PayloadElementConvertible
 extension Dictionary: PayloadElementConvertible where Key == String, Value: PayloadElementConvertible {
-    public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        return Payload.Dict(self).toPayloadElement(path: path, pathHead: pathHead)
+    public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
+        return Payload.Dict(self).toPayloadElement(conversion: conversion, configuration: configuration)
     }
 }

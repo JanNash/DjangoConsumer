@@ -21,7 +21,18 @@ public protocol MultipartValueConvertible: PayloadElementConvertible {
 
 // MARK: PayloadValueConvertible Default Implementation
 public extension MultipartValueConvertible {
-    public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        return (nil, [path: self.toMultipartValue()])
+    public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
+        return self._toPayloadElement(conversion: conversion, configuration: configuration)
+    }
+}
+
+
+// MARK: // Private
+// MARK: PayloadValueConvertible Default Implementation
+private extension MultipartValueConvertible {
+    func _toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
+        let resolvedPath: String = conversion.multipartKey(from: configuration)
+        let multipartValue: Payload.Multipart.Value = conversion.convert(self, configuration: configuration) ?? self.toMultipartValue()
+        return (nil, [resolvedPath: multipartValue])
     }
 }

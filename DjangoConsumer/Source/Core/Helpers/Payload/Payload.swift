@@ -104,8 +104,8 @@ public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
         fileprivate var _dict: DictType
         
         // PayloadElementConvertible Conformance
-        public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-            return self._toPayloadElement(path: path, pathHead: pathHead)
+        public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
+            return self._toPayloadElement(conversion: conversion, configuration: configuration)
         }
     }
     
@@ -400,15 +400,22 @@ private extension Payload {
 // MARK: -
 // MARK: Payload.Dict: PayloadElementConvertible
 private extension Payload.Dict/*: PayloadElementConvertible*/ {
-    func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
+    func _toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
         var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
         var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
         
         self.forEach({
             let (key, value): (String, Value) = $0
-            // FIXME: The path creation should be extracted
             Payload.Utils_.merge(
-                value.toPayloadElement(path: path + "." + key, pathHead: key),
+                value.toPayloadElement(
+                    conversion: conversion,
+                    configuration: (
+                        rootObject: configuration.rootObject,
+                        method: configuration.method,
+                        multipartPath: configuration.multipartPath + .key(key),
+                        currentKey: key
+                    )
+                ),
                 to: &jsonPayload,
                 and: &multipartPayload
             )

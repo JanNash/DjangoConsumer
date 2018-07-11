@@ -13,11 +13,11 @@ import Foundation
 
 
 public protocol PayloadConversion {
-    typealias Configuration = (rootObject: PayloadConvertible, method: ResourceHTTPMethod, path: Payload.Multipart.Path, currentKey: String)
+    typealias Configuration = (rootObject: PayloadConvertible, method: ResourceHTTPMethod, multipartPath: Payload.Multipart.Path, currentKey: String)
     
     func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value?
     func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value?
-    func convert(_ multipartPath: Payload.Multipart.Path, configuration: Configuration) -> String
+    func multipartKey(from configuration: Configuration) -> String
 }
 
 
