@@ -187,25 +187,26 @@ class NodeTests: BaseTest {
     }
     
     func testPayloadFromPayloadConvertible() {
-        func nodeImplementation(_ node: Node, _ object: PayloadConvertible, _ method: ResourceHTTPMethod) -> Payload {
-            return node.payloadFrom(object: object, method: method)
+        func nodeImplementation(_ node: Node, _ object: PayloadConvertible, _ method: ResourceHTTPMethod, _ conversion: PayloadConversion) -> Payload {
+            return node.payloadFrom(object: object, method: method, conversion: conversion)
         }
         
-        func defaultImplementation(_ node: Node, _ object: PayloadConvertible, _ method: ResourceHTTPMethod) -> Payload {
-            return Dflt.payloadFrom(node: node, object: object, method: method)
+        func defaultImplementation(_ node: Node, _ object: PayloadConvertible, _ method: ResourceHTTPMethod, _ conversion: PayloadConversion) -> Payload {
+            return Dflt.payloadFrom(node: node, object: object, method: method, conversion: conversion)
         }
         
         let node: Node = MockNode()
+        let conversion: PayloadConversion = DefaultPayloadConversion()
         let objectsAndExpectedPayloadForMethod: [(PayloadConvertible, (ResourceHTTPMethod) -> Payload)] = (1..<100)
             .map({ MockListPostable(name: "\($0)") })
-            .map({ object in (object, { object.toPayload(for: $0) }) })
+            .map({ object in (object, { object.toPayload(conversion: conversion, method: $0) }) })
         
         objectsAndExpectedPayloadForMethod.forEach({ objectAndExpectedPayloadForMethod in
             let (object, expectedPayloadForMethod) = objectAndExpectedPayloadForMethod
             ResourceHTTPMethod.all.forEach({ method in
                 let expectedPayload: Payload = expectedPayloadForMethod(method)
                 [nodeImplementation, defaultImplementation].map({
-                    $0(node, object, method)
+                    $0(node, object, method, conversion)
                 }).forEach({
                     XCTAssertEqual($0, expectedPayload)
                 })
@@ -214,20 +215,23 @@ class NodeTests: BaseTest {
     }
     
     func testParametersFromListPostables() {
-        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> Payload where C.Element: ListPostable {
-            return node.payloadFrom(listPostables: listPostables)
+        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C, _ conversion: PayloadConversion) -> Payload where C.Element: ListPostable {
+            return node.payloadFrom(listPostables: listPostables, conversion: conversion)
         }
         
-        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> Payload where C.Element: ListPostable {
-            return Dflt.payloadFrom(node: node, listPostables: listPostables)
+        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C, _ conversion: PayloadConversion) -> Payload where C.Element: ListPostable {
+            return Dflt.payloadFrom(node: node, listPostables: listPostables, conversion: conversion)
         }
         
         let node: Node = MockNode()
+        let conversion: PayloadConversion = DefaultPayloadConversion()
         let objects: [MockListPostable] = (0..<100).map({ MockListPostable(name: "\($0)") })
-        let expectedPayload: Payload = [ListRequestKeys.objects: objects.map({ $0.payloadDict(for: .post) })]
+        let expectedPayload: Payload = Payload.Dict(
+            [ListRequestKeys.objects: objects.map({ $0.payloadDict(rootObject: nil, method: .post) })]
+        ).toPayload(conversion: conversion, rootObject: nil, method: .post)
         
         [nodeImplementation, defaultImplementation].map({
-            $0(node, objects)
+            $0(node, objects, conversion)
         }).forEach({
             XCTAssertEqual($0, expectedPayload)
         })

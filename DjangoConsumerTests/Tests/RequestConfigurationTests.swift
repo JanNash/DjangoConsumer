@@ -41,7 +41,9 @@ class RequestConfigurationTests: BaseTest {
     func testRequestConfigurationInitWithAllParameters() {
         let expectedURL: URL = URL(string: "http://example.com")!
         let expectedEncoding: ParameterEncoding = JSONEncoding.default
-        let expectedPayload: Payload = ["foo": "bar"]
+        let expectedPayload: Payload = Payload.Dict(["foo": "bar"]).toPayload(
+            conversion: DefaultPayloadConversion(), rootObject: nil, method: .post
+        )
         let expectedHeaders: HTTPHeaders = ["Alice": "Bob"]
         let expectedAcceptableStatusCodes: [Int] = Array(200..<300)
         let expectedAcceptableContentTypes: [String] = ["bla/blu"]
