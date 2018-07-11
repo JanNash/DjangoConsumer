@@ -13,9 +13,6 @@ import Alamofire
 import SwiftyJSON
 
 
-// FIXME: Update Interface and Implementations
-
-
 // MARK: // Public
 public protocol Node {
     // Basic Setup
