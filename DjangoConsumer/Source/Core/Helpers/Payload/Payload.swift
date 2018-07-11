@@ -90,6 +90,11 @@ public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
         public typealias Value = DictType.Value
         public typealias Element = (key: Key, value: Value)
         
+        // Init
+        public init(_ dict: [String: PayloadElementConvertible]) {
+            self._dict = dict
+        }
+        
         // ExpressibleByDictionaryLiteral Init
         public init(dictionaryLiteral elements: (Key, Value)...) {
             self._dict = Dictionary(elements, strategy: .overwriteOldValue)
