@@ -56,9 +56,10 @@ private extension DefaultImplementations.SinglePostable {
         let method: ResourceHTTPMethod = routeType.method
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
+        // FIXME: Replace DefaultPayloadConversion
         let payload: Payload = node
             .payloadFrom(object: singlePostable, method: method, conversion: DefaultPayloadConversion())
-            .merging(additionalParameters)
+            .merging(additionalParameters, conversion: DefaultPayloadConversion())
         
         let encoding: ParameterEncoding = JSONEncoding.default
         

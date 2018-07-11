@@ -15,28 +15,28 @@ import Foundation
 // MARK: // Public
 // MARK: Interface
 public extension Payload {
-    mutating func merge(_ json: JSON.Dict) {
-        self.merge(json._dict)
+    mutating func merge(_ json: JSON.Dict, conversion: PayloadConversion) {
+        self.merge(json._dict, conversion: conversion)
     }
     
-    mutating func merge(_ multipart: Multipart.Dict) {
-        self.merge(multipart._dict)
+    mutating func merge(_ multipart: Multipart.Dict, conversion: PayloadConversion) {
+        self.merge(multipart._dict, conversion: conversion)
     }
     
-    mutating func merge<C>(_ dict: C) where C: Collection, C.Element == Dict.Element {
-        self._merge(dict)
+    mutating func merge(_ dict: [String: PayloadElementConvertible], conversion: PayloadConversion) {
+        self._merge(dict, conversion: conversion)
     }
     
-    func merging(_ json: JSON.Dict) -> Payload {
-        return self.merging(json._dict)
+    func merging(_ json: JSON.Dict, conversion: PayloadConversion) -> Payload {
+        return self.merging(json._dict, conversion: conversion)
     }
     
-    func merging(_ multipart: Multipart.Dict) -> Payload {
-        return self.merging(multipart._dict)
+    func merging(_ multipart: Multipart.Dict, conversion: PayloadConversion) -> Payload {
+        return self.merging(multipart._dict, conversion: conversion)
     }
     
-    func merging<C>(_ dict: C) -> Payload where C: Collection, C.Element == Dict.Element {
-        return self._merging(dict)
+    func merging(_ dict: [String: PayloadElementConvertible], conversion: PayloadConversion) -> Payload {
+        return self._merging(dict, conversion: conversion)
     }
 }
 
@@ -44,13 +44,21 @@ public extension Payload {
 // MARK: -
 public struct Payload: Equatable {
     // Fileprivate Inits
-    fileprivate init() {}
-    fileprivate init(_json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
+    fileprivate init(_rootObject: PayloadConvertible?, _method: ResourceHTTPMethod) {
+        self.rootObject = _rootObject
+        self.method = _method
+    }
+    
+    fileprivate init(_rootObject: PayloadConvertible?, _method: ResourceHTTPMethod, _json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
+        self.rootObject = _rootObject
+        self.method = _method
         self.json = _json
         self.multipart = _multipart
     }
     
     // Variables
+    public private(set) var rootObject: PayloadConvertible?
+    public private(set) var method: ResourceHTTPMethod
     public private(set) var json: JSON.UnwrappedPayload = [:]
     public private(set) var multipart: Multipart.UnwrappedPayload = [:]
     
@@ -333,36 +341,19 @@ extension Payload.Multipart.Dict/*: Collection*/ {
 
 
 // MARK: // Private
-// MARK: Common Initializer
-private extension Payload {
-    static func _from<C>(_ dict: C) -> Payload where C: Collection, C.Element == (key: String, value: Payload.Value) {
-        var payload: Payload = Payload()
-
-        dict.forEach({
-            let (key, convertible): (String, PayloadElementConvertible) = $0
-            Payload.Utils_.merge(
-                convertible.toPayloadElement(path: key, pathHead: key),
-                to: &payload.json,
-                and: &payload.multipart
-            )
-        })
-        
-        return payload
-    }
-}
-
-
 // MARK: Interface Implementation
 private extension Payload {
-    mutating func _merge<C>(_ dict: C) where C: Collection, C.Element == Dict.Element {
-        let payload: Payload = ._from(dict)
+    mutating func _merge(_ dict: [String: PayloadElementConvertible], conversion: PayloadConversion) {
+        let payload: Payload = Payload.Dict(dict).toPayload(
+            conversion: conversion, rootObject: self.rootObject, method: self.method
+        )
         self.json.merge(payload.json, strategy: .overwriteOldValue)
         self.multipart.merge(payload.multipart, strategy: .overwriteOldValue)
     }
     
-    func _merging<C>(_ dict: C) -> Payload where C: Collection, C.Element == Dict.Element {
+    func _merging(_ dict: [String: PayloadElementConvertible], conversion: PayloadConversion) -> Payload {
         var payload: Payload = self
-        payload.merge(dict)
+        payload.merge(dict, conversion: conversion)
         return payload
     }
 }
@@ -443,6 +434,6 @@ private extension Payload.Dict {
             )
         })
         
-        return Payload(_json: jsonPayload, _multipart: multipartPayload)
+        return Payload(_rootObject: rootObject, _method: method, _json: jsonPayload, _multipart: multipartPayload)
     }
 }
