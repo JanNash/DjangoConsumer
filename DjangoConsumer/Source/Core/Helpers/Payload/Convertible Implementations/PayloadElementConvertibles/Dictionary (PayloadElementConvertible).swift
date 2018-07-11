@@ -24,23 +24,17 @@ extension Dictionary: PayloadElementConvertible where Key == String, Value: Payl
 // MARK: : PayloadElementConvertible Implementation
 private extension Dictionary/*: PayloadElementConvertible*/ where Key == String, Value: PayloadElementConvertible {
     func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
         var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
+        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
         
-        self.forEach({ element in
-            let (key, value): (String, Value) = element
-            
-            // FIXME: This should be extracted
-            let path: String = path + "." + key
-            let payloadValue: Payload.Element = value.toPayloadElement(path: path, pathHead: key)
-            
-            if let multipart: Payload.Multipart.UnwrappedPayload = payloadValue.multipart {
-                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-            }
-            
-            if let json: Payload.JSON.UnwrappedPayload = payloadValue.json {
-                jsonPayload.merge(json, strategy: .overwriteOldValue)
-            }
+        self.forEach({
+            let (key, value): (String, Value) = $0
+            // FIXME: The path creation should be extracted
+            Payload.Utils_.merge(
+                value.toPayloadElement(path: path + "." + key, pathHead: key),
+                to: &jsonPayload,
+                and: &multipartPayload
+            )
         })
         
         return (jsonPayload, multipartPayload)

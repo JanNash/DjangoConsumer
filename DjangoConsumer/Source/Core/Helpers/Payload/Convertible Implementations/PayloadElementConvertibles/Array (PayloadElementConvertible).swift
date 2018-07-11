@@ -24,22 +24,16 @@ extension Array: PayloadElementConvertible where Element: PayloadElementConverti
 // MARK: : PayloadElementConvertible Implementation
 private extension Array/*: PayloadElementConvertible*/ where Element: PayloadElementConvertible {
     func _toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
         var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
+        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
         
         self.enumerated().forEach({
-            let (offset, element): (Int, Element) = $0
-            // FIXME: This should be extracted
-            let path: String = path + "[" + "\(offset)" + "]"
-            let payloadElement: Payload.Element = element.toPayloadElement(path: path, pathHead: pathHead)
-        
-            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
-                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-            }
-            
-            if let json: Payload.JSON.UnwrappedPayload = payloadElement.json {
-                jsonPayload.merge(json, strategy: .overwriteOldValue)
-            }
+            // FIXME: The path creation should be extracted
+            Payload.Utils_.merge(
+                $0.element.toPayloadElement(path: path + "[" + "\($0.offset)" + "]", pathHead: pathHead),
+                to: &jsonPayload,
+                and: &multipartPayload
+            )
         })
         
         return (jsonPayload, multipartPayload)
