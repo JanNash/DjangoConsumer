@@ -13,10 +13,10 @@ import Foundation
 
 
 public protocol PayloadConversion {
-    typealias Configuration = (rootObject: PayloadConvertible, method: ResourceHTTPMethod, path: String, pathHead: String)
+    typealias Configuration = (rootObject: PayloadConvertible, method: ResourceHTTPMethod, path: Payload.Multipart.Path, currentKey: String)
     
-    func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value
-    func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value
+    func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value?
+    func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value?
     func convert(_ multipartPath: Payload.Multipart.Path, configuration: Configuration) -> String
 }
 
@@ -44,13 +44,13 @@ public extension PayloadConvertible {
 
 // MARK: PayloadConvertible: PayloadElementConvertible
 public extension PayloadConvertible {
-    public func toPayloadElement(path: String, pathHead: String) -> Payload.Element {
-        return self.defaultPayloadDict().toPayloadElement(path: path, pathHead: pathHead)
+    func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
+        return self.defaultPayloadDict().toPayloadElement(conversion: conversion, configuration: configuration)
     }
 }
 
 
 // MARK: -
 public protocol PayloadElementConvertible {
-    func toPayloadElement(path: String, pathHead: String) -> Payload.Element
+    func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element
 }
