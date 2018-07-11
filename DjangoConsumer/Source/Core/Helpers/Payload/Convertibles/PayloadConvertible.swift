@@ -23,6 +23,26 @@ public protocol PayloadConversion {
 }
 
 
+// MARK: PayloadConversion Default Implementations
+public extension PayloadConversion {
+    public func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value? {
+        return nil
+    }
+    
+    public func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value? {
+        return nil
+    }
+}
+
+
+// MARK: -
+public struct DefaultPayloadConversion: PayloadConversion {
+    public func multipartKey(from configuration: Configuration) -> String {
+        return self._multipartKey(from: configuration)
+    }
+}
+
+
 // MARK: -
 public protocol PayloadConvertible: PayloadElementConvertible {
     func defaultPayloadDict() -> Payload.Dict
@@ -54,4 +74,27 @@ public extension PayloadConvertible {
 // MARK: -
 public protocol PayloadElementConvertible {
     func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element
+}
+
+
+// MARK: // Private
+// MARK: DefaultPayloadConversion Implementation
+private extension DefaultPayloadConversion {
+    func _multipartKey(from configuration: Configuration) -> String {
+        var previousKeyHeadWasAnIndex: Bool = false
+        return configuration.multipartPath.elements.reduce("", { result, element in
+            switch element {
+            case .key(let key):
+                defer { previousKeyHeadWasAnIndex = false }
+                if previousKeyHeadWasAnIndex {
+                    return result + key
+                } else {
+                    return result + "." + key
+                }
+            case .index(let index):
+                previousKeyHeadWasAnIndex = true
+                return result + "[" + "\(index)" + "]"
+            }
+        })
+    }
 }
