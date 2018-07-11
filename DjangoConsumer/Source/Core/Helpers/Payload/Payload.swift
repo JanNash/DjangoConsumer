@@ -107,6 +107,11 @@ public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
         public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
             return self._toPayloadElement(conversion: conversion, configuration: configuration)
         }
+        
+        // To Payload
+        public func toPayload(conversion: PayloadConversion, rootObject: PayloadConvertible?, method: ResourceHTTPMethod) -> Payload {
+            return self._toPayload(conversion: conversion, rootObject: rootObject, method: method)
+        }
     }
     
     // JSON
@@ -422,5 +427,33 @@ private extension Payload.Dict/*: PayloadElementConvertible*/ {
         })
         
         return (jsonPayload, multipartPayload)
+    }
+}
+
+
+// MARK: Payload.Dict toPayload
+private extension Payload.Dict {
+    func _toPayload(conversion: PayloadConversion, rootObject: PayloadConvertible?, method: ResourceHTTPMethod) -> Payload {
+        var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
+        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
+        
+        self.forEach({
+            let (key, value): (String, Value) = $0
+            Payload.Utils_.merge(
+                value.toPayloadElement(
+                    conversion: conversion,
+                    configuration: (
+                        rootObject: rootObject,
+                        method: method,
+                        multipartPath: Payload.Multipart.Path(key),
+                        currentKey: key
+                    )
+                ),
+                to: &jsonPayload,
+                and: &multipartPayload
+            )
+        })
+        
+        return Payload(_json: jsonPayload, _multipart: multipartPayload)
     }
 }
