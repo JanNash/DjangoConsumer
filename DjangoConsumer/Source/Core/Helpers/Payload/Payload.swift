@@ -224,6 +224,9 @@ public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
             fileprivate var _dict: DictType
         }
     }
+    
+    // MARK: Utils
+    internal enum Utils_ {}
 }
 
 
@@ -310,7 +313,7 @@ private extension Payload {
 
         dict.forEach({
             let (key, convertible): (String, PayloadElementConvertible) = $0
-            _Utils._merge(
+            Payload.Utils_.merge(
                 convertible.toPayloadElement(path: key, pathHead: key),
                 to: &payload.json,
                 and: &payload.multipart
@@ -371,7 +374,7 @@ private extension Payload.Dict/*: PayloadElementConvertible*/ {
         self.forEach({
             let (key, value): (String, Value) = $0
             // FIXME: The path creation should be extracted
-            _Utils._merge(
+            Payload.Utils_.merge(
                 value.toPayloadElement(path: path + "." + key, pathHead: key),
                 to: &jsonPayload,
                 and: &multipartPayload
@@ -379,19 +382,5 @@ private extension Payload.Dict/*: PayloadElementConvertible*/ {
         })
         
         return (jsonPayload, multipartPayload)
-    }
-}
-
-
-// MARK: Utilities
-private enum _Utils {
-    static func _merge(_ payloadElement: Payload.Element, to jsonPayload: inout Payload.JSON.UnwrappedPayload, and multipartPayload: inout Payload.Multipart.UnwrappedPayload) {
-        if let json: Payload.JSON.UnwrappedPayload = payloadElement.json {
-            jsonPayload.merge(json, strategy: .overwriteOldValue)
-        }
-        
-        if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
-            multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-        }
     }
 }
