@@ -187,6 +187,33 @@ public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
         // Value
         public typealias Value = (Data, ContentType)
         
+        // Path
+        public struct Path {
+            // Element
+            public enum Element {
+                case key(String)
+                case index(Int)
+            }
+            
+            // Public Init
+            public init(_ key: String) {
+                self._elements = [.key(key)]
+            }
+            
+            // Private Init
+            private init(_ elements: [Element]) {
+                self._elements = elements
+            }
+            
+            // Private Variables
+            private var _elements: [Element]
+            
+            // Appending
+            public static func + (_ lhs: Path, _ rhs: Path.Element) -> Path {
+                return Path(lhs._elements + [rhs])
+            }
+        }
+        
         // ContentType
         public enum ContentType: String, CustomStringConvertible {
             case imageJPEG = "image/jpeg"
@@ -204,6 +231,7 @@ public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
             }
         }
         
+        // Dict
         public struct Dict: Collection, ExpressibleByDictionaryLiteral {
             // Typealiases
             public typealias DictType = [String: MultipartValueConvertible]
