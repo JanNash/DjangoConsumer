@@ -37,6 +37,7 @@ public extension PayloadConversion {
 
 // MARK: -
 public struct DefaultPayloadConversion: PayloadConversion {
+    public init() {}
     public func multipartKey(from configuration: Configuration) -> String {
         return self._multipartKey(from: configuration)
     }
