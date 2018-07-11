@@ -35,8 +35,8 @@ public protocol Node {
     func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Payload.JSON.Dict
     
     // Request Payload Generation
-    func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload
-    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> Payload where C.Element == T
+    func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload
+    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T
     
     // URLs
     // MetaResource.Type URLs
@@ -94,12 +94,12 @@ public extension Node {
 
 // MARK: Request Payload Generation
 public extension Node {
-    func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
-        return DefaultImplementations.Node.payloadFrom(node: self, object: object, method: method)
+    func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload {
+        return DefaultImplementations.Node.payloadFrom(node: self, object: object, method: method, conversion: conversion)
     }
     
-    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C) -> Payload where C.Element == T {
-        return DefaultImplementations.Node.payloadFrom(node: self, listPostables: listPostables)
+    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T {
+        return DefaultImplementations.Node.payloadFrom(node: self, listPostables: listPostables, conversion: conversion)
     }
 }
 
@@ -207,12 +207,12 @@ public extension DefaultImplementations.Node {
 
 // MARK: Request Payload Generation
 public extension DefaultImplementations.Node {
-    public static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod) -> Payload {
-        return object.toPayload(for: method)
+    public static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload {
+        return object.toPayload(conversion: conversion, method: method)
     }
     
-    public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Payload where C.Element == T {
-        return [ListRequestKeys.objects: listPostables.map({ $0.payloadDict(for: .post) })]
+    public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T {
+        return Payload.Dict([ListRequestKeys.objects: listPostables.map({ $0.payloadDict(rootObject: nil, method: .post) })]).toPayload(conversion: conversion, rootObject: nil, method: .post)
     }
 }
 
