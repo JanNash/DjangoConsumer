@@ -12,12 +12,12 @@
 import Foundation
 
 
-
-public typealias PayloadConfiguration = (rootObject: PayloadConvertible, method: ResourceHTTPMethod, path: String, pathHead: String)
-
 public protocol PayloadConversion {
-    func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: PayloadConfiguration) -> Payload.JSON.Value
-    func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: PayloadConfiguration) -> Payload.Multipart.Value
+    typealias Configuration = (rootObject: PayloadConvertible, method: ResourceHTTPMethod, path: String, pathHead: String)
+    
+    func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value
+    func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value
+    func convert(_ multipartPath: Payload.Multipart.Path, configuration: Configuration) -> String
 }
 
 
