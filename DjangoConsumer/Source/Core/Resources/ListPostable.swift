@@ -30,32 +30,30 @@ public protocol ListPostableNoAuth: ListPostable, NeedsNoAuthNode {}
 // MARK: - Collection
 // MARK: where Self.Element: ListPostableNoAuth
 public extension Collection where Self.Element: ListPostableNoAuth {
-    public func post(to node: NoAuthNode = Self.Element.defaultNoAuthNode) {
-        DefaultImplementations.ListPostable.post(self, to: node)
+    public func post(to node: NoAuthNode = Self.Element.defaultNoAuthNode, conversion: PayloadConversion = DefaultPayloadConversion()) {
+        DefaultImplementations.ListPostable.post(self, to: node, conversion: conversion)
     }
 }
 
 
 // MARK: - DefaultImplementations.ListPostable
 public extension DefaultImplementations.ListPostable {
-    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: NoAuthNode) where C.Element == T {
-        self.post(objects, to: node, via: node.sessionManagerNoAuth)
+    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: NoAuthNode, conversion: PayloadConversion) where C.Element == T {
+        self.post(objects, to: node, via: node.sessionManagerNoAuth, conversion: conversion)
     }
     
-    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType) where C.Element == T {
-        self._post(objects, to: node, via: sessionManager)
+    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType, conversion: PayloadConversion) where C.Element == T {
+        self._post(objects, to: node, via: sessionManager, conversion: conversion)
     }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations.ListPostable {
-    static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType) where C.Element == T {
+    static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType, conversion: PayloadConversion) where C.Element == T {
         let routeType: RouteType.List = .listPOST
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
-        
-        // FIXME: Replace DefaultPayloadConversion
-        let payload: Payload = node.payloadFrom(listPostables: objects, conversion: DefaultPayloadConversion())
+        let payload: Payload = node.payloadFrom(listPostables: objects, conversion: conversion)
         let encoding: ParameterEncoding = URLEncoding.default
         
         func onSuccess(_ json: JSON) {

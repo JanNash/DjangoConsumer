@@ -29,9 +29,9 @@ public protocol SinglePostableNoAuth: SinglePostable, NeedsNoAuthNode {}
 
 // MARK: Default Implementations
 public extension SinglePostableNoAuth {
-    func post(to node: NoAuthNode = Self.defaultNoAuthNode) {
+    func post(to node: NoAuthNode = Self.defaultNoAuthNode, conversion: PayloadConversion = DefaultPayloadConversion()) {
         DefaultImplementations.SinglePostable.post(
-            self, to: node, via: node.sessionManagerNoAuth, additionalHeaders: [:], additionalParameters: [:]
+            self, to: node, via: node.sessionManagerNoAuth, additionalHeaders: [:], additionalParameters: [:], conversion: conversion
         )
     }
 }
@@ -39,27 +39,26 @@ public extension SinglePostableNoAuth {
 
 // MARK: - DefaultImplementations.SinglePostable
 public extension DefaultImplementations.SinglePostable {
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict) {
-        self.post(singlePostable, to: node, via: node.sessionManagerNoAuth, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict, conversion: PayloadConversion) {
+        self.post(singlePostable, to: node, via: node.sessionManagerNoAuth, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters, conversion: conversion)
     }
     
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict) {
-        self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict, conversion: PayloadConversion) {
+        self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters, conversion: conversion)
     }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations.SinglePostable {
-    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict) {
+    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict, conversion: PayloadConversion) {
         let routeType: RouteType.Detail = .singlePOST
         let method: ResourceHTTPMethod = routeType.method
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
-        // FIXME: Replace DefaultPayloadConversion
         let payload: Payload = node
-            .payloadFrom(object: singlePostable, method: method, conversion: DefaultPayloadConversion())
-            .merging(additionalParameters, conversion: DefaultPayloadConversion())
+            .payloadFrom(object: singlePostable, method: method, conversion: conversion)
+            .merging(additionalParameters, conversion: conversion)
         
         let encoding: ParameterEncoding = JSONEncoding.default
         
