@@ -42,23 +42,12 @@ public extension Payload {
 
 
 // MARK: -
-public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
+public struct Payload: Equatable {
     // Fileprivate Inits
     fileprivate init() {}
     fileprivate init(_json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
         self.json = _json
         self.multipart = _multipart
-    }
-    
-    // Public Init
-    public init(_ payloadDict: Payload.Dict) {
-        self = ._from(payloadDict._dict)
-    }
-    
-    // ExpressibleByDictionaryLiteral Init
-    public init(dictionaryLiteral elements: (Payload.Dict.Key, Payload.Dict.Value)...) {
-        // FIXME: A mergeStrategy should be passed into mapToDict
-        self = ._from(elements.mapToDict())
     }
     
     // Variables
