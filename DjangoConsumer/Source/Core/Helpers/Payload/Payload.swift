@@ -162,6 +162,11 @@ public struct Payload: ExpressibleByDictionaryLiteral, Equatable {
             public func toJSONValue() -> JSON.Value {
                 return .dict(self._dict.mapToDict({ ($0, $1.toJSONValue()) }))
             }
+            
+            // Unwrap
+            public func unwrap() -> JSON.UnwrappedPayload {
+                return self._dict.mapToDict({ ($0, $1.toJSONValue().unwrap()) })
+            }
         }
     }
     
