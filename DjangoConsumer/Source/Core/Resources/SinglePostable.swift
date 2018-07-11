@@ -57,7 +57,7 @@ private extension DefaultImplementations.SinglePostable {
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
         let payload: Payload = node
-            .payloadFrom(object: singlePostable, method: method)
+            .payloadFrom(object: singlePostable, method: method, conversion: DefaultPayloadConversion())
             .merging(additionalParameters)
         
         let encoding: ParameterEncoding = JSONEncoding.default

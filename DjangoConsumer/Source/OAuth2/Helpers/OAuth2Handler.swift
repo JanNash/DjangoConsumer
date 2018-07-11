@@ -262,12 +262,12 @@ private extension OAuth2Handler {
         self._isRequesting = true
         
         let url: URL = self.settings.tokenRequestURL
-        let payload: Payload = [
+        let payload: Payload = Payload.Dict([
             _C.JSONKeys.grantType : _C.GrantTypes.password,
             _C.JSONKeys.scope : _C.Scopes.readWrite,
             _C.JSONKeys.username : username,
             _C.JSONKeys.password : password
-        ]
+        ]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
         
         self.__requestAndSaveTokens(
             url: url,
@@ -292,10 +292,10 @@ private extension OAuth2Handler {
         }
         
         let url: URL = self.settings.tokenRefreshURL
-        let payload: Payload = [
+        let payload: Payload = Payload.Dict([
             _C.JSONKeys.refreshToken: refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
-        ]
+        ]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
         
         self.__requestAndSaveTokens(
             url: url,
@@ -377,10 +377,13 @@ private extension OAuth2Handler {
         }
         
         let basicAuthHeader: _Header = self._basicAuthHeader()
+        let payload: Payload = Payload.Dict([
+            _C.JSONKeys.token : accessToken
+        ]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
         
         let cfg: RequestConfiguration = .post(POSTRequestConfiguration(
             url: self.settings.tokenRevokeURL,
-            payload: [_C.JSONKeys.token : accessToken],
+            payload: payload,
             encoding: URLEncoding.default,
             headers: [basicAuthHeader.key : basicAuthHeader.value]
         ))
