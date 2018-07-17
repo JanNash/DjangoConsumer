@@ -43,13 +43,8 @@ public extension Payload {
 
 // MARK: -
 public struct Payload: Equatable {
-    // Fileprivate Inits
-    fileprivate init(_rootObject: PayloadConvertible?, _method: ResourceHTTPMethod) {
-        self.rootObject = _rootObject
-        self.method = _method
-    }
-    
-    fileprivate init(_rootObject: PayloadConvertible?, _method: ResourceHTTPMethod, _json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
+    // Internal Init    
+    internal init(_rootObject: PayloadConvertible?, _method: ResourceHTTPMethod, _json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
         self.rootObject = _rootObject
         self.method = _method
         self.json = _json
