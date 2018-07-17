@@ -43,7 +43,7 @@ public extension Payload {
 
 // MARK: -
 public struct Payload: Equatable {
-    // Internal Init    
+    // Internal Init
     internal init(_rootObject: PayloadConvertible?, _method: ResourceHTTPMethod, _json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
         self.rootObject = _rootObject
         self.method = _method
@@ -51,9 +51,11 @@ public struct Payload: Equatable {
         self.multipart = _multipart
     }
     
+    // Constants
+    public let rootObject: PayloadConvertible?
+    public let method: ResourceHTTPMethod
+    
     // Variables
-    public private(set) var rootObject: PayloadConvertible?
-    public private(set) var method: ResourceHTTPMethod
     public private(set) var json: JSON.UnwrappedPayload = [:]
     public private(set) var multipart: Multipart.UnwrappedPayload = [:]
     
