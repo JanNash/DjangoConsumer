@@ -100,11 +100,6 @@ public struct Payload: Equatable {
         // Private Variables
         fileprivate var _dict: DictType
         
-        // PayloadElementConvertible Conformance
-        public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
-            return self._toPayloadElement(conversion: conversion, configuration: configuration)
-        }
-        
         // To Payload
         public func toPayload(conversion: PayloadConversion, rootObject: PayloadConvertible?, method: ResourceHTTPMethod) -> Payload {
             return self._toPayload(conversion: conversion, rootObject: rootObject, method: method)
@@ -378,35 +373,6 @@ private extension Payload {
         }
         
         return true
-    }
-}
-
-
-// MARK: -
-// MARK: Payload.Dict: PayloadElementConvertible
-private extension Payload.Dict/*: PayloadElementConvertible*/ {
-    func _toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
-        var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
-        var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
-        
-        self.forEach({
-            let (key, value): (String, Value) = $0
-            Payload.Utils_.merge(
-                value.toPayloadElement(
-                    conversion: conversion,
-                    configuration: (
-                        rootObject: configuration.rootObject,
-                        method: configuration.method,
-                        multipartPath: configuration.multipartPath + .key(key),
-                        currentKey: key
-                    )
-                ),
-                to: &jsonPayload,
-                and: &multipartPayload
-            )
-        })
-        
-        return (jsonPayload, multipartPayload)
     }
 }
 
