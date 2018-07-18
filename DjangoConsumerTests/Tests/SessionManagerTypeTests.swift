@@ -16,13 +16,15 @@ import DjangoConsumer
 
 
 // MARK: // Private
-private let _failingRequestConfig: RequestConfiguration = {
-    .get(GETRequestConfiguration(url: URL(string: "http://example.com")!, encoding: URLEncoding.default))
-}()
+private struct _RequestConfigs {
+    static let failingGETRequestConfig: RequestConfiguration = {
+        .get(GETRequestConfiguration(url: URL(string: "http://example.com")!, encoding: URLEncoding.default))
+    }()
 
-private let _succeedingRequestConfig: RequestConfiguration = {
-    .get(GETRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, encoding: URLEncoding.default))
-}()
+    static let succeedingGETRequestConfig: RequestConfiguration = {
+        .get(GETRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, encoding: URLEncoding.default))
+    }()
+}
 
 private enum _TestError: Error { case foo }
 
@@ -70,7 +72,7 @@ class SessionManagerTypeTests: BaseTest {
         
         DefaultImplementations.SessionManagerType.fireRequest(
             via: sessionManager,
-            with: _failingRequestConfig,
+            with: _RequestConfigs.failingGETRequestConfig,
             responseHandling: responseHandling
         )
         
@@ -97,7 +99,7 @@ class SessionManagerTypeTests: BaseTest {
             onFailure: { _ in onFailureExpectation.fulfill() }
         )
         
-        sessionManager.fireRequest(with: _failingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _RequestConfigs.failingGETRequestConfig, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }
@@ -130,7 +132,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
             onFailure: { _ in expectation.fulfill() }
         )
         
-        sessionManager.fireRequest(with: _failingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _RequestConfigs.failingGETRequestConfig, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }
@@ -147,7 +149,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
             onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
         )
         
-        sessionManager.fireRequest(with: _succeedingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _RequestConfigs.succeedingGETRequestConfig, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }
@@ -169,7 +171,7 @@ class TestSessionDelegateTests: BaseTest {
         }
         
         let fakeTask: URLSessionTask = URLSessionTask()
-        sessionManager.createRequest(with: _failingRequestConfig) {
+        sessionManager.createRequest(with: _RequestConfigs.failingGETRequestConfig) {
             switch $0 {
             case .failed(let error):
                 XCTFail("Request creation failed with error \(error)")
@@ -191,7 +193,7 @@ class TestSessionDelegateTests: BaseTest {
         )
         
         let fakeTask: URLSessionTask = URLSessionTask()
-        sessionManager.createRequest(with: _failingRequestConfig) {
+        sessionManager.createRequest(with: _RequestConfigs.failingGETRequestConfig) {
             switch $0 {
             case .failed(let error):
                 XCTFail("Request creation failed with error \(error)")
@@ -223,7 +225,7 @@ class TestSessionManagerTests: BaseTest {
             expectation.fulfill()
         }
         
-        sessionManager.createRequest(with: _failingRequestConfig) {
+        sessionManager.createRequest(with: _RequestConfigs.failingGETRequestConfig) {
             switch $0 {
             case .failed(let error):
                 XCTFail("Request creation failed with error \(error)")
@@ -242,7 +244,7 @@ class TestSessionManagerTests: BaseTest {
             description: "Expected sessionManager.testDelegate.mockJSONResponse to be called"
         )
 
-        sessionManager.createRequest(with: _failingRequestConfig) {
+        sessionManager.createRequest(with: _RequestConfigs.failingGETRequestConfig) {
             switch $0 {
             case .failed(let error):
                 XCTFail("Request creation failed with error \(error)")
