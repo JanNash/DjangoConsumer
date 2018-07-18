@@ -209,7 +209,7 @@ public extension DefaultImplementations.Node {
     }
     
     public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T {
-        return Payload.Dict([ListRequestKeys.objects: listPostables.map({ $0.payloadDict(rootObject: nil, method: .post) })]).toPayload(conversion: conversion, rootObject: nil, method: .post)
+        return Payload.Dict([ListRequestKeys.objects: listPostables.map({ $0.payloadDict(rootObject: $0, method: .post) })]).toPayload(conversion: conversion, rootObject: nil, method: .post)
     }
 }
 
