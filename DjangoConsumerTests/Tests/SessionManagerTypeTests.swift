@@ -22,10 +22,10 @@ private enum _RequestConfigs {
             .get(GETRequestConfiguration(url: URL(string: "http://example.com")!, encoding: URLEncoding.default))
         }()
         
-        static let POST: RequestConfiguration = {
-            let payload: Payload = Payload.Dict(["foo": "bar"]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+        static func POST(_ payloadDict: Payload.Dict) -> RequestConfiguration {
+            let payload: Payload = payloadDict.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
             return .post(POSTRequestConfiguration(url: URL(string: "http://example.com")!, payload: payload, encoding: JSONEncoding.default))
-        }()
+        }
     }
     
     enum Succeeding {
@@ -33,10 +33,10 @@ private enum _RequestConfigs {
             .get(GETRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, encoding: URLEncoding.default))
         }()
         
-        static let POST: RequestConfiguration = {
-            let payload: Payload = Payload.Dict(["foo": "bar"]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+        static func POST(_ payloadDict: Payload.Dict) -> RequestConfiguration {
+            let payload: Payload = payloadDict.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
             return .post(POSTRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/")!, payload: payload, encoding: JSONEncoding.default))
-        }()
+        }
     }
 }
 
@@ -165,6 +165,40 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         sessionManager.fireRequest(with: _RequestConfigs.Succeeding.GET, responseHandling: responseHandling)
         
+        self.waitForExpectations(timeout: 10)
+    }
+    
+    func testAFSessionManagerFireJSONRequestWithFailingPOSTRequestConfigWithPureJSONPayload() {
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
+
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onFailure' to be called"
+        )
+
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { XCTFail("'onSuccess' should not be called but was called with json: \($0)") },
+            onFailure: { _ in expectation.fulfill() }
+        )
+
+        sessionManager.fireRequest(with: _RequestConfigs.Failing.POST(["foo": "bar"]), responseHandling: responseHandling)
+
+        self.waitForExpectations(timeout: 10)
+    }
+
+    func testAFSessionManagerFireJSONRequestWithSucceedingPOSTRequestConfigWithPureJSONPayload() {
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
+
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onSuccess' to be called"
+        )
+
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in expectation.fulfill() },
+            onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
+        )
+
+        sessionManager.fireRequest(with: _RequestConfigs.Succeeding.POST(["foo": "bar"]), responseHandling: responseHandling)
+
         self.waitForExpectations(timeout: 10)
     }
 }
