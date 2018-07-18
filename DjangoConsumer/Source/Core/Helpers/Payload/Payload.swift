@@ -159,12 +159,12 @@ public struct Payload: Equatable {
             
             // JSONValueConvertible Conformance
             public func toJSONValue() -> JSON.Value {
-                return .dict(self._dict.mapToDict({ ($0, $1.toJSONValue()) }))
+                return .dict(self._dict.mapToDict({ ($0, $1.toJSONValue()) }, strategy: .overwriteOldValue))
             }
             
             // Unwrap
             public func unwrap() -> JSON.UnwrappedPayload {
-                return self._dict.mapToDict({ ($0, $1.toJSONValue().unwrap()) })
+                return self._dict.mapToDict({ ($0, $1.toJSONValue().unwrap()) }, strategy: .overwriteOldValue)
             }
         }
     }

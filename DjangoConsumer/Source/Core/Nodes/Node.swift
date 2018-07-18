@@ -189,7 +189,7 @@ public extension DefaultImplementations.Node {
 // MARK: URL Parameter Generation
 public extension DefaultImplementations.Node {
     public static func parametersFrom(node: Node, filters: [FilterType]) -> Payload.JSON.Dict {
-        return Payload.JSON.Dict(filters.mapToDict({ ($0.stringKey, $0.value) }))
+        return Payload.JSON.Dict(filters.mapToDict({ ($0.stringKey, $0.value) }, strategy: .overwriteOldValue))
     }
     
     public static func parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
