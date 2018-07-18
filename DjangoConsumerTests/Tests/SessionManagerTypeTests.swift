@@ -21,11 +21,21 @@ private enum _RequestConfigs {
         static let GET: RequestConfiguration = {
             .get(GETRequestConfiguration(url: URL(string: "http://example.com")!, encoding: URLEncoding.default))
         }()
+        
+        static let POST: RequestConfiguration = {
+            let payload: Payload = Payload.Dict(["foo": "bar"]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+            return .post(POSTRequestConfiguration(url: URL(string: "http://example.com")!, payload: payload, encoding: JSONEncoding.default))
+        }()
     }
     
     enum Succeeding {
         static let GET: RequestConfiguration = {
             .get(GETRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, encoding: URLEncoding.default))
+        }()
+        
+        static let POST: RequestConfiguration = {
+            let payload: Payload = Payload.Dict(["foo": "bar"]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+            return .post(POSTRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/")!, payload: payload, encoding: JSONEncoding.default))
         }()
     }
 }
