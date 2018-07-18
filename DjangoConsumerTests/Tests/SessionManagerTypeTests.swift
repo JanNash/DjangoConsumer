@@ -124,7 +124,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         XCTAssertEqual(additionalHeaders, SessionManager.defaultHTTPHeaders)
     }
     
-    func testAFSessionManagerFireJSONRequestWithFailingRequestConfig() {
+    func testAFSessionManagerFireJSONRequestWithFailingGETRequestConfig() {
         let sessionManager: SessionManagerType = SessionManager.makeDefault()
         
         let expectation: XCTestExpectation = self.expectation(
@@ -141,7 +141,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         self.waitForExpectations(timeout: 10)
     }
     
-    func testAFSessionManagerFireJSONRequestWithSucceedingRequestConfig() {
+    func testAFSessionManagerFireJSONRequestWithSucceedingGETRequestConfig() {
         let sessionManager: SessionManagerType = SessionManager.makeDefault()
         
         let expectation: XCTestExpectation = self.expectation(
