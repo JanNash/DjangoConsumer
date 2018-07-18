@@ -79,12 +79,12 @@ class SessionManagerTypeTests: BaseTest {
         self.waitForExpectations(timeout: 10)
     }
     
-    func testSessionManagerTypeDefaultImplementations() {
+    func testSessionManagerTypeDefaultImplementations2() {
         let sessionManager: _MockSessionManager = _MockSessionManager()
         
         sessionManager.requestWithCFGCalled = self.expectation(
             description: "Expected sessionManager.request(with cfg:) to be called"
-            ).fulfill
+        ).fulfill
         
         let onSuccessExpectation: XCTestExpectation = self.expectation(
             description: "Expected responseHandling.onSuccess() to be called"
