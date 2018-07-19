@@ -15,7 +15,7 @@ import Foundation
 // MARK: Public
 // MARK: -
 public protocol MultipartValueConvertible: PayloadElementConvertible {
-    func toMultipartValue() -> Payload.Multipart.Value
+    func toMultipartValue() -> Payload.Multipart.Value?
 }
 
 
@@ -31,8 +31,11 @@ public extension MultipartValueConvertible {
 // MARK: PayloadValueConvertible Default Implementation
 private extension MultipartValueConvertible {
     func _toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
-        let resolvedPath: String = conversion.multipartKey(from: configuration)
-        let multipartValue: Payload.Multipart.Value = conversion.convert(self, configuration: configuration) ?? self.toMultipartValue()
-        return (nil, [resolvedPath: multipartValue])
+        if let multipartValue: Payload.Multipart.Value = conversion.convert(self, configuration: configuration) ?? self.toMultipartValue() {
+            let resolvedPath: String = conversion.multipartKey(from: configuration)
+            return (nil, [resolvedPath: multipartValue])
+        }
+        
+        return ([configuration.currentKey: Payload.JSON.Value.null.unwrap()], nil)
     }
 }
