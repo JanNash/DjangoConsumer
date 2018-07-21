@@ -50,7 +50,7 @@ public extension DefaultImplementations.ListPostable {
 
 // MARK: // Private
 private extension DefaultImplementations.ListPostable {
-    static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType, conversion: PayloadConversion) where C.Element == T {
+    private static func _post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType, conversion: PayloadConversion) where C.Element == T {
         let routeType: RouteType.List = .listPOST
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         let payload: Payload = node.payloadFrom(listPostables: objects, conversion: conversion)

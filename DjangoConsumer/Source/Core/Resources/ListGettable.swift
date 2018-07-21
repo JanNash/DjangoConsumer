@@ -49,7 +49,7 @@ public extension DefaultImplementations.ListGettable {
 
 // MARK: // Private
 private extension DefaultImplementations.ListGettable {
-    static func _get<T: ListGettable>(_ l: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType]) {
+    private static func _get<T: ListGettable>(_ l: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType]) {
         let routeType: RouteType.List = .listGET
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         

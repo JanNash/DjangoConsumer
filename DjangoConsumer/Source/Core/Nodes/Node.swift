@@ -277,7 +277,7 @@ public extension DefaultImplementations.Node {
 // MARK: // Private
 // MARK: URL Parameter Generation Implementations
 private extension DefaultImplementations.Node {
-    static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
+    private static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
         var parameters: Payload.JSON.Dict = [:]
         let writeToParameters: (String, JSONValueConvertible) -> Void = { parameters[$0] = $1 }
         node.parametersFrom(offset: offset, limit: limit).forEach(writeToParameters)
@@ -285,7 +285,7 @@ private extension DefaultImplementations.Node {
         return parameters
     }
     
-    static func _parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
+    private static func _parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
         return [
             DefaultPagination.Keys.offset: offset,
             DefaultPagination.Keys.limit: limit
@@ -296,7 +296,7 @@ private extension DefaultImplementations.Node {
 
 // MARK: Request URL Helper Implementations
 private extension DefaultImplementations.Node {
-    static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+    private static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
         let availableRoutes: [Route] = node.routes.filter(Route.matches(resourceType, routeType))
         
         guard availableRoutes.count > 0 else {
@@ -320,7 +320,7 @@ private extension DefaultImplementations.Node {
 
 // MARK: List Response Extraction Helper Implementations
 private extension DefaultImplementations.Node {
-    static func _extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+    private static func _extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = node.paginationType(for: resourceType)
         let pagination: Pagination = node.extractGETListResponsePagination(with: paginationType, from: json)
         let objects: [T] = node.extractGETListResponseObjects(for: T.self, from: json)

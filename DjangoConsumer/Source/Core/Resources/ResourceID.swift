@@ -51,7 +51,7 @@ public extension DefaultImplementations.ResourceID {
 // MARK: // Private
 // MARK: where T: DetailGettable
 private extension DefaultImplementations.ResourceID {
-    static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
+    private static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
         let url: URL = node.absoluteGETURL(for: resourceID)
         let method: ResourceHTTPMethod = .get
         let encoding: ParameterEncoding = URLEncoding.default

@@ -38,7 +38,7 @@ public extension DefaultImplementations.MultipartValueConvertible {
 
 // MARK: // Private
 private extension DefaultImplementations.MultipartValueConvertible {
-    static func _payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
+    private static func _payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
         let (conversion, configuration): (PayloadConversion, PayloadConversion.Configuration) = conversion
         if let multipartValue: Payload.Multipart.Value =
             conversion.convert(convertible, configuration: configuration)
