@@ -190,20 +190,22 @@ public struct Payload: Equatable {
             
             // Public Init
             public init(_ key: String) {
-                self.elements = [.key(key)]
+                self.head = key
             }
             
             // Private Init
-            private init(_ elements: [Element]) {
-                self.elements = elements
+            private init(head: String, tail: [Element]) {
+                self.head = head
+                self.tail = tail
             }
             
             // Public ReadOnly Variables
-            public private(set) var elements: [Element]
+            public private(set) var head: String
+            public private(set) var tail: [Element] = []
             
             // Appending
             public static func + (_ lhs: Path, _ rhs: Path.Element) -> Path {
-                return Path(lhs.elements + [rhs])
+                return Path(head: lhs.head, tail: lhs.tail + [rhs])
             }
         }
         
