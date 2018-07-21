@@ -22,16 +22,28 @@ public protocol MultipartValueConvertible: PayloadElementConvertible {
 // MARK: PayloadValueConvertible Default Implementation
 public extension MultipartValueConvertible {
     public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
-        return self._toPayloadElement(conversion: conversion, configuration: configuration)
+        return DefaultImplementations.MultipartValueConvertible.payloadElement(from: self, conversion: (conversion, configuration))
     }
 }
 
 
+// MARK: - DefaultImplementations.MultipartValueConvertible
+public extension DefaultImplementations.MultipartValueConvertible {
+    public static func payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
+        return self._payloadElement(from: convertible, conversion: conversion)
+    }
+}
+
+
+
 // MARK: // Private
-// MARK: PayloadValueConvertible Default Implementation
-private extension MultipartValueConvertible {
-    func _toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
-        if let multipartValue: Payload.Multipart.Value = conversion.convert(self, configuration: configuration) ?? self.toMultipartValue() {
+private extension DefaultImplementations.MultipartValueConvertible {
+    static func _payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
+        let (conversion, configuration): (PayloadConversion, PayloadConversion.Configuration) = conversion
+        if let multipartValue: Payload.Multipart.Value =
+            conversion.convert(convertible, configuration: configuration)
+                ?? convertible.toMultipartValue()
+        {
             let resolvedPath: String = conversion.multipartKey(from: configuration)
             return (nil, [resolvedPath: multipartValue])
         }
