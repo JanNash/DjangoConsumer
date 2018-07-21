@@ -201,6 +201,50 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
 
         self.waitForExpectations(timeout: 10)
     }
+    
+    func testAFSessionManagerFireJSONRequestWithFailingPOSTRequestConfigWithMixedMultipartAndJSONPayload() {
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onFailure' to be called"
+        )
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { XCTFail("'onSuccess' should not be called but was called with json: \($0)") },
+            onFailure: { _ in expectation.fulfill() }
+        )
+        
+        let requestConfiguration: RequestConfiguration = _RequestConfigs.Failing.POST([
+            "foo": "bar",
+            "image": UIImage()
+        ])
+        
+        sessionManager.fireRequest(with: requestConfiguration, responseHandling: responseHandling)
+        
+        self.waitForExpectations(timeout: 10)
+    }
+    
+    func testAFSessionManagerFireJSONRequestWithSucceedingPOSTRequestConfigWithMixedMultipartAndJSONPayload() {
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onSuccess' to be called"
+        )
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in expectation.fulfill() },
+            onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
+        )
+        
+        let requestConfiguration: RequestConfiguration = _RequestConfigs.Succeeding.POST([
+            "foo": "bar",
+            "image": UIImage(color: .black)
+        ])
+        
+        sessionManager.fireRequest(with: requestConfiguration, responseHandling: responseHandling)
+        
+        self.waitForExpectations(timeout: 10)
+    }
 }
 
 
