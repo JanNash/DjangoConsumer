@@ -14,38 +14,8 @@ import Foundation
 
 // MARK: // Public
 // MARK: -
-public protocol PayloadConversion {
-    typealias Configuration = (
-        rootObject: PayloadConvertible?,
-        method: ResourceHTTPMethod,
-        multipartPath: Payload.Multipart.Path,
-        currentKey: String
-    )
-    
-    func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value?
-    func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value?
-    func multipartKey(from configuration: Configuration) -> String
-}
-
-
-// MARK: PayloadConversion Default Implementations
-public extension PayloadConversion {
-    public func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value? {
-        return nil
-    }
-    
-    public func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value? {
-        return nil
-    }
-}
-
-
-// MARK: -
-public struct DefaultPayloadConversion: PayloadConversion {
-    public init() {}
-    public func multipartKey(from configuration: Configuration) -> String {
-        return self._multipartKey(from: configuration)
-    }
+public protocol PayloadElementConvertible {
+    func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element
 }
 
 
@@ -78,8 +48,38 @@ public extension PayloadConvertible {
 
 
 // MARK: -
-public protocol PayloadElementConvertible {
-    func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element
+public protocol PayloadConversion {
+    typealias Configuration = (
+        rootObject: PayloadConvertible?,
+        method: ResourceHTTPMethod,
+        multipartPath: Payload.Multipart.Path,
+        currentKey: String
+    )
+    
+    func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value?
+    func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value?
+    func multipartKey(from configuration: Configuration) -> String
+}
+
+
+// MARK: PayloadConversion Default Implementations
+public extension PayloadConversion {
+    public func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value? {
+        return nil
+    }
+    
+    public func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value? {
+        return nil
+    }
+}
+
+
+// MARK: -
+public struct DefaultPayloadConversion: PayloadConversion {
+    public init() {}
+    public func multipartKey(from configuration: Configuration) -> String {
+        return self._multipartKey(from: configuration)
+    }
 }
 
 
