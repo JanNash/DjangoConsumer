@@ -38,10 +38,10 @@ public extension DefaultImplementations.JSONValueConvertible {
 // MARK: // Private
 private extension DefaultImplementations.JSONValueConvertible {
     private static func _payloadElement(from jsonValueConvertible: JSONValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
-        let (conversion, configuration): (PayloadConversion, PayloadConversion.Configuration) = conversion
+        let (conv, conf): (PayloadConversion, PayloadConversion.Configuration) = conversion
         let jsonValue: Payload.JSON.Value =
-            conversion.convert(jsonValueConvertible, configuration: configuration) ?? jsonValueConvertible.toJSONValue()
+            conv.convert(jsonValueConvertible, configuration: conf) ?? jsonValueConvertible.toJSONValue()
         
-        return ([configuration.currentKey: jsonValue.unwrap()], nil)
+        return ([conf.currentKey: jsonValue.unwrap()], nil)
     }
 }

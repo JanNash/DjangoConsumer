@@ -32,6 +32,10 @@ public extension DefaultImplementations.MultipartValueConvertible {
     public static func payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
         return self._payloadElement(from: convertible, conversion: conversion)
     }
+    
+    public static func multipartPayload(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Multipart.UnwrappedPayload? {
+        return self._multipartPayload(from: convertible, conversion: conversion)
+    }
 }
 
 
@@ -39,15 +43,22 @@ public extension DefaultImplementations.MultipartValueConvertible {
 // MARK: // Private
 private extension DefaultImplementations.MultipartValueConvertible {
     private static func _payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
-        let (conversion, configuration): (PayloadConversion, PayloadConversion.Configuration) = conversion
-        
-        if let multipartValue: Payload.Multipart.Value = {
-            conversion.convert(convertible, configuration: configuration) ?? convertible.toMultipartValue()
-        }() {
-            let resolvedPath: String = conversion.multipartKey(from: configuration)
-            return (nil, [resolvedPath: multipartValue])
+        if let multipartPayload: Payload.Multipart.UnwrappedPayload = self.multipartPayload(from: convertible, conversion: conversion) {
+            return (nil, multipartPayload)
         }
         
-        return ([configuration.currentKey: Payload.JSON.Value.null.unwrap()], nil)
+        return DefaultImplementations.JSONValueConvertible.payloadElement(
+            from: Payload.JSON.Value.null, conversion: conversion
+        )
+    }
+    
+    private static func _multipartPayload(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Multipart.UnwrappedPayload? {
+        let (conv, conf): (PayloadConversion, PayloadConversion.Configuration) = conversion
+        guard let multipartValue: Payload.Multipart.Value = {
+            conv.convert(convertible, configuration: conf) ?? convertible.toMultipartValue()
+        }() else { return nil }
+        
+        let resolvedPath: String = conv.multipartKey(from: conf)
+        return [resolvedPath: multipartValue]
     }
 }
