@@ -40,10 +40,10 @@ public extension DefaultImplementations.MultipartValueConvertible {
 private extension DefaultImplementations.MultipartValueConvertible {
     private static func _payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
         let (conversion, configuration): (PayloadConversion, PayloadConversion.Configuration) = conversion
-        if let multipartValue: Payload.Multipart.Value =
-            conversion.convert(convertible, configuration: configuration)
-                ?? convertible.toMultipartValue()
-        {
+        
+        if let multipartValue: Payload.Multipart.Value = {
+            conversion.convert(convertible, configuration: configuration) ?? convertible.toMultipartValue()
+        }() {
             let resolvedPath: String = conversion.multipartKey(from: configuration)
             return (nil, [resolvedPath: multipartValue])
         }
