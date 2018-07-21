@@ -22,16 +22,26 @@ public protocol JSONValueConvertible: PayloadElementConvertible {
 // MARK: PayloadValueConvertible Default Implementation
 public extension JSONValueConvertible {
     public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
-        return self._toPayloadElement(conversion: conversion, configuration: configuration)
+        return DefaultImplementations.JSONValueConvertible.payloadElement(from: self, conversion: (conversion, configuration))
+    }
+}
+
+
+// MARK: - DefaultImplementations.JSONValueConvertible
+public extension DefaultImplementations.JSONValueConvertible {
+    public static func payloadElement(from jsonValueConvertible: JSONValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
+        return self._payloadElement(from: jsonValueConvertible, conversion: conversion)
     }
 }
 
 
 // MARK: // Private
-// MARK: PayloadValueConvertible Default Implementation
-private extension JSONValueConvertible {
-    func _toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
-        let jsonValue: Payload.JSON.Value = conversion.convert(self, configuration: configuration) ?? self.toJSONValue()
+private extension DefaultImplementations.JSONValueConvertible {
+    private static func _payloadElement(from jsonValueConvertible: JSONValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
+        let (conversion, configuration): (PayloadConversion, PayloadConversion.Configuration) = conversion
+        let jsonValue: Payload.JSON.Value =
+            conversion.convert(jsonValueConvertible, configuration: configuration) ?? jsonValueConvertible.toJSONValue()
+        
         return ([configuration.currentKey: jsonValue.unwrap()], nil)
     }
 }

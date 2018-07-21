@@ -14,7 +14,7 @@
 public enum DefaultImplementations {
     public enum DetailGettable              {}
     public enum FilteredListGettable        {}
-    public enum JSONConvertible             {}
+    public enum JSONValueConvertible        {}
     public enum ListGettable                {}
     public enum ListPostable                {}
     public enum MultipartValueConvertible   {}
