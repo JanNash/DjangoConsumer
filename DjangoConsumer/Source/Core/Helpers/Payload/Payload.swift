@@ -104,7 +104,7 @@ public struct Payload: Equatable {
         public typealias UnwrappedPayload = [String: Any]
         
         // Typed Value
-        public enum Value: Equatable, CustomStringConvertible {
+        public enum Value: Equatable, CustomStringConvertible, JSONValueConvertible {
             case bool(Bool?)
             case int(Int?)
             case int8(Int8?)
@@ -125,6 +125,10 @@ public struct Payload: Equatable {
             // Null
             // TODO: Document when and how null is used
             case null
+            
+            public func toJSONValue() -> Payload.JSON.Value {
+                return self
+            }
         }
     
         // Dict
