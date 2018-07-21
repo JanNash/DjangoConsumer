@@ -88,7 +88,8 @@ public struct DefaultPayloadConversion: PayloadConversion {
 private extension DefaultPayloadConversion {
     func _multipartKey(from configuration: Configuration) -> String {
         var previousKeyHeadWasAnIndex: Bool = false
-        return configuration.multipartPath.elements.reduce("", { result, element in
+        let path: Payload.Multipart.Path = configuration.multipartPath
+        return path.tail.reduce(path.head, { result, element in
             switch element {
             case .key(let key):
                 defer { previousKeyHeadWasAnIndex = false }
