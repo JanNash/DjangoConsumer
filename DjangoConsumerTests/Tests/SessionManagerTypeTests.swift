@@ -238,16 +238,30 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         let barbar: Payload.Dict = [
             "nickname": "barbar",
-            "image": UIImage(color: .clear),
+            "images": [
+                UIImage(color: .clear),
+                UIImage(color: .red),
+                UIImage(color: .yellow),
+                UIImage(color: .green),
+                UIImage(color: .blue),
+                UIImage(color: .black),
+            ],
             "age": "about as old as foofoo",
-            "friend": "no, I don't want to overflow the stack yet..."
+            "friend": "no, I don't want to overflow the stack yet...",
         ]
         
         let foofoo: Payload.Dict = [
             "nickname": "foofoo",
-            "image": UIImage(color: .clear),
+            "images": [
+                UIImage(color: .clear),
+                UIImage(color: .red),
+                UIImage(color: .yellow),
+                UIImage(color: .green),
+                UIImage(color: .blue),
+                UIImage(color: .black),
+            ],
             "age": "quite old",
-            "friend": barbar
+            "friend": barbar,
         ]
         
         let requestConfiguration: RequestConfiguration = _RequestConfigs.Succeeding.POST([
