@@ -18,6 +18,10 @@ extension Payload.JSON.Value {
     func unwrap() -> Any {
         return self._unwrap()
     }
+    
+    func toMultipartValue() -> Payload.Multipart.Value {
+        return self._toMultipartValue()
+    }
 }
 
 
@@ -62,6 +66,17 @@ private extension Payload.JSON.Value {
             case .null:             return nil
             }
         }() ?? NSNull() as Any
+    }
+    
+    func _toMultipartValue() -> Payload.Multipart.Value {
+        switch self {
+        case .array, .dict:
+            return (try! JSONSerialization.data(withJSONObject: self.unwrap()), .applicationJSON)
+        case .null:
+            return Payload.Multipart.ContentType.applicationJSON.null
+        default:
+            return ("\(self.unwrap())".data(using: .utf8)!, .applicationJSON)
+        }
     }
 }
 
