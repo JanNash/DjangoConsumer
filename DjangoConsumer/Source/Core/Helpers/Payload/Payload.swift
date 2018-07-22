@@ -352,27 +352,21 @@ private extension Payload {
 // MARK: Equatable Implementation
 private extension Payload {
     func __eq__(_ other: Payload) -> Bool {
-        let jsonValueDictOf: (Payload) -> [String: JSON.Value] = { payload in
-            payload.json.mapValues({ value in
-                if let dict: [String: JSONValueConvertible] = value as? [String: JSONValueConvertible] {
-                    return .dict(dict.mapValues({ $0.toJSONValue() }))
-                } else if let array: [JSONValueConvertible] = value as? [JSONValueConvertible] {
-                    return .array(array.map({ $0.toJSONValue() }))
-                }
-                
-                return (value as! JSONValueConvertible).toJSONValue()
-            })
-        }
-        
-        if jsonValueDictOf(self) != jsonValueDictOf(other) {
-            return false
+        // Yes, this looks immensely hacky, but since we know that all
+        // values in this dictionary are valid json values or collections
+        // of valid json values, this should actually be unambiguous.
+        for (key, lValue) in self.json {
+            guard
+                let rValue: Any = other.json[key],
+                "\(lValue)" == "\(rValue)"
+            else { return false }
         }
         
         for (key, lValue) in self.multipart {
             guard
                 let rValue: Multipart.Value = other.multipart[key],
                 lValue.1 == rValue.1, lValue.0 == rValue.0
-                else { return false }
+            else { return false }
         }
         
         return true
