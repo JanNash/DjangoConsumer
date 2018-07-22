@@ -24,25 +24,35 @@ extension Array: PayloadElementConvertible where Element: PayloadElementConverti
 // MARK: : PayloadElementConvertible Implementation
 private extension Array/*: PayloadElementConvertible*/ where Element: PayloadElementConvertible {
     func _toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
-        var jsonPayload: Payload.JSON.UnwrappedPayload = [:]
+        var jsonArray: [Any] = []
         var multipartPayload: Payload.Multipart.UnwrappedPayload = [:]
         
+        let currentKey: String = configuration.currentKey
+        
         self.enumerated().forEach({
-            Payload.Utils_.merge(
-                $0.element.toPayloadElement(
-                    conversion: conversion,
-                    configuration: (
-                        rootObject: configuration.rootObject,
-                        method: configuration.method,
-                        multipartPath: configuration.multipartPath + .index($0.offset),
-                        currentKey: configuration.currentKey
-                    )
-                ),
-                to: &jsonPayload,
-                and: &multipartPayload
+            let payloadElement: Payload.Element = $0.element.toPayloadElement(
+                conversion: conversion,
+                configuration: (
+                    rootObject: configuration.rootObject,
+                    method: configuration.method,
+                    multipartPath: configuration.multipartPath + .index($0.offset),
+                    currentKey: currentKey
+                )
             )
+            
+            if let jsonElement: Any = payloadElement.json?[currentKey] {
+                jsonArray.append(jsonElement)
+            }
+            
+            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
+                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
+            }
         })
         
-        return (jsonPayload, multipartPayload)
+        if !self.isEmpty && jsonArray.isEmpty {
+            return (nil, multipartPayload)
+        }
+        
+        return ([currentKey: jsonArray], multipartPayload)
     }
 }
