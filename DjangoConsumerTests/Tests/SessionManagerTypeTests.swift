@@ -35,7 +35,7 @@ private enum _RequestConfigs {
         
         static func POST(_ payloadDict: Payload.Dict) -> RequestConfiguration {
             let payload: Payload = payloadDict.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
-            return .post(POSTRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/")!, payload: payload, encoding: JSONEncoding.default))
+            return .post(POSTRequestConfiguration(url: URL(string: "http://httpbin.org/anything")!, payload: payload, encoding: JSONEncoding.default))
         }
     }
 }
