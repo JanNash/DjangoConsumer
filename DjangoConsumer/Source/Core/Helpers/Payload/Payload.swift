@@ -252,9 +252,6 @@ public struct Payload: Equatable {
             fileprivate var _dict: DictType
         }
     }
-    
-    // MARK: Utils
-    internal enum Utils_ {}
 }
 
 
