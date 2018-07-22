@@ -43,6 +43,6 @@ private extension Payload.Dict/*: PayloadElementConvertible*/ {
             )
         })
         
-        return (jsonPayload, multipartPayload)
+        return ([configuration.currentKey: jsonPayload], multipartPayload)
     }
 }
