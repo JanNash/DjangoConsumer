@@ -28,19 +28,23 @@ private extension Payload.Dict {
         
         self.forEach({
             let (key, value): (String, Value) = $0
-            Payload.Utils_.merge(
-                value.toPayloadElement(
-                    conversion: conversion,
-                    configuration: (
-                        rootObject: rootObject,
-                        method: method,
-                        multipartPath: Payload.Multipart.Path(key),
-                        currentKey: key
-                    )
-                ),
-                to: &jsonPayload,
-                and: &multipartPayload
+            let payloadElement: Payload.Element = value.toPayloadElement(
+                conversion: conversion,
+                configuration: (
+                    rootObject: rootObject,
+                    method: method,
+                    multipartPath: Payload.Multipart.Path(key),
+                    currentKey: key
+                )
             )
+            
+            if let json: Payload.JSON.UnwrappedPayload = payloadElement.json {
+                jsonPayload.merge(json, strategy: .overwriteOldValue)
+            }
+            
+            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
+                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
+            }
         })
         
         return Payload(_rootObject: rootObject, _method: method, _json: jsonPayload, _multipart: multipartPayload)
