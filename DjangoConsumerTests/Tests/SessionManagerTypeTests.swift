@@ -236,16 +236,25 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
             onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
         )
         
-        let profile: Payload.Dict = [
+        let barbar: Payload.Dict = [
+            "nickname": "barbar",
+            "image": UIImage(color: .clear),
+            "age": "about as old as foofoo",
+            "friend": "no, I don't want to overflow the stack yet..."
+        ]
+        
+        let foofoo: Payload.Dict = [
             "nickname": "foofoo",
-            "image": UIImage(color: .black)
+            "image": UIImage(color: .clear),
+            "age": "quite old",
+            "friend": barbar
         ]
         
         let requestConfiguration: RequestConfiguration = _RequestConfigs.Succeeding.POST([
             "username": "foo",
             "email": "foo@example.com",
             "created_at": Date(),
-            "profile": profile
+            "profile": foofoo
         ])
         
         sessionManager.fireRequest(with: requestConfiguration, responseHandling: responseHandling)
