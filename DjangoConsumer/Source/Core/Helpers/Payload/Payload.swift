@@ -210,7 +210,7 @@ public struct Payload: Equatable {
         }
         
         // ContentType
-        public enum ContentType: String, CustomStringConvertible {
+        public enum ContentType: String, CustomStringConvertible, Equatable {
             case imageJPEG = "image/jpeg"
             case imagePNG = "image/png"
             // TODO: Add missing content types
