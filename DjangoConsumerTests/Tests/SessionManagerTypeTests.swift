@@ -246,6 +246,12 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
                 UIImage(color: .blue),
                 UIImage(color: .black),
             ],
+            "other_things": [
+                "apple",
+                "banana",
+                "boat",
+                "elephant"
+            ],
             "age": "about as old as foofoo",
             "friend": "no, I don't want to overflow the stack yet...",
         ]
@@ -259,6 +265,12 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
                 UIImage(color: .green),
                 UIImage(color: .blue),
                 UIImage(color: .black),
+            ],
+            "other_things": [
+                "apple",
+                "banana",
+                "boat",
+                "elephant"
             ],
             "age": "quite old",
             "friend": barbar,
