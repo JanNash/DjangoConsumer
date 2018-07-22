@@ -355,8 +355,16 @@ private extension Payload {
 // MARK: Equatable Implementation
 private extension Payload {
     func __eq__(_ other: Payload) -> Bool {
-        let jsonValueDictOf: (Payload) -> [String: JSON.Value] = {
-            $0.json.mapValues({ ($0 as! JSONValueConvertible).toJSONValue() })
+        let jsonValueDictOf: (Payload) -> [String: JSON.Value] = { payload in
+            payload.json.mapValues({ value in
+                if let dict: [String: JSONValueConvertible] = value as? [String: JSONValueConvertible] {
+                    return .dict(dict.mapValues({ $0.toJSONValue() }))
+                } else if let array: [JSONValueConvertible] = value as? [JSONValueConvertible] {
+                    return .array(array.map({ $0.toJSONValue() }))
+                }
+                
+                return (value as! JSONValueConvertible).toJSONValue()
+            })
         }
         
         if jsonValueDictOf(self) != jsonValueDictOf(other) {
