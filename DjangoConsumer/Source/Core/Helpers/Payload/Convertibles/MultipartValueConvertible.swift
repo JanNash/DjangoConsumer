@@ -15,7 +15,7 @@ import Foundation
 // MARK: Public
 // MARK: -
 public protocol MultipartValueConvertible: PayloadElementConvertible {
-    func toMultipartValue() -> Payload.Multipart.Value?
+    func toMultipartValue() -> Payload.Multipart.Value
 }
 
 
