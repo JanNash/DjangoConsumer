@@ -14,6 +14,17 @@ import XCTest
 
 
 public func == (_ lhs: Payload.Multipart.UnwrappedPayload, _ rhs: Payload.Multipart.UnwrappedPayload) -> Bool {
+    if lhs.count != rhs.count {
+        return false
+    }
+    
+    for (key, lValue) in lhs {
+        guard
+            let rValue: Payload.Multipart.Value = rhs[key],
+            lValue == rValue
+        else { return false }
+    }
+    
     return true
 }
 
