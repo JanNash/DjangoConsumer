@@ -15,10 +15,6 @@ import UIKit
 // MARK: // Public
 extension UIImage: MultipartValueConvertible {
     public func toMultipartValue() -> Payload.Multipart.Value? {
-        if let data: Data = UIImagePNGRepresentation(self) {
-            return (data, .imagePNG)
-        } else {
-            return nil
-        }
+        return Payload.Multipart.value(UIImagePNGRepresentation(self), .imagePNG)
     }
 }
