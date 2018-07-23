@@ -15,11 +15,14 @@ import XCTest
 
 // MARK: // Internal
 class PayloadTests: XCTestCase {
-    func testPayloadFromMultipartArrayWithSomeValuesThatProduceNilDataAndSomeThatProduceActualData() {
+    // Clarification:
+    // UIImagePNGRepresentation returns nil when passed an empty image: UIImage()
+    
+    func testPayloadFromMultipartArrayWithOneValueThatProducesNilDataAndOneValueThatProducesActualData() {
         let payloadDict: Payload.Dict = Payload.Dict([
             "images": [
-                UIImage(), // UIImagePNGRepresentation() will produce nil data for this
-                UIImage(color: .clear) // UIImagePNGRepresentation() will produce actual data for this
+                UIImage(),
+                UIImage(color: .clear),
             ]
         ])
         
