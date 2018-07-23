@@ -40,6 +40,7 @@ class PayloadTests: XCTestCase {
             "a": [
                 Payload.Dict([
                     "text": "foo",
+                    "image": UIImage(),
                     "images": [
                         UIImage(),
                         UIImage(color: .clear)
@@ -47,6 +48,7 @@ class PayloadTests: XCTestCase {
                 ]),
                 Payload.Dict([
                     "text": "bar",
+                    "image": UIImage(color: .clear),
                     "images": [
                         UIImage(),
                         UIImage(color: .clear)
@@ -59,8 +61,13 @@ class PayloadTests: XCTestCase {
         
         let expectedJSONPayload: Payload.JSON.UnwrappedPayload = [
             "a": [
-                ["text": "foo"],
-                ["text": "bar"]
+                [
+                    "text": "foo",
+                    "image": NSNull()
+                ],
+                [
+                    "text": "bar"
+                ]
             ]
         ]
         
@@ -71,6 +78,7 @@ class PayloadTests: XCTestCase {
             "a[0]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
             "a[1]images[0]": Payload.Multipart.ContentType.imagePNG.null,
             "a[1]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+            "a[1]image": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
         ]
         
         XCTAssert(payload.multipart == expectedMultipartPayload)
