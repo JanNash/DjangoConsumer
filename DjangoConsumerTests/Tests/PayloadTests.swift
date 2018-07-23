@@ -34,4 +34,45 @@ class PayloadTests: XCTestCase {
         
         XCTAssert(payload.multipart == expectedMultipartPayload)
     }
+    
+    func testPayloadFromDictContainingMultipartArrays() {
+        let payloadDict: Payload.Dict = Payload.Dict([
+            "a": [
+                Payload.Dict([
+                    "text": "foo",
+                    "images": [
+                        UIImage(),
+                        UIImage(color: .clear)
+                    ]
+                ]),
+                Payload.Dict([
+                    "text": "bar",
+                    "images": [
+                        UIImage(),
+                        UIImage(color: .clear)
+                    ]
+                ])
+            ]
+        ])
+        
+        let payload: Payload = payloadDict.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+        
+        let expectedJSONPayload: Payload.JSON.UnwrappedPayload = [
+            "a": [
+                ["text": "foo"],
+                ["text": "bar"]
+            ]
+        ]
+        
+        XCTAssert(payload.json == expectedJSONPayload)
+        
+        let expectedMultipartPayload: Payload.Multipart.UnwrappedPayload = [
+            "a[0]images[0]": Payload.Multipart.ContentType.imagePNG.null,
+            "a[0]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+            "a[1]images[0]": Payload.Multipart.ContentType.imagePNG.null,
+            "a[1]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+        ]
+        
+        XCTAssert(payload.multipart == expectedMultipartPayload)
+    }
 }
