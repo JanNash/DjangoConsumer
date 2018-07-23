@@ -13,6 +13,18 @@ import Foundation
 
 
 // MARK: // Public
+// MARK: - UnwrappedPayload Equatability
+public func == (_ lhs: Payload.Multipart.UnwrappedPayload, _ rhs: Payload.Multipart.UnwrappedPayload) -> Bool {
+    return __eq__(lhs, rhs)
+}
+
+
+public func == (_ lhs: Payload.JSON.UnwrappedPayload, _ rhs: Payload.JSON.UnwrappedPayload) -> Bool {
+    return __eq__(lhs, rhs)
+}
+
+
+// MARK: -
 // MARK: Interface
 public extension Payload {
     mutating func merge(_ json: JSON.Dict, conversion: PayloadConversion) {
@@ -61,7 +73,7 @@ public struct Payload: Equatable {
     
     // Equatable Conformance
     public static func == (lhs: Payload, rhs: Payload) -> Bool {
-        return lhs.__eq__(rhs)
+        return lhs.json == rhs.json && lhs.multipart == rhs.multipart
     }
     
     // JSONData
@@ -350,30 +362,36 @@ private extension Payload {
 }
 
 
-// MARK: Equatable Implementation
-private extension Payload {
-    func __eq__(_ other: Payload) -> Bool {
-        if (self.json.count != other.json.count) || (self.multipart.count != other.multipart.count) {
-            return false
-        }
-        
-        // Yes, this looks immensely hacky, but since we know that all
-        // values in this dictionary are valid json values or collections
-        // of valid json values, this should actually be unambiguous.
-        for (key, lValue) in self.json {
-            guard
-                let rValue: Any = other.json[key],
-                "\(lValue)" == "\(rValue)"
-            else { return false }
-        }
-        
-        for (key, lValue) in self.multipart {
-            guard
-                let rValue: Multipart.Value = other.multipart[key],
-                lValue.1 == rValue.1, lValue.0 == rValue.0
-            else { return false }
-        }
-        
-        return true
+// MARK: Equatable Implementations
+// MARK: - Payload.Multipart.UnwrappedPayload
+private func __eq__(_ lhs: Payload.Multipart.UnwrappedPayload, _ rhs: Payload.Multipart.UnwrappedPayload) -> Bool {
+    guard lhs.count == rhs.count else {
+        return false
     }
+    
+    for (key, lValue) in lhs {
+        guard
+            let rValue: Payload.Multipart.Value = rhs[key],
+            lValue == rValue
+        else { return false }
+    }
+    
+    return true
+}
+
+
+// MARK: - Payload.JSON.UnwrappedPayload
+private func __eq__(_ lhs: Payload.JSON.UnwrappedPayload, _ rhs: Payload.JSON.UnwrappedPayload) -> Bool {
+    guard lhs.count == rhs.count else {
+        return false
+    }
+    
+    for (key, lValue) in lhs {
+        guard
+            let rValue: Any = rhs[key],
+            "\(lValue)" == "\(rValue)"
+        else { return false }
+    }
+    
+    return true
 }
