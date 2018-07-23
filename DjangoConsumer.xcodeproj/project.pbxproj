@@ -17,6 +17,7 @@
 		0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */; };
 		0DA416CBCD82CA7F959DB11E7FCAC7D5 /* IfThisIsAThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */; };
 		0F2D9D79C4ED63A754D174BE961FA6DE /* Bool (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D4B2ECDF7206A3B3F9B9684C42B164 /* Bool (JSONValueConvertible).swift */; };
+		1C759EE4A71FCF1777C4136C37AE9DF1 /* Payload.Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E820CE8D0D5FEEEC196F61E22363492 /* Payload.Multipart.swift */; };
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
 		22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
@@ -132,6 +133,7 @@
 		132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettableClient.swift; sourceTree = "<group>"; };
 		19227FA82FAB0B4E505BB2D51004EE4A /* SessionManager (SessionManagerType).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager (SessionManagerType).swift"; sourceTree = "<group>"; };
 		1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettable.swift; sourceTree = "<group>"; };
+		1E820CE8D0D5FEEEC196F61E22363492 /* Payload.Multipart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.Multipart.swift; sourceTree = "<group>"; };
 		23A15F74AEE8B0926C7E0968943C43E2 /* String (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String (JSONValueConvertible).swift"; sourceTree = "<group>"; };
 		256DB7968015EB7E3781878767546331 /* MockError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockError.swift; sourceTree = "<group>"; };
 		26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettableClient.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				F4E71ABEE60C720DE96808ACD44C537D /* Convertibles */,
 				DE82A4D3885B635F1A3AE9E02F7C19D6 /* Payload.Dict.swift */,
 				D141F279D8027641BD858F953499CE12 /* Payload.JSON.Value.swift */,
+				1E820CE8D0D5FEEEC196F61E22363492 /* Payload.Multipart.swift */,
 				F1988959B77FF92A6257775066EE536D /* Payload.swift */,
 			);
 			path = Payload;
@@ -887,6 +890,7 @@
 				31BD3025D0E5A6F21306E85A81158A75 /* Payload.Dict (PayloadElementConvertible).swift in Sources */,
 				81BEB88AFE7E55393C242AC9914BD4EA /* Payload.Dict.swift in Sources */,
 				7EFAFAD67B846597D98C779048138F6D /* Payload.JSON.Value.swift in Sources */,
+				1C759EE4A71FCF1777C4136C37AE9DF1 /* Payload.Multipart.swift in Sources */,
 				F977BED704179A6A02EC4459A0E3018C /* Payload.swift in Sources */,
 				575A356CD0E83D149256F2273C2651C7 /* PayloadConvertible.swift in Sources */,
 				6F88632AF116A6692DCF6A2152FAE897 /* ProgrammerAssertions.swift in Sources */,
