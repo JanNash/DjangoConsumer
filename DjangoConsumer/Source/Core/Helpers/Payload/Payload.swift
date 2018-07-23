@@ -353,6 +353,10 @@ private extension Payload {
 // MARK: Equatable Implementation
 private extension Payload {
     func __eq__(_ other: Payload) -> Bool {
+        if (self.json.count != other.json.count) || (self.multipart.count != other.multipart.count) {
+            return false
+        }
+        
         // Yes, this looks immensely hacky, but since we know that all
         // values in this dictionary are valid json values or collections
         // of valid json values, this should actually be unambiguous.
