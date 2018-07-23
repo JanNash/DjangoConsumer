@@ -73,6 +73,7 @@ public struct Payload: Equatable {
     
     // Equatable Conformance
     public static func == (lhs: Payload, rhs: Payload) -> Bool {
+        // ???: Should rootObject and method be taken into account as well?
         return lhs.json == rhs.json && lhs.multipart == rhs.multipart
     }
     
