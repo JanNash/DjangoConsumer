@@ -54,9 +54,19 @@ private extension DefaultImplementations.MultipartValueConvertible {
     
     private static func _multipartPayload(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Multipart.UnwrappedPayload? {
         let (conv, conf): (PayloadConversion, PayloadConversion.Configuration) = conversion
-        guard let multipartValue: Payload.Multipart.Value = {
+        let multipartValue: Payload.Multipart.Value = {
             conv.convert(convertible, configuration: conf) ?? convertible.toMultipartValue()
-        }() else { return nil }
+        }()
+        
+        // This is quite hacky but I haven't found a better way yet.
+        if multipartValue == multipartValue.1.null {
+            switch conf.multipartPath.tail.last {
+            case .some(.key), .none:
+                return nil
+            case .some(.index):
+                break
+            }
+        }
         
         let resolvedPath: String = conv.multipartKey(from: conf)
         return [resolvedPath: multipartValue]
