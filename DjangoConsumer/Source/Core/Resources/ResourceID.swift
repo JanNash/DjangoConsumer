@@ -51,7 +51,7 @@ public extension DefaultImplementations.ResourceID {
 // MARK: // Private
 // MARK: where T: DetailGettable
 private extension DefaultImplementations.ResourceID {
-    static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
+    private static func _getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: Node, via sessionManager: SessionManagerType) {
         let url: URL = node.absoluteGETURL(for: resourceID)
         let method: ResourceHTTPMethod = .get
         let encoding: ParameterEncoding = URLEncoding.default
@@ -65,8 +65,8 @@ private extension DefaultImplementations.ResourceID {
             T.detailGettableClients.forEach({ $0.failedGettingObject(for: resourceID, from: node, with: error) })
         }
         
-        sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, encoding: encoding),
+        sessionManager.fireRequest(
+            with: .get(GETRequestConfiguration(url: url, encoding: encoding)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

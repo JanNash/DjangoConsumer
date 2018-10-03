@@ -262,16 +262,16 @@ private extension OAuth2Handler {
         self._isRequesting = true
         
         let url: URL = self.settings.tokenRequestURL
-        let parameters: [String : Any] = [
+        let payload: Payload = Payload.Dict([
             _C.JSONKeys.grantType : _C.GrantTypes.password,
             _C.JSONKeys.scope : _C.Scopes.readWrite,
             _C.JSONKeys.username : username,
             _C.JSONKeys.password : password
-        ]
+        ]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
         
         self.__requestAndSaveTokens(
             url: url,
-            parameters: parameters,
+            payload: payload,
             updateStatus: { self._isRequesting = false },
             success: success,
             failure: failure
@@ -292,14 +292,14 @@ private extension OAuth2Handler {
         }
         
         let url: URL = self.settings.tokenRefreshURL
-        let parameters: [String : Any] = [
+        let payload: Payload = Payload.Dict([
             _C.JSONKeys.refreshToken: refreshToken,
             _C.JSONKeys.grantType: _C.GrantTypes.refreshToken
-        ]
+        ]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
         
         self.__requestAndSaveTokens(
             url: url,
-            parameters: parameters,
+            payload: payload,
             updateStatus: { self._isRefreshing = false },
             success: success,
             failure: failure
@@ -310,17 +310,16 @@ private extension OAuth2Handler {
 
 // MARK: Common Token Request Functionality
 private extension OAuth2Handler {
-    func __requestAndSaveTokens(url: URL, parameters: Parameters, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
+    func __requestAndSaveTokens(url: URL, payload: Payload, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
         let basicAuthHeader: _Header = self._basicAuthHeader()
         
         let cfg: RequestConfiguration = {
-            RequestConfiguration(
+            .post(POSTRequestConfiguration(
                 url: url,
-                method: .post,
-                parameters: parameters,
+                payload: payload,
                 encoding: URLEncoding.default,
                 headers: [basicAuthHeader.key : basicAuthHeader.value]
-            )
+            ))
         }()
         
         let responseHandling: JSONResponseHandling = {
@@ -330,7 +329,7 @@ private extension OAuth2Handler {
             )
         }()
         
-        self._authRequestSessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
+        self._authRequestSessionManager.fireRequest(with: cfg, responseHandling: responseHandling)
     }
     
     func _handleSuccessfulTokenRequest(json: JSON, updateStatus: @escaping () -> Void, success: @escaping () -> Void, failure: @escaping (Error) -> Void) {
@@ -378,21 +377,23 @@ private extension OAuth2Handler {
         }
         
         let basicAuthHeader: _Header = self._basicAuthHeader()
+        let payload: Payload = Payload.Dict([
+            _C.JSONKeys.token : accessToken
+        ]).toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
         
-        let cfg: RequestConfiguration = RequestConfiguration(
+        let cfg: RequestConfiguration = .post(POSTRequestConfiguration(
             url: self.settings.tokenRevokeURL,
-            method: .post,
-            parameters: [_C.JSONKeys.token : accessToken],
+            payload: payload,
             encoding: URLEncoding.default,
             headers: [basicAuthHeader.key : basicAuthHeader.value]
-        )
+        ))
         
         let responseHandling: JSONResponseHandling = JSONResponseHandling(
             onSuccess: { _ in },
             onFailure: { _ in }
         )
         
-        self._authRequestSessionManager.fireJSONRequest(with: cfg, responseHandling: responseHandling)
+        self._authRequestSessionManager.fireRequest(with: cfg, responseHandling: responseHandling)
         
         // ???: I suppose it's cleaner to clear the credentialStore synchronously
         // instead of waiting for the request to receive a response. Is it though?

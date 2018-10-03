@@ -81,7 +81,7 @@ public extension DefaultImplementations.OAuth2Node {
 
 // MARK: // Private
 private extension DefaultImplementations.OAuth2Node {
-    static func _authenticate(node: OAuth2Node, username: String, password: String) {
+    private static func _authenticate(node: OAuth2Node, username: String, password: String) {
         node.oauth2Handler.requestTokens(
             username: username,
             password: password,
@@ -92,7 +92,7 @@ private extension DefaultImplementations.OAuth2Node {
         )
     }
     
-    static func _refreshAuthentication(node: OAuth2Node) {
+    private static func _refreshAuthentication(node: OAuth2Node) {
         node.oauth2Handler.refreshTokens(
             success: { node.oauth2Clients.forEach({ $0.refreshedAuthentication(for: node) }) },
             failure: { error in
@@ -101,7 +101,7 @@ private extension DefaultImplementations.OAuth2Node {
         )
     }
     
-    static func _endAuthentication(node: OAuth2Node) {
+    private static func _endAuthentication(node: OAuth2Node) {
         node.oauth2Handler.revokeTokens()
         node.oauth2Clients.forEach({ $0.endedAuthentication(for: node) })
     }

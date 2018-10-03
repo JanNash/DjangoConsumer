@@ -49,12 +49,12 @@ public extension DefaultImplementations.ListGettable {
 
 // MARK: // Private
 private extension DefaultImplementations.ListGettable {
-    static func _get<T: ListGettable>(_ l: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType]) {
+    private static func _get<T: ListGettable>(_ l: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType]) {
         let routeType: RouteType.List = .listGET
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
         
         let limit: UInt = limit ?? node.defaultLimit(for: l)
-        let parameters: Parameters = node.parametersFrom(offset: offset, limit: limit, filters: filters)
+        let parameters: Payload.JSON.Dict = node.parametersFrom(offset: offset, limit: limit, filters: filters)
         
         let encoding: ParameterEncoding = URLEncoding.default
         
@@ -73,8 +73,8 @@ private extension DefaultImplementations.ListGettable {
             T.listGettableClients.forEach({ $0.failedGettingObjects(with: failure) })
         }
         
-        sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: routeType.method, parameters: parameters, encoding: encoding),
+        sessionManager.fireRequest(
+            with: .get(GETRequestConfiguration(url: url, parameters: parameters, encoding: encoding)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

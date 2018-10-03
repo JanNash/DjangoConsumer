@@ -16,13 +16,29 @@ import DjangoConsumer
 
 
 // MARK: // Private
-private let _failingRequestConfig: RequestConfiguration = {
-    RequestConfiguration(url: URL(string: "http://example.com")!, method: .get, encoding: URLEncoding.default)
-}()
-
-private let _succeedingRequestConfig: RequestConfiguration = {
-    RequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, method: .get, encoding: URLEncoding.default)
-}()
+private enum _RequestConfigs {
+    enum Failing {
+        static let GET: RequestConfiguration = {
+            .get(GETRequestConfiguration(url: URL(string: "http://example.com")!, encoding: URLEncoding.default))
+        }()
+        
+        static func POST(_ payloadDict: Payload.Dict) -> RequestConfiguration {
+            let payload: Payload = payloadDict.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+            return .post(POSTRequestConfiguration(url: URL(string: "http://example.com")!, payload: payload, encoding: JSONEncoding.default))
+        }
+    }
+    
+    enum Succeeding {
+        static let GET: RequestConfiguration = {
+            .get(GETRequestConfiguration(url: URL(string: "https://jsonplaceholder.typicode.com/posts/1")!, encoding: URLEncoding.default))
+        }()
+        
+        static func POST(_ payloadDict: Payload.Dict) -> RequestConfiguration {
+            let payload: Payload = payloadDict.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+            return .post(POSTRequestConfiguration(url: URL(string: "http://httpbin.org/anything")!, payload: payload, encoding: JSONEncoding.default))
+        }
+    }
+}
 
 private enum _TestError: Error { case foo }
 
@@ -36,9 +52,9 @@ class SessionManagerTypeTests: BaseTest {
         
         private var _AF_sessionManager: SessionManager = SessionManager()
         
-        func request(with cfg: RequestConfiguration) -> DataRequest {
+        func createRequest(with cfg: RequestConfiguration, completion: @escaping (RequestCreationResult) -> Void) {
             self.requestWithCFGCalled?()
-            return self._AF_sessionManager.request(with: cfg)
+            self._AF_sessionManager.createRequest(with: cfg, completion: completion)
         }
         
         func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling) {
@@ -68,21 +84,21 @@ class SessionManagerTypeTests: BaseTest {
             onFailure: { _ in onFailureExpectation.fulfill() }
         )
         
-        DefaultImplementations.SessionManagerType.fireJSONRequest(
+        DefaultImplementations.SessionManagerType.fireRequest(
             via: sessionManager,
-            with: _failingRequestConfig,
+            with: _RequestConfigs.Failing.GET,
             responseHandling: responseHandling
         )
         
         self.waitForExpectations(timeout: 10)
     }
     
-    func testSessionManagerTypeDefaultImplementations() {
+    func testSessionManagerTypeDefaultImplementations2() {
         let sessionManager: _MockSessionManager = _MockSessionManager()
         
         sessionManager.requestWithCFGCalled = self.expectation(
             description: "Expected sessionManager.request(with cfg:) to be called"
-            ).fulfill
+        ).fulfill
         
         let onSuccessExpectation: XCTestExpectation = self.expectation(
             description: "Expected responseHandling.onSuccess() to be called"
@@ -97,7 +113,7 @@ class SessionManagerTypeTests: BaseTest {
             onFailure: { _ in onFailureExpectation.fulfill() }
         )
         
-        sessionManager.fireJSONRequest(with: _failingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _RequestConfigs.Failing.GET, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }
@@ -118,7 +134,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         XCTAssertEqual(additionalHeaders, SessionManager.defaultHTTPHeaders)
     }
     
-    func testAFSessionManagerFireJSONRequestWithFailingRequestConfig() {
+    func testAFSessionManagerFireJSONRequestWithFailingGETRequestConfig() {
         let sessionManager: SessionManagerType = SessionManager.makeDefault()
         
         let expectation: XCTestExpectation = self.expectation(
@@ -130,12 +146,12 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
             onFailure: { _ in expectation.fulfill() }
         )
         
-        sessionManager.fireJSONRequest(with: _failingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _RequestConfigs.Failing.GET, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }
     
-    func testAFSessionManagerFireJSONRequestWithSucceedingRequestConfig() {
+    func testAFSessionManagerFireJSONRequestWithSucceedingGETRequestConfig() {
         let sessionManager: SessionManagerType = SessionManager.makeDefault()
         
         let expectation: XCTestExpectation = self.expectation(
@@ -147,7 +163,127 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
             onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
         )
         
-        sessionManager.fireJSONRequest(with: _succeedingRequestConfig, responseHandling: responseHandling)
+        sessionManager.fireRequest(with: _RequestConfigs.Succeeding.GET, responseHandling: responseHandling)
+        
+        self.waitForExpectations(timeout: 10)
+    }
+    
+    func testAFSessionManagerFireJSONRequestWithFailingPOSTRequestConfigWithPureJSONPayload() {
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
+
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onFailure' to be called"
+        )
+
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { XCTFail("'onSuccess' should not be called but was called with json: \($0)") },
+            onFailure: { _ in expectation.fulfill() }
+        )
+
+        sessionManager.fireRequest(with: _RequestConfigs.Failing.POST(["foo": "bar"]), responseHandling: responseHandling)
+
+        self.waitForExpectations(timeout: 10)
+    }
+
+    func testAFSessionManagerFireJSONRequestWithSucceedingPOSTRequestConfigWithPureJSONPayload() {
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
+
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onSuccess' to be called"
+        )
+
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in expectation.fulfill() },
+            onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
+        )
+
+        sessionManager.fireRequest(with: _RequestConfigs.Succeeding.POST(["foo": "bar"]), responseHandling: responseHandling)
+
+        self.waitForExpectations(timeout: 10)
+    }
+    
+    func testAFSessionManagerFireJSONRequestWithFailingPOSTRequestConfigWithMixedMultipartAndJSONPayload() {
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onFailure' to be called"
+        )
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { XCTFail("'onSuccess' should not be called but was called with json: \($0)") },
+            onFailure: { _ in expectation.fulfill() }
+        )
+        
+        let requestConfiguration: RequestConfiguration = _RequestConfigs.Failing.POST([
+            "foo": "bar",
+            "image": UIImage()
+        ])
+        
+        sessionManager.fireRequest(with: requestConfiguration, responseHandling: responseHandling)
+        
+        self.waitForExpectations(timeout: 10)
+    }
+    
+    func testAFSessionManagerFireJSONRequestWithSucceedingPOSTRequestConfigWithMixedMultipartAndJSONPayload() {
+        let sessionManager: SessionManagerType = SessionManager.makeDefault()
+        
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected 'onSuccess' to be called"
+        )
+        
+        let responseHandling: JSONResponseHandling = JSONResponseHandling(
+            onSuccess: { _ in expectation.fulfill() },
+            onFailure: { XCTFail("'onFailure' should not be called but was called with error: \($0)") }
+        )
+        
+        let barbar: Payload.Dict = [
+            "nickname": "barbar",
+            "images": [
+                UIImage(color: .clear),
+                UIImage(color: .red),
+                UIImage(color: .yellow),
+                UIImage(color: .green),
+                UIImage(color: .blue),
+                UIImage(color: .black),
+            ],
+            "other_things": [
+                "apple",
+                "banana",
+                "boat",
+                "elephant"
+            ],
+            "age": "about as old as foofoo",
+            "friend": "no, I don't want to overflow the stack yet...",
+        ]
+        
+        let foofoo: Payload.Dict = [
+            "nickname": "foofoo",
+            "images": [
+                UIImage(color: .clear),
+                UIImage(color: .red),
+                UIImage(color: .yellow),
+                UIImage(color: .green),
+                UIImage(color: .blue),
+                UIImage(color: .black),
+            ],
+            "other_things": [
+                "apple",
+                "banana",
+                "boat",
+                "elephant"
+            ],
+            "age": "quite old",
+            "friend": barbar,
+        ]
+        
+        let requestConfiguration: RequestConfiguration = _RequestConfigs.Succeeding.POST([
+            "username": "foo",
+            "email": "foo@example.com",
+            "created_at": Date(),
+            "profile": foofoo
+        ])
+        
+        sessionManager.fireRequest(with: requestConfiguration, responseHandling: responseHandling)
         
         self.waitForExpectations(timeout: 10)
     }
@@ -169,9 +305,15 @@ class TestSessionDelegateTests: BaseTest {
         }
         
         let fakeTask: URLSessionTask = URLSessionTask()
-        let fakeRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
-        
-        sessionDelegate[fakeTask] = fakeRequest
+        sessionManager.createRequest(with: _RequestConfigs.Failing.GET) {
+            switch $0 {
+            case .failed(let error):
+                XCTFail("Request creation failed with error \(error)")
+            case .created(let request):
+                sessionDelegate[fakeTask] = request
+            }
+            
+        }
         
         self.waitForExpectations(timeout: 10)
     }
@@ -180,12 +322,23 @@ class TestSessionDelegateTests: BaseTest {
         let sessionManager: SessionManagerType = SessionManager()
         let sessionDelegate: TestSessionDelegate = TestSessionDelegate()
         
+        let expectation: XCTestExpectation = self.expectation(
+            description: "Expected sessionManager.createRequest completion to be called"
+        )
+        
         let fakeTask: URLSessionTask = URLSessionTask()
-        let fakeRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
+        sessionManager.createRequest(with: _RequestConfigs.Failing.GET) {
+            switch $0 {
+            case .failed(let error):
+                XCTFail("Request creation failed with error \(error)")
+            case .created(let request):
+                sessionDelegate[fakeTask] = request
+                XCTAssertNil(sessionDelegate[fakeTask])
+            }
+            expectation.fulfill()
+        }
         
-        sessionDelegate[fakeTask] = fakeRequest
-        
-        XCTAssertNil(sessionDelegate[fakeTask])
+        self.waitForExpectations(timeout: 10)
     }
 }
 
@@ -206,47 +359,58 @@ class TestSessionManagerTests: BaseTest {
             expectation.fulfill()
         }
         
-        let expectedRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
+        sessionManager.createRequest(with: _RequestConfigs.Failing.GET) {
+            switch $0 {
+            case .failed(let error):
+                XCTFail("Request creation failed with error \(error)")
+            case .created(let request):
+                XCTAssert(request === receivedRequest)
+            }
+        }
         
-        self.waitForExpectations(timeout: 01, handler: { _ in
-            XCTAssert(receivedRequest === expectedRequest)
-        })
+        self.waitForExpectations(timeout: 10)
     }
     
     func testTestSessionManagerHandleJSONResponse() {
         let sessionManager: TestSessionManager = TestSessionManager()
-        
+
         let expectation: XCTestExpectation = self.expectation(
             description: "Expected sessionManager.testDelegate.mockJSONResponse to be called"
         )
-        
-        let expectedRequest: DataRequest = sessionManager.request(with: _failingRequestConfig)
-        
-        // This funny pattern is used because functions can't be tested for equality
-        // and JSONResponseHandling is a struct, so it's quite impossible to make
-        // it conform to Equatable, which is fine, because I deem it also quite unnecessary.
-        var onSuccessCalled: Bool = false
-        var onFailureCalled: Bool = false
-        
-        let responseHandling: JSONResponseHandling = JSONResponseHandling(
-            onSuccess: { _ in onSuccessCalled = true },
-            onFailure: { _ in onFailureCalled = true }
-        )
-        
-        sessionManager.testDelegate.mockJSONResponse = { req, resp in
-            XCTAssert(req === expectedRequest)
-            
-            resp.onSuccess(JSON())
-            XCTAssertTrue(onSuccessCalled)
-            
-            resp.onFailure(_TestError.foo)
-            XCTAssertTrue(onFailureCalled)
-            
-            expectation.fulfill()
+
+        sessionManager.createRequest(with: _RequestConfigs.Failing.GET) {
+            switch $0 {
+            case .failed(let error):
+                XCTFail("Request creation failed with error \(error)")
+            case .created(let request):
+                // This funny pattern is used because functions can't be tested for equality
+                // and JSONResponseHandling is a struct, so it's quite impossible to make
+                // it conform to Equatable, which is fine, because I deem it also quite unnecessary.
+                
+                var onSuccessCalled: Bool = false
+                var onFailureCalled: Bool = false
+
+                let responseHandling: JSONResponseHandling = JSONResponseHandling(
+                    onSuccess: { _ in onSuccessCalled = true },
+                    onFailure: { _ in onFailureCalled = true }
+                )
+
+                sessionManager.testDelegate.mockJSONResponse = { req, resp in
+                    XCTAssert(req === request)
+
+                    resp.onSuccess(JSON())
+                    XCTAssertTrue(onSuccessCalled)
+
+                    resp.onFailure(_TestError.foo)
+                    XCTAssertTrue(onFailureCalled)
+
+                    expectation.fulfill()
+                }
+
+                sessionManager.handleJSONResponse(for: request, with: responseHandling)
+            }
         }
-        
-        sessionManager.handleJSONResponse(for: expectedRequest, with: responseHandling)
-        
+            
         self.waitForExpectations(timeout: 10)
     }
 }

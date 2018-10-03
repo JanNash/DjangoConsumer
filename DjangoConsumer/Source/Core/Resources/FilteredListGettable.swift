@@ -49,7 +49,7 @@ public extension DefaultImplementations.FilteredListGettable {
 
 // MARK: // Private
 private extension DefaultImplementations.FilteredListGettable {
-    static func _get<T: FilteredListGettable>(_ f: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
+    private static func _get<T: FilteredListGettable>(_ f: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
         let allFilters: [FilterType] = addDefaultFilters ? (node.defaultFilters(for: f) + filters) : filters
         DefaultImplementations.ListGettable.get(f, from: node, via: sessionManager, offset: offset, limit: limit, filters: allFilters)
     }

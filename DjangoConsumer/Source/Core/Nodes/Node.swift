@@ -26,12 +26,14 @@ public protocol Node {
     func defaultFilters(for resourceType: FilteredListGettable.Type) -> [FilterType]
     func paginationType<T: ListGettable>(for resourceType: T.Type) -> Pagination.Type
     
-    // Parameter Generation
-    func parametersFrom(filters: [FilterType]) -> Parameters
-    func parametersFrom(offset: UInt, limit: UInt) -> Parameters
-    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Parameters
-    func parametersFrom(object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters
-    func parametersFrom<C: Collection, T: ListPostable>(listPostables: C) -> Parameters where C.Element == T
+    // URL Parameter Generation
+    func parametersFrom(filters: [FilterType]) -> Payload.JSON.Dict
+    func parametersFrom(offset: UInt, limit: UInt) -> Payload.JSON.Dict
+    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType]) -> Payload.JSON.Dict
+    
+    // Request Payload Generation
+    func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload
+    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T
     
     // URLs
     // MetaResource.Type URLs
@@ -71,26 +73,30 @@ public extension Node {
 }
 
 
-// MARK: Parameter Generation
+// MARK: URL Parameter Generation
 public extension Node {
-    func parametersFrom(filters: [FilterType]) -> Parameters {
+    func parametersFrom(filters: [FilterType]) -> Payload.JSON.Dict {
         return DefaultImplementations.Node.parametersFrom(node: self, filters: filters)
     }
     
-    func parametersFrom(offset: UInt, limit: UInt) -> Parameters {
+    func parametersFrom(offset: UInt, limit: UInt) -> Payload.JSON.Dict {
         return DefaultImplementations.Node.parametersFrom(node: self, offset: offset, limit: limit)
     }
     
-    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
+    func parametersFrom(offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
         return DefaultImplementations.Node.parametersFrom(node: self, offset: offset, limit: limit, filters: filters)
     }
-    
-    func parametersFrom(object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters {
-        return DefaultImplementations.Node.parametersFrom(node: self, object: object, method: method)
+}
+
+
+// MARK: Request Payload Generation
+public extension Node {
+    func payloadFrom(object: PayloadConvertible, method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload {
+        return DefaultImplementations.Node.payloadFrom(node: self, object: object, method: method, conversion: conversion)
     }
     
-    func parametersFrom<C: Collection, T: ListPostable>(listPostables: C) -> Parameters where C.Element == T {
-        return DefaultImplementations.Node.parametersFrom(node: self, listPostables: listPostables)
+    func payloadFrom<C: Collection, T: ListPostable>(listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T {
+        return DefaultImplementations.Node.payloadFrom(node: self, listPostables: listPostables, conversion: conversion)
     }
 }
 
@@ -180,26 +186,30 @@ public extension DefaultImplementations.Node {
 }
 
 
-// MARK: Parameter Generation
+// MARK: URL Parameter Generation
 public extension DefaultImplementations.Node {
-    public static func parametersFrom(node: Node, filters: [FilterType]) -> Parameters {
-        return filters.reduce(into: [:], { $0[$1.stringKey] = $1.value })
+    public static func parametersFrom(node: Node, filters: [FilterType]) -> Payload.JSON.Dict {
+        return Payload.JSON.Dict(filters.mapToDict({ ($0.stringKey, $0.value) }, strategy: .overwriteOldValue))
     }
     
-    public static func parametersFrom(node: Node, offset: UInt, limit: UInt) -> Parameters {
+    public static func parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
         return self._parametersFrom(node: node, offset: offset, limit: limit)
     }
     
-    public static func parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
+    public static func parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
         return self._parametersFrom(node: node, offset: offset, limit: limit, filters: filters)
     }
-    
-    public static func parametersFrom(node: Node, object: ParameterConvertible, method: ResourceHTTPMethod) -> Parameters {
-        return object.toParameters(for: method)
+}
+
+
+// MARK: Request Payload Generation
+public extension DefaultImplementations.Node {
+    public static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload {
+        return object.toPayload(conversion: conversion, method: method)
     }
     
-    public static func parametersFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C) -> Parameters where C.Element == T {
-        return [ListRequestKeys.objects : listPostables.map({ $0.toParameters(for: .post) })]
+    public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T {
+        return Payload.Dict([ListRequestKeys.objects: listPostables.map({ $0.payloadDict(rootObject: $0, method: .post) })]).toPayload(conversion: conversion, rootObject: nil, method: .post)
     }
 }
 
@@ -265,17 +275,17 @@ public extension DefaultImplementations.Node {
 
 
 // MARK: // Private
-// MARK: Parameter Generation Implementations
+// MARK: URL Parameter Generation Implementations
 private extension DefaultImplementations.Node {
-    static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Parameters {
-        var parameters: Parameters = [:]
-        let writeToParameters: (String, Any) -> Void = { parameters[$0] = $1 }
+    private static func _parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
+        var parameters: Payload.JSON.Dict = [:]
+        let writeToParameters: (String, JSONValueConvertible) -> Void = { parameters[$0] = $1 }
         node.parametersFrom(offset: offset, limit: limit).forEach(writeToParameters)
         node.parametersFrom(filters: filters).forEach(writeToParameters)
         return parameters
     }
     
-    static func _parametersFrom(node: Node, offset: UInt, limit: UInt) -> Parameters {
+    private static func _parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
         return [
             DefaultPagination.Keys.offset: offset,
             DefaultPagination.Keys.limit: limit
@@ -286,7 +296,7 @@ private extension DefaultImplementations.Node {
 
 // MARK: Request URL Helper Implementations
 private extension DefaultImplementations.Node {
-    static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+    private static func _relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
         let availableRoutes: [Route] = node.routes.filter(Route.matches(resourceType, routeType))
         
         guard availableRoutes.count > 0 else {
@@ -310,7 +320,7 @@ private extension DefaultImplementations.Node {
 
 // MARK: List Response Extraction Helper Implementations
 private extension DefaultImplementations.Node {
-    static func _extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+    private static func _extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         let paginationType: Pagination.Type = node.paginationType(for: resourceType)
         let pagination: Pagination = node.extractGETListResponsePagination(with: paginationType, from: json)
         let objects: [T] = node.extractGETListResponseObjects(for: T.self, from: json)

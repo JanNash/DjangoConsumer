@@ -18,23 +18,21 @@ import DjangoConsumer
 class RequestConfigurationTests: BaseTest {
     func testRequestConfigurationInitOmittingOptionalParameters() {
         let expectedURL: URL = URL(string: "http://example.com")!
-        let expectedMethod: ResourceHTTPMethod = .get
         let expectedEncoding: ParameterEncoding = URLEncoding.default
         
-        let cfg: RequestConfiguration = RequestConfiguration(
+        let cfg: GETRequestConfiguration = GETRequestConfiguration(
             url: expectedURL,
-            method: expectedMethod,
             encoding: expectedEncoding
         )
         
+        let expectedParameters: Payload.JSON.Dict = [:]
         let expectedHeaders: HTTPHeaders = [:]
         let expectedAcceptableStatusCodes: [Int] = Array(200..<300)
         let expectedAcceptableContentTypes: [String] = ["*/*"]
         
         XCTAssertEqual(cfg.url, expectedURL)
-        XCTAssertEqual(cfg.method, expectedMethod)
         XCTAssert(cfg.encoding is URLEncoding)
-        XCTAssert(cfg.parameters.isEmpty)
+        XCTAssertEqual(cfg.parameters, expectedParameters)
         XCTAssertEqual(cfg.headers, expectedHeaders)
         XCTAssertEqual(cfg.acceptableStatusCodes, expectedAcceptableStatusCodes)
         XCTAssertEqual(cfg.acceptableContentTypes, expectedAcceptableContentTypes)
@@ -42,17 +40,17 @@ class RequestConfigurationTests: BaseTest {
     
     func testRequestConfigurationInitWithAllParameters() {
         let expectedURL: URL = URL(string: "http://example.com")!
-        let expectedMethod: ResourceHTTPMethod = .get
         let expectedEncoding: ParameterEncoding = JSONEncoding.default
-        let expectedParameters: [String : String] = ["foo": "bar"]
+        let expectedPayload: Payload = Payload.Dict(["foo": "bar"]).toPayload(
+            conversion: DefaultPayloadConversion(), rootObject: nil, method: .post
+        )
         let expectedHeaders: HTTPHeaders = ["Alice": "Bob"]
         let expectedAcceptableStatusCodes: [Int] = Array(200..<300)
         let expectedAcceptableContentTypes: [String] = ["bla/blu"]
         
-        let cfg: RequestConfiguration = RequestConfiguration(
+        let cfg: POSTRequestConfiguration = POSTRequestConfiguration(
             url: expectedURL,
-            method: expectedMethod,
-            parameters: expectedParameters,
+            payload: expectedPayload,
             encoding: expectedEncoding,
             headers: expectedHeaders,
             acceptableStatusCodes: expectedAcceptableStatusCodes,
@@ -60,9 +58,8 @@ class RequestConfigurationTests: BaseTest {
         )
         
         XCTAssertEqual(cfg.url, expectedURL)
-        XCTAssertEqual(cfg.method, expectedMethod)
         XCTAssert(cfg.encoding is JSONEncoding)
-        XCTAssertEqual(cfg.parameters as? [String : String], expectedParameters)
+        XCTAssertEqual(cfg.payload, expectedPayload)
         XCTAssertEqual(cfg.headers, expectedHeaders)
         XCTAssertEqual(cfg.acceptableStatusCodes, expectedAcceptableStatusCodes)
         XCTAssertEqual(cfg.acceptableContentTypes, expectedAcceptableContentTypes)

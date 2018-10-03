@@ -12,12 +12,14 @@
 
 // MARK: // Public
 public enum DefaultImplementations {
-    public enum DetailGettable        {}
-    public enum FilteredListGettable  {}
-    public enum ListGettable          {}
-    public enum ListPostable          {}
-    public enum Node                  {}
-    public enum ResourceID            {}
-    public enum SessionManagerType    {}
-    public enum SinglePostable        {}
+    public enum DetailGettable              {}
+    public enum FilteredListGettable        {}
+    public enum JSONValueConvertible        {}
+    public enum ListGettable                {}
+    public enum ListPostable                {}
+    public enum MultipartValueConvertible   {}
+    public enum Node                        {}
+    public enum ResourceID                  {}
+    public enum SessionManagerType          {}
+    public enum SinglePostable              {}
 }

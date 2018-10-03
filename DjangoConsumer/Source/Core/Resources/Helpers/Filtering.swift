@@ -83,15 +83,15 @@ public extension FilterComparator {
 // containing Filters with different generic types
 public protocol FilterType {
     var stringKey: String { get }
-    var value: Any? { get }
+    var value: JSONValueConvertible { get }
 }
 
 
 // MARK: - Filter Struct Declaration
 // ???: Is this typealias a good idea? Does it clutter someones namespace?
 // Technically, it's DjangoConsumer._F, so it should be fine, I hope?
-public typealias _F<V> = Filter<V>
-public struct Filter<V>: FilterType {
+public typealias _F<V: JSONValueConvertible> = Filter<V>
+public struct Filter<V: JSONValueConvertible>: FilterType {
     // Init
     public init(_ key: FilterKey<V>, _ comparator: FilterComparator, _ value: V) {
         self.key = key
@@ -107,7 +107,7 @@ public struct Filter<V>: FilterType {
     // Public Readonly Variables
     public private(set) var key: FilterKey<V>
     public private(set) var comparator: FilterComparator
-    public private(set) var value: Any?
+    public private(set) var value: JSONValueConvertible
 }
 
 

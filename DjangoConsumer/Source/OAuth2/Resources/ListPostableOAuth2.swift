@@ -19,15 +19,15 @@ public protocol ListPostableOAuth2: ListPostable, NeedsOAuth2Node {}
 // MARK: - Collection
 // MARK: where Self.Element: ListPostableOAuth2
 public extension Collection where Self.Element: ListPostableOAuth2 {
-    public func post(to node: OAuth2Node = Self.Element.defaultOAuth2Node) {
-        DefaultImplementations.ListPostable.post(self, to: node, via: node.sessionManagerOAuth2)
+    public func post(to node: OAuth2Node = Self.Element.defaultOAuth2Node, conversion: PayloadConversion = DefaultPayloadConversion()) {
+        DefaultImplementations.ListPostable.post(self, to: node, via: node.sessionManagerOAuth2, conversion: conversion)
     }
 }
 
 
 // MARK: - DefaultImplementations.ListPostable
 public extension DefaultImplementations.ListPostable {
-    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: OAuth2Node) where C.Element == T {
-        self.post(objects, to: node, via: node.sessionManagerOAuth2)
+    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: OAuth2Node, conversion: PayloadConversion) where C.Element == T {
+        self.post(objects, to: node, via: node.sessionManagerOAuth2, conversion: conversion)
     }
 }

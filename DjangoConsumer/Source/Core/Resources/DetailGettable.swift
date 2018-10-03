@@ -51,7 +51,7 @@ public extension DefaultImplementations.DetailGettable {
 // MARK: // Private
 // MARK: GET function Implementation
 private extension DefaultImplementations.DetailGettable {
-    static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
+    private static func _get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
         let routeType: RouteType.Detail = .detailGET
         let method: ResourceHTTPMethod = routeType.method
         let encoding: ParameterEncoding = URLEncoding.default
@@ -70,8 +70,8 @@ private extension DefaultImplementations.DetailGettable {
                 detailGettable.gotNewSelf(newSelf, from: node)
             }
             
-            sessionManager.fireJSONRequest(
-                with: RequestConfiguration(url: url, method: method, encoding: encoding),
+            sessionManager.fireRequest(
+                with: .get(GETRequestConfiguration(url: url, encoding: encoding)),
                 responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
             )
         } catch {

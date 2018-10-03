@@ -17,7 +17,7 @@ import Alamofire_SwiftyJSON
 // MARK: // Public
 // MARK: - SinglePostable
 // MARK: Protocol Declaration
-public protocol SinglePostable: DetailResource, JSONInitializable, ParameterConvertible {
+public protocol SinglePostable: DetailResource, JSONInitializable, PayloadConvertible {
     static var singlePostableClients: [SinglePostableClient] { get set }
 }
 
@@ -29,9 +29,9 @@ public protocol SinglePostableNoAuth: SinglePostable, NeedsNoAuthNode {}
 
 // MARK: Default Implementations
 public extension SinglePostableNoAuth {
-    func post(to node: NoAuthNode = Self.defaultNoAuthNode) {
+    func post(to node: NoAuthNode = Self.defaultNoAuthNode, conversion: PayloadConversion = DefaultPayloadConversion()) {
         DefaultImplementations.SinglePostable.post(
-            self, to: node, via: node.sessionManagerNoAuth, additionalHeaders: [:], additionalParameters: [:]
+            self, to: node, via: node.sessionManagerNoAuth, additionalHeaders: [:], additionalParameters: [:], conversion: conversion
         )
     }
 }
@@ -39,25 +39,26 @@ public extension SinglePostableNoAuth {
 
 // MARK: - DefaultImplementations.SinglePostable
 public extension DefaultImplementations.SinglePostable {
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
-        self.post(singlePostable, to: node, via: node.sessionManagerNoAuth, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: NoAuthNode, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict, conversion: PayloadConversion) {
+        self.post(singlePostable, to: node, via: node.sessionManagerNoAuth, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters, conversion: conversion)
     }
     
-    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
-        self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters)
+    public static func post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict, conversion: PayloadConversion) {
+        self._post(singlePostable, to: node, via: sessionManager, additionalHeaders: additionalHeaders, additionalParameters: additionalParameters, conversion: conversion)
     }
 }
 
 
 // MARK: // Private
 private extension DefaultImplementations.SinglePostable {
-    static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Parameters) {
+    private static func _post<T: SinglePostable>(_ singlePostable: T, to node: Node, via sessionManager: SessionManagerType, additionalHeaders: HTTPHeaders, additionalParameters: Payload.JSON.Dict, conversion: PayloadConversion) {
         let routeType: RouteType.Detail = .singlePOST
         let method: ResourceHTTPMethod = routeType.method
         let url: URL = node.absoluteURL(for: T.self, routeType: routeType)
-        let parameters: Parameters = node
-            .parametersFrom(object: singlePostable, method: method)
-            .merging(additionalParameters, uniquingKeysWith: { _, r in r })
+        
+        let payload: Payload = node
+            .payloadFrom(object: singlePostable, method: method, conversion: conversion)
+            .merging(additionalParameters, conversion: conversion)
         
         let encoding: ParameterEncoding = JSONEncoding.default
         
@@ -70,8 +71,8 @@ private extension DefaultImplementations.SinglePostable {
             T.singlePostableClients.forEach({ $0.failedPostingObject(singlePostable, to: node, with: error) })
         }
         
-        sessionManager.fireJSONRequest(
-            with: RequestConfiguration(url: url, method: method, parameters: parameters, encoding: encoding, headers: additionalHeaders),
+        sessionManager.fireRequest(
+            with: .post(POSTRequestConfiguration(url: url, payload: payload, encoding: encoding, headers: additionalHeaders)),
             responseHandling: JSONResponseHandling(onSuccess: onSuccess, onFailure: onFailure)
         )
     }

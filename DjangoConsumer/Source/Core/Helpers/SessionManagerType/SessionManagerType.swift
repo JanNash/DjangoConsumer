@@ -13,23 +13,53 @@ import Alamofire
 
 
 // MARK: // Public
+// MARK: -
+public enum RequestCreationResult {
+    case created(DataRequest)
+    case failed(Error)
+}
+
+
+// MARK: -
+public enum RequestConfiguration {
+    case get(GETRequestConfiguration)
+    case post(POSTRequestConfiguration)
+}
+
+
+// MARK: -
 public protocol SessionManagerType: class {
-    func request(with cfg: RequestConfiguration) -> DataRequest
+    func createRequest(with cfg: RequestConfiguration, completion: @escaping (RequestCreationResult) -> Void)
     func handleJSONResponse(for request: DataRequest, with responseHandling: JSONResponseHandling)
 }
 
 
 // MARK: Convenience Default Implementation
 public extension SessionManagerType {
-    func fireJSONRequest(with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
-        DefaultImplementations.SessionManagerType.fireJSONRequest(via: self, with: cfg, responseHandling: responseHandling)
+    func fireRequest(with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
+        DefaultImplementations.SessionManagerType.fireRequest(via: self, with: cfg, responseHandling: responseHandling)
+    }
+    
+    func handle(requestCreationResult: RequestCreationResult, responseHandling: JSONResponseHandling) {
+        DefaultImplementations.SessionManagerType.handle(requestCreationResult: requestCreationResult, of: self, responseHandling: responseHandling)
     }
 }
 
 
 // MARK: - DefaultImplementations.SessionManagerType
 public extension DefaultImplementations.SessionManagerType {
-    static func fireJSONRequest(via sessionManager: SessionManagerType, with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
-        sessionManager.handleJSONResponse(for: sessionManager.request(with: cfg), with: responseHandling)
+    static func fireRequest(via sessionManager: SessionManagerType, with cfg: RequestConfiguration, responseHandling: JSONResponseHandling) {
+        sessionManager.createRequest(with: cfg) {
+            sessionManager.handle(requestCreationResult: $0, responseHandling: responseHandling)
+        }
+    }
+    
+    static func handle(requestCreationResult: RequestCreationResult, of sessionManager: SessionManagerType, responseHandling: JSONResponseHandling) {
+        switch requestCreationResult {
+        case .created(let request):
+            sessionManager.handleJSONResponse(for: request, with: responseHandling)
+        case .failed(let error):
+            responseHandling.onFailure(error)
+        }
     }
 }

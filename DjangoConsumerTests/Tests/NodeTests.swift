@@ -119,11 +119,11 @@ class NodeTests: BaseTest {
     
     // Parameter Generation
     func testParametersFromFilters() {
-        func nodeImplementation(_ node: Node, _ filters: [FilterType]) -> Parameters {
+        func nodeImplementation(_ node: Node, _ filters: [FilterType]) -> Payload.JSON.Dict {
             return node.parametersFrom(filters: filters)
         }
         
-        func defaultImplementation(_ node: Node, _ filters: [FilterType]) -> Parameters {
+        func defaultImplementation(_ node: Node, _ filters: [FilterType]) -> Payload.JSON.Dict {
             return Dflt.parametersFrom(node: node, filters: filters)
         }
         
@@ -140,11 +140,11 @@ class NodeTests: BaseTest {
     }
     
     func testParametersFromOffsetAndLimit() {
-        func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Parameters {
+        func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Payload.JSON.Dict {
             return node.parametersFrom(offset: offset, limit: limit)
         }
         
-        func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Parameters {
+        func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt) -> Payload.JSON.Dict {
             return Dflt.parametersFrom(node: node, offset: offset, limit: limit)
         }
         
@@ -162,11 +162,11 @@ class NodeTests: BaseTest {
     }
     
     func testParametersFromOffsetAndLimitAndFilters() {
-        func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Parameters {
+        func nodeImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Payload.JSON.Dict {
             return node.parametersFrom(offset: offset, limit: limit, filters: filters)
         }
         
-        func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Parameters {
+        func defaultImplementation(_ node: Node, _ offset: UInt, _ limit: UInt, _ filters: [FilterType]) -> Payload.JSON.Dict {
             return Dflt.parametersFrom(node: node, offset: offset, limit: limit, filters: filters)
         }
         
@@ -186,52 +186,54 @@ class NodeTests: BaseTest {
         })
     }
     
-    func testParametersFromParameterConvertible() {
-        func nodeImplementation(_ node: Node, _ object: ParameterConvertible, _ method: ResourceHTTPMethod) -> [String : String] {
-            return node.parametersFrom(object: object, method: method) as! [String : String]
+    func testPayloadFromPayloadConvertible() {
+        func nodeImplementation(_ node: Node, _ object: PayloadConvertible, _ method: ResourceHTTPMethod, _ conversion: PayloadConversion) -> Payload {
+            return node.payloadFrom(object: object, method: method, conversion: conversion)
         }
         
-        func defaultImplementation(_ node: Node, _ object: ParameterConvertible, _ method: ResourceHTTPMethod) -> [String : String] {
-            return Dflt.parametersFrom(node: node, object: object, method: method) as! [String : String]
+        func defaultImplementation(_ node: Node, _ object: PayloadConvertible, _ method: ResourceHTTPMethod, _ conversion: PayloadConversion) -> Payload {
+            return Dflt.payloadFrom(node: node, object: object, method: method, conversion: conversion)
         }
         
         let node: Node = MockNode()
-        let objectsAndExpectedParametersForMethod: [(ParameterConvertible, (ResourceHTTPMethod) -> [String : String])] = (1..<100)
+        let conversion: PayloadConversion = DefaultPayloadConversion()
+        let objectsAndExpectedPayloadForMethod: [(PayloadConvertible, (ResourceHTTPMethod) -> Payload)] = (1..<100)
             .map({ MockListPostable(name: "\($0)") })
-            .map({ object in (object, { object.toParameters(for: $0) as! [String : String] }) })
+            .map({ object in (object, { object.toPayload(conversion: conversion, method: $0) }) })
         
-        objectsAndExpectedParametersForMethod.forEach({ objectAndExpectedParametersForMethod in
-            let (object, expectedParametersForMethod) = objectAndExpectedParametersForMethod
+        objectsAndExpectedPayloadForMethod.forEach({ objectAndExpectedPayloadForMethod in
+            let (object, expectedPayloadForMethod) = objectAndExpectedPayloadForMethod
             ResourceHTTPMethod.all.forEach({ method in
-                let expectedParameters: [String : String] = expectedParametersForMethod(method)
+                let expectedPayload: Payload = expectedPayloadForMethod(method)
                 [nodeImplementation, defaultImplementation].map({
-                    $0(node, object, method)
+                    $0(node, object, method, conversion)
                 }).forEach({
-                    XCTAssertEqual($0, expectedParameters)
+                    XCTAssertEqual($0, expectedPayload)
                 })
             })
         })
     }
     
     func testParametersFromListPostables() {
-        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> [String : [[String : String]]] where C.Element: ListPostable {
-            return node.parametersFrom(listPostables: listPostables) as! [String : [[String : String]]]
+        func nodeImplementation<C: Collection>(_ node: Node, _ listPostables: C, _ conversion: PayloadConversion) -> Payload where C.Element: ListPostable {
+            return node.payloadFrom(listPostables: listPostables, conversion: conversion)
         }
         
-        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C) -> [String : [[String : String]]] where C.Element: ListPostable {
-            return Dflt.parametersFrom(node: node, listPostables: listPostables) as! [String : [[String : String]]]
+        func defaultImplementation<C: Collection>(_ node: Node, _ listPostables: C, _ conversion: PayloadConversion) -> Payload where C.Element: ListPostable {
+            return Dflt.payloadFrom(node: node, listPostables: listPostables, conversion: conversion)
         }
         
         let node: Node = MockNode()
+        let conversion: PayloadConversion = DefaultPayloadConversion()
         let objects: [MockListPostable] = (0..<100).map({ MockListPostable(name: "\($0)") })
-        let expectedParameters: [String : [[String : String]]] = [
-            ListRequestKeys.objects: objects.map({ $0.toParameters(for: .post) as! [String : String] })
-        ]
+        let expectedPayload: Payload = Payload.Dict(
+            [ListRequestKeys.objects: objects.map({ $0.payloadDict(rootObject: nil, method: .post) })]
+        ).toPayload(conversion: conversion, rootObject: nil, method: .post)
         
         [nodeImplementation, defaultImplementation].map({
-            $0(node, objects)
+            $0(node, objects, conversion)
         }).forEach({
-            XCTAssertEqual($0, expectedParameters)
+            XCTAssertEqual($0, expectedPayload)
         })
     }
     
