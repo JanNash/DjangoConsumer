@@ -13,9 +13,9 @@ import Foundation
 
 
 // MARK: // Public
-extension Optional: JSONValueConvertible where Wrapped: JSONValueConvertible {
-    public func toJSONValue() -> Payload.JSON.Value {
-        return self._toJSONValue()
+extension Optional: PayloadElementConvertible where Wrapped: JSONValueConvertible {
+    public func toPayloadElement(conversion: PayloadConversion, configuration: (rootObject: PayloadConvertible?, method: ResourceHTTPMethod, multipartPath: Payload.Multipart.Path, currentKey: String)) -> Payload.Element {
+        return DefaultImplementations.JSONValueConvertible.payloadElement(from: self._toJSONValue(), conversion: (conversion, configuration))
     }
 }
 
