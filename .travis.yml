@@ -21,7 +21,7 @@ rvm:
   # # We have to do this explicitly here, else, travis will
   # # infer the version from .ruby-version, which would lead
   # # to an unnecessary installation as well.
-  - 2.4.2
+  - 2.4.3
   
 cache:
   cocoapods: true
