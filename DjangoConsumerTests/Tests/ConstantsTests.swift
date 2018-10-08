@@ -17,6 +17,13 @@ import Alamofire
 // MARK: // Internal
 // MARK: StaticLetTests
 class StaticLetTests: BaseTest {
+    // Payload.swift
+    func testPayloadMultipartJSONKey() {
+        typealias FixtureType = Payload.Multipart
+        
+        XCTAssertEqual(FixtureType.jsonKey, "data")
+    }
+    
     // Node.swift
     func testDefaultListRequestKeys() {
         typealias FixtureType = DefaultImplementations.Node.ListRequestKeys
