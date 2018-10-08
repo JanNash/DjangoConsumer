@@ -72,6 +72,15 @@ class StaticLetTests: BaseTest {
 
 // MARK: EnumTests
 class EnumTests: BaseTest {
+    // Payload.swift
+    func testMultipartContentType() {
+        typealias FixtureType = Payload.Multipart.ContentType
+        
+        XCTAssertEqual(FixtureType.applicationJSON.rawValue, "application/json")
+        XCTAssertEqual(FixtureType.imageJPEG.rawValue, "image/jpeg")
+        XCTAssertEqual(FixtureType.imagePNG.rawValue, "image/png")
+    }
+    
     // Filtering.swift
     func testFilterKey() {
         typealias FixtureType = FilterKey<Any>.DefaultFilterKeys
