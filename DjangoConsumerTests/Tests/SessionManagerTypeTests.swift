@@ -90,7 +90,7 @@ class SessionManagerTypeTests: BaseTest {
             responseHandling: responseHandling
         )
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
     
     func testSessionManagerTypeDefaultImplementations2() {
@@ -115,7 +115,7 @@ class SessionManagerTypeTests: BaseTest {
         
         sessionManager.fireRequest(with: _RequestConfigs.Failing.GET, responseHandling: responseHandling)
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
 }
 
@@ -148,7 +148,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         sessionManager.fireRequest(with: _RequestConfigs.Failing.GET, responseHandling: responseHandling)
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
     
     func testAFSessionManagerFireJSONRequestWithSucceedingGETRequestConfig() {
@@ -165,7 +165,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         sessionManager.fireRequest(with: _RequestConfigs.Succeeding.GET, responseHandling: responseHandling)
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
     
     func testAFSessionManagerFireJSONRequestWithFailingPOSTRequestConfigWithPureJSONPayload() {
@@ -182,7 +182,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
 
         sessionManager.fireRequest(with: _RequestConfigs.Failing.POST(["foo": "bar"]), responseHandling: responseHandling)
 
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
 
     func testAFSessionManagerFireJSONRequestWithSucceedingPOSTRequestConfigWithPureJSONPayload() {
@@ -199,7 +199,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
 
         sessionManager.fireRequest(with: _RequestConfigs.Succeeding.POST(["foo": "bar"]), responseHandling: responseHandling)
 
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
     
     func testAFSessionManagerFireJSONRequestWithFailingPOSTRequestConfigWithMixedMultipartAndJSONPayload() {
@@ -221,7 +221,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         sessionManager.fireRequest(with: requestConfiguration, responseHandling: responseHandling)
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
     
     func testAFSessionManagerFireJSONRequestWithSucceedingPOSTRequestConfigWithMixedMultipartAndJSONPayload() {
@@ -285,7 +285,7 @@ class AlamofireSessionManagerExtensionTests: BaseTest {
         
         sessionManager.fireRequest(with: requestConfiguration, responseHandling: responseHandling)
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
 }
 
@@ -315,7 +315,7 @@ class TestSessionDelegateTests: BaseTest {
             
         }
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
     
     func testTestSessionDelegateSubscriptGetter() {
@@ -338,7 +338,7 @@ class TestSessionDelegateTests: BaseTest {
             expectation.fulfill()
         }
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
 }
 
@@ -368,7 +368,7 @@ class TestSessionManagerTests: BaseTest {
             }
         }
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
     
     func testTestSessionManagerHandleJSONResponse() {
@@ -411,6 +411,6 @@ class TestSessionManagerTests: BaseTest {
             }
         }
             
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 20)
     }
 }

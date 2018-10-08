@@ -45,7 +45,7 @@ class NodeTests: BaseTest {
         [nodeImplementation, defaultImplementation].map({
             $0(node, fixtureType, routeType)
         }).forEach({
-            self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 10, $0)
+            self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 20, $0)
         })
     }
     
@@ -74,7 +74,7 @@ class NodeTests: BaseTest {
         [nodeImplementation, defaultImplementation].map({
             $0(node, fixtureType, routeType)
         }).forEach({
-            self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 10, $0)
+            self.expect(.fatalError, expectedMessage: expectedMessage, timeout: 20, $0)
         })
     }
     
