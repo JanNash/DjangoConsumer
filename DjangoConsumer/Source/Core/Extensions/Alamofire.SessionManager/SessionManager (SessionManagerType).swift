@@ -52,8 +52,10 @@ private extension Alamofire.SessionManager {
                 ))
         } else {
             self.upload(multipartFormData: { multipartFormData in
-                // FIXME: Harcoded String literals
-                multipartFormData.append(payload.jsonData(), withName: "data", mimeType: "application/json")
+                typealias _MP = Payload.Multipart
+                multipartFormData.append(
+                    payload.jsonData(), withName: _MP.jsonKey, mimeType: _MP.ContentType.applicationJSON.rawValue
+                )
                 payload.multipart.map({ ($0.value.0, $0.key, $0.value.1.rawValue) }).forEach(multipartFormData.append)
             }, to: cfg.url, method: .post, headers: cfg.headers, encodingCompletion: {
                 switch $0 {

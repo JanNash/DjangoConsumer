@@ -222,6 +222,9 @@ public struct Payload: Equatable {
             }
         }
         
+        // JSONKey
+        public static let jsonKey: String = "data"
+        
         // ContentType
         public enum ContentType: String, CustomStringConvertible, Equatable {
             case applicationJSON = "application/json"
