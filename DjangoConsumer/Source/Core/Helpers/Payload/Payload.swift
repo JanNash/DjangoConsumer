@@ -226,7 +226,7 @@ public struct Payload: Equatable {
         public static let jsonKey: String = "data"
         
         // ContentType
-        public enum ContentType: String, CustomStringConvertible, Equatable {
+        public enum ContentType: String, CustomStringConvertible, Equatable, CaseIterable {
             case applicationJSON = "application/json"
             case imageJPEG = "image/jpeg"
             case imagePNG = "image/png"
