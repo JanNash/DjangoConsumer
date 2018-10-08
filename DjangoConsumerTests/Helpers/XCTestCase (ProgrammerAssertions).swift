@@ -137,7 +137,7 @@ private extension XCTestCase {
             runForever()
         })
         
-        DispatchQueue.global(qos: .userInitiated).async(execute: testCase)
+        DispatchQueue.global(qos: .userInteractive).async(execute: testCase)
         
         self.waitForExpectations(timeout: timeout) { _ in
             assertionConfig.resetFunction()
