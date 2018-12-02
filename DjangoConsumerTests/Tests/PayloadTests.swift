@@ -17,7 +17,6 @@ import XCTest
 class PayloadTests: XCTestCase {
     // Clarification:
     // UIImagePNGRepresentation returns nil when passed an empty image: UIImage()
-    
     func testPayloadFromMultipartArrayWithOneValueThatProducesNilDataAndOneValueThatProducesActualData() {
         let payloadDict: Payload.Dict = Payload.Dict([
             "images": [
