@@ -15,6 +15,16 @@ import XCTest
 
 // MARK: // Internal
 class PayloadTests: XCTestCase {
+    func testPayloadMultipartContentTypeNull() {
+        typealias FixtureType = Payload.Multipart
+        
+        let expectedNull: Data = "null".data(using: .utf8)!
+        
+        FixtureType.ContentType.allCases.forEach({
+            XCTAssert($0.null == (expectedNull, $0))
+        })
+    }
+    
     // Clarification:
     // UIImagePNGRepresentation returns nil when passed an empty image: UIImage()
     func testPayloadFromMultipartArrayWithOneValueThatProducesNilDataAndOneValueThatProducesActualData() {
