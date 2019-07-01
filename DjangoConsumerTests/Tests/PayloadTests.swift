@@ -35,7 +35,7 @@ class PayloadTests: XCTestCase {
             ]
         ])
         
-        let payload: Payload = payloadDict.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+        let payload: Payload = payloadDict._payload()
         
         XCTAssert(payload.json.isEmpty)
         
@@ -69,7 +69,7 @@ class PayloadTests: XCTestCase {
             ]
         ])
         
-        let payload: Payload = payloadDict.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
+        let payload: Payload = payloadDict._payload()
         
         let expectedJSONPayload: Payload.JSON.UnwrappedPayload = [
             "a": [
@@ -94,5 +94,14 @@ class PayloadTests: XCTestCase {
         ]
         
         XCTAssert(payload.multipart == expectedMultipartPayload)
+    }
+}
+
+
+// MARK: // Private
+// MARK: Helpers
+private extension Payload.Dict {
+    func _payload() -> Payload {
+        return self.toPayload(conversion: DefaultPayloadConversion(), rootObject: nil, method: .post)
     }
 }
