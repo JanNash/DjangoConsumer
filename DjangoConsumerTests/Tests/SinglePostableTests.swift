@@ -47,7 +47,7 @@ class SinglePostableTests: BaseTest {
         
         _FixtureType().post()
         
-        self.waitForExpectations(timeout: 10)
+        self.waitForExpectations(timeout: 100)
     }
     
 //    func testSinglePostableInjectedNodeUsed() {
@@ -63,7 +63,7 @@ class SinglePostableTests: BaseTest {
 //
 //        _FixtureType().post(to: injectedNode)
 //
-//        self.waitForExpectations(timeout: 10)
+//        self.waitForExpectations(timeout: 100)
 //    }
 //
 //    func testSinglePostableURL() {
@@ -84,7 +84,7 @@ class SinglePostableTests: BaseTest {
 //
 //        singlePostable.post()
 //
-//        self.waitForExpectations(timeout: 10)
+//        self.waitForExpectations(timeout: 100)
 //    }
 //
 //    func testSinglePostableMethod() {
@@ -103,7 +103,7 @@ class SinglePostableTests: BaseTest {
 //
 //        _FixtureType().post()
 //
-//        self.waitForExpectations(timeout: 10)
+//        self.waitForExpectations(timeout: 100)
 //    }
 //
 //    func testSinglePostableParameters1() {
@@ -141,7 +141,7 @@ class SinglePostableTests: BaseTest {
 //
 //        _FixtureType().post()
 //
-//        self.waitForExpectations(timeout: 10)
+//        self.waitForExpectations(timeout: 100)
 //    }
 //
 //    func testSinglePostableEncoding() {
@@ -158,7 +158,7 @@ class SinglePostableTests: BaseTest {
 //
 //        _FixtureType().post()
 //
-//        self.waitForExpectations(timeout: 10)
+//        self.waitForExpectations(timeout: 100)
 //    }
 //
 //    func testSinglePostableHeaders() {
@@ -175,7 +175,7 @@ class SinglePostableTests: BaseTest {
 //
 //        _FixtureType().post()
 //
-//        self.waitForExpectations(timeout: 10)
+//        self.waitForExpectations(timeout: 100)
 //    }
 //
 //    func testSinglePostableAcceptableStatusCodes() {
@@ -194,7 +194,7 @@ class SinglePostableTests: BaseTest {
 //
 //        _FixtureType().post()
 //
-//        self.waitForExpectations(timeout: 10)
+//        self.waitForExpectations(timeout: 100)
 //    }
 //
 //    func testSinglePostableAcceptableContentTypes() {
@@ -213,6 +213,6 @@ class SinglePostableTests: BaseTest {
 //
 //        _FixtureType().post()
 //
-//        self.waitForExpectations(timeout: 10)
+//        self.waitForExpectations(timeout: 100)
 //    }
 }

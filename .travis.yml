@@ -2,8 +2,8 @@ language: objective-c
 
 xcode_workspace: DjangoConsumer.xcworkspace
 xcode_scheme: DjangoConsumer
-osx_image: xcode9.3
-xcode_sdk: iphonesimulator11.3
+osx_image: xcode10.1
+xcode_sdk: iphonesimulator12.1
 
 rvm:
   # # The required ruby-version, which is also declared in 
@@ -21,7 +21,7 @@ rvm:
   # # We have to do this explicitly here, else, travis will
   # # infer the version from .ruby-version, which would lead
   # # to an unnecessary installation as well.
-  - 2.4.2
+  - 2.4.3
   
 cache:
   cocoapods: true
