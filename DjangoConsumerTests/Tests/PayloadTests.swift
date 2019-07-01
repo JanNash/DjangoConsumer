@@ -98,6 +98,139 @@ class PayloadTests: XCTestCase {
 }
 
 
+// MARK: Payload Equality Tests
+extension PayloadTests {
+    func testPayloadJSONUnwrappedEqual1() {
+        let payloadDictA: Payload.Dict = Payload.Dict([
+            "a": "b"
+        ])
+        
+        let payloadDictB: Payload.Dict = Payload.Dict([
+            "a": "b"
+        ])
+        
+        let payloadA: Payload = payloadDictA._payload()
+        let payloadB: Payload = payloadDictB._payload()
+        
+        XCTAssert(payloadA == payloadB)
+    }
+    
+    func testPayloadJSONUnwrappedEqual2() {
+        let payloadDictA: Payload.Dict = Payload.Dict([
+            "a": ["b": "c"]
+        ])
+        
+        let payloadDictB: Payload.Dict = Payload.Dict([
+            "a": ["b": "c"]
+        ])
+        
+        let payloadA: Payload = payloadDictA._payload()
+        let payloadB: Payload = payloadDictB._payload()
+        
+        XCTAssert(payloadA == payloadB)
+    }
+}
+
+
+// MARK: Payload Inequality Tests
+extension PayloadTests {
+    func testPayloadJSONUnwrappedNotEqual1() {
+        let payloadDictA: Payload.Dict = Payload.Dict([
+            "a": [
+                "b"
+            ]
+        ])
+        
+        let payloadDictB: Payload.Dict = Payload.Dict([
+            "a": [
+                "c"
+            ]
+        ])
+        
+        let payloadA: Payload = payloadDictA._payload()
+        let payloadB: Payload = payloadDictB._payload()
+        
+        XCTAssert(payloadA != payloadB)
+    }
+    
+    func testPayloadJSONUnwrappedNotEqual2() {
+        let payloadDictA: Payload.Dict = Payload.Dict([
+            "a": "b",
+            "c": "d"
+        ])
+        
+        let payloadDictB: Payload.Dict = Payload.Dict([
+            "a": "b"
+        ])
+        
+        let payloadA: Payload = payloadDictA._payload()
+        let payloadB: Payload = payloadDictB._payload()
+        
+        XCTAssert(payloadA != payloadB)
+    }
+    
+    func testPayloadJSONUnwrappedNotEqual3() {
+        let payloadDictA: Payload.Dict = Payload.Dict([
+            "a": "b"
+        ])
+        
+        let payloadDictB: Payload.Dict = Payload.Dict([
+            "c": "d"
+        ])
+        
+        let payloadA: Payload = payloadDictA._payload()
+        let payloadB: Payload = payloadDictB._payload()
+        
+        XCTAssert(payloadA != payloadB)
+    }
+    
+    func testPayloadJSONUnwrappedNotEqual4() {
+        let payloadDictA: Payload.Dict = Payload.Dict([
+            "a": ["b": "c"]
+        ])
+        
+        let payloadDictB: Payload.Dict = Payload.Dict([
+            "a": "b"
+        ])
+        
+        let payloadA: Payload = payloadDictA._payload()
+        let payloadB: Payload = payloadDictB._payload()
+        
+        XCTAssert(payloadA != payloadB)
+    }
+    
+    func testPayloadJSONUnwrappedNotEqual5() {
+        let payloadDictA: Payload.Dict = Payload.Dict([
+            "a": [["b": "c"]]
+        ])
+        
+        let payloadDictB: Payload.Dict = Payload.Dict([
+            "a": "b"
+        ])
+        
+        let payloadA: Payload = payloadDictA._payload()
+        let payloadB: Payload = payloadDictB._payload()
+        
+        XCTAssert(payloadA != payloadB)
+    }
+    
+    func testPayloadJSONUnwrappedNotEqual6() {
+        let payloadDictA: Payload.Dict = Payload.Dict([
+            "a": [["b": "c"]]
+        ])
+        
+        let payloadDictB: Payload.Dict = Payload.Dict([
+            "a": [["b": "d"]]
+        ])
+        
+        let payloadA: Payload = payloadDictA._payload()
+        let payloadB: Payload = payloadDictB._payload()
+        
+        XCTAssert(payloadA != payloadB)
+    }
+}
+
+
 // MARK: // Private
 // MARK: Helpers
 private extension Payload.Dict {
