@@ -100,15 +100,15 @@ class PayloadTests: XCTestCase {
     
     func testPayloadFromDictContainingMultipartArrays2() {
         // Optionals and actual nil values instead of empty data don't work yet:
-//        let optionalImage: UIImage?
+        let optionalImage: UIImage? = nil
         
         let payloadDict: Payload.Dict = Payload.Dict([
             "a": [
                 Payload.Dict([
                     "text": "foo",
 //                    "image": nil
-//                    "image": optionalImage,
-                    "image": UIImage(),
+                    "image": MultipartOptional(optionalImage),
+//                    "image": UIImage(),
                     "images": [
                         UIImage(),
                         UIImage(color: .clear)
