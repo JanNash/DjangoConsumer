@@ -47,11 +47,67 @@ class PayloadTests: XCTestCase {
         XCTAssert(payload.multipart == expectedMultipartPayload)
     }
     
-    func testPayloadFromDictContainingMultipartArrays() {
+    func testPayloadFromDictContainingMultipartArrays1() {
         let payloadDict: Payload.Dict = Payload.Dict([
             "a": [
                 Payload.Dict([
                     "text": "foo",
+                    "image": UIImage(),
+                    "images": [
+                        UIImage(),
+                        UIImage(color: .clear)
+                    ]
+                ]),
+                Payload.Dict([
+                    "text": "bar",
+                    "image": UIImage(color: .clear),
+                    "images": [
+                        UIImage(),
+                        UIImage(color: .clear)
+                    ]
+                ])
+            ]
+        ])
+        
+        let payload: Payload = payloadDict._payload()
+        
+        let expectedJSONPayload: Payload.JSON.UnwrappedPayload = [
+            "a": [
+                [
+                    "text": "foo",
+                    "image": NSNull()
+                ],
+                [
+                    "text": "bar"
+                ]
+            ]
+        ]
+        
+        XCTAssert(payload.json == expectedJSONPayload)
+        
+        // Why? Wouldn't one expect the null images to be inside the json?
+        // This possibly better variant can be found in the next test.
+        let expectedMultipartPayload: Payload.Multipart.UnwrappedPayload = [
+            "a[0]images[0]": Payload.Multipart.ContentType.imagePNG.null,
+            "a[0]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+            "a[1]images[0]": Payload.Multipart.ContentType.imagePNG.null,
+            "a[1]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+            "a[1]image": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+        ]
+        
+        XCTAssert(payload.multipart == expectedMultipartPayload)
+    }
+    
+    func testPayloadFromDictContainingMultipartArrays2() {
+        // Optionals and actual nil values instead of empty data don't work yet:
+//        let optionalImage: UIImage?
+        
+        let payloadDict: Payload.Dict = Payload.Dict([
+            "a": [
+                Payload.Dict([
+                    "text": "foo",
+//                    "image": nil
+//                    "image": optionalImage,
                     "image": UIImage(),
                     "images": [
                         UIImage(),
