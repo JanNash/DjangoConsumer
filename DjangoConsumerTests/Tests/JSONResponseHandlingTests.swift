@@ -30,7 +30,7 @@ class JSONResponseHandlingTests: BaseTest {
         
         responseHandling.onSuccess(JSON())
         
-        self.waitForExpectations(timeout: 20)
+        self.waitForExpectations(timeout: 100)
     }
     
     func testInitOnFailureCorrectlyStored() {
@@ -45,7 +45,7 @@ class JSONResponseHandlingTests: BaseTest {
         
         responseHandling.onFailure(MockError.foo)
         
-        self.waitForExpectations(timeout: 20)
+        self.waitForExpectations(timeout: 100)
     }
     
     func testHandleSuccessResponse() {
@@ -67,7 +67,7 @@ class JSONResponseHandlingTests: BaseTest {
         
         responseHandling.handleResponse(mockResponse)
         
-        self.waitForExpectations(timeout: 20)
+        self.waitForExpectations(timeout: 100)
     }
     
     func testHandleFailureResponse() {
@@ -89,6 +89,6 @@ class JSONResponseHandlingTests: BaseTest {
         
         responseHandling.handleResponse(mockResponse)
         
-        self.waitForExpectations(timeout: 20)
+        self.waitForExpectations(timeout: 100)
     }
 }
