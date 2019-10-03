@@ -10,7 +10,7 @@ rvm:
   # # .ruby-version. This should only be commented in when
   # # recreating the cache, i.e. when the cache was deleted 
   # # or when the version changes.
-  - 2.6.3
+  # - 2.6.3
   # # Unfortunately, the rvm directive is executed *before* 
   # # the cache is loaded. To avoid an unnecessary installation 
   # # of the above version, we explicitly tell rvm to use a 
@@ -21,7 +21,7 @@ rvm:
   # # We have to do this explicitly here, else, travis will
   # # infer the version from .ruby-version, which would lead
   # # to an unnecessary installation as well.
-  # - 2.4.3
+  - 2.4.3
   
 cache:
   cocoapods: true
