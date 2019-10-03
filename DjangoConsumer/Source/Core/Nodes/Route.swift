@@ -72,8 +72,8 @@ extension Route: Equatable {
 
 // MARK: Hashable
 extension Route: Hashable {
-    public var hashValue: Int {
-        return "\(self.resourceType)-\(type(of: self.routeType))-\(self.routeType.method)".hashValue
+    public func hash(into hasher: inout Hasher) {
+        [self.resourceType, type(of: self.routeType), self.routeType.method].forEach({ hasher.combine("\($0)") })
     }
 }
 
