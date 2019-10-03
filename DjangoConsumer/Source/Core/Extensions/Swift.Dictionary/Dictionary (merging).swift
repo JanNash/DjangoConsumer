@@ -15,7 +15,7 @@ import Foundation
 // MARK: // Public
 // MARK: -
 public extension Dictionary {
-    public enum MergeStrategy {
+    enum MergeStrategy {
         case keepOldValue
         case overwriteOldValue
         
@@ -27,15 +27,15 @@ public extension Dictionary {
         }
     }
     
-    public init<S>(_ keysAndValues: S, strategy: MergeStrategy) where S : Sequence, S.Element == (Key, Value) {
+    init<S>(_ keysAndValues: S, strategy: MergeStrategy) where S : Sequence, S.Element == (Key, Value) {
         try! self.init(keysAndValues, uniquingKeysWith: strategy.closure)
     }
     
-    public mutating func merge(_ dictionary: [Key: Value], strategy: MergeStrategy) {
+    mutating func merge(_ dictionary: [Key: Value], strategy: MergeStrategy) {
         self.merge(dictionary, uniquingKeysWith: strategy.closure)
     }
     
-    public func merging(_ dictionary: [Key: Value], strategy: MergeStrategy) -> [Key: Value] {
+    func merging(_ dictionary: [Key: Value], strategy: MergeStrategy) -> [Key: Value] {
         return self.merging(dictionary, uniquingKeysWith: strategy.closure)
     }
 }

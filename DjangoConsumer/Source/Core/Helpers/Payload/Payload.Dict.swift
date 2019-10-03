@@ -14,7 +14,7 @@ import Foundation
 
 // MARK: // Public
 public extension Payload.Dict {
-    public func toPayload(conversion: PayloadConversion, rootObject: PayloadConvertible?, method: ResourceHTTPMethod) -> Payload {
+    func toPayload(conversion: PayloadConversion, rootObject: PayloadConvertible?, method: ResourceHTTPMethod) -> Payload {
         return self._toPayload(conversion: conversion, rootObject: rootObject, method: method)
     }
 }

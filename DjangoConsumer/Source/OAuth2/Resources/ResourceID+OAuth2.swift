@@ -23,7 +23,7 @@ public extension ResourceID where T: DetailGettableOAuth2 {
 // MARK: - DefaultImplementations.ResourceID
 // MARK: where T: DetailGettable
 public extension DefaultImplementations.ResourceID {
-    public static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: OAuth2Node) {
+    static func getResource<T: DetailGettable>(withID resourceID: ResourceID<T>, from node: OAuth2Node) {
         self.getResource(withID: resourceID, from: node, via: node.sessionManagerOAuth2)
     }
 }

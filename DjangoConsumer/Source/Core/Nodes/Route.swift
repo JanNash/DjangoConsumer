@@ -81,11 +81,11 @@ extension Route: Hashable {
 // MARK: Available Routes
 // MARK: GET
 public extension Route {
-    public static func listGET<T>(_ t: T.Type, _ rel: String) -> Route where T: ListGettable {
+    static func listGET<T>(_ t: T.Type, _ rel: String) -> Route where T: ListGettable {
         return Route(t, .listGET, rel)
     }
     
-    public static func detailGET<T>(_ t: T.Type, _ rel: String) -> Route where T: DetailGettable {
+    static func detailGET<T>(_ t: T.Type, _ rel: String) -> Route where T: DetailGettable {
         return Route(t, .detailGET, rel)
     }
 }
@@ -93,11 +93,11 @@ public extension Route {
 
 // MARK: POST
 public extension Route {
-    public static func listPOST<T>(_ t: T.Type, _ rel: String) -> Route where T: ListPostable {
+    static func listPOST<T>(_ t: T.Type, _ rel: String) -> Route where T: ListPostable {
         return Route(t, .listPOST, rel)
     }
     
-    public static func singlePOST<T>(_ t: T.Type, _ rel: String) -> Route where T: SinglePostable {
+    static func singlePOST<T>(_ t: T.Type, _ rel: String) -> Route where T: SinglePostable {
         return Route(t, .singlePOST, rel)
     }
 }

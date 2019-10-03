@@ -15,7 +15,7 @@ import Foundation
 // MARK: // Public
 // MARK: -
 public extension Payload.Multipart {
-    public static func value(_ data: Data?, _ contentType: ContentType) -> Value {
+    static func value(_ data: Data?, _ contentType: ContentType) -> Value {
         return self._value(data, contentType)
     }
 }

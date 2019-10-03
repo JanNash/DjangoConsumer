@@ -37,11 +37,11 @@ public extension FilteredListGettableNoAuth {
 
 // MARK: - DefaultImplementations.FilteredListGettable
 public extension DefaultImplementations.FilteredListGettable {
-    public static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: NoAuthNode, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
+    static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: NoAuthNode, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
         self.get(filteredListGettableType, from: node, via: node.sessionManagerNoAuth, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
     
-    public static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
+    static func get<T: FilteredListGettable>(_ filteredListGettableType: T.Type, from node: Node, via sessionManager: SessionManagerType, offset: UInt, limit: UInt?, filters: [FilterType], addDefaultFilters: Bool) {
         self._get(filteredListGettableType, from: node, via: sessionManager, offset: offset, limit: limit, filters: filters, addDefaultFilters: addDefaultFilters)
     }
 }

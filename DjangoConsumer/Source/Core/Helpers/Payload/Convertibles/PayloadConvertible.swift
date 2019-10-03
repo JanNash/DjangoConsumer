@@ -33,7 +33,7 @@ public extension PayloadConvertible {
         return self.defaultPayloadDict()
     }
     
-    public func toPayload(conversion: PayloadConversion, method: ResourceHTTPMethod) -> Payload {
+    func toPayload(conversion: PayloadConversion, method: ResourceHTTPMethod) -> Payload {
         return self.payloadDict(rootObject: self, method: method).toPayload(conversion: conversion, rootObject: self, method: method)
     }
 }
@@ -64,11 +64,11 @@ public protocol PayloadConversion {
 
 // MARK: PayloadConversion Default Implementations
 public extension PayloadConversion {
-    public func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value? {
+    func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value? {
         return nil
     }
     
-    public func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value? {
+    func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value? {
         return nil
     }
 }

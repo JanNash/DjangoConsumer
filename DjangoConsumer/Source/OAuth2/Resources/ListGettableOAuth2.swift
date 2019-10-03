@@ -26,7 +26,7 @@ public extension ListGettableOAuth2 {
 
 // MARK: - DefaultImplementations.ListGettable
 public extension DefaultImplementations.ListGettable {
-    public static func get<T: ListGettable>(_ listGettableType: T.Type, from node: OAuth2Node, offset: UInt, limit: UInt?, filters: [FilterType]) {
+    static func get<T: ListGettable>(_ listGettableType: T.Type, from node: OAuth2Node, offset: UInt, limit: UInt?, filters: [FilterType]) {
         self.get(listGettableType, from: node, via: node.sessionManagerOAuth2, offset: offset, limit: limit, filters: filters)
     }
 }

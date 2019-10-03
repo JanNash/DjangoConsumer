@@ -33,9 +33,9 @@
 
 // MARK: - FilterKey defaults
 public extension FilterKey {
-    public static var date: FilterKey<Date>      { return _K<Date>(.date) }
-    public static var id: FilterKey<id_Type>     { return _K<id_Type>(.id) }
-    public static var name: FilterKey<String>    { return _K<String>(.name) }
+    static var date: FilterKey<Date>      { return _K<Date>(.date) }
+    static var id: FilterKey<id_Type>     { return _K<id_Type>(.id) }
+    static var name: FilterKey<String>    { return _K<String>(.name) }
     
     // Helpers
     private typealias _K<V> = FilterKey<V>
@@ -54,12 +54,12 @@ public protocol id_Type {}
 
 // MARK: - FilterComparator defaults
 public extension FilterComparator {
-    public static var __lt: FilterComparator         { return _C(.__lt) }
-    public static var __lte: FilterComparator        { return _C(.__lte) }
-    public static var __gte: FilterComparator        { return _C(.__gte) }
-    public static var __gt: FilterComparator         { return _C(.__gt) }
-    public static var __in: FilterComparator         { return _C(.__in) }
-    public static var __icontains: FilterComparator  { return _C(.__icontains) }
+    static var __lt: FilterComparator         { return _C(.__lt) }
+    static var __lte: FilterComparator        { return _C(.__lte) }
+    static var __gte: FilterComparator        { return _C(.__gte) }
+    static var __gt: FilterComparator         { return _C(.__gt) }
+    static var __in: FilterComparator         { return _C(.__in) }
+    static var __icontains: FilterComparator  { return _C(.__icontains) }
     
     // Helpers
     // The class name is simply too long...

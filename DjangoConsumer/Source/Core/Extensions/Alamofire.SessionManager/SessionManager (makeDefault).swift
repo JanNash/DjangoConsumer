@@ -14,7 +14,7 @@ import Alamofire
 
 // MARK: // Public
 public extension Alamofire.SessionManager {
-    public static func makeDefault(delegate: SessionDelegate = SessionDelegate(), startsRequestsImmediately: Bool = true) -> SessionManager {
+    static func makeDefault(delegate: SessionDelegate = SessionDelegate(), startsRequestsImmediately: Bool = true) -> SessionManager {
         // This is partially and kindly copied from the SessionManager.default implementation in Alamofire
         let configuration: URLSessionConfiguration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders

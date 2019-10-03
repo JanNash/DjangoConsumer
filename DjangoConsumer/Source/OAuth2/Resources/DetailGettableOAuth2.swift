@@ -26,7 +26,7 @@ public extension DetailGettableOAuth2 {
 
 // MARK: - DefaultImplementations.DetailGettable
 public extension DefaultImplementations.DetailGettable {
-    public static func get<T: DetailGettable>(_ detailGettable: T, from node: OAuth2Node) {
+    static func get<T: DetailGettable>(_ detailGettable: T, from node: OAuth2Node) {
         self.get(detailGettable, from: node, via: node.sessionManagerOAuth2)
     }
 }

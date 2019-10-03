@@ -14,15 +14,15 @@ import Foundation
 
 // MARK: // Public
 public extension Sequence {
-    public func mapToDict<K, V>(strategy: Dictionary<K, V>.MergeStrategy) -> [K: V] where Element == (K, V) {
+    func mapToDict<K, V>(strategy: Dictionary<K, V>.MergeStrategy) -> [K: V] where Element == (K, V) {
         return Dictionary(self, strategy: strategy)
     }
     
-    public func mapToDict<K, V>(_ transform: (Element) throws -> (key: K, value: V), strategy: Dictionary<K, V>.MergeStrategy) rethrows -> [K: V] {
+    func mapToDict<K, V>(_ transform: (Element) throws -> (key: K, value: V), strategy: Dictionary<K, V>.MergeStrategy) rethrows -> [K: V] {
         return Dictionary(try self.map(transform), strategy: strategy)
     }
     
-    public func mapToDict<K, V, N>(_ transformValue: (V) throws -> N, strategy: Dictionary<K, N>.MergeStrategy) rethrows -> [K: N] where Element == (K, V), K: Hashable {
+    func mapToDict<K, V, N>(_ transformValue: (V) throws -> N, strategy: Dictionary<K, N>.MergeStrategy) rethrows -> [K: N] where Element == (K, V), K: Hashable {
         return Dictionary(try self.map({ ($0.0, try transformValue($0.1)) }), strategy: strategy)
     }
 }
