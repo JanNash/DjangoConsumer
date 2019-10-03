@@ -30,7 +30,7 @@ public protocol ListPostableNoAuth: ListPostable, NeedsNoAuthNode {}
 // MARK: - Collection
 // MARK: where Self.Element: ListPostableNoAuth
 public extension Collection where Self.Element: ListPostableNoAuth {
-    public func post(to node: NoAuthNode = Self.Element.defaultNoAuthNode, conversion: PayloadConversion = DefaultPayloadConversion()) {
+    func post(to node: NoAuthNode = Self.Element.defaultNoAuthNode, conversion: PayloadConversion = DefaultPayloadConversion()) {
         DefaultImplementations.ListPostable.post(self, to: node, conversion: conversion)
     }
 }
@@ -38,11 +38,11 @@ public extension Collection where Self.Element: ListPostableNoAuth {
 
 // MARK: - DefaultImplementations.ListPostable
 public extension DefaultImplementations.ListPostable {
-    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: NoAuthNode, conversion: PayloadConversion) where C.Element == T {
+    static func post<C: Collection, T: ListPostable>(_ objects: C, to node: NoAuthNode, conversion: PayloadConversion) where C.Element == T {
         self.post(objects, to: node, via: node.sessionManagerNoAuth, conversion: conversion)
     }
     
-    public static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType, conversion: PayloadConversion) where C.Element == T {
+    static func post<C: Collection, T: ListPostable>(_ objects: C, to node: Node, via sessionManager: SessionManagerType, conversion: PayloadConversion) where C.Element == T {
         self._post(objects, to: node, via: sessionManager, conversion: conversion)
     }
 }

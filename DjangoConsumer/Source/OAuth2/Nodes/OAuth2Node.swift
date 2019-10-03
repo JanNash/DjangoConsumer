@@ -32,7 +32,7 @@ public protocol OAuth2Node: Node {
 
 // MARK: SessionManager
 public extension OAuth2Node {
-    public var sessionManagerOAuth2: SessionManagerType {
+    var sessionManagerOAuth2: SessionManagerType {
         return DefaultImplementations.OAuth2Node.sessionManagerOAuth2(node: self)
     }
 }
@@ -40,15 +40,15 @@ public extension OAuth2Node {
 
 // MARK: Authentication Forwarding
 public extension OAuth2Node {
-    public func authenticate(username: String, password: String) {
+    func authenticate(username: String, password: String) {
         DefaultImplementations.OAuth2Node.authenticate(node: self, username: username, password: password)
     }
     
-    public func refreshAuthentication() {
+    func refreshAuthentication() {
         DefaultImplementations.OAuth2Node.refreshAuthentication(node: self)
     }
     
-    public func endAuthentication() {
+    func endAuthentication() {
         DefaultImplementations.OAuth2Node.endAuthentication(node: self)
     }
 }
@@ -57,7 +57,7 @@ public extension OAuth2Node {
 // MARK: - DefaultImplementations.OAuth2Node
 // MARK: SessionManager
 public extension DefaultImplementations.OAuth2Node {
-    public static func sessionManagerOAuth2(node: OAuth2Node) -> SessionManagerType {
+    static func sessionManagerOAuth2(node: OAuth2Node) -> SessionManagerType {
         return node.oauth2Handler.authenticatedSessionManager
     }
 }
@@ -65,15 +65,15 @@ public extension DefaultImplementations.OAuth2Node {
 
 // MARK: Authentication Forwarding
 public extension DefaultImplementations.OAuth2Node {
-    public static func authenticate(node: OAuth2Node, username: String, password: String) {
+    static func authenticate(node: OAuth2Node, username: String, password: String) {
         self._authenticate(node: node, username: username, password: password)
     }
     
-    public static func refreshAuthentication(node: OAuth2Node) {
+    static func refreshAuthentication(node: OAuth2Node) {
         self._refreshAuthentication(node: node)
     }
     
-    public static func endAuthentication(node: OAuth2Node) {
+    static func endAuthentication(node: OAuth2Node) {
         self._endAuthentication(node: node)
     }
 }

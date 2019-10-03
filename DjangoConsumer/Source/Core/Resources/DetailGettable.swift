@@ -38,11 +38,11 @@ public extension DetailGettableNoAuth {
 
 // MARK: - DefaultImplementations.DetailGettable
 public extension DefaultImplementations.DetailGettable {
-    public static func get<T: DetailGettable>(_ detailGettable: T, from node: NoAuthNode) {
+    static func get<T: DetailGettable>(_ detailGettable: T, from node: NoAuthNode) {
         self.get(detailGettable, from: node, via: node.sessionManagerNoAuth)
     }
     
-    public static func get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
+    static func get<T: DetailGettable>(_ detailGettable: T, from node: Node, via sessionManager: SessionManagerType) {
         self._get(detailGettable, from: node, via: sessionManager)
     }
 }

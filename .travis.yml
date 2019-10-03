@@ -1,9 +1,13 @@
+os: osx
 language: objective-c
 
 xcode_workspace: DjangoConsumer.xcworkspace
 xcode_scheme: DjangoConsumer
-osx_image: xcode10.1
-xcode_sdk: iphonesimulator12.1
+osx_image: xcode11
+xcode_sdk: iphonesimulator13.0
+xcode_workspace: DjangoConsumer.xcworkspace
+xcode_scheme: DjangoConsumer
+xcode_destination: platform=iOS Simulator,OS=13.0,name=iPhone 11
 
 rvm:
   # # The required ruby-version, which is also declared in 
@@ -46,6 +50,3 @@ install:
   - gem install bundler
   - bundle install
   - pod install
-
-script:
-  - set -o pipefail && xcodebuild clean build test -workspace DjangoConsumer.xcworkspace -scheme DjangoConsumer -destination 'platform=iOS Simulator,name=iPhone X,OS=latest' | xcpretty

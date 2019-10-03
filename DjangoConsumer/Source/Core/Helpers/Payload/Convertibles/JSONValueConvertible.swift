@@ -21,7 +21,7 @@ public protocol JSONValueConvertible: PayloadElementConvertible {
 
 // MARK: PayloadValueConvertible Default Implementation
 public extension JSONValueConvertible {
-    public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
+    func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
         return DefaultImplementations.JSONValueConvertible.payloadElement(from: self, conversion: (conversion, configuration))
     }
 }
@@ -29,7 +29,7 @@ public extension JSONValueConvertible {
 
 // MARK: - DefaultImplementations.JSONValueConvertible
 public extension DefaultImplementations.JSONValueConvertible {
-    public static func payloadElement(from jsonValueConvertible: JSONValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
+    static func payloadElement(from jsonValueConvertible: JSONValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
         return self._payloadElement(from: jsonValueConvertible, conversion: conversion)
     }
 }

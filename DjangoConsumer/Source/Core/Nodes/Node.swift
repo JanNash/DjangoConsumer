@@ -163,11 +163,11 @@ public extension Node {
 // MARK: - DefaultImplementations.Node
 // MARK: Request/Response Keys
 public extension DefaultImplementations.Node {
-    public enum ListRequestKeys {
+    enum ListRequestKeys {
         public static let objects: String = "objects"
     }
     
-    public enum ListResponseKeys {
+    enum ListResponseKeys {
         public static let meta: String = "meta"
         public static let results: String = "results"
     }
@@ -176,11 +176,11 @@ public extension DefaultImplementations.Node {
 
 // MARK: List GET Request Helpers
 public extension DefaultImplementations.Node {
-    public static func defaultFilters(node: Node, for resourceType: FilteredListGettable.Type) -> [FilterType] {
+    static func defaultFilters(node: Node, for resourceType: FilteredListGettable.Type) -> [FilterType] {
         return []
     }
     
-    public static func paginationType<T: ListGettable>(node: Node, for resourceType: T.Type) -> Pagination.Type {
+    static func paginationType<T: ListGettable>(node: Node, for resourceType: T.Type) -> Pagination.Type {
         return DefaultPagination.self
     }
 }
@@ -188,15 +188,15 @@ public extension DefaultImplementations.Node {
 
 // MARK: URL Parameter Generation
 public extension DefaultImplementations.Node {
-    public static func parametersFrom(node: Node, filters: [FilterType]) -> Payload.JSON.Dict {
+    static func parametersFrom(node: Node, filters: [FilterType]) -> Payload.JSON.Dict {
         return Payload.JSON.Dict(filters.mapToDict({ ($0.stringKey, $0.value) }, strategy: .overwriteOldValue))
     }
     
-    public static func parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
+    static func parametersFrom(node: Node, offset: UInt, limit: UInt) -> Payload.JSON.Dict {
         return self._parametersFrom(node: node, offset: offset, limit: limit)
     }
     
-    public static func parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
+    static func parametersFrom(node: Node, offset: UInt, limit: UInt, filters: [FilterType] = []) -> Payload.JSON.Dict {
         return self._parametersFrom(node: node, offset: offset, limit: limit, filters: filters)
     }
 }
@@ -204,11 +204,11 @@ public extension DefaultImplementations.Node {
 
 // MARK: Request Payload Generation
 public extension DefaultImplementations.Node {
-    public static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload {
+    static func payloadFrom(node: Node, object: PayloadConvertible, method: ResourceHTTPMethod, conversion: PayloadConversion) -> Payload {
         return object.toPayload(conversion: conversion, method: method)
     }
     
-    public static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T {
+    static func payloadFrom<C: Collection, T: ListPostable>(node: Node, listPostables: C, conversion: PayloadConversion) -> Payload where C.Element == T {
         return Payload.Dict([ListRequestKeys.objects: listPostables.map({ $0.payloadDict(rootObject: $0, method: .post) })]).toPayload(conversion: conversion, rootObject: nil, method: .post)
     }
 }
@@ -217,30 +217,30 @@ public extension DefaultImplementations.Node {
 // MARK: Request URL Helpers
 public extension DefaultImplementations.Node {
     // MetaResource.Type URLs
-    public static func relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+    static func relativeURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
         return self._relativeURL(node: node, for: resourceType, routeType: routeType)
     }
     
-    public static func absoluteURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
+    static func absoluteURL(node: Node, for resourceType: MetaResource.Type, routeType: RouteType) -> URL {
         return node.baseURL + node.relativeURL(for: resourceType, routeType: routeType)
     }
     
     // IdentifiableResource URLs
-    public static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, routeType: RouteType.Detail) throws -> URL {
+    static func relativeURL<T: IdentifiableResource>(node: Node, for resource: T, routeType: RouteType.Detail) throws -> URL {
         guard let resourceID: ResourceID<T> = resource.id else { throw IdentifiableResourceError.hasNoID }
         return node.relativeURL(for: T.self, routeType: routeType) + resourceID
     }
     
-    public static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, routeType: RouteType.Detail) throws -> URL {
+    static func absoluteURL<T: IdentifiableResource>(node: Node, for resource: T, routeType: RouteType.Detail) throws -> URL {
         return try node.baseURL + node.relativeURL(for: resource, routeType: routeType)
     }
     
     // ResourceID URLs
-    public static func relativeGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
+    static func relativeGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
         return node.relativeURL(for: T.self, routeType: .detailGET) + resourceID
     }
     
-    public static func absoluteGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
+    static func absoluteGETURL<T: DetailGettable>(node: Node, for resourceID: ResourceID<T>) -> URL {
         return node.baseURL + node.relativeGETURL(for: resourceID)
     }
 }
@@ -248,7 +248,7 @@ public extension DefaultImplementations.Node {
 
 // MARK: Detail Response Extraction Helpers
 public extension DefaultImplementations.Node {
-    public static func extractSingleObject<T: JSONInitializable>(node: Node, for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
+    static func extractSingleObject<T: JSONInitializable>(node: Node, for resourceType: T.Type, method: ResourceHTTPMethod, from json: JSON) -> T {
         return T(json: json)
     }
 }
@@ -256,19 +256,19 @@ public extension DefaultImplementations.Node {
 
 // MARK: List Response Extraction Helpers
 public extension DefaultImplementations.Node {
-    public static func extractGETListResponsePagination(node: Node, with paginationType: Pagination.Type, from json: JSON) -> Pagination {
+    static func extractGETListResponsePagination(node: Node, with paginationType: Pagination.Type, from json: JSON) -> Pagination {
         return paginationType.init(json: json[ListResponseKeys.meta])
     }
     
-    public static func extractGETListResponseObjects<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
+    static func extractGETListResponseObjects<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
         return json[ListResponseKeys.results].array!.map(T.init)
     }
     
-    public static func extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
+    static func extractGETListResponse<T: ListGettable>(node: Node, for resourceType: T.Type, from json: JSON) -> (Pagination, [T]) {
         return self._extractGETListResponse(node: node, for: resourceType, from: json)
     }
         
-    public static func extractPOSTListResponse<T: ListPostable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
+    static func extractPOSTListResponse<T: ListPostable>(node: Node, for resourceType: T.Type, from json: JSON) -> [T] {
         return json[ListResponseKeys.results].array!.map(T.init)
     }
 }

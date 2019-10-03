@@ -21,7 +21,7 @@ public protocol MultipartValueConvertible: PayloadElementConvertible {
 
 // MARK: PayloadValueConvertible Default Implementation
 public extension MultipartValueConvertible {
-    public func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
+    func toPayloadElement(conversion: PayloadConversion, configuration: PayloadConversion.Configuration) -> Payload.Element {
         return DefaultImplementations.MultipartValueConvertible.payloadElement(from: self, conversion: (conversion, configuration))
     }
 }
@@ -29,11 +29,11 @@ public extension MultipartValueConvertible {
 
 // MARK: - DefaultImplementations.MultipartValueConvertible
 public extension DefaultImplementations.MultipartValueConvertible {
-    public static func payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
+    static func payloadElement(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Element {
         return self._payloadElement(from: convertible, conversion: conversion)
     }
     
-    public static func multipartPayload(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Multipart.UnwrappedPayload? {
+    static func multipartPayload(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Multipart.UnwrappedPayload? {
         return self._multipartPayload(from: convertible, conversion: conversion)
     }
 }
