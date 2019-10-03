@@ -28,7 +28,7 @@ public extension Dictionary {
     }
     
     init<S>(_ keysAndValues: S, strategy: MergeStrategy) where S : Sequence, S.Element == (Key, Value) {
-        try! self.init(keysAndValues, uniquingKeysWith: strategy.closure)
+        self.init(keysAndValues, uniquingKeysWith: strategy.closure)
     }
     
     mutating func merge(_ dictionary: [Key: Value], strategy: MergeStrategy) {
