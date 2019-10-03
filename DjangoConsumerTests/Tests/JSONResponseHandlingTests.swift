@@ -12,7 +12,6 @@
 import XCTest
 import Alamofire
 import SwiftyJSON
-import Alamofire_SwiftyJSON
 @testable import DjangoConsumer
 
 
