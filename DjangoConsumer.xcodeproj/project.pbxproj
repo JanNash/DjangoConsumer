@@ -18,6 +18,7 @@
 		0DA416CBCD82CA7F959DB11E7FCAC7D5 /* IfThisIsAThenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBD339DD01125E0D651FD933061E5313 /* IfThisIsAThenTests.swift */; };
 		0F2D9D79C4ED63A754D174BE961FA6DE /* Bool (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D4B2ECDF7206A3B3F9B9684C42B164 /* Bool (JSONValueConvertible).swift */; };
 		1C759EE4A71FCF1777C4136C37AE9DF1 /* Payload.Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E820CE8D0D5FEEEC196F61E22363492 /* Payload.Multipart.swift */; };
+		210D27A1F70815D679390C0A98D26965 /* SwiftyJSONResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBB81AC551781E3381F4493E54BF803 /* SwiftyJSONResponseSerializer.swift */; };
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
 		22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
@@ -231,6 +232,7 @@
 		F1988959B77FF92A6257775066EE536D /* Payload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
 		F565FDA85EC0EC0167D537941BB9EF7B /* PayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadTests.swift; sourceTree = "<group>"; };
 		F7BD87442954669861AF7F33B9E12CCE /* DetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettable.swift; sourceTree = "<group>"; };
+		FFBB81AC551781E3381F4493E54BF803 /* SwiftyJSONResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSONResponseSerializer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +355,7 @@
 			children = (
 				7AAA1A5B8423390CC77A06A7EB09006B /* SessionManager */,
 				B287E763F1FF6663746AEB785847E3F0 /* DataRequest (SwiftyJSON).swift */,
+				FFBB81AC551781E3381F4493E54BF803 /* SwiftyJSONResponseSerializer.swift */,
 			);
 			path = Alamofire;
 			sourceTree = "<group>";
@@ -910,6 +913,7 @@
 				FC33B13DEEA289C618CE183525F935BD /* SinglePostableClient.swift in Sources */,
 				D661C1B34275A7B8B23FFCB6F474F74F /* SinglePostableOAuth2.swift in Sources */,
 				AF5BADFD440AE209AF9D4A99F2D1D489 /* String (JSONValueConvertible).swift in Sources */,
+				210D27A1F70815D679390C0A98D26965 /* SwiftyJSONResponseSerializer.swift in Sources */,
 				557530DE6AA3CD51D0D406B18EF0DABA /* TestSessionManager.swift in Sources */,
 				B20E3F612551440BA45A567BE6C0C377 /* UIImage (MultipartValueConvertible).swift in Sources */,
 				F37389C291A9BF37BA3C66E8D0A82551 /* UInt (JSONValueConvertible).swift in Sources */,
