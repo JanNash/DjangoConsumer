@@ -21,6 +21,8 @@ import SwiftyJSON
 
 // MARK: // Public
 extension DataRequest {
+    private static let emptyDataStatusCodes: Set<Int> = [204, 205]
+    
     /// Creates a response serializer that returns a SwiftyJSON object result type constructed from the response data using
     /// `JSONSerialization` with the specified reading options.
     ///
@@ -32,7 +34,22 @@ extension DataRequest {
         -> DataResponseSerializer<JSON>
     {
         return DataResponseSerializer { _, response, data, error in
-            return Request.serializeResponseSwiftyJSON(options: options, response: response, data: data, error: error)
+            return {
+                guard error == nil else { return .failure(error!) }
+
+                if let response = response, emptyDataStatusCodes.contains(response.statusCode) { return .success(JSON.null) }
+
+                guard let validData = data, validData.count > 0 else {
+                    return .failure(AFError.responseSerializationFailed(reason: .inputDataNilOrZeroLength))
+                }
+
+                do {
+                    let json = try JSONSerialization.jsonObject(with: validData, options: options)
+                    return .success(JSON(json))
+                } catch {
+                    return .failure(AFError.responseSerializationFailed(reason: .jsonSerializationFailed(error: error)))
+                }
+            }()
         }
     }
 
