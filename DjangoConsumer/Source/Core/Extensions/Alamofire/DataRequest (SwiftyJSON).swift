@@ -8,7 +8,7 @@
 //  Full license text can be found in the LICENSE file
 //  at the root of this repository.
 //
-// Before being refactored, some of this code was copied
+// Before being refactored, this code was copied
 // from hash: 64b4c1e710555061e50aad02e8795542fd0a5df5
 // of fork: https://www.github.com/JanNash/Alamofire-SwiftyJSON
 // of original repository: https://github.com/SwiftyJSON/Alamofire-SwiftyJSON
@@ -35,6 +35,7 @@ extension DataRequest {
         )
     }
 }
+
 
 
 // The aforementioned full license text:
