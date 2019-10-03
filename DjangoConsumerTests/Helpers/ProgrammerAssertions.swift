@@ -18,27 +18,27 @@ import Foundation
 // MARK: Assertion Functions
 func assert(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) {
     ProgrammerAssertions.assert?(condition, message, file, line)
-    Swift.assert(condition, message, file: file, line: line)
+    Swift.assert(condition(), message(), file: file, line: line)
 }
 
 func precondition(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) {
     ProgrammerAssertions.precondition?(condition, message, file, line)
-    Swift.precondition(condition, message, file: file, line: line)
+    Swift.precondition(condition(), message(), file: file, line: line)
 }
 
 func assertionFailure(_ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) {
     ProgrammerAssertions.assertionFailure?(message, file, line)
-    Swift.assertionFailure(message, file: file, line: line)
+    Swift.assertionFailure(message(), file: file, line: line)
 }
 
 func preconditionFailure(_ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) -> Never {
     ProgrammerAssertions.preconditionFailure?(message, file, line)
-    Swift.preconditionFailure(message, file: file, line: line)
+    Swift.preconditionFailure(message(), file: file, line: line)
 }
 
 func fatalError(_ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) -> Never {
     ProgrammerAssertions.fatalError?(message, file, line)
-    Swift.fatalError(message, file: file, line: line)
+    Swift.fatalError(message(), file: file, line: line)
 }
 
 

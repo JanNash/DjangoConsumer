@@ -41,7 +41,7 @@ class PayloadTests: XCTestCase {
         
         let expectedMultipartPayload: Payload.Multipart.UnwrappedPayload = [
             "images[0]": Payload.Multipart.ContentType.imagePNG.null,
-            "images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG)
+            "images[1]": (UIImage(color: .clear).pngData()!, .imagePNG)
         ]
         
         XCTAssert(payload.multipart == expectedMultipartPayload)
@@ -89,10 +89,10 @@ class PayloadTests: XCTestCase {
         // This possibly better variant can be found in the next test.
         let expectedMultipartPayload: Payload.Multipart.UnwrappedPayload = [
             "a[0]images[0]": Payload.Multipart.ContentType.imagePNG.null,
-            "a[0]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+            "a[0]images[1]": (UIImage(color: .clear).pngData()!, .imagePNG),
             "a[1]images[0]": Payload.Multipart.ContentType.imagePNG.null,
-            "a[1]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
-            "a[1]image": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+            "a[1]images[1]": (UIImage(color: .clear).pngData()!, .imagePNG),
+            "a[1]image": (UIImage(color: .clear).pngData()!, .imagePNG),
         ]
         
         XCTAssert(payload.multipart == expectedMultipartPayload)
@@ -143,10 +143,10 @@ class PayloadTests: XCTestCase {
         
         let expectedMultipartPayload: Payload.Multipart.UnwrappedPayload = [
             "a[0]images[0]": Payload.Multipart.ContentType.imagePNG.null,
-            "a[0]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+            "a[0]images[1]": (UIImage(color: .clear).pngData()!, .imagePNG),
             "a[1]images[0]": Payload.Multipart.ContentType.imagePNG.null,
-            "a[1]images[1]": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
-            "a[1]image": (UIImagePNGRepresentation(UIImage(color: .clear))!, .imagePNG),
+            "a[1]images[1]": (UIImage(color: .clear).pngData()!, .imagePNG),
+            "a[1]image": (UIImage(color: .clear).pngData()!, .imagePNG),
         ]
         
         XCTAssert(payload.multipart == expectedMultipartPayload)
