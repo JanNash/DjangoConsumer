@@ -17,6 +17,13 @@ import Alamofire
 // MARK: // Internal
 // MARK: StaticLetTests
 class StaticLetTests: BaseTest {
+    // Payload.swift
+    func testPayloadMultipartJSONKey() {
+        typealias FixtureType = Payload.Multipart
+        
+        XCTAssertEqual(FixtureType.jsonKey, "data")
+    }
+    
     // Node.swift
     func testDefaultListRequestKeys() {
         typealias FixtureType = DefaultImplementations.Node.ListRequestKeys
@@ -72,6 +79,15 @@ class StaticLetTests: BaseTest {
 
 // MARK: EnumTests
 class EnumTests: BaseTest {
+    // Payload.swift
+    func testMultipartContentType() {
+        typealias FixtureType = Payload.Multipart.ContentType
+        
+        XCTAssertEqual(FixtureType.applicationJSON.rawValue, "application/json")
+        XCTAssertEqual(FixtureType.imageJPEG.rawValue, "image/jpeg")
+        XCTAssertEqual(FixtureType.imagePNG.rawValue, "image/png")
+    }
+    
     // Filtering.swift
     func testFilterKey() {
         typealias FixtureType = FilterKey<Any>.DefaultFilterKeys

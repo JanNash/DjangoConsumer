@@ -222,8 +222,11 @@ public struct Payload: Equatable {
             }
         }
         
+        // JSONKey
+        public static let jsonKey: String = "data"
+        
         // ContentType
-        public enum ContentType: String, CustomStringConvertible, Equatable {
+        public enum ContentType: String, CustomStringConvertible, Equatable, CaseIterable {
             case applicationJSON = "application/json"
             case imageJPEG = "image/jpeg"
             case imagePNG = "image/png"
@@ -382,16 +385,47 @@ private func __eq__(_ lhs: Payload.Multipart.UnwrappedPayload, _ rhs: Payload.Mu
 
 
 // MARK: - Payload.JSON.UnwrappedPayload
-private func __eq__(_ lhs: Payload.JSON.UnwrappedPayload, _ rhs: Payload.JSON.UnwrappedPayload) -> Bool {
+private typealias _JSON = Payload.JSON.UnwrappedPayload
+private func __eq__(_ lhs: _JSON, _ rhs: _JSON) -> Bool {
     guard lhs.count == rhs.count else {
         return false
     }
     
     for (key, lValue) in lhs {
-        guard
-            let rValue: Any = rhs[key],
-            "\(lValue)" == "\(rValue)"
-        else { return false }
+        guard let rValue: Any = rhs[key] else {
+            return false
+        }
+        
+        // If the value is another [String: Any] dict, we can recurse
+        if let lDict: _JSON = lValue as? _JSON {
+            guard let rDict: _JSON = rValue as? _JSON else {
+                return false
+            }
+            
+            return lDict == rDict
+        }
+        
+        // If the value is an Array of [String: Any] dicts, we can recurse iteratively
+        if let lArray: [_JSON] = lValue as? [_JSON] {
+            guard let rArray: [_JSON] = rValue as? [_JSON] else {
+                return false
+            }
+            
+            for (lElement, rElement) in zip(lArray, rArray) {
+                guard lElement == rElement else {
+                    return false
+                }
+            }
+            
+            return true
+        }
+        
+        // If we get here, the value does not contain any more dicts, so we can safely
+        // compare their String interpolations without having to worry about the unsafe
+        // ordering of dicts, which obviously breaks this comparison method.
+        guard "\(lValue)" == "\(rValue)" else {
+            return false
+        }
     }
     
     return true
