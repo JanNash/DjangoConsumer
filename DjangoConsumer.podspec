@@ -31,7 +31,8 @@ Pod::Spec.new do |s|
     :git => "https://github.com/JanNash/DjangoConsumer.git",
     :tag => "v#{s.version}"
   }
-  s.dependency 'Alamofire-SwiftyJSON', '~> 3.0.0'
+  s.dependency 'Alamofire', '4.8.1'
+  s.dependency 'SwiftyJSON', '4.0.0'
   s.default_subspec = 'Core'
   
   s.subspec 'Core' do |core|

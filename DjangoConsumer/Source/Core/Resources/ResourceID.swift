@@ -11,7 +11,6 @@
 
 import Alamofire
 import SwiftyJSON
-import Alamofire_SwiftyJSON
 
 
 // MARK: // Public
