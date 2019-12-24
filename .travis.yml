@@ -14,7 +14,7 @@ rvm:
   # # .ruby-version. This should only be commented in when
   # # recreating the cache, i.e. when the cache was deleted 
   # # or when the version changes.
-  - 2.6.5
+  # - 2.6.5
   # # Unfortunately, the rvm directive is executed *before* 
   # # the cache is loaded. To avoid an unnecessary installation 
   # # of the above version, we explicitly tell rvm to use a 
@@ -44,6 +44,7 @@ cache:
     - ~/.rvm/gems/ruby-2.6.5@DjangoConsumer/
 
 before_install:
+  - rvm install 2.6.5
   - rvm use 2.6.5@DjangoConsumer --create
   
 install:
