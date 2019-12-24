@@ -4,7 +4,7 @@ __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${__dir}"
 
 
-RUBY_VERSION='2.5.1'
+RUBY_VERSION='2.6.5'
 
 
 echo "# # # # #"
