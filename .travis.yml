@@ -8,24 +8,6 @@ xcode_sdk: iphonesimulator13.2
 xcode_workspace: DjangoConsumer.xcworkspace
 xcode_scheme: DjangoConsumer
 xcode_destination: platform=iOS Simulator,OS=13.3,name=iPhone 11
-
-rvm:
-  # # The required ruby-version, which is also declared in 
-  # # .ruby-version. This should only be commented in when
-  # # recreating the cache, i.e. when the cache was deleted 
-  # # or when the version changes.
-  # - 2.6.5
-  # # Unfortunately, the rvm directive is executed *before* 
-  # # the cache is loaded. To avoid an unnecessary installation 
-  # # of the above version, we explicitly tell rvm to use a 
-  # # version which is pre-installed on the current osx_image.
-  # # In before_install (when the cache is loaded), we tell 
-  # # rvm the actual version and gemset we want to use.
-  # #
-  # # We have to do this explicitly here, else, travis will
-  # # infer the version from .ruby-version, which would lead
-  # # to an unnecessary installation as well.
-  - 2.4.3
   
 cache:
   cocoapods: true
