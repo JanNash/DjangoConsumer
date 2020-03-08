@@ -24,19 +24,19 @@ cache:
     # # Caching the ruby which is required in .ruby-version.
     # # This can be removed as soon as the required version 
     # # is pre-installed on the current osx_image.
-    - ~/.rvm/rubies/ruby-2.6.5
-    - ~/.rvm/gems/ruby-2.6.5
+    - ~/.rvm/rubies/ruby-2.7.0
+    - ~/.rvm/gems/ruby-2.7.0
     
     # Using the default bundler cache directive (like the 
     # cocoapods directive above) does not work because it caches 
     # '/Users/travis/build/JanNash/DjangoConsumer/vendor/bundle',
     # which is not the location where the gemset is going to
     # be installed.
-    - ~/.rvm/gems/ruby-2.6.5@DjangoConsumer/
+    - ~/.rvm/gems/ruby-2.7.0@DjangoConsumer/
 
 before_install:
-  - rvm install 2.6.5
-  - rvm use 2.6.5@DjangoConsumer --create
+  - rvm install 2.7.0
+  - rvm use 2.7.0@DjangoConsumer --create
   
 install:
   - gem install bundler
