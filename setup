@@ -4,7 +4,10 @@ __dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${__dir}"
 
 
-RUBY_VERSION='2.6.5'
+RUBY_VERSION='2.7.0'
+COCOAPODS_VERSION='1.9.0'
+SYNX_VERSION='0.2.1'
+XCPRETTY_VERSION='0.3.0'
 
 
 echo "# # # # #"
@@ -12,8 +15,8 @@ echo "# # # # #"
 # # # # # # # # # # # # #
 # Save given projectname
 if [[ ! -e ".projectname" ]];
-then 
-    if [[ "$#" -ne 1 ]]; 
+then
+    if [[ "$#" -ne 1 ]];
     then
         echo "Illegal number of parameters. Provide the name of your Xcode-project-file (without extension)."
         exit 1
@@ -26,7 +29,7 @@ elif [[ "$#" -eq 1 ]];
 then
     read -r -p "Do you want to update the saved project-name to '$1'? [y/N] " RESPONSE
     case $RESPONSE in
-        [yY][eE][sS]|[yY]) 
+        [yY][eE][sS]|[yY])
             {
                 echo "$1"
             } > ".projectname"
@@ -56,7 +59,7 @@ RVM_TYPE_OUTPUT=$( (type rvm | head -1) 2>&1 )
 if [[ $RVM_TYPE_OUTPUT = "rvm is a function" ]];
 then
     echo "rvm is installed"
-else 
+else
     echo "rvm is not installed. Please install rvm before using this script. For instructions on installing rvm, visit https://rvm.io/rvm/install"
     exit 1
 fi
@@ -83,7 +86,7 @@ echo "*.pbxproj merge=union" > ".gitattributes"
 
 # # # # # # # # # # # #
 # Create .gitignore file
-cat <<\EOF > ".gitignore"
+cat > ".gitignore" <<\EOF
 #########################
 # .gitignore file for Xcode4 / OS X Source projects
 #
@@ -110,7 +113,7 @@ cat <<\EOF > ".gitignore"
  
 ####
 # Xcode temporary files that should never be committed
-# 
+#
 # NB: NIB/XIB files still exist even on Storyboard projects, so we want this...
  
 *~.nib
@@ -251,12 +254,12 @@ echo "$RUBY_VERSION" > ".ruby-version"
 
 # # # # # # # # # # # # # # # # # # # # #
 # Create Gemfile
-cat <<\EOF > "Gemfile"
+cat > "Gemfile" <<EOF
 source 'https://rubygems.org'
 
-gem 'cocoapods', '1.5.0'
-gem 'synx', '0.2.1'
-gem 'xcpretty', '0.2.8'
+gem 'cocoapods', '${COCOAPODS_VERSION}'
+gem 'synx', '${SYNX_VERSION}'
+gem 'xcpretty', '${XCPRETTY_VERSION}'
 EOF
 #
 # # # # # # # # # # # # # # # # # # # # #
@@ -264,7 +267,7 @@ EOF
 
 # # # # # # # # # # # # # # # # # # # # #
 # Create run_synx_and_xUnique file
-cat <<\EOF > "run_synx_and_xUnique"
+cat > "run_synx_and_xUnique" <<\EOF
 #!/bin/bash
 
 set -e
@@ -305,7 +308,7 @@ mkdir -p scripts
 
 # # # # # # # # # # # # # # # # # # # # #
 # Create xUnique.py
-cat <<\EOF > "scripts/xUnique.py"
+cat > "scripts/xUnique.py" <<\EOF
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -889,7 +892,7 @@ chmod +x "scripts/xUnique.py"
 
 # # # # # # # # # # # # # # # # # # # # #
 # Create run_synx script
-cat <<\EOF > "scripts/run_synx"
+cat > "scripts/run_synx" <<\EOF
 #!/bin/bash
 
 
@@ -911,7 +914,7 @@ chmod +x "scripts/run_synx"
 
 # # # # # # # # # # # # # # # # # # # # #
 # Create run_xUnique script
-cat <<\EOF > "scripts/run_xUnique"
+cat > "scripts/run_xUnique" <<\EOF
 #!/bin/bash
 
 set -e
@@ -935,7 +938,7 @@ chmod +x "scripts/run_xUnique"
 
 # # # # # # # # # # # # # # # # # # # # #
 # Create pre-push script
-cat <<\EOF > "scripts/pre-push"
+cat > "scripts/pre-push" <<\EOF
 #!/bin/bash
 
 
@@ -969,7 +972,7 @@ function pop_stash
     then
         STASH_REF="$(git log -g stash --grep="$STASH_MESSAGE" --pretty=format:"%gd")"
         if [ ! -z "$STASH_REF" ]
-        then 
+        then
             echo "# # #"
             echo "Popping temporary stash..."
             git stash pop "$STASH_REF"
@@ -995,7 +998,7 @@ function main
     then
         echo "# # # # #"
         exit 0
-    else 
+    else
         echo "# # #"
         echo "Committed new changes, please retry push."
         echo "# # # # #"
@@ -1012,7 +1015,7 @@ chmod +x "scripts/pre-push"
 
 # # # # # # # # # # # # # # # # # # # # #
 # Create post-merge script
-cat <<\EOF > "scripts/post-merge"
+cat > "scripts/post-merge" <<\EOF
 #!/bin/bash
 
 
@@ -1045,7 +1048,7 @@ function pop_stash
     then
         STASH_REF="$(git log -g stash --grep="$STASH_MESSAGE" --pretty=format:"%gd")"
         if [ ! -z "$STASH_REF" ]
-        then 
+        then
             echo "# # #"
             echo "Popping temporary stash..."
             git stash pop "$STASH_REF"
@@ -1137,7 +1140,7 @@ mkdir -p ".git/hooks/"
 echo "Installing git hooks..."
 
 echo "Installing pre-push hook..."
-cat <<\EOF > ".git/hooks/pre-push"
+cat > ".git/hooks/pre-push" <<\EOF
 #!/bin/bash
 
 ./scripts/pre-push
@@ -1145,7 +1148,7 @@ EOF
 chmod +x ".git/hooks/pre-push"
 
 echo "Installing post-merge hook..."
-cat <<\EOF > ".git/hooks/post-merge"
+cat > ".git/hooks/post-merge" <<\EOF
 #!/bin/bash
 
 ./scripts/post-merge
@@ -1162,7 +1165,7 @@ echo "# # #"
 # Maybe committing changes
 read -r -p "Do you want to commit the changes induced by setup? [y/N] " RESPONSE
 case $RESPONSE in
-    [yY][eE][sS]|[yY]) 
+    [yY][eE][sS]|[yY])
         git add .
         git commit -m "[setup-script] Run setup"
         ;;
