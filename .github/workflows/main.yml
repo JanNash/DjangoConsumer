@@ -80,16 +80,24 @@ jobs:
         path: ~/.rvm/gems/ruby-${{ env.RUBY_VERSION }}@${{ env.RUBY_GEMSET }}
         key: cache-${{ env.CACHE_VERSION }}_bundle-${{ hashFiles('Gemfile.lock') }}
 
+    - name: 'Install coreutils'
+      run: |
+        # This step currently (April 10, 2020) seems to be necessary
+        # so bundle install doesn't error out when trying to build the
+        # native extensions for ffi, which is installed as a secondary
+        # dependency for one of the gems in the Gemfile (I think cocoapods,
+        # but haven't checked that yet.) It used to fail because it couldn't
+        # find gmkdir, which is contained in coreutils. This step is not
+        # cached yet but takes only ... seconds to install.
+        brew install coreutils
+
     - name: 'Install bundle'
       if: steps.bundle-cache.outputs.cache-hit != 'true'
       run: |
         source $HOME/.rvm/scripts/rvm
         rvm --force gemset delete $RUBY_GEMSET
         rvm use $RUBY_VERSION@$RUBY_GEMSET --create
-        brew install coreutils
-        ls /usr/local/opt/coreutils/bin
-        gem install ffi
-#        bundle install
+        bundle install
 #
 #    - name: 'Fetch pod cache'
 #      id: pod-cache
