@@ -15,7 +15,7 @@ jobs:
       BUILD_DESTINATION_OS: latest
       WORKSPACE_NAME: DjangoConsumer
       BUILD_SCHEME: DjangoConsumer
-      DEVELOPER_DIR: /Applications/Xcode_11.3.1.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_11.4.app/Contents/Developer
       # To create a fresh cache if none of the cache parameters has changed,
       # simply bump the CACHE_VERSION variable. This is mainly needed when
       # changes to the caching steps have been made, but might be useful for
