@@ -86,7 +86,8 @@ jobs:
         source $HOME/.rvm/scripts/rvm
         rvm --force gemset delete $RUBY_GEMSET
         rvm use $RUBY_VERSION@$RUBY_GEMSET --create
-        LDFLAGS="-L/usr/local/opt/libffi/lib" PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig" gem install ffi
+        brew link libffi --force
+        gem install ffi
 #        bundle install
 #
 #    - name: 'Fetch pod cache'
