@@ -21,7 +21,7 @@ jobs:
       # changes to the caching steps have been made, but might be useful for
       # other debugging purposes as well. Github deletes the oldest unused
       # the volume of caches increases over a certain value
-      CACHE_VERSION: 6
+      CACHE_VERSION: 7
       RVM_VERSION: 1.29.9
 
     steps:
