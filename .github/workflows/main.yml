@@ -86,7 +86,8 @@ jobs:
         source $HOME/.rvm/scripts/rvm
         rvm --force gemset delete $RUBY_GEMSET
         rvm use $RUBY_VERSION@$RUBY_GEMSET --create
-        brew link libffi --force
+        brew install coreutils
+        ls /usr/local/opt/coreutils/bin
         gem install ffi
 #        bundle install
 #
