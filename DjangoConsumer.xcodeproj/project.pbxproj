@@ -559,7 +559,6 @@
 				5B40455D60A26551AE94077196644292 /* Pods-DjangoConsumerTests.debug.xcconfig */,
 				CB5B6AC36CF6BC5BB024054FB0EBDE72 /* Pods-DjangoConsumerTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
