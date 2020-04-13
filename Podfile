@@ -9,3 +9,8 @@ target 'DjangoConsumer' do
     inherit! :search_paths
   end
 end
+
+
+target 'ExampleApp' do
+  pod 'DjangoConsumer', :path => '.'
+end
