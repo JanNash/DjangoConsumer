@@ -21,6 +21,7 @@
 		12918E7AE1D078AE2C548C7F2CCFB85F /* libPods-DjangoConsumerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 656A11569627592DE3F84ABC494D76F2 /* libPods-DjangoConsumerTests.a */; };
 		1C759EE4A71FCF1777C4136C37AE9DF1 /* Payload.Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E820CE8D0D5FEEEC196F61E22363492 /* Payload.Multipart.swift */; };
 		210D27A1F70815D679390C0A98D26965 /* SwiftyJSONResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBB81AC551781E3381F4493E54BF803 /* SwiftyJSONResponseSerializer.swift */; };
+		217579BE46D0DCB34EDBC62ADB675981 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B16CC5565364F99AEE2954B1DF741 /* LaunchScreen.storyboard */; };
 		21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712B80B1381B0EA7E62CA431F547E694 /* OAuth2Constants.swift */; };
 		22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
@@ -35,6 +36,7 @@
 		38BDE64DEE02FA58D01CC17664E715E6 /* Int64 (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = B791AD5FE483BD106C0A66573D09BA30 /* Int64 (JSONValueConvertible).swift */; };
 		3CE39AA01C15C2A2704A15F85D5499B5 /* OAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8155D3DABEF4F0BD3813712D3ED323A5 /* OAuth2Node.swift */; };
 		41F0C90F3824F5746D5EBA92A18F4DE6 /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4483E4F025B67F9A65AFA6C06CE62659 /* BaseTest.swift */; };
+		43D7DACFDA75DE53117F70FB0A76D8C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7594731CAD6F64ACB5CFE452B0E7175 /* AppDelegate.swift */; };
 		4406A7D48A74E42485CC07E10009F38D /* Float (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF2685AD27E0330343D1DA6DC571D12 /* Float (JSONValueConvertible).swift */; };
 		4489A399BC3D529ADE643E64321B1988 /* Int16 (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9E94D87D48DBB5D9ABD4142DC9C86 /* Int16 (JSONValueConvertible).swift */; };
 		456824C374F760550C617B8C49CC7040 /* Int8 (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C4386AFACE1BEEF9F2BE25A90C311 /* Int8 (JSONValueConvertible).swift */; };
@@ -53,7 +55,9 @@
 		62DA6F63F39FFC01F62F615A02415391 /* Dictionary (merging).swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AA12054591C0B09C33C0B008C70CF3 /* Dictionary (merging).swift */; };
 		63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */; };
 		6422449EE479C02E960A504E2097BB3E /* PayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565FDA85EC0EC0167D537941BB9EF7B /* PayloadTests.swift */; };
+		6D3AEF96A07D829974402134378A0CE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F074F2FC0D62F7BA8547EDCD829AE795 /* Main.storyboard */; };
 		6F88632AF116A6692DCF6A2152FAE897 /* ProgrammerAssertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B670AB270ECCE2990C43EB5638B493A9 /* ProgrammerAssertions.swift */; };
+		79EA303501131E531A007F9F8CD09F8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E400E58DCE2CBD2B86D551BA0D6D848 /* SceneDelegate.swift */; };
 		7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */; };
 		7D3C88D3709733F89D7F0EAA06249B4F /* UInt16 (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8A65E81326AEBEB7BD24EBFD0F507 /* UInt16 (JSONValueConvertible).swift */; };
 		7EFAFAD67B846597D98C779048138F6D /* Payload.JSON.Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = D141F279D8027641BD858F953499CE12 /* Payload.JSON.Value.swift */; };
@@ -70,6 +74,7 @@
 		A15CA844385233097AC5B68BC7E2B4EA /* MockDetailGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB0E8D5513F5112E8ED64C72CD785E2 /* MockDetailGettable.swift */; };
 		A4C088F308BE3C16C9B9CC147A2ACAA9 /* SessionManager (SessionManagerType).swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D26A2932EFB9FD684F6CA5AF4D507A9 /* SessionManager (SessionManagerType).swift */; };
 		A6254114C15C891EA8B9B955EBD6D3BE /* ifThisIsAThen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */; };
+		AA9B92462CF15494AB6CFB2DEB9CA6B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41EA65402B0DE1C9561C66C35FA09A7 /* ViewController.swift */; };
 		AC3E98E7BDF090E898F6B180F0A78EC6 /* DefaultImplementations+OAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8042D5F51399BB3BA078D848DE1E6C /* DefaultImplementations+OAuth2.swift */; };
 		ADA2C0E988C69CB5673BA3CC81E427D0 /* UInt32 (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = A28C4EDDEA2472222ED174ED875F418A /* UInt32 (JSONValueConvertible).swift */; };
 		AF0B9F5D0B3ADE02B23829D55976FBE0 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */; };
@@ -90,6 +95,7 @@
 		C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */; };
 		C84D5420B7EF03E3E2408817D980BFFB /* JSONResponseHandlingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDE5DD6F3905711D9BD82731F1D21D /* JSONResponseHandlingTests.swift */; };
 		C9B527ACA10BC59B06FF39A799BF74B4 /* Int (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 5157DEF642833FCC1C4079E0575E67FF /* Int (JSONValueConvertible).swift */; };
+		CDA32F1D57E535212B33D70B33ABBA42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335F352D4CB598398527B52D327462A3 /* Assets.xcassets */; };
 		CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */; };
 		D2FE9A8DDB7430BC3D23ED3ACCB16451 /* ResourceHTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1719B1D80A631D2E321D72C0E4C4F /* ResourceHTTPMethod.swift */; };
 		D3A15BBA45BD33768284AB591283DF91 /* NodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA8941DF032E6E6287C7BB3D85A13CA /* NodeTests.swift */; };
@@ -142,9 +148,11 @@
 		29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostable.swift; sourceTree = "<group>"; };
 		2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableClient.swift; sourceTree = "<group>"; };
 		2D26A2932EFB9FD684F6CA5AF4D507A9 /* SessionManager (SessionManagerType).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager (SessionManagerType).swift"; sourceTree = "<group>"; };
+		2EF76AE598093E887C3A167A0264A896 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		309E286307A20BFF1CD872B46AF81CFB /* Double (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double (JSONValueConvertible).swift"; sourceTree = "<group>"; };
 		30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ifThisIsAThen.swift; sourceTree = "<group>"; };
 		3230A51D478D0559F6661391A7D480D4 /* SinglePostableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableOAuth2.swift; sourceTree = "<group>"; };
+		335F352D4CB598398527B52D327462A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35D9E94D87D48DBB5D9ABD4142DC9C86 /* Int16 (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int16 (JSONValueConvertible).swift"; sourceTree = "<group>"; };
 		360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableTests.swift; sourceTree = "<group>"; };
 		38AA12054591C0B09C33C0B008C70CF3 /* Dictionary (merging).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary (merging).swift"; sourceTree = "<group>"; };
@@ -166,6 +174,7 @@
 		6331C6F2052A8B5FAA17CBBBCCCDE651 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		656A11569627592DE3F84ABC494D76F2 /* libPods-DjangoConsumerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DjangoConsumerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68749C0F434DB00C70B2EA9E90B65313 /* UInt8 (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt8 (JSONValueConvertible).swift"; sourceTree = "<group>"; };
+		699BB8393208C8E7C6FF5C8A49FD6CA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2CredentialStore.swift; sourceTree = "<group>"; };
 		6D4F01CD750F13B645FC2544029A1468 /* PayloadConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadConvertible.swift; sourceTree = "<group>"; };
 		6DB0E8D5513F5112E8ED64C72CD785E2 /* MockDetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDetailGettable.swift; sourceTree = "<group>"; };
@@ -177,6 +186,8 @@
 		811758D35E562A601555CA850F6F3A70 /* MetaResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaResource.swift; sourceTree = "<group>"; };
 		8155D3DABEF4F0BD3813712D3ED323A5 /* OAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Node.swift; sourceTree = "<group>"; };
 		85F86163ECD688EF5EFA10B5C6BF479F /* MockFilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFilteredListGettable.swift; sourceTree = "<group>"; };
+		8B20B6F6931E96FC6EC639C1A99162F9 /* ExampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E400E58DCE2CBD2B86D551BA0D6D848 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8F1418A5FD322DC94B0AC3CC103950D6 /* JSONResponseHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONResponseHandling.swift; sourceTree = "<group>"; };
 		8FBAB8B8C17990ECFD9FF685301D9E0E /* MockListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListGettable.swift; sourceTree = "<group>"; };
 		8FF2685AD27E0330343D1DA6DC571D12 /* Float (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float (JSONValueConvertible).swift"; sourceTree = "<group>"; };
@@ -192,6 +203,7 @@
 		A28C4EDDEA2472222ED174ED875F418A /* UInt32 (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt32 (JSONValueConvertible).swift"; sourceTree = "<group>"; };
 		A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		A486C0DB729A213E98D9E0A63958A103 /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
+		A7594731CAD6F64ACB5CFE452B0E7175 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A903C29149B4C75236BB35FB865E47AA /* FilteredListGettableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettableOAuth2.swift; sourceTree = "<group>"; };
 		ABF116532C90A067B3CC20F5C8A94DE7 /* ListGettableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableOAuth2.swift; sourceTree = "<group>"; };
 		AC4A08D2154AC117576D175AFF9719CB /* JSONValueConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValueConvertible.swift; sourceTree = "<group>"; };
@@ -203,6 +215,7 @@
 		B670AB270ECCE2990C43EB5638B493A9 /* ProgrammerAssertions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammerAssertions.swift; sourceTree = "<group>"; };
 		B791AD5FE483BD106C0A66573D09BA30 /* Int64 (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int64 (JSONValueConvertible).swift"; sourceTree = "<group>"; };
 		BAF6B5C4B2615656BA949DE2EB981597 /* NoAuthNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAuthNode.swift; sourceTree = "<group>"; };
+		BD8416D719BF2FC8969F4AA5E16E1CC0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BDBF8D3CA028C82902FBC503F7813EF8 /* libPods-DjangoConsumer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DjangoConsumer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE4ECA45DF7E85AEE9462B19AE89EF54 /* Pods-DjangoConsumer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.release.xcconfig"; path = "Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.release.xcconfig"; sourceTree = "<group>"; };
 		C48CB71CB329ABC9596AAAE3BD0F001B /* MockSinglePostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSinglePostable.swift; sourceTree = "<group>"; };
@@ -230,12 +243,20 @@
 		EBE7058B6D4EE8561EB98944C87B41A2 /* SinglePostableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableClient.swift; sourceTree = "<group>"; };
 		EF9436D073CC9F14341BEFCB34939F04 /* Array (PayloadElementConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array (PayloadElementConvertible).swift"; sourceTree = "<group>"; };
 		F1988959B77FF92A6257775066EE536D /* Payload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
+		F41EA65402B0DE1C9561C66C35FA09A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F565FDA85EC0EC0167D537941BB9EF7B /* PayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadTests.swift; sourceTree = "<group>"; };
 		F7BD87442954669861AF7F33B9E12CCE /* DetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettable.swift; sourceTree = "<group>"; };
 		FFBB81AC551781E3381F4493E54BF803 /* SwiftyJSONResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSONResponseSerializer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5AD3D4803B7FF15A4FFED7A2FA0053A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		987AC579050A9CB1D542D1EBEB47119B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -388,6 +409,7 @@
 			children = (
 				6320DD654561EB03B821B869C7C7055B /* DjangoConsumer */,
 				ECB6AA454FA146E116538DD51345448B /* DjangoConsumerTests */,
+				C3371841DC576CA214804820C7031BED /* ExampleApp */,
 				5154FFD9ECE6F85DDDC299C66B1369E7 /* Frameworks */,
 				CB847D9F3003F3532A31F3BAFEF3F378 /* Pods */,
 				F4DC4492F3D7E3E5E5D61A8017B30919 /* Products */,
@@ -516,6 +538,20 @@
 			path = Swift;
 			sourceTree = "<group>";
 		};
+		C3371841DC576CA214804820C7031BED /* ExampleApp */ = {
+			isa = PBXGroup;
+			children = (
+				A7594731CAD6F64ACB5CFE452B0E7175 /* AppDelegate.swift */,
+				335F352D4CB598398527B52D327462A3 /* Assets.xcassets */,
+				2EF76AE598093E887C3A167A0264A896 /* Info.plist */,
+				2E6B16CC5565364F99AEE2954B1DF741 /* LaunchScreen.storyboard */,
+				F074F2FC0D62F7BA8547EDCD829AE795 /* Main.storyboard */,
+				8E400E58DCE2CBD2B86D551BA0D6D848 /* SceneDelegate.swift */,
+				F41EA65402B0DE1C9561C66C35FA09A7 /* ViewController.swift */,
+			);
+			path = ExampleApp;
+			sourceTree = "<group>";
+		};
 		C3923129E9C863C19B3F20D255F9D8AE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -636,6 +672,7 @@
 			children = (
 				4EBB2C4FC7181BC67A4ECEA68439BE11 /* DjangoConsumer.framework */,
 				E42A43B5F7E093D4575CAE0BC56AE2E0 /* DjangoConsumerTests.xctest */,
+				8B20B6F6931E96FC6EC639C1A99162F9 /* ExampleApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -713,13 +750,30 @@
 			productReference = E42A43B5F7E093D4575CAE0BC56AE2E0 /* DjangoConsumerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		99887D8011921EA613C2C9192E1BC6BE /* ExampleApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6FA643871217EDCE523D6485C6C3C60 /* Build configuration list for PBXNativeTarget "ExampleApp" */;
+			buildPhases = (
+				AA52ABFDA84905E0FF2E17C405B6BA43 /* Sources */,
+				5AD3D4803B7FF15A4FFED7A2FA0053A2 /* Frameworks */,
+				01AF91C082DEB9474B92C5B0864503EB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ExampleApp;
+			productName = ExampleApp;
+			productReference = 8B20B6F6931E96FC6EC639C1A99162F9 /* ExampleApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		AD7BA9FBFAB5323E46027D57299977E7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Kitenow;
 				TargetAttributes = {
@@ -733,6 +787,10 @@
 						LastSwiftMigration = 1100;
 						ProvisioningStyle = Manual;
 					};
+					99887D8011921EA613C2C9192E1BC6BE = {
+						CreatedOnToolsVersion = 11.4;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = DD0FB0B78BD6A090139AD347543CACC1 /* Build configuration list for PBXProject "DjangoConsumer" */;
@@ -741,6 +799,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 9419277B928BC422DF5D58E94D270705;
 			productRefGroup = F4DC4492F3D7E3E5E5D61A8017B30919 /* Products */;
@@ -749,11 +808,22 @@
 			targets = (
 				6ACE9893E89075804F540CF27F9DD534 /* DjangoConsumer */,
 				88B9D8795CCF6DAE32E4774730ED8B50 /* DjangoConsumerTests */,
+				99887D8011921EA613C2C9192E1BC6BE /* ExampleApp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		01AF91C082DEB9474B92C5B0864503EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDA32F1D57E535212B33D70B33ABBA42 /* Assets.xcassets in Resources */,
+				217579BE46D0DCB34EDBC62ADB675981 /* LaunchScreen.storyboard in Resources */,
+				6D3AEF96A07D829974402134378A0CE8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2426E120826F17EFDA61BBCDAA4B608B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -913,6 +983,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA52ABFDA84905E0FF2E17C405B6BA43 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43D7DACFDA75DE53117F70FB0A76D8C0 /* AppDelegate.swift in Sources */,
+				79EA303501131E531A007F9F8CD09F8E /* SceneDelegate.swift in Sources */,
+				AA9B92462CF15494AB6CFB2DEB9CA6B2 /* ViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D88B227F5A981B66FE8807C2293F64A9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -954,6 +1034,27 @@
 			targetProxy = 772FCED2D78811BABDAF981C3D80AC34 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2E6B16CC5565364F99AEE2954B1DF741 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BD8416D719BF2FC8969F4AA5E16E1CC0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			path = .;
+			sourceTree = "<group>";
+		};
+		F074F2FC0D62F7BA8547EDCD829AE795 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				699BB8393208C8E7C6FF5C8A49FD6CA6 /* Base */,
+			);
+			name = Main.storyboard;
+			path = .;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		18B1D03FF0B1A8EE2890D8E323658C94 /* Release */ = {
@@ -1056,6 +1157,24 @@
 			};
 			name = Debug;
 		};
+		69E7CC9114ECE653C4926AEACF5077F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VH2HTP6MYB;
+				INFOPLIST_FILE = ExampleApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = oss.jannash.DjangoConsumer.ExampleApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		96D81FF8D927F2F30A5C9FB049DE60A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */;
@@ -1074,6 +1193,25 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A3853566888628145255962E71531E10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VH2HTP6MYB;
+				INFOPLIST_FILE = ExampleApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = oss.jannash.DjangoConsumer.ExampleApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1158,6 +1296,15 @@
 			buildConfigurations = (
 				2A33CC587999248A5408F7A01F16E260 /* Debug */,
 				E88308C936B67E12E1EE04AD21786C3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6FA643871217EDCE523D6485C6C3C60 /* Build configuration list for PBXNativeTarget "ExampleApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3853566888628145255962E71531E10 /* Debug */,
+				69E7CC9114ECE653C4926AEACF5077F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
