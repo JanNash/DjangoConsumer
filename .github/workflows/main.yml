@@ -98,34 +98,34 @@ jobs:
         rvm --force gemset delete $RUBY_GEMSET
         rvm use $RUBY_VERSION@$RUBY_GEMSET --create
         bundle install
-#
-#    - name: 'Fetch pod cache'
-#      id: pod-cache
-#      uses: actions/cache@v1
-#      with:
-#        path: ./Pods
-#        key: cache-${{ env.CACHE_VERSION }}_bundle-${{ hashFiles('Podfile.lock') }}
-#
-#    - name: 'Install pods'
-#      if: steps.pod-cache.outputs.cache-hit != 'true'
-#      run: |
-#        source $HOME/.rvm/scripts/rvm
-#        rvm use $RUBY_VERSION@$RUBY_GEMSET
-#        pod install
-#
-#    - name: 'Clean / Build / Test'
-#      run: |
-#        xcodebuild \
-#          -workspace "$WORKSPACE_NAME.xcworkspace" \
-#          -scheme "$BUILD_SCHEME" \
-#          -destination "platform=iOS Simulator,name=$BUILD_DESTINATION_NAME,OS=$BUILD_DESTINATION_OS" \
-#          clean build test \
-#          | tee "$XCODEBUILD_LOG_DIR/xcodebuild-verbose.log" \
-#          | xcpretty \
-#          | tee "$XCODEBUILD_LOG_DIR/xcodebuild-xcpretty.log"
-#
-#    - name: 'Upload xcodebuild logs'
-#      uses: actions/upload-artifact@v1
-#      with:
-#        name: xcodebuild-logs
-#        path: ${{ env.XCODEBUILD_LOG_DIR }}
+
+    - name: 'Fetch pod cache'
+      id: pod-cache
+      uses: actions/cache@v1
+      with:
+        path: ./Pods
+        key: cache-${{ env.CACHE_VERSION }}_bundle-${{ hashFiles('Podfile.lock') }}
+
+    - name: 'Install pods'
+      if: steps.pod-cache.outputs.cache-hit != 'true'
+      run: |
+        source $HOME/.rvm/scripts/rvm
+        rvm use $RUBY_VERSION@$RUBY_GEMSET
+        pod install
+
+    - name: 'Clean / Build / Test'
+      run: |
+        xcodebuild \
+          -workspace "$WORKSPACE_NAME.xcworkspace" \
+          -scheme "$BUILD_SCHEME" \
+          -destination "platform=iOS Simulator,name=$BUILD_DESTINATION_NAME,OS=$BUILD_DESTINATION_OS" \
+          clean build test \
+          | tee "$XCODEBUILD_LOG_DIR/xcodebuild-verbose.log" \
+          | xcpretty \
+          | tee "$XCODEBUILD_LOG_DIR/xcodebuild-xcpretty.log"
+
+    - name: 'Upload xcodebuild logs'
+      uses: actions/upload-artifact@v1
+      with:
+        name: xcodebuild-logs
+        path: ${{ env.XCODEBUILD_LOG_DIR }}
