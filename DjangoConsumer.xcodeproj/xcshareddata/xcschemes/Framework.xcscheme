@@ -20,6 +20,20 @@
                ReferencedContainer = "container:DjangoConsumer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "99887D8011921EA613C2C9192E1BC6BE"
+               BuildableName = "ExampleApp.app"
+               BlueprintName = "ExampleApp"
+               ReferencedContainer = "container:DjangoConsumer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
