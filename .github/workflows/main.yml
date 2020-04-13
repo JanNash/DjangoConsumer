@@ -14,7 +14,7 @@ jobs:
       BUILD_DESTINATION_NAME: "iPad Air (3rd generation)"
       BUILD_DESTINATION_OS: latest
       WORKSPACE_NAME: DjangoConsumer
-      BUILD_SCHEME: DjangoConsumer
+      BUILD_SCHEME: Framework
       DEVELOPER_DIR: /Applications/Xcode_11.4.app/Contents/Developer
       # To create a fresh cache if none of the cache parameters has changed,
       # simply bump the CACHE_VERSION variable. This is mainly needed when
