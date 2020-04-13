@@ -10,6 +10,8 @@
 //
 
 import UIKit
+import DjangoConsumer
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
