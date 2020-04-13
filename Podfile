@@ -12,5 +12,5 @@ end
 
 
 target 'ExampleApp' do
-  pod 'DjangoConsumer', :path => '.'
+  pod 'DjangoConsumer', :subspecs => ['Core', 'OAuth2'], :path => '.'
 end

@@ -1,17 +1,18 @@
 PODS:
   - Alamofire (4.8.1)
-  - DjangoConsumer (0.8.0):
-    - Alamofire (= 4.8.1)
-    - DjangoConsumer/Core (= 0.8.0)
-    - SwiftyJSON (= 4.0.0)
   - DjangoConsumer/Core (0.8.0):
     - Alamofire (= 4.8.1)
+    - SwiftyJSON (= 4.0.0)
+  - DjangoConsumer/OAuth2 (0.8.0):
+    - Alamofire (= 4.8.1)
+    - DjangoConsumer/Core
     - SwiftyJSON (= 4.0.0)
   - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
   - Alamofire (= 4.8.1)
-  - DjangoConsumer (from `.`)
+  - DjangoConsumer/Core (from `.`)
+  - DjangoConsumer/OAuth2 (from `.`)
   - SwiftyJSON (= 4.0.0)
 
 SPEC REPOS:
@@ -28,6 +29,6 @@ SPEC CHECKSUMS:
   DjangoConsumer: 14242c48b9f2ed960bcdc58eefe35a7f6c5a5f5e
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 3a3ef9ff0d2f08d2db67e668fb1b37308d57c099
+PODFILE CHECKSUM: f1242ca3b8d6e8bc48ee10ec4669e606e99df41b
 
 COCOAPODS: 1.9.1
