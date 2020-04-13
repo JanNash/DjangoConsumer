@@ -81,6 +81,7 @@ jobs:
         key: cache-${{ env.CACHE_VERSION }}_bundle-${{ hashFiles('Gemfile.lock') }}
 
     - name: 'Install coreutils'
+      if: steps.bundle-cache.outputs.cache-hit != 'true'
       run: |
         # This step currently (April 10, 2020) seems to be necessary
         # so bundle install doesn't error out when trying to build the
