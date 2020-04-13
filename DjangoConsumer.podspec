@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.authors = {
     "Jan Nash" => "jnash@jnash.de" 
   }
-  s.swift_version = '4.2'
+  s.swift_version = '5.2'
   s.platform = :ios, "8.0"
   s.source = {
     :git => "https://github.com/JanNash/DjangoConsumer.git",
