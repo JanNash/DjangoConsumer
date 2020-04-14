@@ -45,6 +45,26 @@ public protocol OAuth2CredentialStore {
 }
 
 
+// MARK: Default Implemetations
+public extension OAuth2CredentialStore {
+    mutating func updateWith(accessToken: String, refreshToken: String, expiryDate: Date, tokenType: String, scope: String) {
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
+        self.expiryDate = expiryDate
+        self.tokenType = tokenType
+        self.scope = scope
+    }
+    
+    mutating func clear() {
+        self.accessToken = nil
+        self.refreshToken = nil
+        self.expiryDate = nil
+        self.tokenType = nil
+        self.scope = nil
+    }
+}
+
+
 // MARK: - OAuth2Error
 enum OAuth2Error: Error {
     case noAccessToken
