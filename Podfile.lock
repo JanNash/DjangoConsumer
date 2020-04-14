@@ -7,6 +7,10 @@ PODS:
     - Alamofire (= 4.8.1)
     - DjangoConsumer/Core
     - SwiftyJSON (= 4.0.0)
+  - DjangoConsumer/Testing (0.8.0):
+    - Alamofire (= 4.8.1)
+    - DjangoConsumer/Core
+    - SwiftyJSON (= 4.0.0)
   - SwiftyJSON (4.0.0)
   - xcbeautify (0.7.5)
 
@@ -14,6 +18,7 @@ DEPENDENCIES:
   - Alamofire (= 4.8.1)
   - DjangoConsumer/Core (from `.`)
   - DjangoConsumer/OAuth2 (from `.`)
+  - DjangoConsumer/Testing (from `.`)
   - SwiftyJSON (= 4.0.0)
   - xcbeautify (= 0.7.5)
 
@@ -33,6 +38,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   xcbeautify: c917bfa280271d78551b995426176ed06664306b
 
-PODFILE CHECKSUM: f676559372b3ebeda887f1a9eb831fd564f312cd
+PODFILE CHECKSUM: 2f8ac9c51869eb40f3ca6f9336b10eaf45bd0505
 
 COCOAPODS: 1.9.1
