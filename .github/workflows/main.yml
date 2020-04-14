@@ -123,8 +123,8 @@ jobs:
           -destination "platform=iOS Simulator,name=$BUILD_DESTINATION_NAME,OS=$BUILD_DESTINATION_OS" \
           test \
           | tee "$XCODEBUILD_LOG_DIR/xcodebuild-verbose.log" \
-          | xcpretty \
-          | tee "$XCODEBUILD_LOG_DIR/xcodebuild-xcpretty.log"
+          | ./Pods/xcbeautify/xcbeautify \
+          | tee "$XCODEBUILD_LOG_DIR/xcodebuild-xcbeautify.log"
 
     - name: 'Upload xcodebuild logs'
       uses: actions/upload-artifact@v1
