@@ -29,7 +29,7 @@ class _Node: OAuth2Node {
     // Node Conformance
     var sessionManagerNoAuth: SessionManagerType = SessionManager.makeDefault()
     
-    let baseURL: URL = URL(string: "http://pastebin.org")!
+    let baseURL: URL = URL(string: "")!
     
     let routes: [Route] = []
     
