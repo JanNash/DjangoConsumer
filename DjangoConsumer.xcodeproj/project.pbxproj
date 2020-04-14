@@ -56,7 +56,6 @@
 		62DA6F63F39FFC01F62F615A02415391 /* Dictionary (merging).swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AA12054591C0B09C33C0B008C70CF3 /* Dictionary (merging).swift */; };
 		63B09DCFE343F3A2D5FFCC1DEFE78133 /* SinglePostableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360D9ABBCBA8479BC3F8B9B193CC36FC /* SinglePostableTests.swift */; };
 		6422449EE479C02E960A504E2097BB3E /* PayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F565FDA85EC0EC0167D537941BB9EF7B /* PayloadTests.swift */; };
-		6D3AEF96A07D829974402134378A0CE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F074F2FC0D62F7BA8547EDCD829AE795 /* Main.storyboard */; };
 		6F88632AF116A6692DCF6A2152FAE897 /* ProgrammerAssertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B670AB270ECCE2990C43EB5638B493A9 /* ProgrammerAssertions.swift */; };
 		7CCE23B7691708AB18271441624D726C /* SessionManagerTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */; };
 		7D3C88D3709733F89D7F0EAA06249B4F /* UInt16 (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8A65E81326AEBEB7BD24EBFD0F507 /* UInt16 (JSONValueConvertible).swift */; };
@@ -175,7 +174,6 @@
 		656A11569627592DE3F84ABC494D76F2 /* libPods-DjangoConsumerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DjangoConsumerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68749C0F434DB00C70B2EA9E90B65313 /* UInt8 (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt8 (JSONValueConvertible).swift"; sourceTree = "<group>"; };
 		698B8C4E1C52037532059C4214224BB7 /* Pods-ExampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.release.xcconfig"; path = "Target Support Files/Pods-ExampleApp/Pods-ExampleApp.release.xcconfig"; sourceTree = "<group>"; };
-		699BB8393208C8E7C6FF5C8A49FD6CA6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2CredentialStore.swift; sourceTree = "<group>"; };
 		6D4F01CD750F13B645FC2544029A1468 /* PayloadConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadConvertible.swift; sourceTree = "<group>"; };
 		6DB0E8D5513F5112E8ED64C72CD785E2 /* MockDetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDetailGettable.swift; sourceTree = "<group>"; };
@@ -546,7 +544,6 @@
 				A7594731CAD6F64ACB5CFE452B0E7175 /* AppDelegate.swift */,
 				2EF76AE598093E887C3A167A0264A896 /* Info.plist */,
 				2E6B16CC5565364F99AEE2954B1DF741 /* LaunchScreen.storyboard */,
-				F074F2FC0D62F7BA8547EDCD829AE795 /* Main.storyboard */,
 				F41EA65402B0DE1C9561C66C35FA09A7 /* ViewController.swift */,
 			);
 			path = ExampleApp;
@@ -822,7 +819,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				217579BE46D0DCB34EDBC62ADB675981 /* LaunchScreen.storyboard in Resources */,
-				6D3AEF96A07D829974402134378A0CE8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1065,15 +1061,6 @@
 				BD8416D719BF2FC8969F4AA5E16E1CC0 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			path = .;
-			sourceTree = "<group>";
-		};
-		F074F2FC0D62F7BA8547EDCD829AE795 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				699BB8393208C8E7C6FF5C8A49FD6CA6 /* Base */,
-			);
-			name = Main.storyboard;
 			path = .;
 			sourceTree = "<group>";
 		};
