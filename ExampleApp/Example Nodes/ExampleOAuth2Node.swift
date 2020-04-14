@@ -20,7 +20,7 @@ class ExampleOAuth2Node: OAuth2Node {
     static let shared: ExampleOAuth2Node = ExampleOAuth2Node()
     
     // Node Conformance
-    let baseURL: URL = URL(string: "")!
+    let baseURL: URL = URL(string: "ExampleOAuth2Node.baseURL")!
     let routes: [Route] = []
     
     func defaultLimit<T>(for resourceType: T.Type) -> UInt where T : ListGettable {
