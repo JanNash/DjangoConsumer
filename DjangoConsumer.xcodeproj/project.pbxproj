@@ -110,6 +110,7 @@
 		F2D52BCC26A8DE44265AB5DC5B5ACBF8 /* SessionManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA7E85FD88DAC1D72D6549171E90C35 /* SessionManagerType.swift */; };
 		F37389C291A9BF37BA3C66E8D0A82551 /* UInt (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = A262D7DFF69D421570BA11F8CDBA5B96 /* UInt (JSONValueConvertible).swift */; };
 		F3BCB06BF4FB7C047D0AD58BB1BDDB33 /* IdentifiableResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC0283B55324B9609E5A723ECBB52B /* IdentifiableResource.swift */; };
+		F5EEC647A2E88FF3A91692C1901F9D0C /* ExampleOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9093AF891A97F29297401A1D0D8743F /* ExampleOAuth2Node.swift */; };
 		F977BED704179A6A02EC4459A0E3018C /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1988959B77FF92A6257775066EE536D /* Payload.swift */; };
 		F9A70B578D10E2BF8BD3BB51CCE5FB61 /* ResourceID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7284D8147CD9484BAA13008D9A9E084B /* ResourceID.swift */; };
 		FA2A372FB05274F82CCF264184DFA785 /* URL+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0329884BE9C2D49B66A81CA93A9A4810 /* URL+Tests.swift */; };
@@ -203,6 +204,7 @@
 		A486C0DB729A213E98D9E0A63958A103 /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 		A7594731CAD6F64ACB5CFE452B0E7175 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A903C29149B4C75236BB35FB865E47AA /* FilteredListGettableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettableOAuth2.swift; sourceTree = "<group>"; };
+		A9093AF891A97F29297401A1D0D8743F /* ExampleOAuth2Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleOAuth2Node.swift; sourceTree = "<group>"; };
 		ABF116532C90A067B3CC20F5C8A94DE7 /* ListGettableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableOAuth2.swift; sourceTree = "<group>"; };
 		AC4A08D2154AC117576D175AFF9719CB /* JSONValueConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValueConvertible.swift; sourceTree = "<group>"; };
 		AEED2FD489E32A83E92760CE5183087E /* SessionManagerTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerTypeTests.swift; sourceTree = "<group>"; };
@@ -332,6 +334,14 @@
 				654C2C26A01D29C98DD91B0A8BD45704 /* libPods-ExampleApp.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		614CF7A5C7893684DD61BCDC0329D14E /* Example Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				A9093AF891A97F29297401A1D0D8743F /* ExampleOAuth2Node.swift */,
+			);
+			path = "Example Nodes";
 			sourceTree = "<group>";
 		};
 		6320DD654561EB03B821B869C7C7055B /* DjangoConsumer */ = {
@@ -541,6 +551,7 @@
 		C3371841DC576CA214804820C7031BED /* ExampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				614CF7A5C7893684DD61BCDC0329D14E /* Example Nodes */,
 				A7594731CAD6F64ACB5CFE452B0E7175 /* AppDelegate.swift */,
 				2EF76AE598093E887C3A167A0264A896 /* Info.plist */,
 				2E6B16CC5565364F99AEE2954B1DF741 /* LaunchScreen.storyboard */,
@@ -1008,6 +1019,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43D7DACFDA75DE53117F70FB0A76D8C0 /* AppDelegate.swift in Sources */,
+				F5EEC647A2E88FF3A91692C1901F9D0C /* ExampleOAuth2Node.swift in Sources */,
 				AA9B92462CF15494AB6CFB2DEB9CA6B2 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
