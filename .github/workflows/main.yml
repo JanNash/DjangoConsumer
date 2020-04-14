@@ -116,11 +116,12 @@ jobs:
 
     - name: 'Clean / Build / Test'
       run: |
+        set -o pipefail && \
         xcodebuild \
           -workspace "$WORKSPACE_NAME.xcworkspace" \
           -scheme "$BUILD_SCHEME" \
           -destination "platform=iOS Simulator,name=$BUILD_DESTINATION_NAME,OS=$BUILD_DESTINATION_OS" \
-          clean build test \
+          test \
           | tee "$XCODEBUILD_LOG_DIR/xcodebuild-verbose.log" \
           | xcpretty \
           | tee "$XCODEBUILD_LOG_DIR/xcodebuild-xcpretty.log"
