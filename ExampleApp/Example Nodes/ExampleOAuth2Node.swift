@@ -17,10 +17,9 @@ import DjangoConsumer
 // MARK: -
 class ExampleOAuth2Node: OAuth2Node {
     // Shared Instance
-    static let shared: ExampleOAuth2Node()
+    static let shared: ExampleOAuth2Node = ExampleOAuth2Node()
     
     // Node Conformance
-    let sessionManagerNoAuth: SessionManagerType = SessionManager.makeDefault()
     let baseURL: URL = URL(string: "")!
     let routes: [Route] = []
     
