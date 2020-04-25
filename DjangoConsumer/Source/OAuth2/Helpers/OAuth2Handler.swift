@@ -329,7 +329,13 @@ private extension OAuth2Handler {
             return
         }
         
-        self._updateCredentialStore(with: tokenResponse)
+        self.credentialStore.update(with: (
+            accessToken: tokenResponse.accessToken,
+            refreshToken: tokenResponse.refreshToken,
+            expiryDate: tokenResponse.expiryDate,
+            tokenType: tokenResponse.tokenType,
+            scope: tokenResponse.scope
+        ))
         
         updateStatus()
         success()
@@ -341,16 +347,6 @@ private extension OAuth2Handler {
         updateStatus()
         failure(error)
         self._lock.unlock()
-    }
-    
-    func _updateCredentialStore(with tokenResponse: _TokenResponse) {
-        self.credentialStore.updateWith(
-            accessToken: tokenResponse.accessToken,
-            refreshToken: tokenResponse.refreshToken,
-            expiryDate: tokenResponse.expiryDate,
-            tokenType: tokenResponse.tokenType,
-            scope: tokenResponse.scope
-        )
     }
 }
 

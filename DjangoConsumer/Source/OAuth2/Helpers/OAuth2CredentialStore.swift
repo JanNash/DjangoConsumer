@@ -19,19 +19,21 @@ public protocol OAuth2CredentialStore {
     var expiryDate: Date? { get set }
     var tokenType: String? { get set }
     var scope: String? { get set }
-    mutating func updateWith(accessToken: String, refreshToken: String, expiryDate: Date, tokenType: String, scope: String)
+    mutating func update(with credentials: Credentials)
     mutating func clear()
 }
 
 
 // MARK: Default Implemetations
 public extension OAuth2CredentialStore {
-    mutating func updateWith(accessToken: String, refreshToken: String, expiryDate: Date, tokenType: String, scope: String) {
-        self.accessToken = accessToken
-        self.refreshToken = refreshToken
-        self.expiryDate = expiryDate
-        self.tokenType = tokenType
-        self.scope = scope
+    typealias Credentials = (accessToken: String, refreshToken: String, expiryDate: Date, tokenType: String, scope: String)
+    
+    mutating func update(with credentials: Credentials) {
+        self.accessToken = credentials.accessToken
+        self.refreshToken = credentials.refreshToken
+        self.expiryDate = credentials.expiryDate
+        self.tokenType = credentials.tokenType
+        self.scope = credentials.scope
     }
     
     mutating func clear() {
