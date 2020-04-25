@@ -27,6 +27,7 @@
 		22180231E5D356E9B6F4C4784937B072 /* MockListPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E34530425B5FA58C30892389E23C5E2 /* MockListPostable.swift */; };
 		23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9F16550D222407C7D9FC5FEEB0569 /* Pagination.swift */; };
 		24B6FF3923DD39F2F0B18C2284A67810 /* Array (PayloadElementConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9436D073CC9F14341BEFCB34939F04 /* Array (PayloadElementConvertible).swift */; };
+		275D4006B225F97CCF68BBB2AC7A86F2 /* OAuth2CredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFED2334BBB871160441B4422CC1F8D /* OAuth2CredentialStore.swift */; };
 		2779BE00259FCECF7243066D020B1EAB /* UIImage (withColorAndSize).swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7FD7E24C6D58A2390A87107F5662E /* UIImage (withColorAndSize).swift */; };
 		2BEA0D5C59A5FB059ACA2D21FB0E5BB6 /* Double (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 309E286307A20BFF1CD872B46AF81CFB /* Double (JSONValueConvertible).swift */; };
 		2FC2FD78529D4A779A7425D39B8647B0 /* Dictionary (PayloadElementConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = C693413BD2DCDEE1A04F373543BC015F /* Dictionary (PayloadElementConvertible).swift */; };
@@ -134,6 +135,7 @@
 		065C9BF09011C37981416352EB8E8030 /* DetailResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailResource.swift; sourceTree = "<group>"; };
 		0709D1A718E3F7BF9551083C482D90D4 /* Date (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date (JSONValueConvertible).swift"; sourceTree = "<group>"; };
 		0E6CD3C518ED40B5A25471AFD142FE15 /* RequestConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestConfigurationTests.swift; sourceTree = "<group>"; };
+		0EFED2334BBB871160441B4422CC1F8D /* OAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2CredentialStore.swift; sourceTree = "<group>"; };
 		0FA8C41090A85EA39F94744D3849CC4E /* ListPostableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPostableClient.swift; sourceTree = "<group>"; };
 		10799D2B2F94923B9DCF49FCD0327C09 /* ListPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPostable.swift; sourceTree = "<group>"; };
 		11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettable.swift; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 			isa = PBXGroup;
 			children = (
 				6F8042D5F51399BB3BA078D848DE1E6C /* DefaultImplementations+OAuth2.swift */,
+				0EFED2334BBB871160441B4422CC1F8D /* OAuth2CredentialStore.swift */,
 				9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */,
 			);
 			path = Helpers;
@@ -980,6 +983,7 @@
 				B2C267D093D4E4C61C83512AEB575DB2 /* NoAuthNode.swift in Sources */,
 				3822C625D7D6018BF412869914F1C6F8 /* Node.swift in Sources */,
 				21EEB25CE40184B73CC013DCF413391E /* OAuth2Constants.swift in Sources */,
+				275D4006B225F97CCF68BBB2AC7A86F2 /* OAuth2CredentialStore.swift in Sources */,
 				DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */,
 				3CE39AA01C15C2A2704A15F85D5499B5 /* OAuth2Node.swift in Sources */,
 				EBE16971CC04BEEC24F674A3A42F1AA9 /* Optional (JSONValueConvertible).swift in Sources */,
