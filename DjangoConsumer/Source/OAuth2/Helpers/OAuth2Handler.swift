@@ -14,25 +14,6 @@ import SwiftyJSON
 
 
 // MARK: // Public
-// MARK: - OAuth2Settings
-// MARK: ???: Should this be a protocol, too? Check RFC
-public struct OAuth2Settings {
-    // Init
-    public init(appSecret: String, tokenRequestURL: URL, tokenRefreshURL: URL, tokenRevokeURL: URL) {
-        self.appSecret = appSecret
-        self.tokenRequestURL = tokenRequestURL
-        self.tokenRefreshURL = tokenRefreshURL
-        self.tokenRevokeURL = tokenRevokeURL
-    }
-    
-    // Public Variables
-    public private(set) var appSecret: String
-    public private(set) var tokenRequestURL: URL
-    public private(set) var tokenRefreshURL: URL
-    public private(set) var tokenRevokeURL: URL
-}
-
-
 // MARK: - OAuth2Error
 enum OAuth2Error: Error {
     case noAccessToken
