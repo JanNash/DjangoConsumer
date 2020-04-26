@@ -95,4 +95,61 @@ class Array_PayloadElementConvertible_Tests: BaseTest {
         
         XCTAssert(multipart == expectedMultipart)
     }
+    
+    func testToPayloadElementMixedJSONAndMultipart() {
+        let currentKey: String = "bar"
+        let aImages: [UIImage] = [UIImage(), UIImage(color: .green), UIImage(color: .blue)]
+        let cImages: [UIImage] = [UIImage(), UIImage(color: .green), UIImage(color: .blue)]
+        
+        let dict: [Payload.Dict] = [
+            Payload.Dict([
+                "a": "b",
+                "aImages": aImages
+            ]),
+            Payload.Dict([
+                "c": "d",
+                "cImages": cImages
+            ])
+        ]
+        
+        let payloadElement: Payload.Element = dict.toPayloadElement(
+            conversion: DefaultPayloadConversion(),
+            configuration: (
+                rootObject: nil,
+                method: .get,
+                multipartPath: Payload.Multipart.Path(currentKey),
+                currentKey: currentKey
+            )
+        )
+        
+        guard let json: Payload.JSON.UnwrappedPayload = payloadElement.json else {
+            XCTFail("payloadElement does not contain json payload")
+            return
+        }
+        
+        let expectedJSON: Payload.JSON.UnwrappedPayload = [
+            "bar": [
+                ["a": "b"],
+                ["c": "d"]
+            ]
+        ]
+        
+        XCTAssert(json == expectedJSON)
+        
+        guard let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart else {
+            XCTFail("payloadElement does not contain multipart payload")
+            return
+        }
+        
+        let expectedMultipart: Payload.Multipart.UnwrappedPayload = [
+            "bar[0]aImages[0]": ("null".data(using: .utf8)!, .imagePNG),
+            "bar[0]aImages[1]": (aImages[1].pngData()!, .imagePNG),
+            "bar[0]aImages[2]": (aImages[2].pngData()!, .imagePNG),
+            "bar[1]cImages[0]": ("null".data(using: .utf8)!, .imagePNG),
+            "bar[1]cImages[1]": (cImages[1].pngData()!, .imagePNG),
+            "bar[1]cImages[2]": (cImages[2].pngData()!, .imagePNG),
+        ]
+        
+        XCTAssert(multipart == expectedMultipart)
+    }
 }
