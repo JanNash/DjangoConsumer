@@ -58,6 +58,41 @@ class Array_PayloadElementConvertible_Tests: BaseTest {
             return
         }
         
-//        XCTAssert(multipart == )
+        let expectedMultipart: Payload.Multipart.UnwrappedPayload = [
+            "\(currentKey)[0]": (ary[0].pngData()!, .imagePNG),
+            "\(currentKey)[1]": (ary[1].pngData()!, .imagePNG),
+            "\(currentKey)[2]": (ary[2].pngData()!, .imagePNG),
+        ]
+        
+        XCTAssert(multipart == expectedMultipart)
+    }
+    
+    func testToPayloadElementPureMultipartContainingNull() {
+        let currentKey: String = "bar"
+        let ary: [UIImage] = [UIImage(), UIImage(color: .green), UIImage(color: .blue)]
+        let payloadElement: Payload.Element = ary.toPayloadElement(
+            conversion: DefaultPayloadConversion(),
+            configuration: (
+                rootObject: nil,
+                method: .get,
+                multipartPath: Payload.Multipart.Path(currentKey),
+                currentKey: currentKey
+            )
+        )
+        
+        XCTAssert(payloadElement.json == nil)
+        
+        guard let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart else {
+            XCTFail("payloadElement does not contain multipart payload")
+            return
+        }
+        
+        let expectedMultipart: Payload.Multipart.UnwrappedPayload = [
+            "bar[0]": ("null".data(using: .utf8)!, .imagePNG),
+            "bar[1]": (ary[1].pngData()!, .imagePNG),
+            "bar[2]": (ary[2].pngData()!, .imagePNG),
+        ]
+        
+        XCTAssert(multipart == expectedMultipart)
     }
 }
