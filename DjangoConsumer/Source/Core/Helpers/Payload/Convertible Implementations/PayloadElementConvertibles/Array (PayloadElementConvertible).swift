@@ -72,10 +72,10 @@ private extension Array/*: PayloadElementConvertible*/ where Element: PayloadEle
             }
         })
         
-        if !self.isEmpty && jsonArray.isEmpty {
-            return (nil, multipartPayload)
+        if !multipartPayload.isEmpty {
+            return ([currentKey: jsonArray], multipartPayload)
         }
         
-        return ([currentKey: jsonArray], multipartPayload)
+        return ([currentKey: jsonArray], nil)
     }
 }
