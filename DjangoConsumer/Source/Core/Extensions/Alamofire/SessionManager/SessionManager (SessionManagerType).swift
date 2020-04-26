@@ -59,6 +59,7 @@ private extension Alamofire.SessionManager {
                 payload.multipart.map({ ($0.value.0, $0.key, $0.value.1.rawValue) }).forEach(multipartFormData.append)
             }, to: cfg.url, method: .post, headers: cfg.headers, encodingCompletion: {
                 switch $0 {
+                    // TODO: Check documentation on streamingFromDisk and streamFileURL
                 case .success(request: let request, streamingFromDisk: _, streamFileURL: _):
                     completion(.created(request))
                 case .failure(let error):
