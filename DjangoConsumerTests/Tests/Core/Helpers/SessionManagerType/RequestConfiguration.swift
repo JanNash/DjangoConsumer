@@ -1,5 +1,5 @@
 //
-//  RequestConfigurationTests.swift
+//  RequestConfiguration.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 08.04.18.

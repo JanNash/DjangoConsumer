@@ -1,5 +1,5 @@
 //
-//  JSONResponseHandlingTests.swift
+//  JSONResponseHandling.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 08.04.18.

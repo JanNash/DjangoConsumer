@@ -1,5 +1,5 @@
 //
-//  PayloadTests.swift
+//  Payload.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 22.07.18.
@@ -14,7 +14,7 @@ import XCTest
 
 
 // MARK: // Internal
-class PayloadTests: XCTestCase {
+class PayloadTests: BaseTest {
     func testPayloadMultipartContentTypeNull() {
         typealias FixtureType = Payload.Multipart
         
