@@ -14,37 +14,6 @@ import SwiftyJSON
 
 
 // MARK: // Public
-// MARK: - OAuth2Settings
-// MARK: ???: Should this be a protocol, too? Check RFC
-public struct OAuth2Settings {
-    // Init
-    public init(appSecret: String, tokenRequestURL: URL, tokenRefreshURL: URL, tokenRevokeURL: URL) {
-        self.appSecret = appSecret
-        self.tokenRequestURL = tokenRequestURL
-        self.tokenRefreshURL = tokenRefreshURL
-        self.tokenRevokeURL = tokenRevokeURL
-    }
-    
-    // Public Variables
-    public private(set) var appSecret: String
-    public private(set) var tokenRequestURL: URL
-    public private(set) var tokenRefreshURL: URL
-    public private(set) var tokenRevokeURL: URL
-}
-
-
-// MARK: - OAuth2CredentialStore
-public protocol OAuth2CredentialStore {
-    var accessToken: String? { get set }
-    var refreshToken: String? { get set }
-    var expiryDate: Date? { get set }
-    var tokenType: String? { get set }
-    var scope: String? { get set }
-    mutating func updateWith(accessToken: String, refreshToken: String, expiryDate: Date, tokenType: String, scope: String)
-    mutating func clear()
-}
-
-
 // MARK: - OAuth2Error
 enum OAuth2Error: Error {
     case noAccessToken
@@ -341,7 +310,13 @@ private extension OAuth2Handler {
             return
         }
         
-        self._updateCredentialStore(with: tokenResponse)
+        self.credentialStore.update(with: (
+            accessToken: tokenResponse.accessToken,
+            refreshToken: tokenResponse.refreshToken,
+            expiryDate: tokenResponse.expiryDate,
+            tokenType: tokenResponse.tokenType,
+            scope: tokenResponse.scope
+        ))
         
         updateStatus()
         success()
@@ -353,16 +328,6 @@ private extension OAuth2Handler {
         updateStatus()
         failure(error)
         self._lock.unlock()
-    }
-    
-    func _updateCredentialStore(with tokenResponse: _TokenResponse) {
-        self.credentialStore.updateWith(
-            accessToken: tokenResponse.accessToken,
-            refreshToken: tokenResponse.refreshToken,
-            expiryDate: tokenResponse.expiryDate,
-            tokenType: tokenResponse.tokenType,
-            scope: tokenResponse.scope
-        )
     }
 }
 

@@ -23,6 +23,11 @@ extension Date: JSONValueConvertible {
 // MARK: // Private
 private extension Date/*: JSONValueConvertible */ {
     func _toJSONValue() -> Payload.JSON.Value {
+        guard #available(iOS 11, *) else {
+            // FIXME:
+            return .string("")
+        }
+        
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return .string(formatter.string(from: self))

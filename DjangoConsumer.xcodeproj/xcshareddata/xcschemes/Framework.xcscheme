@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1100"
+   LastUpgradeVersion = "1140"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,6 +17,20 @@
                BlueprintIdentifier = "6ACE9893E89075804F540CF27F9DD534"
                BuildableName = "DjangoConsumer.framework"
                BlueprintName = "DjangoConsumer"
+               ReferencedContainer = "container:DjangoConsumer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "99887D8011921EA613C2C9192E1BC6BE"
+               BuildableName = "ExampleApp.app"
+               BlueprintName = "ExampleApp"
                ReferencedContainer = "container:DjangoConsumer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,6 +76,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "99887D8011921EA613C2C9192E1BC6BE"
+            BuildableName = "ExampleApp.app"
+            BlueprintName = "ExampleApp"
+            ReferencedContainer = "container:DjangoConsumer.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
