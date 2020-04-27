@@ -109,6 +109,7 @@
 		D661C1B34275A7B8B23FFCB6F474F74F /* SinglePostableOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3230A51D478D0559F6661391A7D480D4 /* SinglePostableOAuth2.swift */; };
 		D66DB520E96B3C15AB5035C57A176594 /* SessionManagerType Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849711F0A9E49AD7D494E7C93DF3091 /* SessionManagerType Tests.swift */; };
 		D77FC593362C8D79CF350C7590773196 /* JSONResponseHandling Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF7FDABA6808633AABAB0084D95D62A /* JSONResponseHandling Tests.swift */; };
+		DA8A1D8C09CFFCCEE493B40B563FB7C3 /* Float (JSONValueConvertible) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E182EE72027B6BB48ECEF7E0C4AE35BD /* Float (JSONValueConvertible) Tests.swift */; };
 		DB612A7FFB70E14380ACDC2E8B45593D /* Array (PayloadElementConvertible) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055D49365364B66CF6EE9E045F7390DA /* Array (PayloadElementConvertible) Tests.swift */; };
 		DDD9978C68BD524AEE5197A62C355177 /* ListPostableOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B29A0DCF7058D57A3CFFD5E7E7CFFCA /* ListPostableOAuth2.swift */; };
 		DEF02E734F0CA7E5524CA5A1AB780CA8 /* OAuth2Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0B75D6A050F5F58662D409385833A /* OAuth2Handler.swift */; };
@@ -262,6 +263,7 @@
 		DE4830251FC46B65B6596F821E398281 /* Pods-DjangoConsumer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjangoConsumer.debug.xcconfig"; path = "Target Support Files/Pods-DjangoConsumer/Pods-DjangoConsumer.debug.xcconfig"; sourceTree = "<group>"; };
 		DE82A4D3885B635F1A3AE9E02F7C19D6 /* Payload.Dict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.Dict.swift; sourceTree = "<group>"; };
 		E04B801AC51ED0AD53625889376D93D0 /* Int32 (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int32 (JSONValueConvertible).swift"; sourceTree = "<group>"; };
+		E182EE72027B6BB48ECEF7E0C4AE35BD /* Float (JSONValueConvertible) Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float (JSONValueConvertible) Tests.swift"; sourceTree = "<group>"; };
 		E42A43B5F7E093D4575CAE0BC56AE2E0 /* DjangoConsumerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DjangoConsumerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E955BFE02D5651D9B68A46EF29570B50 /* UIImage (MultipartValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage (MultipartValueConvertible).swift"; sourceTree = "<group>"; };
 		EBCF389EF5966AD841EBF7A284900581 /* SessionManager (makeDefault).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager (makeDefault).swift"; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 				12D0BB459CB0F8F5E66A08E968E8B590 /* Bool (JSONValueConvertible) Tests.swift */,
 				DE46072BBB27BC9BFD65FF6650ABDA3F /* Date (JSONValueConvertible) Tests.swift */,
 				05AF198981048FAA8A64F50CBC86BF06 /* Double (JSONValueConvertible) Tests.swift */,
+				E182EE72027B6BB48ECEF7E0C4AE35BD /* Float (JSONValueConvertible) Tests.swift */,
 			);
 			path = JSONValueConvertibles;
 			sourceTree = "<group>";
@@ -1178,6 +1181,7 @@
 				B6A577680A0F251E9616FA69DCA36781 /* Date (JSONValueConvertible) Tests.swift in Sources */,
 				8262E1378B0C8A1050AB98649B2E67A9 /* Dictionary (PayloadElementConvertible) Tests.swift in Sources */,
 				CFA79AB5513E03C94ADBA53C9C864953 /* Double (JSONValueConvertible) Tests.swift in Sources */,
+				DA8A1D8C09CFFCCEE493B40B563FB7C3 /* Float (JSONValueConvertible) Tests.swift in Sources */,
 				B7651BF98CC2A939D37E72FB4A23C1AF /* IfThisIsAThen Tests.swift in Sources */,
 				D77FC593362C8D79CF350C7590773196 /* JSONResponseHandling Tests.swift in Sources */,
 				A15CA844385233097AC5B68BC7E2B4EA /* MockDetailGettable.swift in Sources */,
