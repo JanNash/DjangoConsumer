@@ -38,4 +38,31 @@ class Dictionary_PayloadElementConvertible_Tests: BaseTest {
         
         XCTAssert(json == ["foo": ["bar": ["baz": true, "zoing": false]]])
     }
+    
+    func testNestedDictionaryPureMultipart() {
+        let currentKey: String = "foo"
+        let bazImage: UIImage = UIImage(color: .red)
+        let zoingImage: UIImage = UIImage(color: .black)
+        
+        let dict: Payload.Dict = ["bar": ["baz": bazImage, "zoing": zoingImage]]
+        
+        let payloadElement: Payload.Element = dict.toPayloadElement(
+            conversion: DefaultPayloadConversion(),
+            configuration: (
+                rootObject: nil,
+                method: .get,
+                multipartPath: Payload.Multipart.Path(currentKey),
+                currentKey: currentKey
+            )
+        )
+        
+        XCTAssertNil(payloadElement.json)
+        
+        let expectedMultipart: Payload.Multipart.UnwrappedPayload = [
+            "\(currentKey).bar.baz": (bazImage.pngData()!, .imagePNG),
+            "\(currentKey).bar.zoing": (zoingImage.pngData()!, .imagePNG),
+        ]
+        
+        XCTAssert(payloadElement.multipart == expectedMultipart)
+    }
 }
