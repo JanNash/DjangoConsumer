@@ -45,6 +45,10 @@ private extension Payload.Dict/*: PayloadElementConvertible*/ {
             multipartPayload.merge(payloadElement.multipart, strategy: .overwriteOldValue)
         })
         
+        if !self.isEmpty && jsonPayload.isEmpty {
+            return (nil, multipartPayload)
+        }
+        
         return ([configuration.currentKey: jsonPayload], multipartPayload)
     }
 }
