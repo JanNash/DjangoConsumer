@@ -29,10 +29,7 @@ class Dictionary_PayloadElementConvertible_Tests: BaseTest {
             )
         )
         
-//        guard payloadElement.multipart == nil else {
-//            XCTFail("payloadElement should not contain multipart")
-//            return
-//        }
+        XCTAssert(payloadElement.multipart.isEmpty)
         
         guard let json: Payload.JSON.UnwrappedPayload = payloadElement.json else {
             XCTFail("payloadElement should contain json")
