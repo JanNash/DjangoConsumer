@@ -27,7 +27,9 @@ private extension Optional where Wrapped: PayloadElementConvertible {
         case .some(let convertible):
             return convertible.toPayloadElement(conversion: conversion, configuration: configuration)
         case .none:
-            return (nil, [:])
+            return DefaultImplementations.JSONValueConvertible.payloadElement(
+                from: Payload.JSON.Value.null, conversion: (conversion, configuration)
+            )
         }
     }
 }

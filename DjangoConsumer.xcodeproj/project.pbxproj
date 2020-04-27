@@ -20,7 +20,6 @@
 		115C1FA1F76FBE80F02481F517F9E786 /* libPods-DjangoConsumer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDBF8D3CA028C82902FBC503F7813EF8 /* libPods-DjangoConsumer.a */; };
 		12918E7AE1D078AE2C548C7F2CCFB85F /* libPods-DjangoConsumerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 656A11569627592DE3F84ABC494D76F2 /* libPods-DjangoConsumerTests.a */; };
 		1C759EE4A71FCF1777C4136C37AE9DF1 /* Payload.Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E820CE8D0D5FEEEC196F61E22363492 /* Payload.Multipart.swift */; };
-		1D68FABD91F4022C14CCCFECDFBDE864 /* Optional (MultipartValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = D46EEC97CC84DAC88926D07A9BBB3193 /* Optional (MultipartValueConvertible).swift */; };
 		1D934753F8FD4FBEEBDF89CB02039F4F /* libPods-ExampleApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 654C2C26A01D29C98DD91B0A8BD45704 /* libPods-ExampleApp.a */; };
 		210D27A1F70815D679390C0A98D26965 /* SwiftyJSONResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBB81AC551781E3381F4493E54BF803 /* SwiftyJSONResponseSerializer.swift */; };
 		217579BE46D0DCB34EDBC62ADB675981 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B16CC5565364F99AEE2954B1DF741 /* LaunchScreen.storyboard */; };
@@ -271,7 +270,6 @@
 		D141F279D8027641BD858F953499CE12 /* Payload.JSON.Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.JSON.Value.swift; sourceTree = "<group>"; };
 		D3DB39F5142E91B9C3216AD5D333FBEF /* Optional (PayloadElementConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional (PayloadElementConvertible).swift"; sourceTree = "<group>"; };
 		D44C4386AFACE1BEEF9F2BE25A90C311 /* Int8 (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int8 (JSONValueConvertible).swift"; sourceTree = "<group>"; };
-		D46EEC97CC84DAC88926D07A9BBB3193 /* Optional (MultipartValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional (MultipartValueConvertible).swift"; sourceTree = "<group>"; };
 		D849711F0A9E49AD7D494E7C93DF3091 /* SessionManagerType Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManagerType Tests.swift"; sourceTree = "<group>"; };
 		DDD059049A21B3FBD2534CCF60739F1F /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		DDEF7104E5C03F1A001DB075860CD211 /* Route Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Route Tests.swift"; sourceTree = "<group>"; };
@@ -417,7 +415,6 @@
 		6B20C6DD7725ECDB8F0CC863B1C610F7 /* MultipartValueConvertibles */ = {
 			isa = PBXGroup;
 			children = (
-				D46EEC97CC84DAC88926D07A9BBB3193 /* Optional (MultipartValueConvertible).swift */,
 				E955BFE02D5651D9B68A46EF29570B50 /* UIImage (MultipartValueConvertible).swift */,
 			);
 			path = MultipartValueConvertibles;
@@ -1149,7 +1146,6 @@
 				3CE39AA01C15C2A2704A15F85D5499B5 /* OAuth2Node.swift in Sources */,
 				4E90B8886E995D7131FF83E44A76848D /* OAuth2Settings.swift in Sources */,
 				EBE16971CC04BEEC24F674A3A42F1AA9 /* Optional (JSONValueConvertible).swift in Sources */,
-				1D68FABD91F4022C14CCCFECDFBDE864 /* Optional (MultipartValueConvertible).swift in Sources */,
 				FF95B21A9A698F2B02F00C5B0E1EFCE1 /* Optional (PayloadElementConvertible).swift in Sources */,
 				23B91562F5536AA379358B643F094A01 /* Pagination.swift in Sources */,
 				31BD3025D0E5A6F21306E85A81158A75 /* Payload.Dict (PayloadElementConvertible).swift in Sources */,
