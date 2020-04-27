@@ -42,9 +42,7 @@ private extension Payload.Dict {
                 jsonPayload.merge(json, strategy: .overwriteOldValue)
             }
             
-            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
-                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-            }
+            multipartPayload.merge(payloadElement.multipart, strategy: .overwriteOldValue)
         })
         
         return Payload(_rootObject: rootObject, _method: method, _json: jsonPayload, _multipart: multipartPayload)

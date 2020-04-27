@@ -42,9 +42,7 @@ private extension Array/*: PayloadElementConvertible*/ where Element: PayloadEle
                     )
                 )
                 
-                if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
-                    multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-                }
+                multipartPayload.merge(payloadElement.multipart, strategy: .overwriteOldValue)
             })
             
             return (nil, multipartPayload)
@@ -67,15 +65,13 @@ private extension Array/*: PayloadElementConvertible*/ where Element: PayloadEle
                 jsonArray.append(jsonElement)
             }
             
-            if let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart {
-                multipartPayload.merge(multipart, strategy: .overwriteOldValue)
-            }
+            multipartPayload.merge(payloadElement.multipart, strategy: .overwriteOldValue)
         })
         
         if !multipartPayload.isEmpty {
             return ([currentKey: jsonArray], multipartPayload)
         }
         
-        return ([currentKey: jsonArray], nil)
+        return ([currentKey: jsonArray], [:])
     }
 }

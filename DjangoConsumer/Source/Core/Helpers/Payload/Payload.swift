@@ -83,7 +83,7 @@ public struct Payload: Equatable {
     }
     
     // Element
-    public typealias Element = (json: JSON.UnwrappedPayload?, multipart: Multipart.UnwrappedPayload?)
+    public typealias Element = (json: JSON.UnwrappedPayload?, multipart: Multipart.UnwrappedPayload)
     
     // Dict
     public struct Dict: Collection, ExpressibleByDictionaryLiteral, PayloadElementConvertible {

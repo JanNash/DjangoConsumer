@@ -42,6 +42,6 @@ private extension DefaultImplementations.JSONValueConvertible {
         let jsonValue: Payload.JSON.Value =
             conv.convert(jsonValueConvertible, configuration: conf) ?? jsonValueConvertible.toJSONValue()
         
-        return ([conf.currentKey: jsonValue.unwrap()], nil)
+        return ([conf.currentKey: jsonValue.unwrap()], [:])
     }
 }

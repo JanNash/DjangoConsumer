@@ -28,7 +28,7 @@ class Array_PayloadElementConvertible_Tests: BaseTest {
             )
         )
         
-        XCTAssert(payloadElement.multipart == nil)
+        XCTAssert(payloadElement.multipart.isEmpty)
         
         guard let json: Payload.JSON.UnwrappedPayload = payloadElement.json else {
             XCTFail("payloadElement does not contain json payload")
@@ -53,18 +53,13 @@ class Array_PayloadElementConvertible_Tests: BaseTest {
         
         XCTAssert(payloadElement.json == nil)
         
-        guard let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart else {
-            XCTFail("payloadElement does not contain multipart payload")
-            return
-        }
-        
         let expectedMultipart: Payload.Multipart.UnwrappedPayload = [
             "\(currentKey)[0]": (ary[0].pngData()!, .imagePNG),
             "\(currentKey)[1]": (ary[1].pngData()!, .imagePNG),
             "\(currentKey)[2]": (ary[2].pngData()!, .imagePNG),
         ]
         
-        XCTAssert(multipart == expectedMultipart)
+        XCTAssert(payloadElement.multipart == expectedMultipart)
     }
     
     func testToPayloadElementPureMultipartContainingNull() {
@@ -82,18 +77,13 @@ class Array_PayloadElementConvertible_Tests: BaseTest {
         
         XCTAssert(payloadElement.json == nil)
         
-        guard let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart else {
-            XCTFail("payloadElement does not contain multipart payload")
-            return
-        }
-        
         let expectedMultipart: Payload.Multipart.UnwrappedPayload = [
             "bar[0]": ("null".data(using: .utf8)!, .imagePNG),
             "bar[1]": (ary[1].pngData()!, .imagePNG),
             "bar[2]": (ary[2].pngData()!, .imagePNG),
         ]
         
-        XCTAssert(multipart == expectedMultipart)
+        XCTAssert(payloadElement.multipart == expectedMultipart)
     }
     
     func testToPayloadElementMixedJSONAndMultipart() {
@@ -136,11 +126,6 @@ class Array_PayloadElementConvertible_Tests: BaseTest {
         
         XCTAssert(json == expectedJSON)
         
-        guard let multipart: Payload.Multipart.UnwrappedPayload = payloadElement.multipart else {
-            XCTFail("payloadElement does not contain multipart payload")
-            return
-        }
-        
         let expectedMultipart: Payload.Multipart.UnwrappedPayload = [
             "bar[0]aImages[0]": ("null".data(using: .utf8)!, .imagePNG),
             "bar[0]aImages[1]": (aImages[1].pngData()!, .imagePNG),
@@ -150,6 +135,6 @@ class Array_PayloadElementConvertible_Tests: BaseTest {
             "bar[1]cImages[2]": (cImages[2].pngData()!, .imagePNG),
         ]
         
-        XCTAssert(multipart == expectedMultipart)
+        XCTAssert(payloadElement.multipart == expectedMultipart)
     }
 }
