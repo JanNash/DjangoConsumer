@@ -106,7 +106,8 @@ class PayloadTests: BaseTest {
             "a": [
                 Payload.Dict([
                     "text": "foo",
-//                    "image": nil
+//                    "image": nil,
+//                    "image": optionalImage,
                     "image": MultipartOptional(optionalImage),
 //                    "image": UIImage(),
                     "images": [
