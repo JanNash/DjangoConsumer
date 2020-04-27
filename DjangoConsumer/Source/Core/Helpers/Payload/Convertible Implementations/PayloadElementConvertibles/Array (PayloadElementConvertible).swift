@@ -68,10 +68,6 @@ private extension Array/*: PayloadElementConvertible*/ where Element: PayloadEle
             multipartPayload.merge(payloadElement.multipart, strategy: .overwriteOldValue)
         })
         
-        if !multipartPayload.isEmpty {
-            return ([currentKey: jsonArray], multipartPayload)
-        }
-        
-        return ([currentKey: jsonArray], [:])
+        return ([currentKey: jsonArray], multipartPayload)
     }
 }
