@@ -1,5 +1,5 @@
 //
-//  Dictionary (PayloadElementConvertible).swift
+//  Dictionary (PayloadElementConvertible) Tests.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash (resmio) on 27.04.20.

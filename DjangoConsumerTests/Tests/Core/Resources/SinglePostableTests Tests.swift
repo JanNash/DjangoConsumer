@@ -1,5 +1,5 @@
 //
-//  SinglePostableTests.swift
+//  SinglePostable Tests.swift
 //  DjangoConsumerTests
 //
 //  Created by Jan Nash on 07.03.18.

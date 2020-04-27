@@ -1,5 +1,5 @@
 //
-//  ConstantsTests.swift
+//  Constants Tests.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 12.03.18.

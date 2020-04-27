@@ -1,5 +1,5 @@
 //
-//  ProgrammerAssertionTests.swift
+//  ProgrammerAssertions Tests.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 24.03.18.

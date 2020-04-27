@@ -1,5 +1,5 @@
 //
-//  Payload.swift
+//  Payload Tests.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 22.07.18.

@@ -1,5 +1,5 @@
 //
-//  IfThisIsAThen.swift
+//  IfThisIsAThen Tests.swift
 //  DjangoConsumer
 //
 //  Created by Jan Nash on 11.03.18.
