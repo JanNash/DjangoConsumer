@@ -36,7 +36,7 @@ class Dictionary_PayloadElementConvertible_Tests: BaseTest {
             return
         }
         
-        XCTAssert(json == ["foo": ["bar": ["baz": true, "zoing": false]]])
+        XCTAssert(json == [currentKey: ["bar": ["baz": true, "zoing": false]]])
     }
     
     func testNestedDictionaryPureMultipart() {
@@ -88,7 +88,7 @@ class Dictionary_PayloadElementConvertible_Tests: BaseTest {
         }
         
         let expectedJSON: Payload.JSON.UnwrappedPayload = [
-            "foo": ["bar": ["zoing": ["blubb": "blabb"]]]
+            currentKey: ["bar": ["zoing": ["blubb": "blabb"]]]
         ]
         
         XCTAssert(json == expectedJSON)
