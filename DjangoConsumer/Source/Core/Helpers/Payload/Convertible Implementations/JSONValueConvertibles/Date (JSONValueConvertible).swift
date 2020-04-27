@@ -13,6 +13,7 @@ import Foundation
 
 
 // MARK: // Public
+// MARK: Protocol Conformance
 extension Date: JSONValueConvertible {
     public func toJSONValue() -> Payload.JSON.Value {
         return self._toJSONValue()
@@ -23,13 +24,9 @@ extension Date: JSONValueConvertible {
 // MARK: // Private
 private extension Date/*: JSONValueConvertible */ {
     func _toJSONValue() -> Payload.JSON.Value {
-        guard #available(iOS 11, *) else {
-            // FIXME:
-            return .string("")
-        }
-        
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let formatter: DateFormatter = DateFormatter()
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
         return .string(formatter.string(from: self))
     }
 }
