@@ -56,11 +56,11 @@ public extension Payload {
 // MARK: -
 public struct Payload: Equatable {
     // Internal Init
-    internal init(_rootObject: PayloadConvertible?, _method: ResourceHTTPMethod, _json: JSON.UnwrappedPayload, _multipart: Multipart.UnwrappedPayload) {
-        self.rootObject = _rootObject
-        self.method = _method
-        self.json = _json
-        self.multipart = _multipart
+    internal init(rootObject_: PayloadConvertible?, method_: ResourceHTTPMethod, json_: JSON.UnwrappedPayload, multipart_: Multipart.UnwrappedPayload) {
+        self.rootObject = rootObject_
+        self.method = method_
+        self.json = json_
+        self.multipart = multipart_
     }
     
     // Constants

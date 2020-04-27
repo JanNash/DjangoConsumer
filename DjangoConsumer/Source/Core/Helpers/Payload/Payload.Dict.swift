@@ -45,6 +45,6 @@ private extension Payload.Dict {
             multipartPayload.merge(payloadElement.multipart, strategy: .overwriteOldValue)
         })
         
-        return Payload(_rootObject: rootObject, _method: method, _json: jsonPayload, _multipart: multipartPayload)
+        return Payload(rootObject_: rootObject, method_: method, json_: jsonPayload, multipart_: multipartPayload)
     }
 }
