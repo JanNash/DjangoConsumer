@@ -85,6 +85,7 @@
 		AF5BADFD440AE209AF9D4A99F2D1D489 /* String (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A15F74AEE8B0926C7E0968943C43E2 /* String (JSONValueConvertible).swift */; };
 		B1F9121152EB9CBC3FDCFE8A0B17B6FD /* UInt8 (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 68749C0F434DB00C70B2EA9E90B65313 /* UInt8 (JSONValueConvertible).swift */; };
 		B20E3F612551440BA45A567BE6C0C377 /* UIImage (MultipartValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = E955BFE02D5651D9B68A46EF29570B50 /* UIImage (MultipartValueConvertible).swift */; };
+		B267CA2F54936EE7708C65EC6B018BDB /* Dictionary (PayloadElementConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 1425264BD6C8508BC6AB1D7E670924EE /* Dictionary (PayloadElementConvertible).swift */; };
 		B2C267D093D4E4C61C83512AEB575DB2 /* NoAuthNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF6B5C4B2615656BA949DE2EB981597 /* NoAuthNode.swift */; };
 		B3E299C9B70F83930F6D0B466E8A32A9 /* MetaResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811758D35E562A601555CA850F6F3A70 /* MetaResource.swift */; };
 		B73CBE05F560E05B23944D3CB606BF24 /* XCTestCase (ProgrammerAssertions).swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE17883C12AC6C6DAB5208129AF7BBE /* XCTestCase (ProgrammerAssertions).swift */; };
@@ -146,6 +147,7 @@
 		11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettable.swift; sourceTree = "<group>"; };
 		130A8B938B44F7436AFC67C0DD8F7BAC /* URL+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Tests.swift"; sourceTree = "<group>"; };
 		132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettableClient.swift; sourceTree = "<group>"; };
+		1425264BD6C8508BC6AB1D7E670924EE /* Dictionary (PayloadElementConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary (PayloadElementConvertible).swift"; sourceTree = "<group>"; };
 		1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettable.swift; sourceTree = "<group>"; };
 		1E820CE8D0D5FEEEC196F61E22363492 /* Payload.Multipart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.Multipart.swift; sourceTree = "<group>"; };
 		21C43F2798753BBDCCA68AD6B3B9E4E7 /* BaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTest.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				A6C92E17C94674BB4F6291089B106189 /* Array (PayloadElementConvertible).swift */,
+				1425264BD6C8508BC6AB1D7E670924EE /* Dictionary (PayloadElementConvertible).swift */,
 			);
 			path = PayloadElementConvertibles;
 			sourceTree = "<group>";
@@ -1151,6 +1154,7 @@
 				BCE150F7A5279B5BE189C3CD2F37422A /* Array (PayloadElementConvertible).swift in Sources */,
 				A9418FAD0A9827FB491C101E9FDEE048 /* BaseTest.swift in Sources */,
 				3F1C07591076139A0AAE5F929235987F /* ConstantsTests.swift in Sources */,
+				B267CA2F54936EE7708C65EC6B018BDB /* Dictionary (PayloadElementConvertible).swift in Sources */,
 				CCDA83F18C31D8E0DB50711785D0B78C /* IfThisIsAThen.swift in Sources */,
 				3B6AA58CEABCA91E48B92FBDB602C2A0 /* JSONResponseHandling.swift in Sources */,
 				A15CA844385233097AC5B68BC7E2B4EA /* MockDetailGettable.swift in Sources */,
