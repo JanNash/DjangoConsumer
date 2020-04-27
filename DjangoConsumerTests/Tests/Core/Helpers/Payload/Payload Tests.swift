@@ -99,13 +99,14 @@ class PayloadTests: BaseTest {
     }
     
     func testPayloadFromDictContainingMultipartArrays2() {
-        // Optionals and actual nil values instead of empty data don't work yet:
+        // Literal nil values instead of an empty optional variable don't work but I also see no usecase for them.
+        let optionalText: String? = nil
         let optionalImage: UIImage? = nil
         
         let payloadDict: Payload.Dict = Payload.Dict([
             "a": [
                 Payload.Dict([
-                    "text": "foo",
+                    "text": optionalText,
 //                    "image": nil,
                     "image": optionalImage,
 //                    "image": MultipartOptional(optionalImage),
@@ -131,7 +132,7 @@ class PayloadTests: BaseTest {
         let expectedJSONPayload: Payload.JSON.UnwrappedPayload = [
             "a": [
                 [
-                    "text": "foo",
+                    "text": NSNull(),
                     "image": NSNull()
                 ],
                 [
