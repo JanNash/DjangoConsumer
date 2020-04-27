@@ -34,6 +34,7 @@
 		2BEA0D5C59A5FB059ACA2D21FB0E5BB6 /* Double (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 309E286307A20BFF1CD872B46AF81CFB /* Double (JSONValueConvertible).swift */; };
 		2FC2FD78529D4A779A7425D39B8647B0 /* Dictionary (PayloadElementConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = C693413BD2DCDEE1A04F373543BC015F /* Dictionary (PayloadElementConvertible).swift */; };
 		31BD3025D0E5A6F21306E85A81158A75 /* Payload.Dict (PayloadElementConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F525984278D3326CD8CCCC03D780EA /* Payload.Dict (PayloadElementConvertible).swift */; };
+		332CF8C0233D2E841CB14563019F37C6 /* Bool (JSONValueConvertible) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D0BB459CB0F8F5E66A08E968E8B590 /* Bool (JSONValueConvertible) Tests.swift */; };
 		36FB7694D0EC516AB7CD007226092BF4 /* SinglePostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CF24A3A33AA6CA21CD72CB551907D5 /* SinglePostable.swift */; };
 		3822C625D7D6018BF412869914F1C6F8 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A293D4EAADC57D532F2A940991BDD8C4 /* Node.swift */; };
 		389DB66A12C50B25BB432C7739C9F8FE /* DefaultImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A4663B5A7E8ABD82363BF8C7E8578B /* DefaultImplementations.swift */; };
@@ -148,6 +149,7 @@
 		0FA8C41090A85EA39F94744D3849CC4E /* ListPostableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPostableClient.swift; sourceTree = "<group>"; };
 		10799D2B2F94923B9DCF49FCD0327C09 /* ListPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPostable.swift; sourceTree = "<group>"; };
 		11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettable.swift; sourceTree = "<group>"; };
+		12D0BB459CB0F8F5E66A08E968E8B590 /* Bool (JSONValueConvertible) Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool (JSONValueConvertible) Tests.swift"; sourceTree = "<group>"; };
 		132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettableClient.swift; sourceTree = "<group>"; };
 		1CC3807304FC3D89E85E0F5D105269F6 /* FilteredListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredListGettable.swift; sourceTree = "<group>"; };
 		1E820CE8D0D5FEEEC196F61E22363492 /* Payload.Multipart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.Multipart.swift; sourceTree = "<group>"; };
@@ -318,6 +320,14 @@
 				9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		122E86CFE10D885C89D1ABCE5C4A98ED /* JSONValueConvertibles */ = {
+			isa = PBXGroup;
+			children = (
+				12D0BB459CB0F8F5E66A08E968E8B590 /* Bool (JSONValueConvertible) Tests.swift */,
+			);
+			path = JSONValueConvertibles;
 			sourceTree = "<group>";
 		};
 		1C1C0C8E66D3CFA46D470FDD45A7F013 /* Abstract Base Protocols */ = {
@@ -649,6 +659,7 @@
 		C6ED16FEEC8F05427F9DE1D5482058BA /* Convertible Implementations */ = {
 			isa = PBXGroup;
 			children = (
+				122E86CFE10D885C89D1ABCE5C4A98ED /* JSONValueConvertibles */,
 				950286D445AEDC5AC6E7E6E07A6CC805 /* PayloadElementConvertibles */,
 			);
 			path = "Convertible Implementations";
@@ -1156,6 +1167,7 @@
 			files = (
 				DB612A7FFB70E14380ACDC2E8B45593D /* Array (PayloadElementConvertible) Tests.swift in Sources */,
 				A9418FAD0A9827FB491C101E9FDEE048 /* BaseTest.swift in Sources */,
+				332CF8C0233D2E841CB14563019F37C6 /* Bool (JSONValueConvertible) Tests.swift in Sources */,
 				72A7FAF20F4DACE2979D30A68E2AFBF1 /* Constants Tests.swift in Sources */,
 				8262E1378B0C8A1050AB98649B2E67A9 /* Dictionary (PayloadElementConvertible) Tests.swift in Sources */,
 				B7651BF98CC2A939D37E72FB4A23C1AF /* IfThisIsAThen Tests.swift in Sources */,
