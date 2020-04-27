@@ -74,6 +74,7 @@
 		8E0399045068CC8954C780D81AA5EE58 /* SessionManager (makeDefault).swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCF389EF5966AD841EBF7A284900581 /* SessionManager (makeDefault).swift */; };
 		9257EC22029DB9DF5E9D1526BDE2655F /* JSONValueConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4A08D2154AC117576D175AFF9719CB /* JSONValueConvertible.swift */; };
 		99EF3C56EE60A2D110F04CD6D3021C84 /* Route Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF7104E5C03F1A001DB075860CD211 /* Route Tests.swift */; };
+		99FE7045FE9CB16237F07650B7826AB8 /* String (JSONValueConvertible) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C40FA1D7259437FFF274C6CA8C1348D /* String (JSONValueConvertible) Tests.swift */; };
 		9CF5BF8C1D4B2E3CF19B2D0E3F0C8A66 /* ListGettableOAuth2.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF116532C90A067B3CC20F5C8A94DE7 /* ListGettableOAuth2.swift */; };
 		9DA5BB4FC7FEEB550E67149B48FEEC79 /* MockListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E402590D94D30CB2E9DC9C7C243E4C /* MockListGettableClient.swift */; };
 		9F959BF0B75FAB192D1BB574B290A901 /* MockOAuth2NodeAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFC17C86ABB1FBF8CD6F23A5E50FFB2 /* MockOAuth2NodeAuthClient.swift */; };
@@ -203,6 +204,7 @@
 		698B8C4E1C52037532059C4214224BB7 /* Pods-ExampleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleApp.release.xcconfig"; path = "Target Support Files/Pods-ExampleApp/Pods-ExampleApp.release.xcconfig"; sourceTree = "<group>"; };
 		6A9B52866B70F168E324D82C297F6A16 /* SinglePostableTests Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SinglePostableTests Tests.swift"; sourceTree = "<group>"; };
 		6C3BF696281DC9AC8B5BC7E9B5505C50 /* MockOAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockOAuth2CredentialStore.swift; sourceTree = "<group>"; };
+		6C40FA1D7259437FFF274C6CA8C1348D /* String (JSONValueConvertible) Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String (JSONValueConvertible) Tests.swift"; sourceTree = "<group>"; };
 		6D4F01CD750F13B645FC2544029A1468 /* PayloadConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadConvertible.swift; sourceTree = "<group>"; };
 		6DB0E8D5513F5112E8ED64C72CD785E2 /* MockDetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDetailGettable.swift; sourceTree = "<group>"; };
 		6F0E5A80300AC828B4E4884DB523EE46 /* IfThisIsAThen Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IfThisIsAThen Tests.swift"; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				7E3B398644B3C3D8E076156A1E0F9A15 /* Int32 (JSONValueConvertible) Tests.swift */,
 				1F92D6FF8A4B834D31BE00F7C9A7C0BE /* Int64 (JSONValueConvertible) Tests.swift */,
 				81FCDC82227B328A64A8D2FAE4624FC6 /* Int8 (JSONValueConvertible) Tests.swift */,
+				6C40FA1D7259437FFF274C6CA8C1348D /* String (JSONValueConvertible) Tests.swift */,
 			);
 			path = JSONValueConvertibles;
 			sourceTree = "<group>";
@@ -1226,6 +1229,7 @@
 				E316D62E555EC407085D6251DC7B0E39 /* SessionManager (makeDefault) Tests.swift in Sources */,
 				D66DB520E96B3C15AB5035C57A176594 /* SessionManagerType Tests.swift in Sources */,
 				7E537739E384BCD1A9615BC436020996 /* SinglePostableTests Tests.swift in Sources */,
+				99FE7045FE9CB16237F07650B7826AB8 /* String (JSONValueConvertible) Tests.swift in Sources */,
 				2779BE00259FCECF7243066D020B1EAB /* UIImage (withColorAndSize).swift in Sources */,
 				6291C63AFD9F8B8CEA60C292314E217C /* URL+ Tests.swift in Sources */,
 				B73CBE05F560E05B23944D3CB606BF24 /* XCTestCase (ProgrammerAssertions).swift in Sources */,
