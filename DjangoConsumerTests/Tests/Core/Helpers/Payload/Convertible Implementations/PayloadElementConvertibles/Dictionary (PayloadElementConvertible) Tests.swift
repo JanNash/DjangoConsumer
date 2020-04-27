@@ -65,4 +65,38 @@ class Dictionary_PayloadElementConvertible_Tests: BaseTest {
         
         XCTAssert(payloadElement.multipart == expectedMultipart)
     }
+    
+    func testNestedDictionaryMixedJSONAndMultipart() {
+        let currentKey: String = "foo"
+        let bazImage: UIImage = UIImage(color: .red)
+        
+        let dict: Payload.Dict = ["bar": Payload.Dict(["baz": bazImage, "zoing": ["blubb": "blabb"]])]
+        
+        let payloadElement: Payload.Element = dict.toPayloadElement(
+            conversion: DefaultPayloadConversion(),
+            configuration: (
+                rootObject: nil,
+                method: .get,
+                multipartPath: Payload.Multipart.Path(currentKey),
+                currentKey: currentKey
+            )
+        )
+        
+        guard let json: Payload.JSON.UnwrappedPayload = payloadElement.json else {
+            XCTFail("payloadElement should contain json")
+            return
+        }
+        
+        let expectedJSON: Payload.JSON.UnwrappedPayload = [
+            "foo": ["bar": ["zoing": ["blubb": "blabb"]]]
+        ]
+        
+        XCTAssert(json == expectedJSON)
+        
+        let expectedMultipart: Payload.Multipart.UnwrappedPayload = [
+            "\(currentKey).bar.baz": (bazImage.pngData()!, .imagePNG),
+        ]
+        
+        XCTAssert(payloadElement.multipart == expectedMultipart)
+    }
 }
