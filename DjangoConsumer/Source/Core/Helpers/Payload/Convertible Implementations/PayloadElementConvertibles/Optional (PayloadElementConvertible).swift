@@ -27,6 +27,9 @@ private extension Optional where Wrapped: PayloadElementConvertible {
         case .some(let convertible):
             return convertible.toPayloadElement(conversion: conversion, configuration: configuration)
         case .none:
+            return DefaultImplementations.JSONValueConvertible.payloadElement(
+                from: Payload.JSON.Value.null, conversion: (conversion, configuration)
+            )
             // This was formerly inside the conditional JSONValueConvertible conformance
             // implementation of Optional. I'm not sure but I think it was only really
             // needed for cosmetic reasons when printing Payload.JSON.Values. Will keep
@@ -48,9 +51,6 @@ private extension Optional where Wrapped: PayloadElementConvertible {
 //            case _ as String.Type:  return .string(nil as String?)
 //            default:                return .null
 //            }
-            return DefaultImplementations.JSONValueConvertible.payloadElement(
-                from: Payload.JSON.Value.null, conversion: (conversion, configuration)
-            )
         }
     }
 }
