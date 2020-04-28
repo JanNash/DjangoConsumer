@@ -15,13 +15,22 @@ import XCTest
 
 // MARK: // Internal
 class RouteTests: BaseTest {
-    func testRouteTypeInit() {
+    func testStaticConstantRouteTypes() {
         typealias FixtureType = RouteType
         
-        ResourceHTTPMethod.all.forEach({
-            let routeType: RouteType = RouteType($0)
-            XCTAssertEqual(routeType.method, $0)
-        })
+        let routeTypesForMethods: [(RouteType, ResourceHTTPMethod)] = [
+            (.listGET, .get),
+            (.listPOST, .post),
+            (.detailGET, .get),
+            (.singlePOST, .post),
+            (.detailPUT, .put),
+            (.detailPATCH, .patch),
+            (.detailDELETE, .delete),
+        ]
+        
+        for element in routeTypesForMethods {
+            XCTAssertEqual(element.0.method, element.1)
+        }
     }
     
     func testRouteEquatability1() {
