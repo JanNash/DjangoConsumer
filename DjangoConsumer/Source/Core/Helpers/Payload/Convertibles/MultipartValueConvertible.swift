@@ -59,6 +59,15 @@ private extension DefaultImplementations.MultipartValueConvertible {
         }()
         
         // This is quite hacky but I haven't found a better way yet.
+        // It is done so an empty multipart value (multipartValue.1.null)
+        // that is part of an array (.some(.index)) is returned as multipart,
+        // so the whole array is included in the multipart instead of it
+        // being split between the json payload and the multipart payload
+        // which might make the order of the array undefined.
+        // If the empty multipart value however is a single value in a
+        // dictionary (.some(.key)) or the multipartPath tail is empty,
+        // this function returns nil, which leads to the above function
+        // returning a JSON null value instead of multipart in its payloadElement.
         if multipartValue == multipartValue.1.null {
             switch conf.multipartPath.tail.last {
             case .some(.key), .none:
