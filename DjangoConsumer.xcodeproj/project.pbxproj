@@ -102,6 +102,7 @@
 		B864A24236758D0B0083F77463EDFB9C /* MockError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DB7968015EB7E3781878767546331 /* MockError.swift */; };
 		BB90ACBC8821CCCF71AA5B325EE08EE1 /* ListGettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */; };
 		BB9E9E198AA0DF30DE9DB78BE451676A /* RequestConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF1E64C5A45BDCEA84AD875DEB79C0E /* RequestConfiguration.swift */; };
+		BD7266348FC2899BB4D67F093AD323E1 /* Optional (PayloadElementConvertible) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46DA3FD2A72D2E58F4A8F48B17B493E /* Optional (PayloadElementConvertible) Tests.swift */; };
 		BE37FDBAAF0D799C5EB7A47594846D8C /* SessionManager (SessionManagerType) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A25395D12E003F730C0CCAB0BAFB30C /* SessionManager (SessionManagerType) Tests.swift */; };
 		C08E100FB76F18C2A3CA876F366B829C /* DetailGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */; };
 		C514CCEA3FE19674AE47ADADE8662C63 /* Sequence (mapToDict).swift in Sources */ = {isa = PBXBuildFile; fileRef = 231C77519A61F9C1176921AAE422540F /* Sequence (mapToDict).swift */; };
@@ -299,6 +300,7 @@
 		EF9436D073CC9F14341BEFCB34939F04 /* Array (PayloadElementConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array (PayloadElementConvertible).swift"; sourceTree = "<group>"; };
 		F1988959B77FF92A6257775066EE536D /* Payload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
 		F41EA65402B0DE1C9561C66C35FA09A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F46DA3FD2A72D2E58F4A8F48B17B493E /* Optional (PayloadElementConvertible) Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional (PayloadElementConvertible) Tests.swift"; sourceTree = "<group>"; };
 		F7BD87442954669861AF7F33B9E12CCE /* DetailGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettable.swift; sourceTree = "<group>"; };
 		FFBB81AC551781E3381F4493E54BF803 /* SwiftyJSONResponseSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSONResponseSerializer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -552,6 +554,7 @@
 			children = (
 				055D49365364B66CF6EE9E045F7390DA /* Array (PayloadElementConvertible) Tests.swift */,
 				B9CEBF1B837A67693A2DBB1D2F5803E4 /* Dictionary (PayloadElementConvertible) Tests.swift */,
+				F46DA3FD2A72D2E58F4A8F48B17B493E /* Optional (PayloadElementConvertible) Tests.swift */,
 				A800B00B7FCB5E4832F20416E1F1333F /* Payload.Dict (PayloadElementConvertible) Tests.swift */,
 			);
 			path = PayloadElementConvertibles;
@@ -1260,6 +1263,7 @@
 				9F959BF0B75FAB192D1BB574B290A901 /* MockOAuth2NodeAuthClient.swift in Sources */,
 				C5252E609C992D95A9FDC45D386332A4 /* MockSinglePostable.swift in Sources */,
 				8C1E9B3E16EC266C878E34CDE86B0559 /* Node Tests.swift in Sources */,
+				BD7266348FC2899BB4D67F093AD323E1 /* Optional (PayloadElementConvertible) Tests.swift in Sources */,
 				23FF034B30B60D8C8F6E08E563B06149 /* Payload Tests.swift in Sources */,
 				5901484EC5E531AA8C03422D0667F667 /* Payload.Dict (PayloadElementConvertible) Tests.swift in Sources */,
 				8791CA5B45A3C75D96A0930AE9059F4D /* ProgrammerAssertions Tests.swift in Sources */,
