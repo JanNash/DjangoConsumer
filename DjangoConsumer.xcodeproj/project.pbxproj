@@ -67,6 +67,7 @@
 		7007CBEA9ED46EEC4E3A2724056074DC /* UInt8 (JSONValueConvertible) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F3BACEA1F505A48EAD1FA5B99C568B /* UInt8 (JSONValueConvertible) Tests.swift */; };
 		72A7FAF20F4DACE2979D30A68E2AFBF1 /* Constants Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EFACC23836DB2CCC8514C7D565703F /* Constants Tests.swift */; };
 		7D3C88D3709733F89D7F0EAA06249B4F /* UInt16 (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8A65E81326AEBEB7BD24EBFD0F507 /* UInt16 (JSONValueConvertible).swift */; };
+		7E0C9CC96562FC850FEA9477D11C36F5 /* UIImage (MultipartValueConvertible) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30900FDD787072F184674CF908078F3C /* UIImage (MultipartValueConvertible) Tests.swift */; };
 		7E537739E384BCD1A9615BC436020996 /* SinglePostableTests Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9B52866B70F168E324D82C297F6A16 /* SinglePostableTests Tests.swift */; };
 		7EFAFAD67B846597D98C779048138F6D /* Payload.JSON.Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = D141F279D8027641BD858F953499CE12 /* Payload.JSON.Value.swift */; };
 		81BEB88AFE7E55393C242AC9914BD4EA /* Payload.Dict.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE82A4D3885B635F1A3AE9E02F7C19D6 /* Payload.Dict.swift */; };
@@ -183,6 +184,7 @@
 		2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettableClient.swift; sourceTree = "<group>"; };
 		2D26A2932EFB9FD684F6CA5AF4D507A9 /* SessionManager (SessionManagerType).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionManager (SessionManagerType).swift"; sourceTree = "<group>"; };
 		2EF76AE598093E887C3A167A0264A896 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30900FDD787072F184674CF908078F3C /* UIImage (MultipartValueConvertible) Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage (MultipartValueConvertible) Tests.swift"; sourceTree = "<group>"; };
 		309E286307A20BFF1CD872B46AF81CFB /* Double (JSONValueConvertible).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double (JSONValueConvertible).swift"; sourceTree = "<group>"; };
 		30C09F188B67BFA419ACEB587A08076A /* ifThisIsAThen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ifThisIsAThen.swift; sourceTree = "<group>"; };
 		3230A51D478D0559F6661391A7D480D4 /* SinglePostableOAuth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostableOAuth2.swift; sourceTree = "<group>"; };
@@ -465,6 +467,14 @@
 			path = SessionManagerType;
 			sourceTree = "<group>";
 		};
+		8127814F9A199F559C6A77DC9FC12F48 /* MultipartValueConvertibles */ = {
+			isa = PBXGroup;
+			children = (
+				30900FDD787072F184674CF908078F3C /* UIImage (MultipartValueConvertible) Tests.swift */,
+			);
+			path = MultipartValueConvertibles;
+			sourceTree = "<group>";
+		};
 		81EA97799E3B1B5824BC2AAC49CB780D /* Alamofire */ = {
 			isa = PBXGroup;
 			children = (
@@ -716,6 +726,7 @@
 			isa = PBXGroup;
 			children = (
 				122E86CFE10D885C89D1ABCE5C4A98ED /* JSONValueConvertibles */,
+				8127814F9A199F559C6A77DC9FC12F48 /* MultipartValueConvertibles */,
 				950286D445AEDC5AC6E7E6E07A6CC805 /* PayloadElementConvertibles */,
 			);
 			path = "Convertible Implementations";
@@ -1261,6 +1272,7 @@
 				D66DB520E96B3C15AB5035C57A176594 /* SessionManagerType Tests.swift in Sources */,
 				7E537739E384BCD1A9615BC436020996 /* SinglePostableTests Tests.swift in Sources */,
 				99FE7045FE9CB16237F07650B7826AB8 /* String (JSONValueConvertible) Tests.swift in Sources */,
+				7E0C9CC96562FC850FEA9477D11C36F5 /* UIImage (MultipartValueConvertible) Tests.swift in Sources */,
 				2779BE00259FCECF7243066D020B1EAB /* UIImage (withColorAndSize).swift in Sources */,
 				D626BEFC9C96A5C33084F7F59920B50C /* UInt (JSONValueConvertible) Tests.swift in Sources */,
 				4D8D8224062611FB4E27148193F501FD /* UInt16 (JSONValueConvertible) Tests.swift in Sources */,
