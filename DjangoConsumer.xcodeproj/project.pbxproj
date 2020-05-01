@@ -110,6 +110,7 @@
 		C544A6A60782C8CFD9326E3ACF2545B4 /* NeedsOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BB06EE93AFBF285CC430D979EB3DB79 /* NeedsOAuth2Node.swift */; };
 		C6A8105158D9962F15F1836105A492B4 /* MockOAuth2Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E99E43AC8176F012593DA3754647620 /* MockOAuth2Node.swift */; };
 		C9B527ACA10BC59B06FF39A799BF74B4 /* Int (JSONValueConvertible).swift in Sources */ = {isa = PBXBuildFile; fileRef = 5157DEF642833FCC1C4079E0575E67FF /* Int (JSONValueConvertible).swift */; };
+		CA9486F0B44F1ACEF467BBBFE24F019C /* JSONValueConvertible Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119DAD7C04A1D2C6FB8CE53247A5A999 /* JSONValueConvertible Tests.swift */; };
 		CE79608DFBE43C344964C1B1047960FA /* ListGettableClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B505D71F360F4F7E280C81798EA2D58 /* ListGettableClient.swift */; };
 		CF3306EB175847C36D6BDDA4979D251C /* Dictionary (merging) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6308A675C57F4924EC1E8A7B4E754D /* Dictionary (merging) Tests.swift */; };
 		CFA79AB5513E03C94ADBA53C9C864953 /* Double (JSONValueConvertible) Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05AF198981048FAA8A64F50CBC86BF06 /* Double (JSONValueConvertible) Tests.swift */; };
@@ -167,6 +168,7 @@
 		0EFED2334BBB871160441B4422CC1F8D /* OAuth2CredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2CredentialStore.swift; sourceTree = "<group>"; };
 		0FA8C41090A85EA39F94744D3849CC4E /* ListPostableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPostableClient.swift; sourceTree = "<group>"; };
 		10799D2B2F94923B9DCF49FCD0327C09 /* ListPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPostable.swift; sourceTree = "<group>"; };
+		119DAD7C04A1D2C6FB8CE53247A5A999 /* JSONValueConvertible Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONValueConvertible Tests.swift"; sourceTree = "<group>"; };
 		11CC512A5426DD1E72B7FDCAC24EFFA9 /* ListGettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGettable.swift; sourceTree = "<group>"; };
 		12D0BB459CB0F8F5E66A08E968E8B590 /* Bool (JSONValueConvertible) Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool (JSONValueConvertible) Tests.swift"; sourceTree = "<group>"; };
 		132AF8A950E107AC8689AFAF8CFD02AE /* DetailGettableClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGettableClient.swift; sourceTree = "<group>"; };
@@ -627,6 +629,14 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		B18826BF548FCCB526C58E90F797B1B6 /* Convertibles */ = {
+			isa = PBXGroup;
+			children = (
+				119DAD7C04A1D2C6FB8CE53247A5A999 /* JSONValueConvertible Tests.swift */,
+			);
+			path = Convertibles;
+			sourceTree = "<group>";
+		};
 		BFCD7D5EE775EB93F32441570BB93F24 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -767,6 +777,7 @@
 			isa = PBXGroup;
 			children = (
 				C6ED16FEEC8F05427F9DE1D5482058BA /* Convertible Implementations */,
+				B18826BF548FCCB526C58E90F797B1B6 /* Convertibles */,
 				5AECA32CC875C55FABCAF9A27ADDD324 /* Payload Tests.swift */,
 			);
 			path = Payload;
@@ -1251,6 +1262,7 @@
 				F6253B57D17723D130B8AC0054A90627 /* Int64 (JSONValueConvertible) Tests.swift in Sources */,
 				219B0A45A088CA20446D113282346297 /* Int8 (JSONValueConvertible) Tests.swift in Sources */,
 				D77FC593362C8D79CF350C7590773196 /* JSONResponseHandling Tests.swift in Sources */,
+				CA9486F0B44F1ACEF467BBBFE24F019C /* JSONValueConvertible Tests.swift in Sources */,
 				A15CA844385233097AC5B68BC7E2B4EA /* MockDetailGettable.swift in Sources */,
 				B864A24236758D0B0083F77463EDFB9C /* MockError.swift in Sources */,
 				0B48D24DFBD1442FA39E03C71A74A20F /* MockFilteredListGettable.swift in Sources */,
