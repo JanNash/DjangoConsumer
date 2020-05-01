@@ -54,9 +54,8 @@ private extension DefaultImplementations.MultipartValueConvertible {
     
     private static func _multipartPayload(from convertible: MultipartValueConvertible, conversion: (PayloadConversion, PayloadConversion.Configuration)) -> Payload.Multipart.UnwrappedPayload? {
         let (conv, conf): (PayloadConversion, PayloadConversion.Configuration) = conversion
-        let multipartValue: Payload.Multipart.Value = {
+        let multipartValue: Payload.Multipart.Value =
             conv.convert(convertible, configuration: conf) ?? convertible.toMultipartValue()
-        }()
         
         // This is quite hacky but I haven't found a better way yet.
         // It is done so an empty multipart value (multipartValue.1.null)
