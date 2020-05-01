@@ -22,4 +22,5 @@ public enum DefaultImplementations {
     public enum ResourceID                  {}
     public enum SessionManagerType          {}
     public enum SinglePostable              {}
+    public enum PayloadConversion           {}
 }

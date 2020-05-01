@@ -71,22 +71,32 @@ public extension PayloadConversion {
     func convert(_ multipartValueConvertible: MultipartValueConvertible, configuration: Configuration) -> Payload.Multipart.Value? {
         return nil
     }
+    
+    func multipartKey(from configuration: Configuration) -> String {
+        return DefaultImplementations.PayloadConversion.multipartKey(for: self, from: configuration)
+    }
 }
 
 
 // MARK: -
 public struct DefaultPayloadConversion: PayloadConversion {
     public init() {}
-    public func multipartKey(from configuration: Configuration) -> String {
-        return self._multipartKey(from: configuration)
+}
+
+
+// MARK: -
+// MARK: DefaultImplementations.PayloadConversion
+extension DefaultImplementations.PayloadConversion {
+    public static func multipartKey(for conversion: PayloadConversion, from configuration: PayloadConversion.Configuration) -> String {
+        return self._multipartKey(for: conversion, from: configuration)
     }
 }
 
 
 // MARK: // Private
 // MARK: DefaultPayloadConversion Implementation
-private extension DefaultPayloadConversion {
-    func _multipartKey(from configuration: Configuration) -> String {
+private extension DefaultImplementations.PayloadConversion {
+    static func _multipartKey(for conversion: PayloadConversion, from configuration: PayloadConversion.Configuration) -> String {
         var previousKeyHeadWasAnIndex: Bool = false
         let path: Payload.Multipart.Path = configuration.multipartPath
         return path.tail.reduce(path.head, { result, element in
