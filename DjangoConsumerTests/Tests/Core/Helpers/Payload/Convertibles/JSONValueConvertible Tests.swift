@@ -68,10 +68,6 @@ class JSONValueConvertible_Tests: BaseTest {
             func convert(_ jsonValueConvertible: JSONValueConvertible, configuration: Configuration) -> Payload.JSON.Value? {
                 return .bool(false)
             }
-            
-            func multipartKey(from configuration: Configuration) -> String {
-                return DefaultPayloadConversion().multipartKey(from: configuration)
-            }
         }
         
         let foo: _Foo = _Foo({
