@@ -100,12 +100,13 @@ class JSONValueConvertible_Tests: BaseTest {
     
     func testProtocolExtensionResultEqualsDefaultImplementationResult() {
         typealias Dflt = DefaultImplementations.JSONValueConvertible
+        typealias Closure = () -> Payload.Element
         
         let foo: _Foo = _Foo({})
         
-        let currentKey: String = "baz"
-        
         let conversion: PayloadConversion = DefaultPayloadConversion()
+        
+        let currentKey: String = "baz"
         let configuration: PayloadConversion.Configuration = (
             rootObject: nil,
             method: .get,
@@ -113,28 +114,25 @@ class JSONValueConvertible_Tests: BaseTest {
             currentKey: currentKey
         )
         
-        let payloadElementFromObject: Payload.Element = foo.toPayloadElement(
-            conversion: conversion, configuration: configuration
-        )
-        
-        let payloadElementFromDfltImpl: Payload.Element = Dflt.payloadElement(
-            from: foo, conversion: (conversion, configuration)
-        )
-        
-        guard let objectJSON: Payload.JSON.UnwrappedPayload = payloadElementFromObject.json else {
-            XCTFail("payloadElementFromObject does not contain json payload")
-            return
+        let protocolImpl: Closure = {
+            foo.toPayloadElement(conversion: conversion, configuration: configuration)
         }
         
-        XCTAssert(objectJSON == ["baz": "bar"])
-        
-        guard let dfltImplJSON: Payload.JSON.UnwrappedPayload = payloadElementFromDfltImpl.json else {
-            XCTFail("payloadElementFromDfltImpl does not contain json payload")
-            return
+        let defaultImpl: () -> Payload.Element = {
+            Dflt.payloadElement(from: foo, conversion: (conversion, configuration))
         }
         
-        XCTAssert(dfltImplJSON == ["baz": "bar"])
+        let expectedJSON: Payload.JSON.UnwrappedPayload = ["baz": "bar"]
         
-        XCTAssert(payloadElementFromObject.multipart == payloadElementFromDfltImpl.multipart)
+        [protocolImpl, defaultImpl].forEach({
+            let element: Payload.Element = $0()
+            guard let json: Payload.JSON.UnwrappedPayload = element.json else {
+                XCTFail("payloadElementFromObject does not contain json payload")
+                return
+            }
+            XCTAssert(json == expectedJSON)
+        })
+        
+//        XCTAssert(payloadElementFromObject.multipart == payloadElementFromDfltImpl.multipart)
     }
 }
